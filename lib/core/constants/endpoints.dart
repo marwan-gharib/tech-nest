@@ -9,6 +9,7 @@ class Endpoints {
   static String get verifyEmail => "auth/verify_email.php";
   static String get logout => "auth/logout.php";
   static String get socialLogin => "auth/social_login.php";
+  static String get resetPassword => "auth/reset_password.php";
 
   static String get productsList => "products/list.php";
 

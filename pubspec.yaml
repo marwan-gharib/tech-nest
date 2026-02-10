@@ -14,17 +14,14 @@ dependencies:
 
   cupertino_icons:
   flutter_bloc:
-  supabase_flutter:
-  supabase:
-  google_sign_in:
-  flutter_facebook_auth:
-  dartz:
+  dartz: ^0.10.1
   get_it:
   email_validator:
   url_launcher:
   go_router:
   dio:
   shared_preferences:
+  equatable:
 
 dev_dependencies:
   flutter_test:

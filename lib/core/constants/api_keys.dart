@@ -17,4 +17,7 @@ class ApiKeys {
   static String get quantity => "quantity";
   static String get token => "token";
   static String get imgUrl => "image_url";
+  static String get code => "verification_code";
+  static String get oldPass => "old_password";
+  static String get newPass => "new_password";
 }
