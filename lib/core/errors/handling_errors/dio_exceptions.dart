@@ -1,21 +1,58 @@
 import 'package:dio/dio.dart';
-import 'package:tech_nest/core/errors/exceptions/server_exception.dart';
-import 'package:tech_nest/core/errors/models/error_model.dart';
+import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
 
 class DioExceptions {
   const DioExceptions._();
 
-  static void handlingDioExceptions(DioException e) {
+  static Never handle(DioException e) {
     switch (e.type) {
+      case DioExceptionType.connectionError:
+        throw NetworkException();
+
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
-      case DioExceptionType.badCertificate:
+        throw ServerException("Request timeout");
+
       case DioExceptionType.cancel:
-      case DioExceptionType.connectionError:
-      case DioExceptionType.unknown:
+        throw ServerException("Request cancelled");
+
+      case DioExceptionType.badCertificate:
+        throw ServerException("Bad SSL certificate");
+
       case DioExceptionType.badResponse:
-        throw ServerException(errModel: ErrorModel.fromJson(e.response!.data));
+        _handleHttpError(e);
+
+      case DioExceptionType.unknown:
+        throw UnKnownException();
+    }
+  }
+
+  static Never _handleHttpError(DioException e) {
+    final statusCode = e.response?.statusCode;
+
+    switch (statusCode) {
+      case 401:
+        throw UnAuthorizedException();
+
+      case 403:
+        throw ServerException("Forbidden");
+
+      case 404:
+        throw ServerException("Not found");
+
+      case 400:
+      case 422:
+        throw ServerException("Bad request");
+
+      case 500:
+      case 502:
+      case 503:
+      case 504:
+        throw ServerException("Server error");
+
+      default:
+        throw ServerException("Unhandled http error: $statusCode");
     }
   }
 }

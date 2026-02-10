@@ -1,4 +1,5 @@
 import 'package:tech_nest/core/theme/app_colors.dart';
+import 'package:tech_nest/core/theme/mode/dark_theme.dart';
 import 'package:tech_nest/core/theme/mode/light_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +8,33 @@ class AppTheme {
 
   static ThemeData get lightTheme => ThemeData(
     brightness: Brightness.light,
-    appBarTheme: AppBarTheme(backgroundColor: AppColors.whiteBackground),
+    primaryColor: LightTheme.colorScheme.primary,
+    scaffoldBackgroundColor: LightTheme.colorScheme.surface,
+    colorScheme: LightTheme.colorScheme,
+    appBarTheme: LightTheme.appBarTheme,
+    useMaterial3: true,
+    textTheme: LightTheme.textTheme,
     elevatedButtonTheme: LightTheme.elevatedButtonTheme,
     inputDecorationTheme: LightTheme.inputDecorationTheme,
+    floatingActionButtonTheme: LightTheme.floatingActionButtonTheme,
+    cardTheme: LightTheme.cardTheme,
+    shadowColor: AppColors.black,
+    hintColor: LightTheme.colorScheme.onSurface.withValues(alpha: 0.3),
+  );
+
+  static ThemeData get darkTheme => ThemeData(
+    brightness: Brightness.dark,
+    primaryColor: DarkTheme.colorScheme.primary,
+    scaffoldBackgroundColor: DarkTheme.colorScheme.surface,
+    colorScheme: DarkTheme.colorScheme,
+    appBarTheme: DarkTheme.appBarTheme,
+    useMaterial3: true,
+    textTheme: DarkTheme.textTheme,
+    elevatedButtonTheme: DarkTheme.elevatedButtonTheme,
+    inputDecorationTheme: DarkTheme.inputDecorationTheme,
+    floatingActionButtonTheme: DarkTheme.floatingActionButtonTheme,
+    cardTheme: DarkTheme.cardTheme,
+    shadowColor: AppColors.white,
+    hintColor: DarkTheme.colorScheme.onSurface.withValues(alpha: 0.3),
   );
 }

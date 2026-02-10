@@ -1,7 +1,8 @@
 class Endpoints {
   const Endpoints._();
 
-  static String get baseUrl => "http://192.168.1.13/";
+  static String get baseUrl =>
+      "https://nonuniteable-uncontradicted-gennie.ngrok-free.dev/tech-nest-backend/";
 
   static String get signUp => "auth/register.php";
   static String get login => "auth/login.php";
