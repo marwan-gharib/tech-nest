@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
 import 'package:tech_nest/core/services/remote/api_consumer.dart';
+import 'package:tech_nest/features/auth/data/models/auth_model.dart';
 import 'package:tech_nest/features/auth/data/models/user_model.dart';
 import 'package:tech_nest/features/auth/domain/params/login_params.dart';
 import 'package:tech_nest/features/auth/domain/params/reset_password_params.dart';
@@ -13,9 +16,9 @@ class AuthRemoteDataSource {
 
   AuthRemoteDataSource(this._api);
 
-  Future<void> signUp({required SignUpParams params}) async {
+  Future<UserModel> signUp({required SignUpParams params}) async {
     try {
-      await _api.post(
+      final response = await _api.post(
         Endpoints.signUp,
         data: {
           ApiKeys.name: params.name,
@@ -23,41 +26,48 @@ class AuthRemoteDataSource {
           ApiKeys.pass: params.password,
         },
       );
+
+      return UserModel.fromJson(
+        response[ApiKeys.data][ApiKeys.user] as Map<String, dynamic>,
+      );
     } on AppException {
       rethrow;
     } catch (e) {
+      log(e.toString());
       throw UnKnownException();
     }
   }
 
-  Future<UserModel> login({required LoginParams params}) async {
+  Future<AuthModel> login({required LoginParams params}) async {
     try {
       final response = await _api.post(
         Endpoints.login,
         data: {ApiKeys.email: params.email, ApiKeys.pass: params.password},
       );
 
-      return UserModel.fromJson(response[ApiKeys.data] as Map<String, dynamic>);
+      return AuthModel.fromJson(response[ApiKeys.data] as Map<String, dynamic>);
     } on AppException {
       rethrow;
     } catch (e) {
+      log(e.toString());
       throw UnKnownException();
     }
   }
 
-  Future<UserModel> verifyEmail({
+  Future<AuthModel> verifyEmail({
     required VerificationEmailParams params,
   }) async {
     try {
       final response = await _api.post(
-        Endpoints.login,
+        Endpoints.verifyEmail,
         data: {ApiKeys.email: params.email, ApiKeys.code: params.code},
       );
 
-      return UserModel.fromJson(response[ApiKeys.data] as Map<String, dynamic>);
+      return AuthModel.fromJson(response[ApiKeys.data] as Map<String, dynamic>);
     } on AppException {
       rethrow;
     } catch (e) {
+      log(e.toString());
       throw UnKnownException();
     }
   }
@@ -67,13 +77,26 @@ class AuthRemoteDataSource {
       await _api.post(
         Endpoints.resetPassword,
         data: {
-          ApiKeys.oldPass: params.oldPass,
+          ApiKeys.email: params.email,
+          ApiKeys.code: params.code,
           ApiKeys.newPass: params.newPass,
         },
       );
     } on AppException {
       rethrow;
     } catch (e) {
+      log(e.toString());
+      throw UnKnownException();
+    }
+  }
+
+  Future<void> forgetPassword({required String email}) async {
+    try {
+      await _api.post(Endpoints.forgetPassword, data: {ApiKeys.email: email});
+    } on AppException {
+      rethrow;
+    } catch (e) {
+      log(e.toString());
       throw UnKnownException();
     }
   }
@@ -84,6 +107,7 @@ class AuthRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
+      log(e.toString());
       throw UnKnownException();
     }
   }

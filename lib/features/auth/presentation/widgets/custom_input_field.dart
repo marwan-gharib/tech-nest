@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 class CustomInputField extends StatefulWidget {
   const CustomInputField({
-    super.key,
     required this.controller,
     required this.lable,
     required this.hint,
     required this.keyboardType,
+    super.key,
     this.isPassword = false,
     this.validator,
   });
@@ -55,14 +55,16 @@ class _CustomInputFieldState extends State<CustomInputField> {
           obscureText: widget.isPassword ? _isObscure : false,
           decoration: InputDecoration(
             labelText: widget.lable,
-            labelStyle: Theme.of(
-              context,
-            ).textTheme.bodyLarge!.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+            labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
             hintText: widget.hint,
-            hintStyle: Theme.of(
-              context,
-            ).textTheme.bodyMedium!.copyWith(color: Theme.of(context).hintColor),
-            suffixIcon: widget.isPassword && _hasText ? _passwordVisibility() : null,
+            hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: Theme.of(context).hintColor,
+            ),
+            suffixIcon: widget.isPassword && _hasText
+                ? _passwordVisibility()
+                : null,
           ),
           validator: widget.validator,
         ),
@@ -88,14 +90,18 @@ class _CustomInputFieldState extends State<CustomInputField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Icon(Icons.error_outline, size: 16, color: Theme.of(context).colorScheme.error),
+        Icon(
+          Icons.error_outline,
+          size: 16,
+          color: Theme.of(context).colorScheme.error,
+        ),
         const SizedBox(width: 6),
         Expanded(
           child: Text(
             errorText,
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.error),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: Theme.of(context).colorScheme.error,
+            ),
           ),
         ),
       ],

@@ -33,16 +33,17 @@ class DarkTheme {
     onInverseSurface: AppColors.gray900,
   );
 
-  static final ElevatedButtonThemeData elevatedButtonTheme = ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-      backgroundColor: colorScheme.primary,
-      foregroundColor: colorScheme.onPrimary,
-      disabledBackgroundColor: colorScheme.primary.withValues(alpha: 0.4),
-      disabledForegroundColor: colorScheme.onPrimary.withValues(alpha: 0.6),
-      elevation: 6,
-      fixedSize: const Size(double.infinity, 50),
-    ),
-  );
+  static final ElevatedButtonThemeData elevatedButtonTheme =
+      ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: colorScheme.primary,
+          foregroundColor: colorScheme.onPrimary,
+          disabledBackgroundColor: colorScheme.primary.withValues(alpha: 0.4),
+          disabledForegroundColor: colorScheme.onPrimary.withValues(alpha: 0.6),
+          elevation: 6,
+          fixedSize: const Size(double.infinity, 50),
+        ),
+      );
 
   static final OutlineInputBorder _enabledBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(6),
@@ -60,7 +61,9 @@ class DarkTheme {
   );
 
   static final InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
-    hintStyle: textTheme.bodyMedium!.copyWith(color: colorScheme.onSurfaceVariant),
+    hintStyle: textTheme.bodyMedium!.copyWith(
+      color: colorScheme.onSurfaceVariant,
+    ),
     errorStyle: textTheme.bodyMedium!.copyWith(color: colorScheme.error),
     enabledBorder: _enabledBorder,
     focusedBorder: _focusedBorder,
@@ -92,7 +95,9 @@ class DarkTheme {
     backgroundColor: colorScheme.surface,
     centerTitle: true,
     elevation: 0,
-    titleTextStyle: AppTextStyles.headlineMedium.copyWith(color: colorScheme.onSurface),
+    titleTextStyle: AppTextStyles.headlineMedium.copyWith(
+      color: colorScheme.onSurface,
+    ),
     iconTheme: IconThemeData(color: colorScheme.onSurface),
   );
 

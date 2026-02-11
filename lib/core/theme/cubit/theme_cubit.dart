@@ -5,8 +5,18 @@ import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/core/services/local/cache/cache_service.dart';
 
 class ThemeCubit extends Cubit<ThemeMode> {
-  ThemeCubit() : super(ThemeMode.system) {
+  ThemeCubit() : super(ThemeMode.light) {
     _loadTheme();
+  }
+
+  void toggleTheme() {
+    _changeTheme(state == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark);
+  }
+
+  Future<void> _changeTheme(ThemeMode mode) async {
+    final cache = sl<CacheService>();
+    await cache.setData(key: AppConsts.themeKey, value: mode.index);
+    emit(mode);
   }
 
   void _loadTheme() {
@@ -16,15 +26,5 @@ class ThemeCubit extends Cubit<ThemeMode> {
     if (themeIndex != null) {
       emit(themeIndex == 1 ? ThemeMode.light : ThemeMode.dark);
     }
-  }
-
-  Future<void> _changeTheme(ThemeMode mode) async {
-    final cache = sl<CacheService>();
-    await cache.setData(key: AppConsts.themeKey, value: mode.index);
-    emit(mode);
-  }
-
-  void toggleTheme() {
-    _changeTheme(state == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark);
   }
 }

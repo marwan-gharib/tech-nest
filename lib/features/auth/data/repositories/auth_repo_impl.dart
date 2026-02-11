@@ -1,4 +1,5 @@
-import 'package:tech_nest/features/auth/data/data_source/auth_remote_data_source.dart';
+import 'package:tech_nest/features/auth/data/data_source/local/auth_local_data_source.dart';
+import 'package:tech_nest/features/auth/data/data_source/remote/auth_remote_data_source.dart';
 import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
 import 'package:tech_nest/features/auth/domain/params/login_params.dart';
 import 'package:tech_nest/features/auth/domain/params/reset_password_params.dart';
@@ -7,38 +8,50 @@ import 'package:tech_nest/features/auth/domain/params/verification_email_params.
 import 'package:tech_nest/features/auth/domain/repositories/auth_repo.dart';
 
 class AuthRepoImpl extends AuthRepo {
-  final AuthRemoteDataSource _dataSource;
+  final AuthRemoteDataSource _remoteDataSource;
+  final AuthLocalDataSource _localDataSource;
 
-  AuthRepoImpl(this._dataSource);
+  AuthRepoImpl(this._remoteDataSource, this._localDataSource);
 
   @override
   Future<UserEntity> login({required LoginParams params}) async {
-    final model = await _dataSource.login(params: params);
+    final model = await _remoteDataSource.login(params: params);
 
-    return model.toEntity();
+    await _localDataSource.saveToken(model.token);
+
+    return model.userModel.toEntity();
   }
 
   @override
   Future<void> logout() async {
-    await _dataSource.logout();
+    await _remoteDataSource.logout();
   }
 
   @override
-  Future<void> signUp({required SignUpParams params}) async {
-    await _dataSource.signUp(params: params);
+  Future<UserEntity> signUp({required SignUpParams params}) async {
+    final model = await _remoteDataSource.signUp(params: params);
+
+    return model.toEntity();
   }
 
   @override
   Future<UserEntity> verifyEmail({
     required VerificationEmailParams params,
   }) async {
-    final model = await _dataSource.verifyEmail(params: params);
+    final model = await _remoteDataSource.verifyEmail(params: params);
 
-    return model.toEntity();
+    await _localDataSource.saveToken(model.token);
+
+    return model.userModel.toEntity();
   }
 
   @override
   Future<void> resetPassword({required ResetPasswordParams params}) async {
-    await _dataSource.resetPassword(params: params);
+    await _remoteDataSource.resetPassword(params: params);
+  }
+
+  @override
+  Future<void> forgetPassword({required String email}) async {
+    await _remoteDataSource.forgetPassword(email: email);
   }
 }

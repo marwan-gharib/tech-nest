@@ -5,34 +5,22 @@ class UserModel {
   final int id;
   final String name;
   final String email;
-  final String token;
 
-  UserModel({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.token,
-  });
+  UserModel._({required this.id, required this.name, required this.email});
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    return UserModel(
-      id: (json[ApiKeys.id] as num).toInt(),
+    return UserModel._(
+      id: int.parse(json[ApiKeys.id].toString()),
       name: json[ApiKeys.name],
       email: json[ApiKeys.email],
-      token: json[ApiKeys.token],
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      ApiKeys.id: id,
-      ApiKeys.name: name,
-      ApiKeys.email: email,
-      ApiKeys.token: token,
-    };
+    return {ApiKeys.id: id, ApiKeys.name: name, ApiKeys.email: email};
   }
 
   UserEntity toEntity() {
-    return UserEntity(id: id, name: name, email: email, token: token);
+    return UserEntity(id: id, name: name, email: email);
   }
 }

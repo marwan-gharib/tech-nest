@@ -4,6 +4,7 @@ class ApiKeys {
   static String get status => "status";
   static String get message => "message";
   static String get data => "data";
+  static String get user => "user";
   static String get id => "id";
   static String get name => "name";
   static String get email => "email";

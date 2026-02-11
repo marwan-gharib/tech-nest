@@ -1,6 +1,11 @@
 class ResetPasswordParams {
-  final String oldPass;
+  final String email;
+  final String code;
   final String newPass;
 
-  ResetPasswordParams({required this.oldPass, required this.newPass});
+  ResetPasswordParams({
+    required this.email,
+    required this.code,
+    required this.newPass,
+  });
 }

@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 
-ScaffoldFeatureController customSnackBar(BuildContext context, {required String message}) {
+ScaffoldFeatureController customSnackBar(
+  BuildContext context, {
+  required String message,
+}) {
   return ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(
         message,
         textAlign: TextAlign.center,
-        style: Theme.of(
-          context,
-        ).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.onSurface),
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+          color: Theme.of(context).colorScheme.onSurface,
+        ),
       ),
       dismissDirection: DismissDirection.horizontal,
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,

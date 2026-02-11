@@ -14,7 +14,7 @@ dependencies:
 
   cupertino_icons:
   flutter_bloc:
-  dartz: ^0.10.1
+  dartz:
   get_it:
   email_validator:
   url_launcher:
@@ -22,6 +22,9 @@ dependencies:
   dio:
   shared_preferences:
   equatable:
+  pinput:
+  flutter_spinkit:
+  awesome_dialog:
 
 dev_dependencies:
   flutter_test:

@@ -5,7 +5,9 @@ abstract class AppException implements Exception {
 }
 
 class ServerException extends AppException {
-  ServerException(super.message);
+  final bool activeToUser;
+
+  ServerException(super.message, {this.activeToUser = false});
 }
 
 class NetworkException extends AppException {

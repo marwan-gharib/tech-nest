@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_colors.dart';
 import 'package:tech_nest/core/theme/app_text_styles.dart';
-import 'package:flutter/material.dart';
 
 class LightTheme {
   const LightTheme._();
@@ -33,16 +33,17 @@ class LightTheme {
     onInverseSurface: AppColors.white,
   );
 
-  static final ElevatedButtonThemeData elevatedButtonTheme = ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
-      backgroundColor: colorScheme.primary,
-      foregroundColor: colorScheme.onPrimary,
-      disabledBackgroundColor: colorScheme.primary.withValues(alpha: 0.5),
-      disabledForegroundColor: colorScheme.onPrimary.withValues(alpha: 0.5),
-      elevation: 10,
-      fixedSize: const Size(double.infinity, 50),
-    ),
-  );
+  static final ElevatedButtonThemeData elevatedButtonTheme =
+      ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: colorScheme.primary,
+          foregroundColor: colorScheme.onPrimary,
+          disabledBackgroundColor: colorScheme.primary.withValues(alpha: 0.5),
+          disabledForegroundColor: colorScheme.onPrimary.withValues(alpha: 0.5),
+          elevation: 10,
+          fixedSize: const Size(double.infinity, 50),
+        ),
+      );
 
   static final OutlineInputBorder _enabledBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(6),
@@ -60,7 +61,9 @@ class LightTheme {
   );
 
   static final InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
-    hintStyle: textTheme.bodyMedium!.copyWith(color: colorScheme.onSurfaceVariant),
+    hintStyle: textTheme.bodyMedium!.copyWith(
+      color: colorScheme.onSurfaceVariant,
+    ),
     errorStyle: textTheme.bodyMedium!.copyWith(color: colorScheme.error),
     enabledBorder: _enabledBorder,
     focusedBorder: _focusedBorder,
@@ -89,7 +92,9 @@ class LightTheme {
   static final AppBarTheme appBarTheme = AppBarTheme(
     backgroundColor: colorScheme.surface,
     centerTitle: true,
-    titleTextStyle: AppTextStyles.headlineMedium.copyWith(color: colorScheme.onSurface),
+    titleTextStyle: AppTextStyles.headlineMedium.copyWith(
+      color: colorScheme.onSurface,
+    ),
   );
 
   static final CardThemeData cardTheme = CardThemeData(

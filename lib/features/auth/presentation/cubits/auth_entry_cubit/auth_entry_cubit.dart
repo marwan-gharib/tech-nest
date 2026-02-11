@@ -18,34 +18,35 @@ class AuthEntryCubit extends Cubit<AuthEntryState> {
     ResetPasswordUsecase resetPasswordUsecase,
   ) : _resetPasswordUsecase = resetPasswordUsecase,
       _loginUsecase = loginUsecase,
-      super(AuthEntryInitial());
+      super(const AuthEntryInitial());
 
   Future<void> login({required String email, required String password}) async {
-    emit(AuthEntryLoading());
+    emit(const AuthEntryLoading());
 
     final res = await _loginUsecase.call(
       params: LoginParams(email: email, password: password),
     );
 
     res.fold(
-      (failure) => AuthEntryFailed(message: failure.message),
-      (user) => AuthEntrySuccess(user: user),
+      (failure) => emit(AuthEntryFailed(message: failure.message)),
+      (user) => emit(AuthEntrySuccess(user: user)),
     );
   }
 
   Future<void> resetPassword({
-    required String oldPass,
+    required String email,
+    required String code,
     required String newPass,
   }) async {
-    emit(AuthEntryLoading());
+    emit(const AuthEntryLoading());
 
     final res = await _resetPasswordUsecase.call(
-      params: ResetPasswordParams(oldPass: oldPass, newPass: newPass),
+      params: ResetPasswordParams(email: email, code: code, newPass: newPass),
     );
 
     res.fold(
-      (failure) => AuthEntryFailed(message: failure.message),
-      (_) => AuthEntrySuccess(),
+      (failure) => emit(AuthEntryFailed(message: failure.message)),
+      (_) => emit(const AuthEntrySuccess()),
     );
   }
 }

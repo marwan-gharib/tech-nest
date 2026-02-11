@@ -6,7 +6,10 @@ class ErrorMapper {
 
   static Failure mapExceptionToFailure(AppException e) {
     return switch (e) {
-      ServerException() => ServerFailure(),
+      ServerException serverException =>
+        serverException.activeToUser
+            ? ServerFailure(message: serverException.message)
+            : ServerFailure(),
       NetworkException() => NetworkFailure(),
       UnAuthorizedException() => UnAuthorizedFailure(),
       CacheException() => CacheFailure(),

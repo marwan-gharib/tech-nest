@@ -17,12 +17,7 @@ final class VerifyEmailLoading extends VerifyEmailState {
 }
 
 final class VerifyEmailSuccess extends VerifyEmailState {
-  final UserEntity user;
-
-  const VerifyEmailSuccess({required this.user});
-
-  @override
-  List<Object> get props => [user];
+  const VerifyEmailSuccess();
 }
 
 final class VerifyEmailFailed extends VerifyEmailState {

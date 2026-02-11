@@ -1,24 +1,29 @@
 abstract class Failure {
   final String message;
-  Failure(this.message);
+  Failure({required this.message});
 }
 
 class ServerFailure extends Failure {
-  ServerFailure() : super("Something went wrong on our side. Please try again later.");
+  ServerFailure({
+    super.message = "Something went wrong on our side. Please try again later.",
+  });
 }
 
 class NetworkFailure extends Failure {
-  NetworkFailure() : super("Please check your internet connection and try again.");
+  NetworkFailure()
+    : super(message: "Please check your internet connection and try again.");
 }
 
 class UnAuthorizedFailure extends Failure {
-  UnAuthorizedFailure() : super("Your session has expired. Please log in again.");
+  UnAuthorizedFailure()
+    : super(message: "Your session has expired. Please login again.");
 }
 
 class CacheFailure extends Failure {
-  CacheFailure() : super("Unable to load saved data.");
+  CacheFailure() : super(message: "Unable to load saved data.");
 }
 
 class UnknownFailure extends Failure {
-  UnknownFailure() : super("An unexpected error occurred. Please try again.");
+  UnknownFailure()
+    : super(message: "An unexpected error occurred. Please try again.");
 }

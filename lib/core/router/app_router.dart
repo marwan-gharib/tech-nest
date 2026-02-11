@@ -4,7 +4,7 @@ import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/core/router/routers.dart';
 import 'package:tech_nest/demo_screen.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/auth_entry_cubit/auth_entry_cubit.dart';
-import 'package:tech_nest/features/auth/presentation/cubits/sign_up_cubit/sign_up_cubit.dart';
+import 'package:tech_nest/features/auth/presentation/cubits/registeration_cubit/registeration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/screens/login_screen.dart';
 import 'package:tech_nest/features/auth/presentation/screens/sign_up_screen.dart';
 
@@ -17,7 +17,7 @@ class AppRouter {
       GoRoute(
         path: Routers.signUpScreenPath,
         builder: (context, state) => BlocProvider(
-          create: (context) => sl<SignUpCubit>(),
+          create: (context) => sl<RegisterationCubit>(),
           child: const SignUpScreen(),
         ),
       ),
@@ -30,10 +30,7 @@ class AppRouter {
       ),
       GoRoute(
         path: Routers.demoPath,
-        builder: (context, state) => BlocProvider(
-          create: (context) => sl<AuthEntryCubit>(),
-          child: const DemoScreen(),
-        ),
+        builder: (context, state) => const DemoScreen(),
       ),
     ],
   );

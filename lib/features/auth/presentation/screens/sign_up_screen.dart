@@ -1,12 +1,14 @@
-import 'package:tech_nest/core/constants/links.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/demo_screen.dart';
-import 'package:tech_nest/features/auth/presentation/cubits/sign_up_cubit/sign_up_cubit.dart';
+import 'package:tech_nest/core/di/injection_container.dart';
+import 'package:tech_nest/features/auth/presentation/cubits/registeration_cubit/registeration_cubit.dart';
+import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widget.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_snack_bar.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/privacy_policy_widget.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/verify_email_dialoge.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -23,19 +25,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   late final GlobalKey<FormState> _formKey;
 
-  late final ValueNotifier<bool> _checkBoxValue;
+  late final ValueNotifier<bool> _checkBoxNotifire;
 
   @override
   void initState() {
     super.initState();
-    _fullName = TextEditingController();
-    _email = TextEditingController();
-    _password = TextEditingController();
-    _confirmPassword = TextEditingController();
+    _fullName = TextEditingController(text: "Marwan Gharib");
+    _email = TextEditingController(text: "marwanghareeb18@gmail.com");
+    _password = TextEditingController(text: "12345678");
+    _confirmPassword = TextEditingController(text: "12345678");
 
     _formKey = GlobalKey<FormState>();
 
-    _checkBoxValue = ValueNotifier<bool>(false);
+    _checkBoxNotifire = ValueNotifier<bool>(false);
   }
 
   @override
@@ -46,25 +48,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _password.dispose();
     _confirmPassword.dispose();
 
-    _checkBoxValue.dispose();
+    _checkBoxNotifire.dispose();
+
+    _formKey.currentState?.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(title: const Text("Registeration")),
         body: Form(
           key: _formKey,
           child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: 17, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
             children: [
-              Center(
-                child: Text(
-                  "Sign Up",
-                  style: Theme.of(context).textTheme.headlineLarge,
-                ),
-              ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               CustomInputField(
                 controller: _fullName,
                 lable: "Full Name",
@@ -72,6 +71,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 keyboardType: TextInputType.name,
                 validator: _fullNameValditor,
               ),
+              const SizedBox(height: 24),
               CustomInputField(
                 controller: _email,
                 lable: "E-mail Address",
@@ -79,6 +79,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 keyboardType: TextInputType.emailAddress,
                 validator: _emailValditor,
               ),
+              const SizedBox(height: 24),
               CustomInputField(
                 controller: _password,
                 lable: "Password",
@@ -87,6 +88,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 isPassword: true,
                 validator: _passwordValditor,
               ),
+              const SizedBox(height: 24),
               CustomInputField(
                 controller: _confirmPassword,
                 lable: "Confirm Password",
@@ -95,65 +97,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 isPassword: true,
                 validator: _confirmPasswordValditor,
               ),
-              SizedBox(height: 26),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  ValueListenableBuilder(
-                    valueListenable: _checkBoxValue,
-                    builder: (_, value, child) {
-                      return Checkbox(
-                        value: value,
-                        onChanged: (value) => _checkBoxValue.value = value!,
-                        activeColor: Theme.of(context).colorScheme.tertiary,
-                        side: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 1,
-                          strokeAlign: 3,
-                        ),
-                      );
-                    },
-                  ),
-                  Expanded(
-                    child: Wrap(
-                      children: [
-                        Text(
-                          'By Creating an Account, i accept Hiring Hub ',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                        _textLink("Terms of Use", Links.termaAndConditionsLink),
-                        Text(
-                          ' and ',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                        _textLink("Privacy Policy", Links.privacyPolicyLink),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16),
+              const SizedBox(height: 40),
+              PrivacyPolicyWidget(_checkBoxNotifire),
+              const SizedBox(height: 16),
               ValueListenableBuilder(
-                valueListenable: _checkBoxValue,
+                valueListenable: _checkBoxNotifire,
                 builder: (_, value, _) {
-                  return BlocConsumer<SignUpCubit, SignUpState>(
-                    listener: (context, state) {
-                      if (state is SignUpSuccess) {
-                        WidgetsBinding.instance.addPostFrameCallback(
-                          (_) => Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => DemoScreen(),
+                  return BlocConsumer<RegisterationCubit, RegisterationState>(
+                    listener: (context, state) async {
+                      if (state is RegisterationSuccess) {
+                        await showDialog(
+                          context: context,
+                          builder: (_) => BlocProvider(
+                            create: (context) => sl<VerifyEmailCubit>(),
+                            child: VerifyEmailDialoge(
+                              email: _email.text.trim(),
                             ),
-                            (route) => true,
                           ),
+                          barrierDismissible: false,
+                          useSafeArea: true,
+                          useRootNavigator: true,
                         );
-                      } else if (state is SignUpFailed) {
+                      } else if (state is RegisterationFailed) {
                         customSnackBar(context, message: state.message);
                       }
                     },
                     builder: (context, state) {
-                      if (state is SignUpLoading) {
+                      if (state is RegisterationLoading) {
                         return Center(
                           child: CircularProgressIndicator(
                             color: Theme.of(context).colorScheme.primary,
@@ -161,27 +131,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         );
                       }
                       return ElevatedButton(
-                        onPressed: !value ? null : _onPressedSignUp,
-                        child: Text("Sign Up"),
+                        onPressed: value ? _onPressedSignUp : null,
+                        child: const Text("Sign Up"),
                       );
                     },
                   );
                 },
               ),
-              SizedBox(height: 32),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Have an Account?  "),
-                  Text(
-                    "Login",
-                    style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                ],
+              const SizedBox(height: 32),
+              AskNavigationWidget(
+                question: "Have an acount ? ",
+                screenLabel: "Login",
+                onTap: () {},
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
             ],
           ),
         ),
@@ -189,33 +152,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  GestureDetector _textLink(String text, String link) {
-    return GestureDetector(
-      onTap: () {
-        launchUrl(Uri.parse(link));
-      },
-      child: Text(
-        text,
-        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-          color: Theme.of(context).colorScheme.primary,
-        ),
-      ),
-    );
-  }
-
-  void _onPressedSignUp() {
-    if (_formKey.currentState!.validate()) {
-      context.read<SignUpCubit>().signUp(
-        name: _fullName.text,
-        email: _email.text,
-        password: _password.text,
-      );
-    }
-  }
-
   String? _fullNameValditor(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Please enter your name";
+    if (value != null) {
+      if (value.isEmpty) {
+        return "Please enter your name";
+      }
+      if (value.trim().split(" ").length != 2) {
+        return "Name must be first and last name separation by space";
+      }
     }
     return null;
   }
@@ -245,5 +189,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return "Passwords do not match";
     }
     return null;
+  }
+
+  Future<void> _onPressedSignUp() async {
+    if (_formKey.currentState!.validate()) {
+      context.read<RegisterationCubit>().signUp(
+        name: _fullName.text.trim(),
+        email: _email.text.trim(),
+        password: _password.text.trim(),
+      );
+    }
   }
 }
