@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/core/router/app_router.dart';
@@ -22,7 +23,12 @@ Future<void> main() async {
   }
 
   runApp(
-    BlocProvider(create: (context) => sl<ThemeCubit>(), child: const MyApp()),
+    ProviderScope(
+      child: BlocProvider(
+        create: (context) => sl<ThemeCubit>(),
+        child: const MyApp(),
+      ),
+    ),
   );
 }
 

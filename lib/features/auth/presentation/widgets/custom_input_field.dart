@@ -24,20 +24,6 @@ class CustomInputField extends StatefulWidget {
 
 class _CustomInputFieldState extends State<CustomInputField> {
   bool _isObscure = true;
-  bool _hasText = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    widget.controller.addListener(() {
-      final hasText = widget.controller.text.isNotEmpty;
-      if (hasText != _hasText) {
-        _hasText = hasText;
-        setState(() {});
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +48,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
             hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: Theme.of(context).hintColor,
             ),
-            suffixIcon: widget.isPassword && _hasText
-                ? _passwordVisibility()
-                : null,
+            suffixIcon: widget.isPassword ? _passwordVisibility() : null,
           ),
           validator: widget.validator,
         ),

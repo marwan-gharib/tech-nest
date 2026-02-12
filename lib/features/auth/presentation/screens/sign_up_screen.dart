@@ -1,23 +1,29 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tech_nest/core/di/injection_container.dart';
+import 'package:tech_nest/core/router/routers.dart';
+import 'package:tech_nest/core/state/image/image_provider.dart';
+import 'package:tech_nest/core/utils/functions/validatiors.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/registeration_cubit/registeration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widget.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/pick_profile_image.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/privacy_policy_widget.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/verify_email_dialoge.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   late final TextEditingController _fullName;
   late final TextEditingController _email;
   late final TextEditingController _password;
@@ -55,6 +61,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<XFile?>(imageProvider, (previous, next) {
+      if (previous != next) {
+        context.read<RegisterationCubit>().profileImg = next;
+      }
+    });
+
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(title: const Text("Registeration")),
@@ -63,13 +75,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
             children: [
+              const Center(child: PickProfileImage()),
               const SizedBox(height: 50),
               CustomInputField(
                 controller: _fullName,
                 lable: "Full Name",
                 hint: "Enter your name",
                 keyboardType: TextInputType.name,
-                validator: _fullNameValditor,
+                validator: fullNameValditor,
               ),
               const SizedBox(height: 24),
               CustomInputField(
@@ -77,7 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 lable: "E-mail Address",
                 hint: "example@email.com",
                 keyboardType: TextInputType.emailAddress,
-                validator: _emailValditor,
+                validator: emailValditor,
               ),
               const SizedBox(height: 24),
               CustomInputField(
@@ -86,7 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 hint: "* " * 8,
                 keyboardType: TextInputType.visiblePassword,
                 isPassword: true,
-                validator: _passwordValditor,
+                validator: passwordValditor,
               ),
               const SizedBox(height: 24),
               CustomInputField(
@@ -95,7 +108,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 hint: "* " * 8,
                 keyboardType: TextInputType.visiblePassword,
                 isPassword: true,
-                validator: _confirmPasswordValditor,
+                validator: (value) =>
+                    confirmPasswordValditor(value, password: _password.text),
               ),
               const SizedBox(height: 40),
               PrivacyPolicyWidget(_checkBoxNotifire),
@@ -131,7 +145,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         );
                       }
                       return ElevatedButton(
-                        onPressed: value ? _onPressedSignUp : null,
+                        onPressed: value
+                            ? () {
+                                if (ref.read(imageProvider) == null) {
+                                  customSnackBar(
+                                    context,
+                                    message: "Profile Picture is required.",
+                                  );
+                                } else {
+                                  _onPressedSignUp();
+                                }
+                              }
+                            : null,
                         child: const Text("Sign Up"),
                       );
                     },
@@ -142,7 +167,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               AskNavigationWidget(
                 question: "Have an acount ? ",
                 screenLabel: "Login",
-                onTap: () {},
+                onTap: () => context.go(Routers.loginScreenPath),
               ),
               const SizedBox(height: 40),
             ],
@@ -150,45 +175,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
-  }
-
-  String? _fullNameValditor(String? value) {
-    if (value != null) {
-      if (value.isEmpty) {
-        return "Please enter your name";
-      }
-      if (value.trim().split(" ").length != 2) {
-        return "Name must be first and last name separation by space";
-      }
-    }
-    return null;
-  }
-
-  String? _emailValditor(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Please enter your email address";
-    } else if (!EmailValidator.validate(_email.text)) {
-      return "Please enter a valid email address";
-    }
-    return null;
-  }
-
-  String? _passwordValditor(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Please enter your password";
-    } else if (_password.text.length < 8) {
-      return "Password must be at least 8 characters";
-    }
-    return null;
-  }
-
-  String? _confirmPasswordValditor(String? value) {
-    if (value == null || value.isEmpty) {
-      return "Please confirm your password";
-    } else if (value != _password.text) {
-      return "Passwords do not match";
-    }
-    return null;
   }
 
   Future<void> _onPressedSignUp() async {

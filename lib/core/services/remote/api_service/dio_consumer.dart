@@ -3,8 +3,8 @@ import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
 import 'package:tech_nest/core/errors/handling_errors/dio_exceptions.dart';
-import 'package:tech_nest/core/services/remote/api_consumer.dart';
-import 'package:tech_nest/core/services/remote/dio_interceptor.dart';
+import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
+import 'package:tech_nest/core/services/remote/api_service/dio_interceptor.dart';
 
 class DioConsumer extends ApiConsumer {
   final Dio dio;

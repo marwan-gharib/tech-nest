@@ -1,10 +1,180 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/di/injection_container.dart';
+import 'package:tech_nest/core/router/routers.dart';
+import 'package:tech_nest/core/utils/functions/validatiors.dart';
+import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
+import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
+import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widget.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/forget_password_dialoge.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  late final TextEditingController _email;
+  late final TextEditingController _password;
+
+  late final GlobalKey<FormState> _emailFormKey;
+  late final GlobalKey<FormState> _passFormKey;
+
+  @override
+  void initState() {
+    _email = TextEditingController();
+    _password = TextEditingController();
+
+    _emailFormKey = GlobalKey<FormState>();
+    _passFormKey = GlobalKey<FormState>();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _email.dispose();
+    _password.dispose();
+
+    _emailFormKey.currentState?.dispose();
+    _passFormKey.currentState?.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const SafeArea(child: Scaffold());
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(title: const Text("Login")),
+        body: ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 50),
+          children: [
+            Form(
+              key: _emailFormKey,
+              child: CustomInputField(
+                controller: _email,
+                lable: "E-mail Address",
+                hint: "example@email.com",
+                keyboardType: TextInputType.emailAddress,
+                validator: emailValditor,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Form(
+              key: _passFormKey,
+              child: CustomInputField(
+                controller: _password,
+                lable: "Password",
+                hint: "* " * 8,
+                keyboardType: TextInputType.visiblePassword,
+                isPassword: true,
+                validator: passwordValditor,
+              ),
+            ),
+            Align(
+              alignment: AlignmentGeometry.centerEnd,
+              heightFactor: 1.5,
+              child: GestureDetector(
+                onTap: () {
+                  if (_emailFormKey.currentState!.validate()) {
+                    context.read<ForgetPasswordCubit>().forgetPassword(
+                      email: _email.text,
+                    );
+                  }
+                },
+                child: BlocListener<ForgetPasswordCubit, ForgetPasswordState>(
+                  listener: (_, state) async {
+                    if (state is ForgetPasswordFailed) {
+                      customSnackBar(context, message: state.message);
+                    } else if (state is ForgetPasswordLoading) {
+                      showLoadingDialog(context);
+                    } else if (state is ForgetPasswordSuccess) {
+                      context.pop();
+                      await showDialog(
+                        context: context,
+                        builder: (context) => BlocProvider(
+                          create: (context) => sl<ResetPasswordCubit>(),
+                          child: ForgetPasswordDialoge(email: _email.text),
+                        ),
+                        barrierDismissible: false,
+                        useSafeArea: true,
+                        useRootNavigator: true,
+                      );
+                    }
+                  },
+                  child: Text(
+                    "Forget password",
+                    style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 28),
+            const SizedBox(height: 16),
+            BlocConsumer<LoginCubit, LoginState>(
+              listener: (context, state) async {
+                if (state is LoginSuccess) {
+                  context.go(Routers.demoPath);
+                } else if (state is LoginFailed) {
+                  customSnackBar(context, message: state.message);
+                }
+              },
+              builder: (context, state) {
+                if (state is LoginLoading) {
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  );
+                }
+                return ElevatedButton(
+                  onPressed: _onPressedLogin,
+                  child: const Text("Login"),
+                );
+              },
+            ),
+            const SizedBox(height: 32),
+            AskNavigationWidget(
+              question: "Don't have an account ? ",
+              screenLabel: "Registeration",
+              onTap: () => context.go(Routers.signUpScreenPath),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showLoadingDialog(BuildContext context) {
+    AwesomeDialog(
+      context: context,
+      dismissOnBackKeyPress: false,
+      dismissOnTouchOutside: false,
+      dialogType: DialogType.noHeader,
+      body: Center(
+        child: SpinKitWaveSpinner(color: Theme.of(context).colorScheme.primary),
+      ),
+    ).show();
+  }
+
+  Future<void> _onPressedLogin() async {
+    if (_emailFormKey.currentState!.validate() &&
+        _passFormKey.currentState!.validate()) {
+      context.read<LoginCubit>().login(
+        email: _email.text.trim(),
+        password: _password.text.trim(),
+      );
+    }
   }
 }
