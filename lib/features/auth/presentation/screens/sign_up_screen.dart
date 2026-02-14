@@ -118,48 +118,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 valueListenable: _checkBoxNotifire,
                 builder: (_, value, _) {
                   return BlocConsumer<RegisterationCubit, RegisterationState>(
-                    listener: (context, state) async {
-                      if (state is RegisterationSuccess) {
-                        await showDialog(
-                          context: context,
-                          builder: (_) => BlocProvider(
-                            create: (context) => sl<VerifyEmailCubit>(),
-                            child: VerifyEmailDialoge(
-                              email: _email.text.trim(),
-                            ),
-                          ),
-                          barrierDismissible: false,
-                          useSafeArea: true,
-                          useRootNavigator: true,
-                        );
-                      } else if (state is RegisterationFailed) {
-                        customSnackBar(context, message: state.message);
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is RegisterationLoading) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        );
-                      }
-                      return ElevatedButton(
-                        onPressed: value
-                            ? () {
-                                if (ref.read(imageProvider) == null) {
-                                  customSnackBar(
-                                    context,
-                                    message: "Profile Picture is required.",
-                                  );
-                                } else {
-                                  _onPressedSignUp();
-                                }
-                              }
-                            : null,
-                        child: const Text("Sign Up"),
-                      );
-                    },
+                    listener: _listener,
+                    builder: _builder,
                   );
                 },
               ),
@@ -177,9 +137,51 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     );
   }
 
+  Future<void> _listener(BuildContext context, RegisterationState state) async {
+    if (state is RegisterationSuccess) {
+      await showDialog(
+        context: context,
+        builder: (_) => BlocProvider(
+          create: (context) => sl<VerifyEmailCubit>(),
+          child: VerifyEmailDialoge(email: _email.text.trim()),
+        ),
+        barrierDismissible: false,
+        useSafeArea: true,
+        useRootNavigator: true,
+      );
+    } else if (state is RegisterationFailed) {
+      customSnackBar(context, message: state.message);
+    }
+  }
+
+  Widget _builder(BuildContext context, RegisterationState state) {
+    if (state is RegisterationLoading) {
+      return Center(
+        child: CircularProgressIndicator(
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      );
+    }
+    return ElevatedButton(
+      onPressed: _checkBoxNotifire.value
+          ? () {
+              if (ref.read(imageProvider) == null) {
+                customSnackBar(
+                  context,
+                  message: "Profile Picture is required.",
+                );
+              } else {
+                _onPressedSignUp();
+              }
+            }
+          : null,
+      child: const Text("Sign Up"),
+    );
+  }
+
   Future<void> _onPressedSignUp() async {
     if (_formKey.currentState!.validate()) {
-      context.read<RegisterationCubit>().signUp(
+      await context.read<RegisterationCubit>().signUp(
         name: _fullName.text.trim(),
         email: _email.text.trim(),
         password: _password.text.trim(),

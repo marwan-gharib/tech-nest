@@ -84,40 +84,9 @@ class _LoginScreenState extends State<LoginScreen> {
               alignment: AlignmentGeometry.centerEnd,
               heightFactor: 1.5,
               child: GestureDetector(
-                onTap: () {
-                  if (_emailFormKey.currentState!.validate()) {
-                    context.read<ForgetPasswordCubit>().forgetPassword(
-                      email: _email.text,
-                    );
-                  }
-                },
+                onTap: _onTappedForgetPass,
                 child: BlocListener<ForgetPasswordCubit, ForgetPasswordState>(
-                  listener: (_, state) async {
-                    if (state is ForgetPasswordFailed) {
-                      customSnackBar(context, message: state.message);
-                    } else if (state is ForgetPasswordLoading) {
-                      showLoadingDialog(context);
-                    } else if (state is ForgetPasswordSuccess) {
-                      context.pop();
-                      await showDialog(
-                        context: context,
-                        builder: (context) => BlocProvider(
-                          create: (context) => sl<ResetPasswordCubit>(),
-                          child: ForgetPasswordDialoge(email: _email.text),
-                        ),
-                        barrierDismissible: false,
-                        useSafeArea: true,
-                        useRootNavigator: true,
-                      );
-                      if (context.mounted) {
-                        customSnackBar(
-                          context,
-                          message: "Password changed Successfully",
-                          isAbove: true,
-                        );
-                      }
-                    }
-                  },
+                  listener: _forgetPasswordListener,
                   child: Text(
                     "Forget password",
                     style: Theme.of(context).textTheme.labelMedium!.copyWith(
@@ -127,29 +96,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 28),
-            const SizedBox(height: 16),
+            const SizedBox(height: 44),
             BlocConsumer<LoginCubit, LoginState>(
-              listener: (context, state) async {
-                if (state is LoginSuccess) {
-                  context.go(Routers.demoPath);
-                } else if (state is LoginFailed) {
-                  customSnackBar(context, message: state.message);
-                }
-              },
-              builder: (context, state) {
-                if (state is LoginLoading) {
-                  return Center(
-                    child: CircularProgressIndicator(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  );
-                }
-                return ElevatedButton(
-                  onPressed: _onPressedLogin,
-                  child: const Text("Login"),
-                );
-              },
+              listener: _loginListener,
+              builder: _loginBuilder,
             ),
             const SizedBox(height: 32),
             AskNavigationWidget(
@@ -160,6 +110,58 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> _forgetPasswordListener(
+    BuildContext context,
+    ForgetPasswordState state,
+  ) async {
+    if (state is ForgetPasswordFailed) {
+      customSnackBar(context, message: state.message);
+    } else if (state is ForgetPasswordLoading) {
+      showLoadingDialog(context);
+    } else if (state is ForgetPasswordSuccess) {
+      context.pop();
+      await showDialog(
+        context: context,
+        builder: (context) => BlocProvider(
+          create: (context) => sl<ResetPasswordCubit>(),
+          child: ForgetPasswordDialoge(email: _email.text),
+        ),
+        barrierDismissible: false,
+        useSafeArea: true,
+        useRootNavigator: true,
+      );
+      if (context.mounted) {
+        customSnackBar(
+          context,
+          message: "Password changed Successfully",
+          isAbove: true,
+        );
+      }
+    }
+  }
+
+  Future<void> _loginListener(BuildContext context, LoginState state) async {
+    if (state is LoginSuccess) {
+      context.go(Routers.demoPath);
+    } else if (state is LoginFailed) {
+      customSnackBar(context, message: state.message);
+    }
+  }
+
+  Widget _loginBuilder(BuildContext context, LoginState state) {
+    if (state is LoginLoading) {
+      return Center(
+        child: CircularProgressIndicator(
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      );
+    }
+    return ElevatedButton(
+      onPressed: _onPressedLogin,
+      child: const Text("Login"),
     );
   }
 
@@ -180,9 +182,17 @@ class _LoginScreenState extends State<LoginScreen> {
     final passValidation = _passFormKey.currentState!.validate();
 
     if (emailValidation && passValidation) {
-      context.read<LoginCubit>().login(
+      await context.read<LoginCubit>().login(
         email: _email.text.trim(),
         password: _password.text,
+      );
+    }
+  }
+
+  Future<void> _onTappedForgetPass() async {
+    if (_emailFormKey.currentState!.validate()) {
+      await context.read<ForgetPasswordCubit>().forgetPassword(
+        email: _email.text,
       );
     }
   }

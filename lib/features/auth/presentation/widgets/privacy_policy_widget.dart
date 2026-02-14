@@ -4,8 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class PrivacyPolicyWidget extends StatelessWidget {
   final ValueNotifier<bool> _checkBoxNotifire;
-  const PrivacyPolicyWidget(ValueNotifier<bool> checkBoxNotifire, {super.key})
-    : _checkBoxNotifire = checkBoxNotifire;
+  const PrivacyPolicyWidget(this._checkBoxNotifire, {super.key});
 
   @override
   Widget build(BuildContext context) {

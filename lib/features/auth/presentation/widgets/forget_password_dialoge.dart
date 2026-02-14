@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pinput/pinput.dart';
 import 'package:tech_nest/core/theme/app_colors.dart';
 import 'package:tech_nest/core/utils/functions/validatiors.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/custom_partition_dialoge.dart';
 
 class ForgetPasswordDialoge extends StatefulWidget {
   final String email;
@@ -79,61 +79,10 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const SizedBox.shrink(),
-                      Text(
-                        "Reset Password",
-                        style: Theme.of(context).textTheme.labelLarge,
-                      ),
-                      IconButton(
-                        onPressed: () => context.pop(),
-                        icon: const Icon(Icons.close),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 50),
-                  Align(
-                    alignment: AlignmentGeometry.centerLeft,
-                    child: Text(
-                      "Enter code",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Pinput(
-                    controller: _code,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    length: 6,
-                    animationCurve: Curves.linear,
-                    animationDuration: const Duration(milliseconds: 200),
-                    autofocus: true,
-                    defaultPinTheme: PinTheme(
-                      margin: const EdgeInsets.all(2),
-                      width: 35,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.outline,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  ValueListenableBuilder(
-                    valueListenable: _isErrNotifire,
-                    builder: (context, value, child) {
-                      if (!value) return SizedBox.fromSize();
-                      return Text(
-                        "Invalid verification code",
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                      );
-                    },
+                  CustomPartitionDialoge(
+                    pinCodeController: _code,
+                    isErrNotifire: _isErrNotifire,
+                    label: "Reset Password",
                   ),
                   const SizedBox(height: 20),
                   CustomInputField(
@@ -158,42 +107,8 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
                   ),
                   const SizedBox(height: 50),
                   BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
-                    listener: (context, state) async {
-                      if (state is ResetPasswordSuccess) {
-                        context.pop();
-                      } else if (state is ResetPasswordFailed) {
-                        _isErrNotifire.value = true;
-                      } else if (state is ResetPasswordSuccess ||
-                          state is ResetPasswordLoading) {
-                        _isErrNotifire.value = false;
-                      }
-                    },
-                    builder: (context, state) {
-                      if (state is ResetPasswordLoading) {
-                        _isErrNotifire.value = false;
-                        return Center(
-                          child: CircularProgressIndicator(
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
-                        );
-                      }
-                      return ElevatedButton(
-                        onPressed: _code.text.length < 6
-                            ? null
-                            : () {
-                                if (_formKey.currentState!.validate()) {
-                                  context
-                                      .read<ResetPasswordCubit>()
-                                      .resetPassword(
-                                        email: widget.email,
-                                        code: _code.text,
-                                        newPass: _password.text,
-                                      );
-                                }
-                              },
-                        child: const Text("Reset password"),
-                      );
-                    },
+                    listener: _forgetPassListener,
+                    builder: _forgetPassBuilder,
                   ),
                 ],
               ),
@@ -202,5 +117,39 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
         ),
       ),
     );
+  }
+
+  void _forgetPassListener(BuildContext context, ResetPasswordState state) {
+    if (state is ResetPasswordSuccess) {
+      context.pop();
+    } else if (state is ResetPasswordFailed) {
+      _isErrNotifire.value = true;
+    } else if (state is ResetPasswordSuccess || state is ResetPasswordLoading) {
+      _isErrNotifire.value = false;
+    }
+  }
+
+  Widget _forgetPassBuilder(BuildContext context, ResetPasswordState state) {
+    if (state is ResetPasswordLoading) {
+      return Center(
+        child: CircularProgressIndicator(
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      );
+    }
+    return ElevatedButton(
+      onPressed: _code.text.length < 6 ? null : _onButtonPressed,
+      child: const Text("Reset password"),
+    );
+  }
+
+  Future<void> _onButtonPressed() async {
+    if (_formKey.currentState!.validate()) {
+      await context.read<ResetPasswordCubit>().resetPassword(
+        email: widget.email,
+        code: _code.text,
+        newPass: _password.text,
+      );
+    }
   }
 }

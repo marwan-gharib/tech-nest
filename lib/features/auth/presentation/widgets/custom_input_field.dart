@@ -27,32 +27,27 @@ class _CustomInputFieldState extends State<CustomInputField> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextFormField(
-          errorBuilder: _errorBuilder,
-          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-          controller: widget.controller,
-          cursorColor: Theme.of(context).colorScheme.primary,
-          cursorErrorColor: Theme.of(context).colorScheme.primary,
-          keyboardType: widget.keyboardType,
-          maxLines: widget.isPassword ? 1 : null,
-          obscureText: widget.isPassword ? _isObscure : false,
-          decoration: InputDecoration(
-            labelText: widget.lable,
-            labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
-            hintText: widget.hint,
-            hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: Theme.of(context).hintColor,
-            ),
-            suffixIcon: widget.isPassword ? _passwordVisibility() : null,
-          ),
-          validator: widget.validator,
+    return TextFormField(
+      errorBuilder: _errorBuilder,
+      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+      controller: widget.controller,
+      cursorColor: Theme.of(context).colorScheme.primary,
+      cursorErrorColor: Theme.of(context).colorScheme.primary,
+      keyboardType: widget.keyboardType,
+      maxLines: widget.isPassword ? 1 : null,
+      obscureText: widget.isPassword ? _isObscure : false,
+      decoration: InputDecoration(
+        labelText: widget.lable,
+        labelStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
         ),
-      ],
+        hintText: widget.hint,
+        hintStyle: Theme.of(
+          context,
+        ).textTheme.bodyMedium!.copyWith(color: Theme.of(context).hintColor),
+        suffixIcon: widget.isPassword ? _passwordVisibility() : null,
+      ),
+      validator: widget.validator,
     );
   }
 
