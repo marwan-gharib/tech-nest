@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Scaffold(
         appBar: AppBar(title: const Text("Login")),
         body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 50),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
           children: [
             Form(
               key: _emailFormKey,
@@ -109,6 +109,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         useSafeArea: true,
                         useRootNavigator: true,
                       );
+                      if (context.mounted) {
+                        customSnackBar(
+                          context,
+                          message: "Password changed Successfully",
+                          isAbove: true,
+                        );
+                      }
                     }
                   },
                   child: Text(
@@ -169,11 +176,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _onPressedLogin() async {
-    if (_emailFormKey.currentState!.validate() &&
-        _passFormKey.currentState!.validate()) {
+    final emailValidation = _emailFormKey.currentState!.validate();
+    final passValidation = _passFormKey.currentState!.validate();
+
+    if (emailValidation && passValidation) {
       context.read<LoginCubit>().login(
         email: _email.text.trim(),
-        password: _password.text.trim(),
+        password: _password.text,
       );
     }
   }

@@ -17,9 +17,7 @@ class PickProfileImage extends ConsumerWidget {
       onTap: () => notifire.clear(),
       child: ClipRRect(
         child: CircleAvatar(
-          backgroundColor: Theme.of(
-            context,
-          ).colorScheme.primary.withValues(alpha: 0.12),
+          backgroundColor: Theme.of(context).colorScheme.surface,
           backgroundImage: img != null
               ? FileImage(File(img.path))
               : AssetImage(Assets.profileAvatar),
@@ -27,7 +25,7 @@ class PickProfileImage extends ConsumerWidget {
           child: img == null
               ? Align(
                   alignment: AlignmentGeometry.bottomEnd,
-                  child: InkWell(
+                  child: GestureDetector(
                     onTap: () => notifire.pickImage(),
                     child: Container(
                       padding: const EdgeInsets.all(3),

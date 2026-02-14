@@ -17,12 +17,12 @@ final class LoginLoading extends LoginState {
 }
 
 final class LoginSuccess extends LoginState {
-  final UserEntity? user;
+  final UserEntity user;
 
-  const LoginSuccess({this.user});
+  const LoginSuccess({required this.user});
 
   @override
-  List<Object> get props => user != null ? [user!] : [];
+  List<Object> get props => [user];
 }
 
 final class LoginFailed extends LoginState {

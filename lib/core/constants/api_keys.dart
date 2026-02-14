@@ -23,4 +23,5 @@ class ApiKeys {
   static String get provider => "provider";
   static String get socialId => "social_id";
   static String get profileImg => "profile_image";
+  static String get profileImgUrl => "profile_image_url";
 }

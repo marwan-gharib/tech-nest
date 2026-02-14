@@ -160,14 +160,17 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
                   BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
                     listener: (context, state) async {
                       if (state is ResetPasswordSuccess) {
-                        _isErrNotifire.value = false;
                         context.pop();
                       } else if (state is ResetPasswordFailed) {
                         _isErrNotifire.value = true;
+                      } else if (state is ResetPasswordSuccess ||
+                          state is ResetPasswordLoading) {
+                        _isErrNotifire.value = false;
                       }
                     },
                     builder: (context, state) {
                       if (state is ResetPasswordLoading) {
+                        _isErrNotifire.value = false;
                         return Center(
                           child: CircularProgressIndicator(
                             color: Theme.of(context).colorScheme.primary,
@@ -175,7 +178,7 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
                         );
                       }
                       return ElevatedButton(
-                        onPressed: _code.text.isEmpty
+                        onPressed: _code.text.length < 6
                             ? null
                             : () {
                                 if (_formKey.currentState!.validate()) {

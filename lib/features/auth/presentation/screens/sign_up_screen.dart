@@ -36,10 +36,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   @override
   void initState() {
     super.initState();
-    _fullName = TextEditingController(text: "Marwan Gharib");
-    _email = TextEditingController(text: "marwanghareeb18@gmail.com");
-    _password = TextEditingController(text: "12345678");
-    _confirmPassword = TextEditingController(text: "12345678");
+    _fullName = TextEditingController();
+    _email = TextEditingController();
+    _password = TextEditingController();
+    _confirmPassword = TextEditingController();
 
     _formKey = GlobalKey<FormState>();
 

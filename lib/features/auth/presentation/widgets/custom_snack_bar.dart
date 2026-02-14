@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 ScaffoldFeatureController customSnackBar(
   BuildContext context, {
   required String message,
+  bool isAbove = false,
 }) {
   return ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -17,7 +18,11 @@ ScaffoldFeatureController customSnackBar(
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
       padding: const EdgeInsets.all(15),
       behavior: SnackBarBehavior.floating,
-      margin: const EdgeInsets.only(bottom: 20, left: 30, right: 30),
+      margin: EdgeInsets.only(
+        bottom: isAbove ? MediaQuery.of(context).size.height * 0.86 : 20,
+        left: 30,
+        right: 30,
+      ),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       duration: const Duration(seconds: 3),
     ),

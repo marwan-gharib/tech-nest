@@ -13,7 +13,7 @@ class AppRouter {
   const AppRouter._();
 
   static final GoRouter routes = GoRouter(
-    initialLocation: Routers.signUpScreenPath,
+    initialLocation: Routers.loginScreenPath,
     routes: [
       GoRoute(
         path: Routers.signUpScreenPath,

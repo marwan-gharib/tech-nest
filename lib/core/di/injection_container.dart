@@ -6,7 +6,6 @@ import 'package:tech_nest/core/services/local/cache/shared_preferences_service.d
 import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
 import 'package:tech_nest/core/services/remote/api_service/dio_consumer.dart';
 import 'package:tech_nest/core/services/remote/api_service/dio_interceptor.dart';
-import 'package:tech_nest/core/services/remote/social_services/google_service.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/core/utils/auth/auth_notifire.dart';
 import 'package:tech_nest/features/auth/di/auth_di.dart';
@@ -20,7 +19,6 @@ Future<void> initDependencies() async {
 
   sl.registerLazySingleton(() => Dio());
   sl.registerLazySingleton<ApiConsumer>(() => DioConsumer(sl<Dio>()));
-  sl.registerLazySingleton(() => GoogleService());
 
   sl.registerLazySingleton(() => AuthNotifire());
 

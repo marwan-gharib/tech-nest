@@ -1,19 +1,15 @@
 import 'dart:developer';
 
-import 'package:dio/dio.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
 import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
-import 'package:tech_nest/core/services/remote/social_services/google_service.dart';
 import 'package:tech_nest/core/utils/functions/upload_img_to_api.dart';
 import 'package:tech_nest/features/auth/data/models/auth_model.dart';
 import 'package:tech_nest/features/auth/data/models/user_model.dart';
 import 'package:tech_nest/features/auth/domain/params/login_params.dart';
 import 'package:tech_nest/features/auth/domain/params/reset_password_params.dart';
 import 'package:tech_nest/features/auth/domain/params/sign_up_params.dart';
-import 'package:tech_nest/features/auth/domain/params/social_login_params.dart';
 import 'package:tech_nest/features/auth/domain/params/verification_email_params.dart';
 
 class AuthRemoteDataSource {
@@ -30,16 +26,18 @@ class AuthRemoteDataSource {
           ApiKeys.name: params.name,
           ApiKeys.email: params.email,
           ApiKeys.pass: params.password,
-          ApiKeys.profileImg: uploadImageToAPI(params.img),
+          ApiKeys.profileImg: await uploadImageToAPI(params.img),
         },
-        options: Options(
-          validateStatus: (status) => status != null && status < 500,
-        ),
       );
 
-      return UserModel.fromJson(
-        response[ApiKeys.data][ApiKeys.user] as Map<String, dynamic>,
-      );
+      if (response != null) {
+        final json = response[ApiKeys.data][ApiKeys.user];
+        if (json != null) {
+          return UserModel.fromJson(json as Map<String, dynamic>);
+        }
+      }
+
+      throw UnKnownException();
     } on AppException {
       rethrow;
     } catch (e) {
@@ -55,7 +53,14 @@ class AuthRemoteDataSource {
         data: {ApiKeys.email: params.email, ApiKeys.pass: params.password},
       );
 
-      return AuthModel.fromJson(response[ApiKeys.data] as Map<String, dynamic>);
+      if (response != null) {
+        final json = response[ApiKeys.data];
+        if (json != null) {
+          return AuthModel.fromJson(json as Map<String, dynamic>);
+        }
+      }
+
+      throw UnKnownException();
     } on AppException {
       rethrow;
     } catch (e) {
@@ -73,7 +78,13 @@ class AuthRemoteDataSource {
         data: {ApiKeys.email: params.email, ApiKeys.code: params.code},
       );
 
-      return AuthModel.fromJson(response[ApiKeys.data] as Map<String, dynamic>);
+      final json = response[ApiKeys.data];
+
+      if (response != null && json != null) {
+        return AuthModel.fromJson(json as Map<String, dynamic>);
+      }
+
+      throw UnKnownException();
     } on AppException {
       rethrow;
     } catch (e) {
@@ -103,36 +114,6 @@ class AuthRemoteDataSource {
   Future<void> forgetPassword({required String email}) async {
     try {
       await _api.post(Endpoints.forgetPassword, data: {ApiKeys.email: email});
-    } on AppException {
-      rethrow;
-    } catch (e) {
-      log(e.toString());
-      throw UnKnownException();
-    }
-  }
-
-  Future<AuthModel> googleLogin({required SocialLoginParams params}) async {
-    try {
-      final googleService = sl<GoogleService>();
-      await googleService.signIn();
-
-      final googleId = googleService.googleId;
-
-      if (googleId == null) {
-        await googleLogin(params: params);
-      }
-
-      final response = await _api.post(
-        Endpoints.socialLogin,
-        data: {
-          ApiKeys.email: params.email,
-          ApiKeys.name: params.name,
-          ApiKeys.provider: params.provider,
-          ApiKeys.socialId: params.socialId,
-        },
-      );
-
-      return AuthModel.fromJson(response[ApiKeys.data] as Map<String, dynamic>);
     } on AppException {
       rethrow;
     } catch (e) {
