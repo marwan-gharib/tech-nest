@@ -9,6 +9,7 @@ import 'package:tech_nest/core/services/remote/api_service/dio_interceptor.dart'
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/core/utils/auth/auth_notifire.dart';
 import 'package:tech_nest/features/auth/di/auth_di.dart';
+import 'package:tech_nest/features/products/di/products_di.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -39,4 +40,5 @@ Future<void> initDependencies() async {
   sl.registerFactory(() => ThemeCubit());
 
   initAuthDI(sl);
+  initProductsDI(sl);
 }

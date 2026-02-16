@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _loginListener(BuildContext context, LoginState state) async {
     if (state is LoginSuccess) {
-      context.go(Routers.demoPath);
+      context.go(Routers.homeScreenPath);
     } else if (state is LoginFailed) {
       customSnackBar(context, message: state.message);
     }

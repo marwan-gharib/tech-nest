@@ -84,7 +84,7 @@ class _VerifyEmailDialogeState extends State<VerifyEmailDialoge> {
   ) async {
     if (state is VerifyEmailSuccess) {
       _isErrNotifire.value = false;
-      context.go(Routers.demoPath);
+      context.go(Routers.homeScreenPath);
     } else if (state is VerifyEmailFailed) {
       _isErrNotifire.value = true;
     } else if (state is VerifyEmailSuccess || state is VerifyEmailLoading) {

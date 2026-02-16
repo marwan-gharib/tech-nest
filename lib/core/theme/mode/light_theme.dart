@@ -31,6 +31,8 @@ class LightTheme {
 
     inverseSurface: AppColors.gray900,
     onInverseSurface: AppColors.white,
+
+    tertiaryFixed: AppColors.orange500,
   );
 
   static final ElevatedButtonThemeData elevatedButtonTheme =
