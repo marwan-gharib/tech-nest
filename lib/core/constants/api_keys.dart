@@ -24,4 +24,6 @@ class ApiKeys {
   static String get socialId => "social_id";
   static String get profileImg => "profile_image";
   static String get profileImgUrl => "profile_image_url";
+  static String get limit => "limit";
+  static String get page => "page";
 }

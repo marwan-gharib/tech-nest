@@ -10,9 +10,15 @@ class GetProductsUsecase {
 
   GetProductsUsecase(this._repo);
 
-  Future<Either<Failure, List<ProductEntity>>> call({int? categoryId}) async {
+  Future<Either<Failure, List<ProductEntity>>> call({
+    int? categoryId,
+    int page = 1,
+  }) async {
     try {
-      final products = await _repo.getProducts(categoryId: categoryId);
+      final products = await _repo.getProducts(
+        categoryId: categoryId,
+        page: page,
+      );
 
       return Right(products);
     } on AppException catch (e) {

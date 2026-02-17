@@ -28,6 +28,7 @@ dependencies:
   google_sign_in:
   image_picker:
   flutter_riverpod:
+  infinite_scroll_pagination:
 
 dev_dependencies:
   flutter_test:

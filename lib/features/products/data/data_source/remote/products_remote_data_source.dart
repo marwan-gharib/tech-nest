@@ -11,11 +11,15 @@ class ProductsRemoteDataSource {
 
   ProductsRemoteDataSource(this._api);
 
-  Future<List<ProductModel>> getProducts({int? categoryId}) async {
+  Future<List<ProductModel>> getProducts({
+    int? categoryId,
+    int page = 1,
+  }) async {
     try {
       final response = await _api.get(
         Endpoints.productsList,
         data: categoryId != null ? {ApiKeys.categoryID: categoryId} : null,
+        queryParameters: {ApiKeys.limit: 10, ApiKeys.page: page},
       );
 
       if (response != null) {

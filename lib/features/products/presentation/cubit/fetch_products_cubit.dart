@@ -7,17 +7,21 @@ part 'fetch_products_state.dart';
 
 class FetchProductsCubit extends Cubit<FetchProductsState> {
   final GetProductsUsecase _getProductsUsecase;
+
   FetchProductsCubit(this._getProductsUsecase)
     : super(const FetchProductsInitial());
 
-  Future<void> fetchProducts({int? categoryId}) async {
-    emit(const FetchProductsLoading());
+  Future<List<ProductEntity>> fetchProducts({int? categoryId, int page = 1}) async {
+    // emit(const FetchProductsLoading());
 
-    final res = await _getProductsUsecase.call(categoryId: categoryId);
+    final res = await _getProductsUsecase.call(
+      categoryId: categoryId,
+      page: page,
+    );
 
-    res.fold(
-      (failure) => emit(FetchProductsFailed(message: failure.message)),
-      (products) => emit(FetchProductsSuccess(products: products)),
+    return res.fold<List<ProductEntity>>(
+      (failure) => throw Exception(failure.message),
+      (products) =>  products,
     );
   }
 }
