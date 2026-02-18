@@ -22,12 +22,10 @@ class AuthRemoteDataSource {
       final response = await _api.post(
         Endpoints.signUp,
         isFormData: true,
-        data: {
-          ApiKeys.name: params.name,
-          ApiKeys.email: params.email,
-          ApiKeys.pass: params.password,
-          ApiKeys.profileImg: await uploadImageToAPI(params.img),
-        },
+        data: params.toJson().putIfAbsent(
+          ApiKeys.profileImg,
+          () async => await uploadImageToAPI(params.img),
+        ),
       );
 
       if (response != null) {
@@ -48,10 +46,7 @@ class AuthRemoteDataSource {
 
   Future<AuthModel> login({required LoginParams params}) async {
     try {
-      final response = await _api.post(
-        Endpoints.login,
-        data: {ApiKeys.email: params.email, ApiKeys.pass: params.password},
-      );
+      final response = await _api.post(Endpoints.login, data: params.toJson());
 
       if (response != null) {
         final json = response[ApiKeys.data];
@@ -75,7 +70,7 @@ class AuthRemoteDataSource {
     try {
       final response = await _api.post(
         Endpoints.verifyEmail,
-        data: {ApiKeys.email: params.email, ApiKeys.code: params.code},
+        data: params.toJson(),
       );
 
       final json = response[ApiKeys.data];
@@ -95,14 +90,7 @@ class AuthRemoteDataSource {
 
   Future<void> resetPassword({required ResetPasswordParams params}) async {
     try {
-      await _api.post(
-        Endpoints.resetPassword,
-        data: {
-          ApiKeys.email: params.email,
-          ApiKeys.code: params.code,
-          ApiKeys.newPass: params.newPass,
-        },
-      );
+      await _api.post(Endpoints.resetPassword, data: params.toJson());
     } on AppException {
       rethrow;
     } catch (e) {

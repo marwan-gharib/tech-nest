@@ -3,6 +3,7 @@ import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
 import 'package:tech_nest/core/errors/failures/failures.dart';
 import 'package:tech_nest/core/errors/mapping/error_mapper.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
+import 'package:tech_nest/features/products/domain/params/products_params.dart';
 import 'package:tech_nest/features/products/domain/repositories/products_repo.dart';
 
 class GetProductsUsecase {
@@ -11,14 +12,10 @@ class GetProductsUsecase {
   GetProductsUsecase(this._repo);
 
   Future<Either<Failure, List<ProductEntity>>> call({
-    int? categoryId,
-    int page = 1,
+    required ProductsParams params,
   }) async {
     try {
-      final products = await _repo.getProducts(
-        categoryId: categoryId,
-        page: page,
-      );
+      final products = await _repo.getProducts(params: params);
 
       return Right(products);
     } on AppException catch (e) {

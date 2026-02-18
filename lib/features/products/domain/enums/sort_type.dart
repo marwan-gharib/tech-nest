@@ -1,0 +1,1 @@
+enum SortType { price, name }

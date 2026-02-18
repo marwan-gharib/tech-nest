@@ -26,4 +26,10 @@ class ApiKeys {
   static String get profileImgUrl => "profile_image_url";
   static String get limit => "limit";
   static String get page => "page";
+  static String get products => "products";
+  static String get search => "search";
+  static String get minPrice => "minPrice";
+  static String get maxPrice => "maxPrice";
+  static String get sort => "sort";
+  static String get order => "order";
 }

@@ -25,7 +25,7 @@ class ProductModel {
       id: int.parse(json[ApiKeys.id].toString()),
       name: json[ApiKeys.name],
       description: json[ApiKeys.description],
-      price: json[ApiKeys.price],
+      price: (json[ApiKeys.price] as num).toDouble(),
       stock: json[ApiKeys.stock],
       categoryId: json[ApiKeys.categoryID],
       imgUrl: json[ApiKeys.imgUrl],

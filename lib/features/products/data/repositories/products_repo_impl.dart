@@ -1,5 +1,6 @@
 import 'package:tech_nest/features/products/data/data_source/remote/products_remote_data_source.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
+import 'package:tech_nest/features/products/domain/params/products_params.dart';
 import 'package:tech_nest/features/products/domain/repositories/products_repo.dart';
 
 class ProductsRepoImpl extends ProductsRepo {
@@ -9,13 +10,9 @@ class ProductsRepoImpl extends ProductsRepo {
 
   @override
   Future<List<ProductEntity>> getProducts({
-    int? categoryId,
-    int page = 1,
+    required ProductsParams params,
   }) async {
-    final productsModel = await _dataSource.getProducts(
-      categoryId: categoryId,
-      page: page,
-    );
+    final productsModel = await _dataSource.getProducts(params: params);
 
     return productsModel.map((model) => model.toEntity()).toList();
   }

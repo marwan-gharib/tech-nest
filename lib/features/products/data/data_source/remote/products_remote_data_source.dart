@@ -5,6 +5,7 @@ import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
 import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
 import 'package:tech_nest/features/products/data/models/product_model.dart';
+import 'package:tech_nest/features/products/domain/params/products_params.dart';
 
 class ProductsRemoteDataSource {
   final ApiConsumer _api;
@@ -12,18 +13,16 @@ class ProductsRemoteDataSource {
   ProductsRemoteDataSource(this._api);
 
   Future<List<ProductModel>> getProducts({
-    int? categoryId,
-    int page = 1,
+    required ProductsParams params,
   }) async {
     try {
       final response = await _api.get(
         Endpoints.productsList,
-        data: categoryId != null ? {ApiKeys.categoryID: categoryId} : null,
-        queryParameters: {ApiKeys.limit: 10, ApiKeys.page: page},
+        queryParameters: params.toJson(),
       );
 
       if (response != null) {
-        final List? list = response[ApiKeys.data];
+        final List? list = response[ApiKeys.data][ApiKeys.products];
         if (list != null) {
           return list.map((product) => ProductModel.fromJson(product)).toList();
         }
