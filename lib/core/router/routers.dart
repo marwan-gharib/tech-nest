@@ -4,7 +4,5 @@ class Routers {
   static String get loginScreenPath => "/auth/login";
   static String get signUpScreenPath => "/auth/signUp";
 
-  static String get productsScreenPath => "/products";
-
-  static String get homeScreenPath => productsScreenPath;
+  static String get homeScreenPath => "/home";
 }

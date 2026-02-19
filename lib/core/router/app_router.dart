@@ -9,8 +9,7 @@ import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cu
 import 'package:tech_nest/features/auth/presentation/cubits/registeration_cubit/registeration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/screens/login_screen.dart';
 import 'package:tech_nest/features/auth/presentation/screens/sign_up_screen.dart';
-import 'package:tech_nest/features/products/presentation/cubit/fetch_products_cubit.dart';
-import 'package:tech_nest/features/products/presentation/screens/products_screen.dart';
+import 'package:tech_nest/features/home/presentation/screens/home_screen.dart';
 
 class AppRouter {
   const AppRouter._();
@@ -38,11 +37,8 @@ class AppRouter {
         ),
       ),
       GoRoute(
-        path: Routers.productsScreenPath,
-        builder: (context, state) => BlocProvider(
-          create: (context) => sl<FetchProductsCubit>(),
-          child: const ProductsScreen(),
-        ),
+        path: Routers.homeScreenPath,
+        builder: (context, state) => const HomeScreen(),
       ),
     ],
   );

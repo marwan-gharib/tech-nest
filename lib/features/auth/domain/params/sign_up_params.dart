@@ -14,6 +14,7 @@ class SignUpParams {
     required this.password,
     required this.img,
   });
+
   Map<String, dynamic> toJson() {
     return {ApiKeys.name: name, ApiKeys.email: email, ApiKeys.pass: password};
   }

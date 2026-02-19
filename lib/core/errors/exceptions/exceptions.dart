@@ -25,3 +25,7 @@ class CacheException extends AppException {
 class UnKnownException extends AppException {
   UnKnownException() : super("UnExpected exception Accurred.");
 }
+
+class PagingException extends AppException {
+  PagingException(super.message);
+}

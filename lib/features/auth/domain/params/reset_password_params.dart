@@ -10,6 +10,7 @@ class ResetPasswordParams {
     required this.code,
     required this.newPass,
   });
+
   Map<String, dynamic> toJson() {
     return {ApiKeys.email: email, ApiKeys.code: code, ApiKeys.newPass: newPass};
   }
