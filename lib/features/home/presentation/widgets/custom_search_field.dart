@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SearchSliverAppBar extends StatefulWidget {
-  const SearchSliverAppBar({super.key});
+class CustomSearchField extends StatefulWidget {
+  const CustomSearchField({super.key});
 
   @override
-  State<SearchSliverAppBar> createState() => _SearchSliverAppBarState();
+  State<CustomSearchField> createState() => _CustomSearchFieldState();
 }
 
-class _SearchSliverAppBarState extends State<SearchSliverAppBar> {
+class _CustomSearchFieldState extends State<CustomSearchField> {
   late final TextEditingController _controller;
 
   late final ValueNotifier<bool> _closeNotifire;
@@ -16,8 +16,8 @@ class _SearchSliverAppBarState extends State<SearchSliverAppBar> {
   void initState() {
     _controller = TextEditingController()
       ..addListener(_searchControllerListener);
-
     _closeNotifire = ValueNotifier<bool>(false);
+
     super.initState();
   }
 
@@ -29,33 +29,36 @@ class _SearchSliverAppBarState extends State<SearchSliverAppBar> {
     super.dispose();
   }
 
-  void _searchControllerListener() {
-    _closeNotifire.value = _controller.text.isNotEmpty;
-  }
+  void _searchControllerListener() =>
+      _closeNotifire.value = _controller.text.isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
-    return SliverAppBar(
-      floating: true,
-      expandedHeight: 90,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.vertical(
-          bottom: Radius.circular(16),
-        ),
-      ),
-      flexibleSpace: Padding(
-        padding: const EdgeInsets.only(bottom: 2, left: 8, right: 8, top: 20),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 2, left: 8, right: 8, top: 20),
+      child: SizedBox(
+        height: 40,
         child: TextField(
-          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
           controller: _controller,
+          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
           cursorColor: Theme.of(context).colorScheme.primary,
           cursorErrorColor: Theme.of(context).colorScheme.primary,
+          keyboardType: TextInputType.name,
           decoration: InputDecoration(
+            border: _border,
+            errorBorder: _border,
+            disabledBorder: _border,
+            enabledBorder: _border,
+            focusedBorder: _border,
+            focusedErrorBorder: _border,
+            filled: true,
+            fillColor: Theme.of(context).colorScheme.onPrimary,
             hintText: "Search...",
             hintStyle: Theme.of(
               context,
             ).textTheme.bodyLarge!.copyWith(color: Theme.of(context).hintColor),
             prefixIcon: const Icon(Icons.search),
+            isDense: true,
             suffixIcon: ValueListenableBuilder(
               valueListenable: _closeNotifire,
               builder: (context, value, child) {
@@ -73,4 +76,9 @@ class _SearchSliverAppBarState extends State<SearchSliverAppBar> {
       ),
     );
   }
+
+  InputBorder get _border => OutlineInputBorder(
+    borderSide: BorderSide.none,
+    borderRadius: BorderRadius.circular(20),
+  );
 }

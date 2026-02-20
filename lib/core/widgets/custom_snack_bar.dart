@@ -19,7 +19,7 @@ ScaffoldFeatureController customSnackBar(
       padding: const EdgeInsets.all(15),
       behavior: SnackBarBehavior.floating,
       margin: EdgeInsets.only(
-        bottom: isAbove ? MediaQuery.of(context).size.height * 0.86 : 20,
+        bottom: isAbove ? MediaQuery.of(context).size.height * 0.86 : 40,
         left: 30,
         right: 30,
       ),

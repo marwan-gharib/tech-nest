@@ -12,7 +12,7 @@ class DioInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    options.headers["Token"] = _cacheService.get(ApiKeys.token);
+    options.headers["token"] = _cacheService.get(ApiKeys.token);
     super.onRequest(options, handler);
   }
 
@@ -23,7 +23,7 @@ class DioInterceptor extends Interceptor {
         : false;
 
     if (err.response?.statusCode == 401 && !skipAuth) {
-      _cacheService.clear();
+      // _cacheService.clear();
       _authNotifire.logout();
     }
 

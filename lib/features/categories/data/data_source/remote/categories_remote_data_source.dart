@@ -4,10 +4,10 @@ import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
 import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
 import 'package:tech_nest/features/categories/data/models/category_model.dart';
 
-class CategooriesRemoteDataSource {
+class CategoriesRemoteDataSource {
   final ApiConsumer _api;
 
-  CategooriesRemoteDataSource(this._api);
+  CategoriesRemoteDataSource(this._api);
 
   Future<List<CategoryModel>> getCategories() async {
     try {

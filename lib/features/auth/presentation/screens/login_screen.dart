@@ -6,12 +6,12 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/core/router/routers.dart';
 import 'package:tech_nest/core/utils/functions/validatiors.dart';
+import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widget.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
-import 'package:tech_nest/features/auth/presentation/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/forget_password_dialoge.dart';
 
 class LoginScreen extends StatefulWidget {
