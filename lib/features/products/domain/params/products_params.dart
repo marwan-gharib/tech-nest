@@ -23,6 +23,28 @@ class ProductsParams {
     this.orderType,
   });
 
+  ProductsParams copyWith({
+    int? categoryId,
+    String? search,
+    int? limit,
+    int? page,
+    int? minPrice,
+    int? maxPrice,
+    SortType? sortType,
+    OrderType? orderType,
+  }) {
+    return ProductsParams(
+      categoryId: categoryId ?? this.categoryId,
+      search: search ?? this.search,
+      limit: limit ?? this.limit,
+      page: page ?? this.page,
+      minPrice: minPrice ?? this.minPrice,
+      maxPrice: maxPrice ?? this.maxPrice,
+      sortType: sortType ?? this.sortType,
+      orderType: orderType ?? this.orderType,
+    );
+  }
+
   Map<String, dynamic> toJson() {
     return {
       ApiKeys.categoryID: categoryId,

@@ -33,9 +33,15 @@ class ProductsGrid extends StatefulWidget {
   State<ProductsGrid> createState() => _ProductsGridState();
 }
 
-class _ProductsGridState extends State<ProductsGrid> {
+class _ProductsGridState extends State<ProductsGrid>
+    with AutomaticKeepAliveClientMixin {
   late final GetProductsUsecase _getProductsUsecase;
   late final PagingController<int, ProductEntity> _pagingController;
+
+  late ProductsParams _currentParams;
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -45,6 +51,17 @@ class _ProductsGridState extends State<ProductsGrid> {
       getNextPageKey: (state) =>
           state.lastPageIsEmpty ? null : state.nextIntPageKey,
       fetchPage: _fetchPage,
+    );
+
+    _currentParams = ProductsParams(
+      limit: 20,
+      page: 1,
+      categoryId: widget.categoryId,
+      search: widget.searchLabel,
+      minPrice: widget.minPrice,
+      maxPrice: widget.maxPrice,
+      sortType: widget.sortType,
+      orderType: widget.orderType,
     );
 
     super.initState();
@@ -57,17 +74,9 @@ class _ProductsGridState extends State<ProductsGrid> {
   }
 
   Future<List<ProductEntity>> _fetchPage(int pageKey) async {
-    final ProductsParams params = ProductsParams(
-      limit: 20,
-      page: pageKey,
-      categoryId: widget.categoryId,
-      search: widget.searchLabel,
-      minPrice: widget.minPrice,
-      maxPrice: widget.maxPrice,
-      sortType: widget.sortType,
-      orderType: widget.orderType,
+    final res = await _getProductsUsecase.call(
+      params: _currentParams.copyWith(page: pageKey),
     );
-    final res = await _getProductsUsecase.call(params: params);
 
     return res.fold(
       (failure) => throw PagingException(failure.message),
@@ -76,7 +85,29 @@ class _ProductsGridState extends State<ProductsGrid> {
   }
 
   @override
+  void didUpdateWidget(covariant ProductsGrid oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    final newParams = ProductsParams(
+      limit: 20,
+      page: 1,
+      categoryId: widget.categoryId,
+      search: widget.searchLabel,
+      minPrice: widget.minPrice,
+      maxPrice: widget.maxPrice,
+      sortType: widget.sortType,
+      orderType: widget.orderType,
+    );
+
+    if (newParams != _currentParams) {
+      _currentParams = newParams;
+      _pagingController.refresh();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return PagingListener(
       controller: _pagingController,
       builder: (context, state, fetchNextPage) {
@@ -84,8 +115,7 @@ class _ProductsGridState extends State<ProductsGrid> {
           gridDelegate: _sliverGridDelegateWithFixedCrossAxisCount(),
           state: state,
           fetchNextPage: fetchNextPage,
-
-          // showNewPageProgressIndicatorAsGridChild: true,
+          addAutomaticKeepAlives: true,
           builderDelegate: PagedChildBuilderDelegate<ProductEntity>(
             animateTransitions: true,
             transitionDuration: const Duration(milliseconds: 800),
@@ -115,8 +145,8 @@ class _ProductsGridState extends State<ProductsGrid> {
     return const SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
       childAspectRatio: 0.9,
-      crossAxisSpacing: 15,
-      mainAxisSpacing: 8,
+      crossAxisSpacing: 30,
+      mainAxisSpacing: 14,
     );
   }
 }

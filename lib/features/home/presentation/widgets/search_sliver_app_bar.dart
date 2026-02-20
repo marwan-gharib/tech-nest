@@ -10,51 +10,66 @@ class SearchSliverAppBar extends StatefulWidget {
 class _SearchSliverAppBarState extends State<SearchSliverAppBar> {
   late final TextEditingController _controller;
 
-  bool _isSearching = false;
+  late final ValueNotifier<bool> _closeNotifire;
 
   @override
   void initState() {
-    _controller = TextEditingController();
+    _controller = TextEditingController()
+      ..addListener(_searchControllerListener);
+
+    _closeNotifire = ValueNotifier<bool>(false);
     super.initState();
   }
 
   @override
   void dispose() {
+    _controller.removeListener(_searchControllerListener);
     _controller.dispose();
+    _closeNotifire.dispose();
     super.dispose();
+  }
+
+  void _searchControllerListener() {
+    _closeNotifire.value = _controller.text.isNotEmpty;
   }
 
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
       floating: true,
-      pinned: true,
-      actions: [
-        AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          child: _isSearching
-              ? IconButton(
-                  key: const ValueKey("close"),
-                  onPressed: () => setState(() => _isSearching = false),
-                  icon: const Icon(Icons.close),
-                )
-              : IconButton(
-                  key: const ValueKey("search"),
-                  onPressed: () => setState(() => _isSearching = true),
-                  icon: const Icon(Icons.search),
-                ),
+      expandedHeight: 90,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.vertical(
+          bottom: Radius.circular(16),
         ),
-      ],
-      title: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 800),
-        transitionBuilder: (child, animation) => SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(1, 0),
-            end: Offset.zero,
-          ).animate(animation),
-          child: child,
+      ),
+      flexibleSpace: Padding(
+        padding: const EdgeInsets.only(bottom: 2, left: 8, right: 8, top: 20),
+        child: TextField(
+          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+          controller: _controller,
+          cursorColor: Theme.of(context).colorScheme.primary,
+          cursorErrorColor: Theme.of(context).colorScheme.primary,
+          decoration: InputDecoration(
+            hintText: "Search...",
+            hintStyle: Theme.of(
+              context,
+            ).textTheme.bodyLarge!.copyWith(color: Theme.of(context).hintColor),
+            prefixIcon: const Icon(Icons.search),
+            suffixIcon: ValueListenableBuilder(
+              valueListenable: _closeNotifire,
+              builder: (context, value, child) {
+                return value
+                    ? IconButton(
+                        onPressed: () => _controller.clear(),
+                        icon: child!,
+                      )
+                    : const SizedBox.shrink();
+              },
+              child: const Icon(Icons.close),
+            ),
+          ),
         ),
-        child: _isSearching ? const TextField() : const SizedBox.shrink(),
       ),
     );
   }
