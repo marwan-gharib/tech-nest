@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/features/categories/domain/entities/category_entity.dart';
 import 'package:tech_nest/features/categories/presentation/cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/widgets/category_label_widget.dart';
 
 class CategoriesView extends StatefulWidget {
-  final ValueChanged<int> onCategorySelected;
+  final ValueChanged<int?> onCategorySelected;
   const CategoriesView({required this.onCategorySelected, super.key});
 
   @override
@@ -14,12 +15,25 @@ class CategoriesView extends StatefulWidget {
 }
 
 class _CategoriesViewState extends State<CategoriesView> {
-  int? selectedId;
+  late final ValueNotifier<int?> _selectedCategoryNotifire;
+
+  @override
+  void initState() {
+    _selectedCategoryNotifire = ValueNotifier<int?>(null);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _selectedCategoryNotifire.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
+      height: 45,
       child: BlocConsumer<FetchCategoriesCubit, FetchCategoriesState>(
         listener: (context, state) {
           if (state is FetchCategoriesFailed) {
@@ -41,17 +55,33 @@ class _CategoriesViewState extends State<CategoriesView> {
             final categories = state.categories;
 
             return ListView.builder(
-              itemCount: 8,
+              itemCount: categories.length + 1,
               scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               itemBuilder: (context, index) {
-                final category = categories[index];
+                return ValueListenableBuilder<int?>(
+                  valueListenable: _selectedCategoryNotifire,
+                  builder: (_, selectedCategory, _) {
+                    if (index == 0) {
+                      return CategoryLabelWidget<String>(
+                        category: "All",
+                        isSelected: selectedCategory == null,
+                        onTap: (id) {
+                          _selectedCategoryNotifire.value = id;
+                          widget.onCategorySelected(id);
+                        },
+                      );
+                    }
 
-                return CategoryLabelWidget(
-                  category: category,
-                  isSelected: selectedId == category.id,
-                  onTap: (id) {
-                    selectedId = id;
-                    widget.onCategorySelected(id);
+                    final category = categories[index - 1];
+                    return CategoryLabelWidget<CategoryEntity>(
+                      category: category,
+                      isSelected: selectedCategory == category.id,
+                      onTap: (id) {
+                        _selectedCategoryNotifire.value = id;
+                        widget.onCategorySelected(id);
+                      },
+                    );
                   },
                 );
               },

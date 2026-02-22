@@ -12,7 +12,7 @@ class DioInterceptor extends Interceptor {
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    options.headers["token"] = _cacheService.get(ApiKeys.token);
+    options.headers[ApiKeys.token] = _cacheService.get(ApiKeys.token);
     super.onRequest(options, handler);
   }
 

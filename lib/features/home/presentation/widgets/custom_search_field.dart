@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CustomSearchField extends StatefulWidget {
-  const CustomSearchField({super.key});
+  final ValueChanged<String> onSubmit;
+
+  const CustomSearchField({required this.onSubmit, super.key});
 
   @override
   State<CustomSearchField> createState() => _CustomSearchFieldState();
@@ -34,43 +36,45 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 2, left: 8, right: 8, top: 20),
-      child: SizedBox(
-        height: 40,
-        child: TextField(
-          controller: _controller,
-          onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-          cursorColor: Theme.of(context).colorScheme.primary,
-          cursorErrorColor: Theme.of(context).colorScheme.primary,
-          keyboardType: TextInputType.name,
-          decoration: InputDecoration(
-            border: _border,
-            errorBorder: _border,
-            disabledBorder: _border,
-            enabledBorder: _border,
-            focusedBorder: _border,
-            focusedErrorBorder: _border,
-            filled: true,
-            fillColor: Theme.of(context).colorScheme.onPrimary,
-            hintText: "Search...",
-            hintStyle: Theme.of(
-              context,
-            ).textTheme.bodyLarge!.copyWith(color: Theme.of(context).hintColor),
-            prefixIcon: const Icon(Icons.search),
-            isDense: true,
-            suffixIcon: ValueListenableBuilder(
-              valueListenable: _closeNotifire,
-              builder: (context, value, child) {
-                return value
-                    ? IconButton(
-                        onPressed: () => _controller.clear(),
-                        icon: child!,
-                      )
-                    : const SizedBox.shrink();
-              },
-              child: const Icon(Icons.close),
-            ),
+    return SizedBox(
+      height: 40,
+      child: TextField(
+        controller: _controller,
+        textInputAction: TextInputAction.search,
+        onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+        cursorColor: Theme.of(context).colorScheme.primary,
+        cursorErrorColor: Theme.of(context).colorScheme.primary,
+        keyboardType: TextInputType.name,
+        onSubmitted: (value) => widget.onSubmit(value),
+        decoration: InputDecoration(
+          border: _border,
+          errorBorder: _border,
+          disabledBorder: _border,
+          enabledBorder: _border,
+          focusedBorder: _border,
+          focusedErrorBorder: _border,
+          filled: true,
+          fillColor: Theme.of(context).colorScheme.onPrimary,
+          hintText: "Search...",
+          hintStyle: Theme.of(
+            context,
+          ).textTheme.bodyLarge!.copyWith(color: Theme.of(context).hintColor),
+          prefixIcon: const Icon(Icons.search),
+          isDense: true,
+          suffixIcon: ValueListenableBuilder(
+            valueListenable: _closeNotifire,
+            builder: (context, value, child) {
+              return value
+                  ? IconButton(
+                      onPressed: () {
+                        _controller.clear();
+                        widget.onSubmit('');
+                      },
+                      icon: child!,
+                    )
+                  : const SizedBox.shrink();
+            },
+            child: const Icon(Icons.close),
           ),
         ),
       ),

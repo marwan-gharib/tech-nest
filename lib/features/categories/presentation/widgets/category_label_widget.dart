@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/features/categories/domain/entities/category_entity.dart';
 
-class CategoryLabelWidget extends StatelessWidget {
-  final CategoryEntity category;
+class CategoryLabelWidget<T> extends StatelessWidget {
+  final dynamic category;
   final bool isSelected;
-  final ValueChanged<int> onTap;
+  final ValueChanged<int?> onTap;
   const CategoryLabelWidget({
     required this.category,
     required this.isSelected,
@@ -14,22 +14,37 @@ class CategoryLabelWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => onTap(category.id),
-      child: Container(
-        height: 24,
-        width: 80,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.onSecondary,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: Text(
-            category.name,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: isSelected
-                  ? Theme.of(context).shadowColor
-                  : Theme.of(context).hintColor,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 3),
+      child: GestureDetector(
+        onTap: () {
+          if (category is CategoryEntity) {
+            onTap((category as CategoryEntity).id);
+          } else {
+            onTap(null);
+          }
+        },
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.onSecondary,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Center(
+            child: RepaintBoundary(
+              child: Text(
+                category is CategoryEntity
+                    ? (category as CategoryEntity).name
+                    : category is String
+                    ? category as String
+                    : category.toString(),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: isSelected
+                      ? Theme.of(context).shadowColor
+                      : Theme.of(context).hintColor,
+                  fontSize: 12,
+                ),
+              ),
             ),
           ),
         ),

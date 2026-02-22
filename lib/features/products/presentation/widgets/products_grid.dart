@@ -16,16 +16,16 @@ class ProductsGrid extends StatefulWidget {
   final int? categoryId;
   final int? minPrice;
   final int? maxPrice;
-  final SortType? sortType;
-  final OrderType? orderType;
+  final SortType sortType;
+  final OrderType orderType;
 
   const ProductsGrid({
     this.searchLabel,
     this.categoryId,
     this.minPrice,
     this.maxPrice,
-    this.sortType,
-    this.orderType,
+    this.sortType = SortType.name,
+    this.orderType = OrderType.asc,
     super.key,
   });
 
