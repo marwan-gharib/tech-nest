@@ -6,10 +6,10 @@ class SearchHeaderDelegate extends SliverPersistentHeaderDelegate {
   SearchHeaderDelegate(this.child);
 
   @override
-  double get minExtent => 130;
+  double get minExtent => 70;
 
   @override
-  double get maxExtent => 400;
+  double get maxExtent => 100;
 
   @override
   Widget build(context, shrinkOffset, overlapsContent) {

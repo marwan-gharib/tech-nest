@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomSearchField extends StatefulWidget {
-  final ValueChanged<String> onSubmit;
+  final ValueChanged<String?> onSubmit;
 
   const CustomSearchField({required this.onSubmit, super.key});
 
@@ -68,7 +68,7 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
                   ? IconButton(
                       onPressed: () {
                         _controller.clear();
-                        widget.onSubmit('');
+                        widget.onSubmit(null);
                       },
                       icon: child!,
                     )

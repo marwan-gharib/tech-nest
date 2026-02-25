@@ -7,8 +7,13 @@ import 'package:tech_nest/features/categories/presentation/cubit/fetch_categorie
 import 'package:tech_nest/features/categories/presentation/widgets/category_label_widget.dart';
 
 class CategoriesView extends StatefulWidget {
+  final int? initialCategoryId;
   final ValueChanged<int?> onCategorySelected;
-  const CategoriesView({required this.onCategorySelected, super.key});
+  const CategoriesView({
+    required this.onCategorySelected,
+    this.initialCategoryId,
+    super.key,
+  });
 
   @override
   State<CategoriesView> createState() => _CategoriesViewState();
@@ -19,7 +24,7 @@ class _CategoriesViewState extends State<CategoriesView> {
 
   @override
   void initState() {
-    _selectedCategoryNotifire = ValueNotifier<int?>(null);
+    _selectedCategoryNotifire = ValueNotifier<int?>(widget.initialCategoryId);
     super.initState();
   }
 

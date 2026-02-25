@@ -16,18 +16,19 @@ class ProductsGrid extends StatefulWidget {
   final int? categoryId;
   final int? minPrice;
   final int? maxPrice;
-  final SortType sortType;
-  final OrderType orderType;
+  final SortType _sortType;
+  final OrderType _orderType;
 
   const ProductsGrid({
     this.searchLabel,
     this.categoryId,
     this.minPrice,
     this.maxPrice,
-    this.sortType = SortType.name,
-    this.orderType = OrderType.asc,
+    SortType? sortType,
+    OrderType? orderType,
     super.key,
-  });
+  }) : _sortType = sortType ?? SortType.name,
+       _orderType = orderType ?? OrderType.asc;
 
   @override
   State<ProductsGrid> createState() => _ProductsGridState();
@@ -60,8 +61,8 @@ class _ProductsGridState extends State<ProductsGrid>
       search: widget.searchLabel,
       minPrice: widget.minPrice,
       maxPrice: widget.maxPrice,
-      sortType: widget.sortType,
-      orderType: widget.orderType,
+      sortType: widget._sortType,
+      orderType: widget._orderType,
     );
 
     super.initState();
@@ -95,8 +96,8 @@ class _ProductsGridState extends State<ProductsGrid>
       search: widget.searchLabel,
       minPrice: widget.minPrice,
       maxPrice: widget.maxPrice,
-      sortType: widget.sortType,
-      orderType: widget.orderType,
+      sortType: widget._sortType,
+      orderType: widget._orderType,
     );
 
     if (newParams != _currentParams) {
@@ -112,7 +113,7 @@ class _ProductsGridState extends State<ProductsGrid>
       controller: _pagingController,
       builder: (context, state, fetchNextPage) {
         return PagedSliverGrid(
-          gridDelegate: _sliverGridDelegateWithFixedCrossAxisCount(),
+          gridDelegate: _sliverGridDelegateWithFixedCrossAxisCount,
           state: state,
           fetchNextPage: fetchNextPage,
           addAutomaticKeepAlives: true,
@@ -128,7 +129,7 @@ class _ProductsGridState extends State<ProductsGrid>
                 child: GridView.builder(
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: 10,
-                  gridDelegate: _sliverGridDelegateWithFixedCrossAxisCount(),
+                  gridDelegate: _sliverGridDelegateWithFixedCrossAxisCount,
                   itemBuilder: (_, _) =>
                       const Skeletonizer(child: SkeltonCard()),
                 ),
@@ -141,12 +142,11 @@ class _ProductsGridState extends State<ProductsGrid>
   }
 
   SliverGridDelegateWithFixedCrossAxisCount
-  _sliverGridDelegateWithFixedCrossAxisCount() {
-    return const SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 2,
-      childAspectRatio: 0.9,
-      crossAxisSpacing: 30,
-      mainAxisSpacing: 14,
-    );
-  }
+  get _sliverGridDelegateWithFixedCrossAxisCount =>
+      const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.9,
+        crossAxisSpacing: 30,
+        mainAxisSpacing: 14,
+      );
 }
