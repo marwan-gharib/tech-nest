@@ -32,4 +32,5 @@ class ApiKeys {
   static String get maxPrice => "maxPrice";
   static String get sort => "sort";
   static String get order => "order";
+  static String get searchQuery => "search_query";
 }

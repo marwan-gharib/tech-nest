@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class CustomSearchField extends StatefulWidget {
   final ValueChanged<String?> onSubmit;
+  final ValueChanged<String?>? onChange;
 
-  const CustomSearchField({required this.onSubmit, super.key});
+  const CustomSearchField({required this.onSubmit, this.onChange, super.key});
 
   @override
   State<CustomSearchField> createState() => _CustomSearchFieldState();
@@ -46,6 +47,7 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
         cursorErrorColor: Theme.of(context).colorScheme.primary,
         keyboardType: TextInputType.name,
         onSubmitted: (value) => widget.onSubmit(value),
+        onChanged: (value) => widget.onChange?.call(value),
         decoration: InputDecoration(
           border: _border,
           errorBorder: _border,

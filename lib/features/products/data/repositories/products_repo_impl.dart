@@ -16,4 +16,9 @@ class ProductsRepoImpl extends ProductsRepo {
 
     return productsModel.map((model) => model.toEntity()).toList();
   }
+
+  @override
+  Future<List<String>> searchSuggestions({required String searchQuery}) async {
+    return await _dataSource.searchSuggestions(searchQuery);
+  }
 }

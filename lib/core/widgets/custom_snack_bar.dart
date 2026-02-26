@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-ScaffoldFeatureController customSnackBar(
+ScaffoldFeatureController<SnackBar, SnackBarClosedReason> customSnackBar(
   BuildContext context, {
   required String message,
   bool isAbove = false,

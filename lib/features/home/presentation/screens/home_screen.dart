@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
-import 'package:tech_nest/features/home/presentation/widgets/custom_search_field.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_components.dart';
 import 'package:tech_nest/features/home/presentation/widgets/search_header_delegate.dart';
+import 'package:tech_nest/features/products/presentation/cubit/search_suggestions_cubit.dart';
 import 'package:tech_nest/features/products/presentation/widgets/products_grid.dart';
+import 'package:tech_nest/features/products/presentation/widgets/search_products_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String _search = '';
+  String? _search;
   FilterData _filterData = const FilterData();
 
   @override
@@ -40,20 +43,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           top: 20,
                         ),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
-                              child: CustomSearchField(
-                                onSubmit: (value) {
-                                  if (value != null &&
-                                      value.trim().isNotEmpty) {
-                                    setState(() => _search = value);
-                                  } else if (value == null) {
-                                    setState(() => _search = '');
-                                  }
-                                },
+                              child: BlocProvider(
+                                create: (context) =>
+                                    sl<SearchSuggestionsCubit>(),
+                                child: SearchProductsWidget(
+                                  onSelected: (value) {
+                                    if (value != null &&
+                                        value.trim().isNotEmpty) {
+                                      setState(() => _search = value);
+                                    } else if (value == null) {
+                                      setState(() => _search = '');
+                                    }
+                                  },
+                                ),
                               ),
                             ),
-                            Center(
+                            Align(
+                              alignment: Alignment.topRight,
                               child: IconButton(
                                 onPressed: () => _bottomSheet,
                                 icon: const Icon(
