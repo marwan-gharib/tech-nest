@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
+import 'package:tech_nest/features/home/presentation/notifires/filter_notifire.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_components.dart';
 import 'package:tech_nest/features/home/presentation/widgets/search_header_delegate.dart';
 import 'package:tech_nest/features/products/presentation/cubit/search_suggestions_cubit.dart';
@@ -17,14 +18,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  String? _search;
-  FilterData _filterData = const FilterData();
+  late final FilterNotifire _filterNotifire;
+
+  @override
+  void initState() {
+    _filterNotifire = FilterNotifire();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _filterNotifire.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 6),
           child: CustomScrollView(
@@ -34,56 +46,57 @@ class _HomeScreenState extends State<HomeScreen> {
               SliverPersistentHeader(
                 floating: true,
                 delegate: SearchHeaderDelegate(
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: 2,
-                          left: 8,
-                          top: 20,
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: BlocProvider(
-                                create: (context) =>
-                                    sl<SearchSuggestionsCubit>(),
-                                child: SearchProductsWidget(
-                                  onSelected: (value) {
-                                    if (value != null &&
-                                        value.trim().isNotEmpty) {
-                                      setState(() => _search = value);
-                                    } else if (value == null) {
-                                      setState(() => _search = '');
-                                    }
-                                  },
-                                ),
-                              ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 2, left: 8, top: 20),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: BlocProvider(
+                            create: (context) => sl<SearchSuggestionsCubit>(),
+                            child: SearchProductsWidget(
+                              onSelected: (value) {
+                                if (value != null && value.trim().isNotEmpty) {
+                                  _filterNotifire.search(value);
+                                } else if (value == null &&
+                                    _filterNotifire.searchQuery != '') {
+                                  _filterNotifire.search("");
+                                }
+                              },
                             ),
-                            Align(
-                              alignment: Alignment.topRight,
-                              child: IconButton(
-                                onPressed: () => _bottomSheet,
-                                icon: const Icon(
-                                  Icons.format_align_center_sharp,
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          height: 38,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            shape: BoxShape.circle,
+                          ),
+                          child: IconButton(
+                            onPressed: () => _bottomSheet,
+                            icon: const Icon(
+                              Icons.format_align_center_sharp,
+                              size: 18,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-              ProductsGrid(
-                searchLabel: _search,
-                categoryId: _filterData.categoryId,
-                sortType: _filterData.sortType,
-                orderType: _filterData.orderType,
-                minPrice: _filterData.minPrice,
-                maxPrice: _filterData.maxPrice,
+              ListenableBuilder(
+                listenable: _filterNotifire,
+                builder: (context, child) {
+                  return ProductsGrid(
+                    searchLabel: _filterNotifire.searchQuery,
+                    categoryId: _filterNotifire.filterData.categoryId,
+                    sortType: _filterNotifire.filterData.sortType,
+                    orderType: _filterNotifire.filterData.orderType,
+                    minPrice: _filterNotifire.filterData.minPrice,
+                    maxPrice: _filterNotifire.filterData.maxPrice,
+                  );
+                },
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 80)),
             ],
@@ -104,10 +117,10 @@ class _HomeScreenState extends State<HomeScreen> {
     useRootNavigator: true,
     builder: (context) {
       return FilterComponents(
-        filterData: _filterData,
+        filterData: _filterNotifire.filterData,
         onApply: (FilterData filterData) {
           context.pop();
-          setState(() => _filterData = filterData);
+          _filterNotifire.filter(filterData);
         },
       );
     },

@@ -11,8 +11,6 @@ class SearchSuggestionsCubit extends Cubit<SearchSuggestionsState> {
     : super(const SearchSuggestionsInitial());
 
   Future<void> getSuggestions({required String searchLabel}) async {
-    emit(const SearchSuggestionsLoading());
-
     final res = await _searchSuggestionsUsecase.call(searchQuery: searchLabel);
 
     res.fold(

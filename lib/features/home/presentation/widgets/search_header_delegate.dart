@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class SearchHeaderDelegate extends SliverPersistentHeaderDelegate {
   final Widget child;
 
-  SearchHeaderDelegate(this.child);
+  SearchHeaderDelegate({required this.child});
 
   @override
-  double get minExtent => 300;
+  double get minExtent => 65;
 
   @override
-  double get maxExtent => 500;
+  double get maxExtent => 20;
 
   @override
   Widget build(context, shrinkOffset, overlapsContent) {
@@ -18,6 +18,7 @@ class SearchHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
+    return oldDelegate.maxExtent != maxExtent ||
+        oldDelegate.minExtent != minExtent;
   }
 }
