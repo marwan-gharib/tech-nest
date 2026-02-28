@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_colors.dart';
 import 'package:tech_nest/core/theme/mode/dark_theme.dart';
 import 'package:tech_nest/core/theme/mode/light_theme.dart';
-import 'package:flutter/material.dart';
 
 class AppTheme {
   const AppTheme._();
@@ -20,6 +20,7 @@ class AppTheme {
     cardTheme: LightTheme.cardTheme,
     shadowColor: AppColors.black,
     hintColor: LightTheme.colorScheme.onSurface.withValues(alpha: 0.3),
+    bottomNavigationBarTheme: LightTheme.bottomNavigationBarTheme,
   );
 
   static ThemeData get darkTheme => ThemeData(
@@ -36,5 +37,6 @@ class AppTheme {
     cardTheme: DarkTheme.cardTheme,
     shadowColor: AppColors.white,
     hintColor: DarkTheme.colorScheme.onSurface.withValues(alpha: 0.3),
+    bottomNavigationBarTheme: DarkTheme.bottomNavigationBarTheme,
   );
 }

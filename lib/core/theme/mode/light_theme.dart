@@ -105,4 +105,33 @@ class LightTheme {
     elevation: 2,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
   );
+
+  static final IconThemeData iconTheme = const IconThemeData();
+
+  static final BottomNavigationBarThemeData bottomNavigationBarTheme =
+      BottomNavigationBarThemeData(
+        backgroundColor: colorScheme.onSecondary,
+
+        selectedLabelStyle: textTheme.labelSmall?.copyWith(
+          color: colorScheme.onSurfaceVariant,
+        ),
+
+        selectedIconTheme: iconTheme.copyWith(color: colorScheme.primary),
+
+        unselectedIconTheme: iconTheme.copyWith(
+          color: colorScheme.onSurfaceVariant,
+        ),
+
+        selectedItemColor: colorScheme.primary,
+        unselectedItemColor: colorScheme.onSurfaceVariant.withValues(
+          alpha: 0.5,
+        ),
+
+        type: BottomNavigationBarType.shifting,
+        landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
+
+        elevation: 10,
+
+        showSelectedLabels: true,
+      );
 }

@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/core/router/routers.dart';
+import 'package:tech_nest/core/utils/auth/auth_notifire.dart';
 import 'package:tech_nest/core/utils/functions/validatiors.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
@@ -28,6 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
   late final GlobalKey<FormState> _emailFormKey;
   late final GlobalKey<FormState> _passFormKey;
 
+  late final AuthNotifire _authNotifire;
+
   @override
   void initState() {
     _email = TextEditingController();
@@ -35,6 +38,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     _emailFormKey = GlobalKey<FormState>();
     _passFormKey = GlobalKey<FormState>();
+
+    _authNotifire = sl<AuthNotifire>();
 
     super.initState();
   }
@@ -46,6 +51,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     _emailFormKey.currentState?.dispose();
     _passFormKey.currentState?.dispose();
+
+    _authNotifire.dispose();
 
     super.dispose();
   }
@@ -145,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _loginListener(BuildContext context, LoginState state) async {
     if (state is LoginSuccess) {
-      context.go(Routers.homeScreenPath);
+      _authNotifire.login();
     } else if (state is LoginFailed) {
       customSnackBar(context, message: state.message);
     }

@@ -31,6 +31,7 @@ dependencies:
   infinite_scroll_pagination:
   cached_network_image:
   skeletonizer:
+  sliver_center: ^1.1.2
 
 dev_dependencies:
   flutter_test:

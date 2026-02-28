@@ -1,6 +1,8 @@
 import 'dart:developer';
 
+import 'package:dio/dio.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
+import 'package:tech_nest/core/constants/app_consts.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
 import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
@@ -26,6 +28,7 @@ class AuthRemoteDataSource {
           ApiKeys.profileImg,
           () async => await uploadImageToAPI(params.img),
         ),
+        options: Options(extra: {AppConsts.skipAuth: true}),
       );
 
       if (response != null) {
@@ -46,7 +49,11 @@ class AuthRemoteDataSource {
 
   Future<AuthModel> login({required LoginParams params}) async {
     try {
-      final response = await _api.post(Endpoints.login, data: params.toJson());
+      final response = await _api.post(
+        Endpoints.login,
+        data: params.toJson(),
+        options: Options(extra: {AppConsts.skipAuth: true}),
+      );
 
       if (response != null) {
         final json = response[ApiKeys.data];
@@ -71,6 +78,7 @@ class AuthRemoteDataSource {
       final response = await _api.post(
         Endpoints.verifyEmail,
         data: params.toJson(),
+        options: Options(extra: {AppConsts.skipAuth: true}),
       );
 
       final json = response[ApiKeys.data];
@@ -90,7 +98,11 @@ class AuthRemoteDataSource {
 
   Future<void> resetPassword({required ResetPasswordParams params}) async {
     try {
-      await _api.post(Endpoints.resetPassword, data: params.toJson());
+      await _api.post(
+        Endpoints.resetPassword,
+        data: params.toJson(),
+        options: Options(extra: {AppConsts.skipAuth: true}),
+      );
     } on AppException {
       rethrow;
     } catch (e) {
@@ -101,7 +113,11 @@ class AuthRemoteDataSource {
 
   Future<void> forgetPassword({required String email}) async {
     try {
-      await _api.post(Endpoints.forgetPassword, data: {ApiKeys.email: email});
+      await _api.post(
+        Endpoints.forgetPassword,
+        data: {ApiKeys.email: email},
+        options: Options(extra: {AppConsts.skipAuth: true}),
+      );
     } on AppException {
       rethrow;
     } catch (e) {

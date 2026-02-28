@@ -107,4 +107,17 @@ class DarkTheme {
     elevation: 1.5,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
   );
+
+  static final BottomNavigationBarThemeData bottomNavigationBarTheme =
+      BottomNavigationBarThemeData(
+        backgroundColor: colorScheme.onSecondary,
+        selectedIconTheme: IconThemeData(color: colorScheme.primary),
+        unselectedIconTheme: IconThemeData(color: colorScheme.onSurface),
+        selectedLabelStyle: textTheme.labelSmall!.copyWith(
+          color: colorScheme.primary,
+        ),
+        unselectedLabelStyle: textTheme.labelSmall!.copyWith(
+          color: colorScheme.onSurface,
+        ),
+      );
 }

@@ -18,12 +18,10 @@ class DioInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    final bool skipAuth = err.requestOptions.extra[AppConsts.skipAuth] == true
-        ? true
-        : false;
+    final bool skipAuth = err.requestOptions.extra[AppConsts.skipAuth] ?? false;
 
     if (err.response?.statusCode == 401 && !skipAuth) {
-      // _cacheService.clear();
+      _cacheService.clear();
       _authNotifire.logout();
     }
 
