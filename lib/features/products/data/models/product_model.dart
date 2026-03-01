@@ -1,4 +1,5 @@
 import 'package:tech_nest/core/constants/api_keys.dart';
+import 'package:tech_nest/features/categories/data/models/category_model.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 
 class ProductModel {
@@ -7,7 +8,7 @@ class ProductModel {
   final String description;
   final double price;
   final int stock;
-  final int categoryId;
+  final CategoryModel category;
   final String imgUrl;
 
   ProductModel({
@@ -16,7 +17,7 @@ class ProductModel {
     required this.description,
     required this.price,
     required this.stock,
-    required this.categoryId,
+    required this.category,
     required this.imgUrl,
   });
 
@@ -27,7 +28,7 @@ class ProductModel {
       description: json[ApiKeys.description],
       price: (json[ApiKeys.price] as num).toDouble(),
       stock: json[ApiKeys.stock],
-      categoryId: json[ApiKeys.categoryID],
+      category: CategoryModel.fromJson(json[ApiKeys.category]),
       imgUrl: json[ApiKeys.imgUrl],
     );
   }
@@ -39,7 +40,7 @@ class ProductModel {
       ApiKeys.description: description,
       ApiKeys.price: price,
       ApiKeys.stock: stock,
-      ApiKeys.categoryID: categoryId,
+      ApiKeys.category: category.toJson(),
       ApiKeys.imgUrl: imgUrl,
     };
   }
@@ -51,7 +52,7 @@ class ProductModel {
       description: description,
       price: price,
       stock: stock,
-      categoryId: categoryId,
+      category: category.toEntity(),
       imgUrl: imgUrl,
     );
   }

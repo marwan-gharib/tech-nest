@@ -14,6 +14,7 @@ class ApiKeys {
   static String get price => "price";
   static String get stock => "stock";
   static String get categoryID => "category_id";
+  static String get category => "category";
   static String get image => "image";
   static String get quantity => "quantity";
   static String get token => "token";

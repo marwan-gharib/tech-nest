@@ -108,30 +108,28 @@ class LightTheme {
 
   static final IconThemeData iconTheme = const IconThemeData();
 
-  static final BottomNavigationBarThemeData bottomNavigationBarTheme =
-      BottomNavigationBarThemeData(
-        backgroundColor: colorScheme.onSecondary,
+  static final BottomNavigationBarThemeData
+  bottomNavigationBarTheme = BottomNavigationBarThemeData(
+    backgroundColor: colorScheme.onSecondary,
 
-        selectedLabelStyle: textTheme.labelSmall?.copyWith(
-          color: colorScheme.onSurfaceVariant,
-        ),
+    selectedLabelStyle: textTheme.labelSmall?.copyWith(
+      color: colorScheme.onSurfaceVariant,
+    ),
 
-        selectedIconTheme: iconTheme.copyWith(color: colorScheme.primary),
+    selectedIconTheme: iconTheme.copyWith(color: colorScheme.primary, size: 28),
 
-        unselectedIconTheme: iconTheme.copyWith(
-          color: colorScheme.onSurfaceVariant,
-        ),
+    unselectedIconTheme: iconTheme.copyWith(
+      color: colorScheme.onSurfaceVariant,
+    ),
 
-        selectedItemColor: colorScheme.primary,
-        unselectedItemColor: colorScheme.onSurfaceVariant.withValues(
-          alpha: 0.5,
-        ),
+    selectedItemColor: colorScheme.primary,
+    unselectedItemColor: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
 
-        type: BottomNavigationBarType.shifting,
-        landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
+    type: BottomNavigationBarType.shifting,
+    landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
 
-        elevation: 10,
+    elevation: 10,
 
-        showSelectedLabels: true,
-      );
+    showSelectedLabels: true,
+  );
 }
