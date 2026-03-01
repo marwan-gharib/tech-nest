@@ -4,7 +4,9 @@ import 'package:tech_nest/features/categories/data/data_source/remote/categories
 import 'package:tech_nest/features/categories/data/repositories/categories_repo_impl.dart';
 import 'package:tech_nest/features/categories/domain/repositories/categories_repo.dart';
 import 'package:tech_nest/features/categories/domain/use_cases/fetch_categories_usecase.dart';
-import 'package:tech_nest/features/categories/presentation/cubit/fetch_categories_cubit.dart';
+import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
+import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
+import 'package:tech_nest/features/products/domain/use_cases/get_products_usecase.dart';
 
 void initCategoriesDI(GetIt sl) {
   sl.registerLazySingleton(() => CategoriesRemoteDataSource(sl<ApiConsumer>()));
@@ -16,4 +18,5 @@ void initCategoriesDI(GetIt sl) {
   sl.registerLazySingleton(() => FetchCategoriesUsecase(sl<CategoriesRepo>()));
 
   sl.registerFactory(() => FetchCategoriesCubit(sl<FetchCategoriesUsecase>()));
+  sl.registerFactory(() => CategoryProductsCubit(sl<GetProductsUsecase>()));
 }

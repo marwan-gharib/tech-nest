@@ -1,4 +1,4 @@
-import 'package:tech_nest/features/categories/domain/entities/category_entity.dart';
+import 'package:tech_nest/core/entities/category_entity.dart';
 
 class ProductEntity {
   final int id;
@@ -18,4 +18,13 @@ class ProductEntity {
     required this.category,
     required this.imgUrl,
   });
+
+  ProductEntity.empty()
+    : id = -1,
+      name = "",
+      description = "",
+      price = 0.0,
+      stock = 0,
+      category = CategoryEntity.empty(),
+      imgUrl = "";
 }

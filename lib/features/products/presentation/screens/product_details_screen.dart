@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
+import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/features/products/presentation/widgets/custom_counter.dart';
 
 class ProductDetailsScreen extends StatelessWidget {

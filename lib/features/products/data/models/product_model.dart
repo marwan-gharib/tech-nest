@@ -1,6 +1,6 @@
 import 'package:tech_nest/core/constants/api_keys.dart';
+import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/features/categories/data/models/category_model.dart';
-import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 
 class ProductModel {
   final int id;

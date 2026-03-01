@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/di/injection_container.dart';
+import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/core/router/routers.dart';
 import 'package:tech_nest/core/services/local/cache/cache_service.dart';
 import 'package:tech_nest/core/utils/auth/auth_notifire.dart';
@@ -11,9 +12,11 @@ import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cu
 import 'package:tech_nest/features/auth/presentation/cubits/registeration_cubit/registeration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/screens/login_screen.dart';
 import 'package:tech_nest/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
+import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
+import 'package:tech_nest/features/categories/presentation/screens/categories_screen.dart';
 import 'package:tech_nest/features/demo_screen.dart';
 import 'package:tech_nest/features/home/presentation/screens/home_screen.dart';
-import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';
 
@@ -64,8 +67,18 @@ class AppRouter {
             routes: [
               GoRoute(
                 path: "/categories",
-                builder: (context, state) =>
-                    const DemoScreen(label: "Categories Screen"),
+                builder: (context, state) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) =>
+                          sl<FetchCategoriesCubit>()..fetchCategories(),
+                    ),
+                    BlocProvider(
+                      create: (context) => sl<CategoryProductsCubit>(),
+                    ),
+                  ],
+                  child: const CategoriesScreen(),
+                ),
               ),
             ],
           ),

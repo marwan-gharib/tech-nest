@@ -1,45 +1,41 @@
-import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/core/params/products_params.dart';
 import 'package:tech_nest/features/products/domain/use_cases/get_products_usecase.dart';
 
-part 'fetch_products_state.dart';
+part 'category_products_state.dart';
 
-class FetchProductsCubit extends Cubit<FetchProductsState> {
+class CategoryProductsCubit extends Cubit<CategoryProductsState> {
   final GetProductsUsecase _getProductsUsecase;
 
-  FetchProductsCubit(this._getProductsUsecase)
-    : super(const FetchProductsState());
+  CategoryProductsCubit(this._getProductsUsecase)
+    : super(const CategoryProductsState());
 
-  ProductsParams _params = ProductsParams(limit: 10, page: 1);
+  ProductsParams _params = ProductsParams(limit: 10);
 
-  Future<void> initialFetching({required ProductsParams params}) async {
-    _params = params.copyWith(page: 1);
+  Future<void> fetchInitialCategoryProducts({required int categoryId}) async {
+    emit(state.copyWith(isLoading: true));
 
-    emit(const FetchProductsState(isLoading: true));
+    _params = _params.copyWith(page: 1, categoryId: categoryId);
 
     final res = await _getProductsUsecase.call(params: _params);
 
     res.fold(
       (failure) =>
-          emit(state.copyWith(isLoading: false, errMessage: failure.message)),
+          emit(state.copyWith(errMessage: failure.message, isLoading: false)),
       (products) => emit(
         state.copyWith(
-          isLoading: false,
           products: products,
+          isLoading: false,
           hasReachedMax: products.length < _params.limit!,
         ),
       ),
     );
   }
 
-  Future<void> fetchMore() async {
+  Future<void> fetchMoreCategoryProducts() async {
     if (state.isLoadingMore || state.hasReachedMax) return;
-
-    log(_params.page.toString());
 
     emit(state.copyWith(isLoadingMore: true));
 
@@ -49,20 +45,15 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
 
     res.fold(
       (failure) => emit(
-        state.copyWith(isLoadingMore: false, errMessage: failure.message),
+        state.copyWith(errMessage: failure.message, isLoadingMore: false),
       ),
       (products) => emit(
         state.copyWith(
+          products: List.of(state.products!)..addAll(products),
           isLoadingMore: false,
-          products: List.of(state.products)..addAll(products),
           hasReachedMax: products.length < _params.limit!,
-          page: _params.page! + 1,
         ),
       ),
     );
-  }
-
-  Future<void> applyFilters(ProductsParams params) async {
-    await initialFetching(params: params);
   }
 }

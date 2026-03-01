@@ -1,6 +1,6 @@
+import 'package:tech_nest/core/entities/product_entity.dart';
+import 'package:tech_nest/core/params/products_params.dart';
 import 'package:tech_nest/features/products/data/data_source/remote/products_remote_data_source.dart';
-import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
-import 'package:tech_nest/features/products/domain/params/products_params.dart';
 import 'package:tech_nest/features/products/domain/repositories/products_repo.dart';
 
 class ProductsRepoImpl extends ProductsRepo {

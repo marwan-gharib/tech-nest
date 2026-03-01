@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/features/products/domain/params/products_params.dart';
+import 'package:tech_nest/core/params/products_params.dart';
+import 'package:tech_nest/core/widgets/product_card.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
-import 'package:tech_nest/features/products/presentation/widgets/product_card.dart';
 
 class ProductsGrid extends StatelessWidget {
   final ProductsParams params;
