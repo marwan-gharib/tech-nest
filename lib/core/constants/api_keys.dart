@@ -34,4 +34,6 @@ class ApiKeys {
   static String get sort => "sort";
   static String get order => "order";
   static String get searchQuery => "search_query";
+  static String get productId => "product_id";
+  static String get product => "product";
 }

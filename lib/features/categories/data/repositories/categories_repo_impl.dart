@@ -8,7 +8,7 @@ class CategoriesRepoImpl extends CategoriesRepo {
   CategoriesRepoImpl(this._dataSource);
 
   @override
-  Future<List<CategoryEntity>> getCategories() async {
+  Future<List<Category>> getCategories() async {
     final categoriesModels = await _dataSource.getCategories();
 
     return categoriesModels

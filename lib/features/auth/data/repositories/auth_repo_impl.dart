@@ -19,7 +19,7 @@ class AuthRepoImpl extends AuthRepo {
   AuthRepoImpl(this._remoteDataSource, this._localDataSource);
 
   @override
-  Future<UserEntity> login({required LoginParams params}) async {
+  Future<User> login({required LoginParams params}) async {
     final model = await _remoteDataSource.login(params: params);
 
     await _localDataSource.saveToken(model.token);
@@ -36,16 +36,14 @@ class AuthRepoImpl extends AuthRepo {
   }
 
   @override
-  Future<UserEntity> signUp({required SignUpParams params}) async {
+  Future<User> signUp({required SignUpParams params}) async {
     final model = await _remoteDataSource.signUp(params: params);
 
     return model.toEntity();
   }
 
   @override
-  Future<UserEntity> verifyEmail({
-    required VerificationEmailParams params,
-  }) async {
+  Future<User> verifyEmail({required VerificationEmailParams params}) async {
     final model = await _remoteDataSource.verifyEmail(params: params);
 
     await _localDataSource.saveToken(model.token);

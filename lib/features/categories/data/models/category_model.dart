@@ -20,7 +20,7 @@ class CategoryModel {
     return {ApiKeys.id: id, ApiKeys.name: name, ApiKeys.imgUrl: imgUrl};
   }
 
-  CategoryEntity toEntity() {
-    return CategoryEntity(id: id, name: name, imgUrl: imgUrl);
+  Category toEntity() {
+    return Category(id: id, name: name, imgUrl: imgUrl);
   }
 }

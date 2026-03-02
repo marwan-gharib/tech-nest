@@ -2,6 +2,6 @@ import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/core/params/products_params.dart';
 
 abstract class ProductsRepo {
-  Future<List<ProductEntity>> getProducts({required ProductsParams params});
+  Future<List<Product>> getProducts({required ProductsParams params});
   Future<List<String>> searchSuggestions({required String searchQuery});
 }

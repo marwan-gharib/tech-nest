@@ -11,7 +11,7 @@ class GetProductsUsecase {
 
   GetProductsUsecase(this._repo);
 
-  Future<Either<Failure, List<ProductEntity>>> call({
+  Future<Either<Failure, List<Product>>> call({
     required ProductsParams params,
   }) async {
     try {

@@ -17,7 +17,7 @@ final class RegisterationLoading extends RegisterationState {
 }
 
 final class RegisterationSuccess extends RegisterationState {
-  final UserEntity user;
+  final User user;
   const RegisterationSuccess({required this.user});
 }
 

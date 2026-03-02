@@ -11,9 +11,7 @@ class SignUpUsecase {
 
   SignUpUsecase(this._repo);
 
-  Future<Either<Failure, UserEntity>> call({
-    required SignUpParams params,
-  }) async {
+  Future<Either<Failure, User>> call({required SignUpParams params}) async {
     try {
       return Right(await _repo.signUp(params: params));
     } on AppException catch (e) {

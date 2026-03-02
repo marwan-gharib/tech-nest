@@ -20,7 +20,7 @@ class UserModel {
     return {ApiKeys.id: id, ApiKeys.name: name, ApiKeys.email: email};
   }
 
-  UserEntity toEntity() {
-    return UserEntity(id: id, name: name, email: email);
+  User toEntity() {
+    return User(id: id, name: name, email: email);
   }
 }

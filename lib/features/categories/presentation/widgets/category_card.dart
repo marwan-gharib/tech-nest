@@ -6,7 +6,7 @@ import 'package:tech_nest/core/theme/app_colors.dart';
 
 class CategoryCard extends StatelessWidget {
   final VoidCallback? onTap;
-  final CategoryEntity category;
+  final Category category;
   final bool isSelected;
   const CategoryCard({
     required this.isSelected,

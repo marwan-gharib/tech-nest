@@ -174,7 +174,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       padding: const EdgeInsets.all(12),
       itemCount: 10,
       itemBuilder: (context, index) {
-        return Skeletonizer(child: ProductCard(product: ProductEntity.empty()));
+        return Skeletonizer(child: ProductCard(product: Product.empty()));
       },
     );
   }

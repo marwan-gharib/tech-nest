@@ -6,7 +6,7 @@ import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/features/products/presentation/widgets/custom_counter.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  final ProductEntity product;
+  final Product product;
 
   const ProductDetailsScreen({required this.product, super.key});
 

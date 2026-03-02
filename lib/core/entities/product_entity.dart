@@ -1,15 +1,15 @@
 import 'package:tech_nest/core/entities/category_entity.dart';
 
-class ProductEntity {
+class Product {
   final int id;
   final String name;
   final String description;
   final double price;
   final int stock;
-  final CategoryEntity category;
+  final Category category;
   final String imgUrl;
 
-  ProductEntity({
+  Product({
     required this.id,
     required this.name,
     required this.description,
@@ -19,12 +19,12 @@ class ProductEntity {
     required this.imgUrl,
   });
 
-  ProductEntity.empty()
+  Product.empty()
     : id = -1,
       name = "",
       description = "",
       price = 0.0,
       stock = 0,
-      category = CategoryEntity.empty(),
+      category = Category.empty(),
       imgUrl = "";
 }

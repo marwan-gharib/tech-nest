@@ -18,8 +18,8 @@ class CategoryLabelWidget<T> extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 3),
       child: GestureDetector(
         onTap: () {
-          if (category is CategoryEntity) {
-            onTap((category as CategoryEntity).id);
+          if (category is Category) {
+            onTap((category as Category).id);
           } else {
             onTap(null);
           }
@@ -33,8 +33,8 @@ class CategoryLabelWidget<T> extends StatelessWidget {
           child: Center(
             child: RepaintBoundary(
               child: Text(
-                category is CategoryEntity
-                    ? (category as CategoryEntity).name
+                category is Category
+                    ? (category as Category).name
                     : category is String
                     ? category as String
                     : category.toString(),

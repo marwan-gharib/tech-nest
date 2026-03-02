@@ -16,7 +16,7 @@ final class FetchCategoriesLoading extends FetchCategoriesState {
 }
 
 final class FetchCategoriesLoaded extends FetchCategoriesState {
-  final List<CategoryEntity> categories;
+  final List<Category> categories;
 
   const FetchCategoriesLoaded({required this.categories});
 

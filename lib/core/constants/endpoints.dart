@@ -17,7 +17,7 @@ class Endpoints {
   static String get categoriesList => "categories/list.php";
 
   static String get addToCart => "cart/add.php";
-  static String get removeFromCart => "cart/remove.php";
   static String get cartList => "cart/list.php";
+  static String get removeFromCart => "cart/remove.php";
   static String get updateItemQuantityFromCart => "cart/update_quantity.php";
 }

@@ -8,7 +8,7 @@ import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/core/router/routers.dart';
 
 class ProductCard extends StatelessWidget {
-  final ProductEntity product;
+  final Product product;
 
   const ProductCard({required this.product, super.key});
 

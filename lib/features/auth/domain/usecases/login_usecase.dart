@@ -11,9 +11,7 @@ class LoginUsecase {
 
   LoginUsecase(this._repo);
 
-  Future<Either<Failure, UserEntity>> call({
-    required LoginParams params,
-  }) async {
+  Future<Either<Failure, User>> call({required LoginParams params}) async {
     try {
       return Right(await _repo.login(params: params));
     } on AppException catch (e) {

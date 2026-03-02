@@ -46,9 +46,8 @@ class AppRouter {
                   GoRoute(
                     path: Routers.productDetailsScreen,
                     name: Routers.productDetailsScreen,
-                    builder: (context, state) => ProductDetailsScreen(
-                      product: state.extra as ProductEntity,
-                    ),
+                    builder: (context, state) =>
+                        ProductDetailsScreen(product: state.extra as Product),
                   ),
                 ],
               ),
