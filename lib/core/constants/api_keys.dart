@@ -36,4 +36,9 @@ class ApiKeys {
   static String get searchQuery => "search_query";
   static String get productId => "product_id";
   static String get product => "product";
+  static String get items => "items";
+  static String get totalQuantity => "total_quantity";
+  static String get totalPrice => "total_price";
+  static String get deliveryCharges => "delivery_charges";
+  static String get grandTotal => "grand_total";
 }

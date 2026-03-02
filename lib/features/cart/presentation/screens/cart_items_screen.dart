@@ -1,7 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/fetch_cart_items_cubit/fetch_cart_items_cubit.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart_cubit/cart_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_item_card.dart';
 
 class CartItemsScreen extends StatelessWidget {
@@ -12,32 +14,31 @@ class CartItemsScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(title: const Text("Cart")),
-        body: Container(
-          margin: const EdgeInsets.all(8),
-          padding: const EdgeInsets.all(8),
-          child: BlocConsumer<FetchCartItemsCubit, FetchCartItemsState>(
-            listener: _listener,
-            builder: _builder,
-          ),
+        body: BlocConsumer<CartCubit, CartState>(
+          listener: _listener,
+          builder: _builder,
         ),
       ),
     );
   }
 
-  void _listener(BuildContext context, FetchCartItemsState state) {
-    if (state is FetchCartItemsFailed) {
+  void _listener(BuildContext context, CartState state) {
+    if (state is CartFailed) {
       customSnackBar(context, message: state.message);
     }
   }
 
-  Widget _builder(BuildContext context, FetchCartItemsState state) {
-    if (state is FetchCartItemsLoaded) {
-      final items = state.cartItems;
+  Widget _builder(BuildContext context, CartState state) {
+    if (state is CartLoaded) {
+      final items = state.cart.items;
 
       return ListView.builder(
+        itemCount: items.length,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
         itemBuilder: (context, index) {
           final item = items[index];
-          return CartItemCard(product: item.product);
+          log(item.id.toString());
+          return CartItemCard(cartItem: item);
         },
       );
     }

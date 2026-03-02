@@ -1,6 +1,7 @@
 import 'package:tech_nest/features/cart/data/data_source/remote/cart_remote_data_source.dart';
-import 'package:tech_nest/features/cart/domain/entities/cart_item.dart';
+import 'package:tech_nest/features/cart/domain/entities/cart.dart';
 import 'package:tech_nest/features/cart/domain/params/add_to_cart_params.dart';
+import 'package:tech_nest/features/cart/domain/params/update_item_quantity_params.dart';
 import 'package:tech_nest/features/cart/domain/repositories/cart_repo.dart';
 
 class CartRepoImpl extends CartRepo {
@@ -14,14 +15,21 @@ class CartRepoImpl extends CartRepo {
   }
 
   @override
-  Future<List<CartItem>> getCartItems() async {
-    final models = await _dataSource.getCartItems();
+  Future<Cart> getCartItems() async {
+    final model = await _dataSource.getCartItems();
 
-    return models.map((model) => model.toEntity()).toList();
+    return model.toEntity();
   }
 
   @override
-  Future<void> removeFromCart({required int cartId}) async {
-    await _dataSource.removeFromCart(cartId: cartId);
+  Future<int> removeFromCart({required int cartId}) async {
+    return await _dataSource.removeFromCart(cartId: cartId);
+  }
+
+  @override
+  Future<int> updateItemQuantity({
+    required UpdateItemQuantityParams params,
+  }) async {
+    return await _dataSource.updateItemQuantity(params: params);
   }
 }

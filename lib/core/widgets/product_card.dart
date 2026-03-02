@@ -18,7 +18,6 @@ class ProductCard extends StatelessWidget {
       onTap: () =>
           context.pushNamed(Routers.productDetailsScreen, extra: product),
       child: Card(
-        clipBehavior: Clip.hardEdge,
         child: SizedBox(
           height: 200,
           child: Column(

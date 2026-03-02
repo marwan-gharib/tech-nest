@@ -12,7 +12,7 @@ class CategoryModel {
     return CategoryModel(
       id: json[ApiKeys.id],
       name: json[ApiKeys.name],
-      imgUrl: json[ApiKeys.imgUrl],
+      imgUrl: json[ApiKeys.imgUrl] ?? '',
     );
   }
 

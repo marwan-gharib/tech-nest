@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/entities/product_entity.dart';
+import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/features/products/presentation/widgets/custom_counter.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
@@ -58,9 +59,9 @@ class ProductDetailsScreen extends StatelessWidget {
                                   ).shadowColor.withValues(alpha: 0.5),
                                 ),
                           ),
-                          _productPrice(context),
+                          BuildPrice(price: product.price, isLabeled: true),
                           Text(
-                            "Stock: ${product.stock}",
+                            "Stock: ${product.stock > 0 ? product.stock.toString() : ""}",
                             style: Theme.of(context).textTheme.labelLarge!
                                 .copyWith(
                                   fontSize: 20,
@@ -70,7 +71,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         ],
                       ),
                       const Expanded(child: SizedBox.shrink()),
-                      CustomCounter(stock: product.stock),
+                      CustomCounter(maxCount: product.stock),
                       const SizedBox(width: 14),
                     ],
                   ),
@@ -135,25 +136,4 @@ class ProductDetailsScreen extends StatelessWidget {
       width: double.infinity,
     ),
   );
-
-  Widget _productPrice(BuildContext context) {
-    return Text.rich(
-      TextSpan(
-        text: "Price: ${product.price.toStringAsFixed(1)}",
-        style: Theme.of(context).textTheme.labelLarge!.copyWith(
-          fontSize: 20,
-          color: Theme.of(context).hintColor,
-        ),
-        children: [
-          TextSpan(
-            text: " \$",
-            style: Theme.of(context).textTheme.labelLarge!.copyWith(
-              fontSize: 20,
-              color: Theme.of(context).colorScheme.tertiary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 }

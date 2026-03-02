@@ -12,6 +12,8 @@ import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cu
 import 'package:tech_nest/features/auth/presentation/cubits/registeration_cubit/registeration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/screens/login_screen.dart';
 import 'package:tech_nest/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart_cubit/cart_cubit.dart';
+import 'package:tech_nest/features/cart/presentation/screens/cart_items_screen.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/screens/categories_screen.dart';
@@ -27,7 +29,7 @@ class AppRouter {
 
   static final GoRouter routes = GoRouter(
     initialLocation: sl<CacheService>().containsKey(ApiKeys.token)
-        ? Routers.homeScreenPath
+        ? Routers.cartScreenPath
         : Routers.loginScreenPath,
     routes: [
       StatefulShellRoute.indexedStack(
@@ -56,16 +58,18 @@ class AppRouter {
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: "/cart",
-                builder: (context, state) =>
-                    const DemoScreen(label: "Cart Screen"),
+                path: Routers.cartScreenPath,
+                builder: (context, state) => BlocProvider(
+                  create: (context) => sl<CartCubit>()..fetchCart(),
+                  child: const CartItemsScreen(),
+                ),
               ),
             ],
           ),
           StatefulShellBranch(
             routes: [
               GoRoute(
-                path: "/categories",
+                path: Routers.categoriesScreenPath,
                 builder: (context, state) => MultiBlocProvider(
                   providers: [
                     BlocProvider(

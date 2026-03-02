@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 class CustomCounter extends StatefulWidget {
-  final int stock;
-  const CustomCounter({required this.stock, super.key});
+  final int maxCount;
+  final int initialCount;
+
+  const CustomCounter({
+    required this.maxCount,
+    this.initialCount = 1,
+    super.key,
+  });
 
   @override
   State<CustomCounter> createState() => _CustomCounterState();
@@ -14,7 +20,7 @@ class _CustomCounterState extends State<CustomCounter> {
   @override
   void initState() {
     super.initState();
-    _counter = ValueNotifier<int>(1);
+    _counter = ValueNotifier<int>(widget.initialCount);
   }
 
   @override
@@ -24,7 +30,7 @@ class _CustomCounterState extends State<CustomCounter> {
   }
 
   void _increment() {
-    if (_counter.value < widget.stock) {
+    if (_counter.value < widget.maxCount) {
       _counter.value++;
     }
   }

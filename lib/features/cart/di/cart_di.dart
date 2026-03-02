@@ -6,7 +6,10 @@ import 'package:tech_nest/features/cart/domain/repositories/cart_repo.dart';
 import 'package:tech_nest/features/cart/domain/use_cases/add_to_cart_usecase.dart';
 import 'package:tech_nest/features/cart/domain/use_cases/get_cart_items_usecase.dart';
 import 'package:tech_nest/features/cart/domain/use_cases/remove_from_cart_usecase.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/fetch_cart_items_cubit/fetch_cart_items_cubit.dart';
+import 'package:tech_nest/features/cart/domain/use_cases/update_item_quantity_usecase.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart_cubit/cart_cubit.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/delete_cart_item_cubit/delete_cart_item_cubit.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/update_item_quantity_cubit/update_item_quantity_cubit.dart';
 
 void initCartDI(GetIt sl) {
   sl.registerLazySingleton(() => CartRemoteDataSource(sl<ApiConsumer>()));
@@ -18,6 +21,11 @@ void initCartDI(GetIt sl) {
   sl.registerLazySingleton(() => AddToCartUsecase(sl<CartRepo>()));
   sl.registerLazySingleton(() => GetCartItemsUsecase(sl<CartRepo>()));
   sl.registerLazySingleton(() => RemoveFromCartUsecase(sl<CartRepo>()));
+  sl.registerLazySingleton(() => UpdateItemQuantityUsecase(sl<CartRepo>()));
 
-  sl.registerFactory(() => FetchCartItemsCubit(sl<GetCartItemsUsecase>()));
+  sl.registerFactory(() => CartCubit(sl<GetCartItemsUsecase>()));
+  sl.registerFactory(
+    () => UpdateItemQuantityCubit(sl<UpdateItemQuantityUsecase>()),
+  );
+  sl.registerFactory(() => DeleteCartItemCubit(sl<RemoveFromCartUsecase>()));
 }
