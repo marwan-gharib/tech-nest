@@ -21,13 +21,15 @@ class BuildPrice extends StatelessWidget {
             : price.toStringAsFixed(1),
         style: Theme.of(context).textTheme.labelLarge!.copyWith(
           fontSize: size,
-          color: Theme.of(context).hintColor,
+          fontWeight: FontWeight.w500,
+          color: Theme.of(context).shadowColor.withValues(alpha: 0.6),
         ),
         children: [
           TextSpan(
             text: " \$",
             style: Theme.of(context).textTheme.labelLarge!.copyWith(
               fontSize: size,
+              fontWeight: FontWeight.w500,
               color: Theme.of(context).colorScheme.tertiary,
             ),
           ),

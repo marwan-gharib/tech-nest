@@ -20,7 +20,11 @@ class _CustomCounterState extends State<CustomCounter> {
   @override
   void initState() {
     super.initState();
-    _counter = ValueNotifier<int>(widget.initialCount);
+    _counter = ValueNotifier<int>(
+      widget.initialCount > widget.maxCount
+          ? widget.maxCount
+          : widget.initialCount,
+    );
   }
 
   @override
@@ -43,23 +47,51 @@ class _CustomCounterState extends State<CustomCounter> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      spacing: 12,
+    return Stack(
       children: [
-        _buildCounterButton(context, icon: Icons.remove, onPressed: _decrement),
-        ValueListenableBuilder<int>(
-          valueListenable: _counter,
-          builder: (context, value, _) {
-            return Text(
-              "$value",
-              style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                fontSize: 15,
-                color: Theme.of(context).shadowColor,
-              ),
-            );
-          },
+        Row(
+          spacing: 12,
+          children: [
+            _buildCounterButton(
+              context,
+              icon: Icons.remove,
+              onPressed: _decrement,
+            ),
+            ValueListenableBuilder<int>(
+              valueListenable: _counter,
+              builder: (context, value, _) {
+                return Text(
+                  "$value",
+                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                    fontSize: 15,
+                    color: Theme.of(context).shadowColor,
+                  ),
+                );
+              },
+            ),
+            _buildCounterButton(
+              context,
+              icon: Icons.add,
+              onPressed: _increment,
+            ),
+          ],
         ),
-        _buildCounterButton(context, icon: Icons.add, onPressed: _increment),
+        if (widget.maxCount == 0) ...[
+          Positioned.fill(
+            top: 5,
+            child: Divider(
+              thickness: 2,
+              color: Theme.of(context).colorScheme.error,
+            ),
+          ),
+          Positioned.fill(
+            bottom: 5,
+            child: Divider(
+              thickness: 2,
+              color: Theme.of(context).colorScheme.error,
+            ),
+          ),
+        ],
       ],
     );
   }
@@ -69,7 +101,7 @@ class _CustomCounterState extends State<CustomCounter> {
     required IconData icon,
     required VoidCallback onPressed,
   }) => InkWell(
-    onTap: onPressed,
+    onTap: widget.maxCount == 0 ? null : onPressed,
     child: Container(
       height: 26,
       width: 32,

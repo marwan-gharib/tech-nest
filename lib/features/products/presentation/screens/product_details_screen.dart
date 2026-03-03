@@ -56,16 +56,22 @@ class ProductDetailsScreen extends StatelessWidget {
                                   fontSize: 20,
                                   color: Theme.of(
                                     context,
-                                  ).shadowColor.withValues(alpha: 0.5),
+                                  ).shadowColor.withValues(alpha: 0.7),
                                 ),
                           ),
                           BuildPrice(price: product.price, isLabeled: true),
                           Text(
-                            "Stock: ${product.stock > 0 ? product.stock.toString() : ""}",
+                            "Stock: ${product.stock > 0 ? product.stock.toString() : "Out of stock"}",
                             style: Theme.of(context).textTheme.labelLarge!
                                 .copyWith(
                                   fontSize: 20,
-                                  color: Theme.of(context).hintColor,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(
+                                    context,
+                                  ).shadowColor.withValues(alpha: 0.6),
+                                  decoration: product.stock > 0
+                                      ? null
+                                      : TextDecoration.lineThrough,
                                 ),
                           ),
                         ],
