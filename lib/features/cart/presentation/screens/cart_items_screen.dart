@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart_cubit/cart_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_item_card.dart';
@@ -13,6 +12,8 @@ class CartItemsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
+
         appBar: AppBar(title: const Text("Cart")),
         body: BlocConsumer<CartCubit, CartState>(
           listener: _listener,
@@ -37,7 +38,7 @@ class CartItemsScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
         itemBuilder: (context, index) {
           final item = items[index];
-          log(item.id.toString());
+          Logger.logg(item.id.toString());
           return CartItemCard(cartItem: item);
         },
       );

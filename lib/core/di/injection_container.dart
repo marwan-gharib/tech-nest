@@ -1,15 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tech_nest/core/cubits/add_product_to_cart_cubit/add_product_to_cart_cubit.dart';
+import 'package:tech_nest/core/services/auth/auth_notifire.dart';
 import 'package:tech_nest/core/services/local/cache/cache_service.dart';
 import 'package:tech_nest/core/services/local/cache/shared_preferences_service.dart';
 import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
 import 'package:tech_nest/core/services/remote/api_service/dio_consumer.dart';
 import 'package:tech_nest/core/services/remote/api_service/dio_interceptor.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
-import 'package:tech_nest/core/utils/auth/auth_notifire.dart';
 import 'package:tech_nest/features/auth/di/auth_di.dart';
 import 'package:tech_nest/features/cart/di/cart_di.dart';
+import 'package:tech_nest/features/cart/domain/use_cases/add_to_cart_usecase.dart';
 import 'package:tech_nest/features/categories/di/categories_di.dart';
 import 'package:tech_nest/features/products/di/products_di.dart';
 
@@ -45,4 +47,6 @@ Future<void> initDependencies() async {
   initProductsDI(sl);
   initCategoriesDI(sl);
   initCartDI(sl);
+
+  sl.registerFactory(() => AddProductToCartCubit(sl<AddToCartUsecase>()));
 }

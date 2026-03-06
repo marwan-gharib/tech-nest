@@ -1,8 +1,7 @@
-import 'dart:developer';
-
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/core/services/local/cache/cache_service.dart';
+import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/auth/data/data_source/local/auth_local_data_source.dart';
 import 'package:tech_nest/features/auth/data/data_source/remote/auth_remote_data_source.dart';
 import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
@@ -24,7 +23,7 @@ class AuthRepoImpl extends AuthRepo {
 
     await _localDataSource.saveToken(model.token);
 
-    log("${sl<CacheService>().get(ApiKeys.token)}");
+    Logger.logg("${sl<CacheService>().get(ApiKeys.token)}");
 
     return model.userModel.toEntity();
   }

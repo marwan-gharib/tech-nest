@@ -4,10 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/core/router/app_router.dart';
+import 'package:tech_nest/core/services/auth/auth_notifire.dart';
 import 'package:tech_nest/core/services/local/cache/cache_service.dart';
 import 'package:tech_nest/core/theme/app_theme.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
-import 'package:tech_nest/core/utils/auth/auth_notifire.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

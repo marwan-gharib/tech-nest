@@ -5,8 +5,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/core/router/routers.dart';
-import 'package:tech_nest/core/utils/auth/auth_notifire.dart';
-import 'package:tech_nest/core/utils/functions/validatiors.dart';
+import 'package:tech_nest/core/services/auth/auth_notifire.dart';
+import 'package:tech_nest/core/utils/validatiors.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   late final GlobalKey<FormState> _emailFormKey;
   late final GlobalKey<FormState> _passFormKey;
-
+  //
   late final AuthNotifire _authNotifire;
 
   @override
@@ -49,11 +49,6 @@ class _LoginScreenState extends State<LoginScreen> {
     _email.dispose();
     _password.dispose();
 
-    _emailFormKey.currentState?.dispose();
-    _passFormKey.currentState?.dispose();
-
-    _authNotifire.dispose();
-
     super.dispose();
   }
 
@@ -61,6 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
+
         appBar: AppBar(title: const Text("Login")),
         body: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
@@ -72,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 lable: "E-mail Address",
                 hint: "example@email.com",
                 keyboardType: TextInputType.emailAddress,
-                validator: emailValditor,
+                validator: Validatiors.emailValditor,
               ),
             ),
             const SizedBox(height: 24),
@@ -84,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 hint: "* " * 8,
                 keyboardType: TextInputType.visiblePassword,
                 isPassword: true,
-                validator: passwordValditor,
+                validator: Validatiors.passwordValditor,
               ),
             ),
             Align(

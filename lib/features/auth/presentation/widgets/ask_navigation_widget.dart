@@ -18,7 +18,7 @@ class AskNavigationWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(question),
-        GestureDetector(
+        InkWell(
           onTap: onTap,
           child: Text(
             screenLabel,

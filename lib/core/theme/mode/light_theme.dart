@@ -42,7 +42,7 @@ class LightTheme {
           foregroundColor: colorScheme.onPrimary,
           disabledBackgroundColor: colorScheme.primary.withValues(alpha: 0.5),
           disabledForegroundColor: colorScheme.onPrimary.withValues(alpha: 0.5),
-          elevation: 10,
+          elevation: 4,
           fixedSize: const Size(double.infinity, 50),
         ),
       );

@@ -1,15 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
+import 'package:tech_nest/core/cubits/add_product_to_cart_cubit/add_product_to_cart_cubit.dart';
 import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/core/widgets/build_price.dart';
+import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/products/presentation/widgets/custom_counter.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatefulWidget {
   final Product product;
 
   const ProductDetailsScreen({required this.product, super.key});
+
+  @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  int quantityCounter = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +51,7 @@ class ProductDetailsScreen extends StatelessWidget {
                         spacing: 6,
                         children: [
                           Text(
-                            product.name,
+                            widget.product.name,
                             style: Theme.of(context).textTheme.headlineMedium!
                                 .copyWith(
                                   fontWeight: FontWeight.w700,
@@ -50,7 +60,7 @@ class ProductDetailsScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            "Category: ${product.category.name}",
+                            "Category: ${widget.product.category.name}",
                             style: Theme.of(context).textTheme.labelLarge!
                                 .copyWith(
                                   fontSize: 20,
@@ -59,9 +69,12 @@ class ProductDetailsScreen extends StatelessWidget {
                                   ).shadowColor.withValues(alpha: 0.7),
                                 ),
                           ),
-                          BuildPrice(price: product.price, isLabeled: true),
+                          BuildPrice(
+                            price: widget.product.price,
+                            isLabeled: true,
+                          ),
                           Text(
-                            "Stock: ${product.stock > 0 ? product.stock.toString() : "Out of stock"}",
+                            "Stock: ${widget.product.stock > 0 ? widget.product.stock.toString() : "Out of stock"}",
                             style: Theme.of(context).textTheme.labelLarge!
                                 .copyWith(
                                   fontSize: 20,
@@ -69,7 +82,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                   color: Theme.of(
                                     context,
                                   ).shadowColor.withValues(alpha: 0.6),
-                                  decoration: product.stock > 0
+                                  decoration: widget.product.stock > 0
                                       ? null
                                       : TextDecoration.lineThrough,
                                 ),
@@ -77,7 +90,10 @@ class ProductDetailsScreen extends StatelessWidget {
                         ],
                       ),
                       const Expanded(child: SizedBox.shrink()),
-                      CustomCounter(maxCount: product.stock),
+                      CustomCounter(
+                        maxCount: widget.product.stock,
+                        onChanged: (value) => quantityCounter = value,
+                      ),
                       const SizedBox(width: 14),
                     ],
                   ),
@@ -92,7 +108,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    product.description,
+                    widget.product.description,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: Theme.of(
                         context,
@@ -100,11 +116,9 @@ class ProductDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: product.stock > 0 ? () {} : null,
-                      child: const Text("Add to Cart"),
-                    ),
+                  BlocConsumer<AddProductToCartCubit, AddProductToCartState>(
+                    listener: _listener,
+                    builder: _builder,
                   ),
                 ],
               ),
@@ -137,9 +151,31 @@ class ProductDetailsScreen extends StatelessWidget {
     width: double.infinity,
     height: MediaQuery.of(context).size.height * 0.4,
     child: CachedNetworkImage(
-      imageUrl: Endpoints.baseUrl + product.imgUrl,
+      imageUrl: Endpoints.baseUrl + widget.product.imgUrl,
       fit: BoxFit.fill,
       width: double.infinity,
     ),
   );
+
+  void _listener(BuildContext context, AddProductToCartState state) {
+    if (state.message.isNotEmpty) {
+      customSnackBar(context, message: state.message);
+    }
+  }
+
+  Widget _builder(BuildContext context, AddProductToCartState state) {
+    return Center(
+      child: state.isLoading
+          ? const CircularProgressIndicator(strokeAlign: 3)
+          : ElevatedButton(
+              onPressed: widget.product.stock > 0
+                  ? () => context.read<AddProductToCartCubit>().add(
+                      productId: widget.product.id,
+                      quantity: quantityCounter,
+                    )
+                  : null,
+              child: const Text("Add to Cart"),
+            ),
+    );
+  }
 }

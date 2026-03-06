@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/core/router/routers.dart';
 import 'package:tech_nest/core/state/image/image_provider.dart';
-import 'package:tech_nest/core/utils/functions/validatiors.dart';
+import 'package:tech_nest/core/utils/validatiors.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/registeration_cubit/registeration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
@@ -55,8 +55,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     _confirmPassword.dispose();
 
     _checkBoxNotifire.dispose();
-
-    _formKey.currentState?.dispose();
   }
 
   @override
@@ -69,6 +67,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
+
         appBar: AppBar(title: const Text("Registeration")),
         body: Form(
           key: _formKey,
@@ -82,7 +82,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 lable: "Full Name",
                 hint: "Enter your name",
                 keyboardType: TextInputType.name,
-                validator: fullNameValditor,
+                validator: Validatiors.fullNameValditor,
               ),
               const SizedBox(height: 24),
               CustomInputField(
@@ -90,7 +90,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 lable: "E-mail Address",
                 hint: "example@email.com",
                 keyboardType: TextInputType.emailAddress,
-                validator: emailValditor,
+                validator: Validatiors.emailValditor,
               ),
               const SizedBox(height: 24),
               CustomInputField(
@@ -99,7 +99,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 hint: "* " * 8,
                 keyboardType: TextInputType.visiblePassword,
                 isPassword: true,
-                validator: passwordValditor,
+                validator: Validatiors.passwordValditor,
               ),
               const SizedBox(height: 24),
               CustomInputField(
@@ -108,8 +108,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 hint: "* " * 8,
                 keyboardType: TextInputType.visiblePassword,
                 isPassword: true,
-                validator: (value) =>
-                    confirmPasswordValditor(value, password: _password.text),
+                validator: (value) => Validatiors.confirmPasswordValditor(
+                  value,
+                  password: _password.text,
+                ),
               ),
               const SizedBox(height: 40),
               PrivacyPolicyWidget(_checkBoxNotifire),

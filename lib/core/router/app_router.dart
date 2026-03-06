@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/constants/api_keys.dart';
+import 'package:tech_nest/core/cubits/add_product_to_cart_cubit/add_product_to_cart_cubit.dart';
 import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/core/router/routers.dart';
-import 'package:tech_nest/core/services/local/cache/cache_service.dart';
-import 'package:tech_nest/core/utils/auth/auth_notifire.dart';
+import 'package:tech_nest/core/services/auth/auth_notifire.dart';
+import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/app_shell/presentation/app_shell_entry.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
@@ -28,9 +28,7 @@ class AppRouter {
   const AppRouter._();
 
   static final GoRouter routes = GoRouter(
-    initialLocation: sl<CacheService>().containsKey(ApiKeys.token)
-        ? Routers.cartScreenPath
-        : Routers.loginScreenPath,
+    initialLocation: Routers.cartScreenPath,
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>
@@ -48,8 +46,12 @@ class AppRouter {
                   GoRoute(
                     path: Routers.productDetailsScreen,
                     name: Routers.productDetailsScreen,
-                    builder: (context, state) =>
-                        ProductDetailsScreen(product: state.extra as Product),
+                    builder: (context, state) => BlocProvider(
+                      create: (context) => sl<AddProductToCartCubit>(),
+                      child: ProductDetailsScreen(
+                        product: state.extra as Product,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -124,15 +126,22 @@ class AppRouter {
       ),
     ],
     redirect: (context, state) {
-      final bool isAuth = _authNotifire.isAuth;
-      final bool isOnLoginPage =
-          state.matchedLocation == Routers.loginScreenPath;
+      Logger.logg("redirect check: ${state.matchedLocation}");
 
-      if (!isAuth && !isOnLoginPage) {
+      final bool isAuth = _authNotifire.isAuth;
+
+      final authRoutes = [Routers.loginScreenPath, Routers.signUpScreenPath];
+
+      final bool isAuthRoute = authRoutes.contains(state.matchedLocation);
+
+      if (!isAuth && !isAuthRoute) {
         return Routers.loginScreenPath;
-      } else if (isAuth && isOnLoginPage) {
+      }
+
+      if (isAuth && isAuthRoute) {
         return Routers.homeScreenPath;
       }
+
       return null;
     },
     refreshListenable: _authNotifire,

@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/constants/app_consts.dart';
+import 'package:tech_nest/core/services/auth/auth_notifire.dart';
 import 'package:tech_nest/core/services/local/cache/cache_service.dart';
-import 'package:tech_nest/core/utils/auth/auth_notifire.dart';
 
 class DioInterceptor extends Interceptor {
   final CacheService _cacheService;

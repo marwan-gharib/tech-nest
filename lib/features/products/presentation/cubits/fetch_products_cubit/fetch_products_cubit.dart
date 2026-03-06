@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/core/params/products_params.dart';
+import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/products/domain/use_cases/get_products_usecase.dart';
 
 part 'fetch_products_state.dart';
@@ -39,7 +38,7 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
   Future<void> fetchMore() async {
     if (state.isLoadingMore || state.hasReachedMax) return;
 
-    log(_params.page.toString());
+    Logger.logg(_params.page.toString());
 
     emit(state.copyWith(isLoadingMore: true));
 

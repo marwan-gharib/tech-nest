@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
 import 'package:tech_nest/core/params/products_params.dart';
 import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
+import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/products/data/models/product_model.dart';
 
 class ProductsRemoteDataSource {
@@ -31,7 +30,7 @@ class ProductsRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      log(e.toString());
+      Logger.logg(e.toString());
       throw UnKnownException();
     }
   }
@@ -45,7 +44,7 @@ class ProductsRemoteDataSource {
 
       if (response != null) {
         (response[ApiKeys.data] as List).map(
-          (e) => log(e.runtimeType.toString()),
+          (e) => Logger.logg(e.runtimeType.toString()),
         );
         final List? list = response[ApiKeys.data];
         if (list != null) {
@@ -56,7 +55,7 @@ class ProductsRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      log(e.toString());
+      Logger.logg(e.toString());
       throw UnKnownException();
     }
   }

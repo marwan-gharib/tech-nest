@@ -1,12 +1,11 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/constants/app_consts.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
 import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
-import 'package:tech_nest/core/utils/functions/upload_img_to_api.dart';
+import 'package:tech_nest/core/utils/logger.dart';
+import 'package:tech_nest/core/utils/upload_img_to_api.dart';
 import 'package:tech_nest/features/auth/data/models/auth_model.dart';
 import 'package:tech_nest/features/auth/data/models/user_model.dart';
 import 'package:tech_nest/features/auth/domain/params/login_params.dart';
@@ -42,7 +41,7 @@ class AuthRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      log(e.toString());
+      Logger.logg(e.toString());
       throw UnKnownException();
     }
   }
@@ -66,7 +65,7 @@ class AuthRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      log(e.toString());
+      Logger.logg(e.toString());
       throw UnKnownException();
     }
   }
@@ -91,7 +90,7 @@ class AuthRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      log(e.toString());
+      Logger.logg(e.toString());
       throw UnKnownException();
     }
   }
@@ -106,7 +105,7 @@ class AuthRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      log(e.toString());
+      Logger.logg(e.toString());
       throw UnKnownException();
     }
   }
@@ -121,7 +120,7 @@ class AuthRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      log(e.toString());
+      Logger.logg(e.toString());
       throw UnKnownException();
     }
   }
@@ -132,7 +131,7 @@ class AuthRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      log(e.toString());
+      Logger.logg(e.toString());
       throw UnKnownException();
     }
   }

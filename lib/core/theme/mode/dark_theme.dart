@@ -31,6 +31,8 @@ class DarkTheme {
 
     inverseSurface: AppColors.gray100,
     onInverseSurface: AppColors.gray900,
+
+    tertiaryFixed: AppColors.orange500,
   );
 
   static final ElevatedButtonThemeData elevatedButtonTheme =
@@ -40,7 +42,7 @@ class DarkTheme {
           foregroundColor: colorScheme.onPrimary,
           disabledBackgroundColor: colorScheme.primary.withValues(alpha: 0.4),
           disabledForegroundColor: colorScheme.onPrimary.withValues(alpha: 0.6),
-          elevation: 6,
+          elevation: 4,
           fixedSize: const Size(double.infinity, 50),
         ),
       );

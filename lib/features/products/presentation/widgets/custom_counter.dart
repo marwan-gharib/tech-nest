@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 class CustomCounter extends StatefulWidget {
   final int maxCount;
   final int initialCount;
+  final ValueChanged<int>? onChanged;
 
   const CustomCounter({
     required this.maxCount,
+    this.onChanged,
     this.initialCount = 1,
     super.key,
   });
@@ -36,12 +38,14 @@ class _CustomCounterState extends State<CustomCounter> {
   void _increment() {
     if (_counter.value < widget.maxCount) {
       _counter.value++;
+      widget.onChanged?.call(_counter.value);
     }
   }
 
   void _decrement() {
     if (_counter.value > 1) {
       _counter.value--;
+      widget.onChanged?.call(_counter.value);
     }
   }
 
