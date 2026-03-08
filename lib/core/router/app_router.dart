@@ -28,7 +28,7 @@ class AppRouter {
   const AppRouter._();
 
   static final GoRouter routes = GoRouter(
-    initialLocation: Routers.cartScreenPath,
+    initialLocation: Routers.homeScreenPath,
     routes: [
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) =>

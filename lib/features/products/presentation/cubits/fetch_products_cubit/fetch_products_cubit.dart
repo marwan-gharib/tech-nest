@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/core/params/products_params.dart';
 import 'package:tech_nest/core/utils/logger.dart';
+import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
 import 'package:tech_nest/features/products/domain/use_cases/get_products_usecase.dart';
 
 part 'fetch_products_state.dart';
@@ -15,9 +16,7 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
 
   ProductsParams _params = ProductsParams(limit: 10, page: 1);
 
-  Future<void> initialFetching({required ProductsParams params}) async {
-    _params = params.copyWith(page: 1);
-
+  Future<void> initialFetching() async {
     emit(const FetchProductsState(isLoading: true));
 
     final res = await _getProductsUsecase.call(params: _params);
@@ -61,7 +60,25 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
     );
   }
 
-  Future<void> applyFilters(ProductsParams params) async {
-    await initialFetching(params: params);
+  Future<void> search(String query) async {
+    _params = _params.copyWith(search: query, page: 1);
+
+    await initialFetching();
+  }
+
+  Future<void> applyFilters(FilterData filter) async {
+    _params = filter.toParams().copyWith(
+      search: _params.search,
+      limit: 10,
+      page: 1,
+    );
+
+    await initialFetching();
+  }
+
+  Future<void> refresh() async {
+    _params = ProductsParams(page: 1, limit: 10);
+
+    await initialFetching();
   }
 }

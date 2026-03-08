@@ -5,21 +5,25 @@ import 'package:tech_nest/features/products/presentation/cubits/search_suggestio
 import 'package:tech_nest/features/products/presentation/widgets/custom_search_field.dart';
 
 class SearchProductsWidget extends StatefulWidget {
+  final TextEditingController controller;
   final ValueChanged<String?> onSelected;
 
-  const SearchProductsWidget({required this.onSelected, super.key});
+  const SearchProductsWidget({
+    required this.controller,
+    required this.onSelected,
+    super.key,
+  });
 
   @override
   State<SearchProductsWidget> createState() => _SearchProductsWidgetState();
 }
 
 class _SearchProductsWidgetState extends State<SearchProductsWidget> {
-  late final TextEditingController _controller;
   late final ValueNotifier<bool> _showSuggestionsNotifire;
 
   @override
   void initState() {
-    _controller = TextEditingController()..addListener(_textChanged);
+    widget.controller.addListener(_textChanged);
 
     _showSuggestionsNotifire = ValueNotifier(false);
 
@@ -27,7 +31,7 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
   }
 
   void _textChanged() {
-    final show = _controller.text.length >= 2;
+    final show = widget.controller.text.length >= 2;
     if (_showSuggestionsNotifire.value != show) {
       _showSuggestionsNotifire.value = show;
     }
@@ -35,63 +39,65 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
 
   @override
   void dispose() {
-    _controller.removeListener(_textChanged);
-    _controller.dispose();
+    widget.controller.removeListener(_textChanged);
     _showSuggestionsNotifire.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(maxHeight: 250, minHeight: 40),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.onSecondary,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          SizedBox(
-            height: 40,
-            child: CustomSearchField(
-              controller: _controller,
-              onSubmit: (value) => widget.onSelected(value),
-              onChange: (value) async {
-                if (value != null && value.length >= 2) {
-                  await context.read<SearchSuggestionsCubit>().getSuggestions(
-                    searchLabel: value,
-                  );
-                }
-              },
+    return TapRegion(
+      onTapOutside: (_) => _showSuggestionsNotifire.value = false,
+      child: Container(
+        constraints: const BoxConstraints(maxHeight: 250, minHeight: 40),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.onSecondary,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              height: 40,
+              child: CustomSearchField(
+                controller: widget.controller,
+                onSubmit: (value) => widget.onSelected(value),
+                onChange: (value) async {
+                  if (value != null && value.length >= 2) {
+                    await context.read<SearchSuggestionsCubit>().getSuggestions(
+                      searchLabel: value,
+                    );
+                  }
+                },
+              ),
             ),
-          ),
-          ValueListenableBuilder(
-            valueListenable: _showSuggestionsNotifire,
-            builder: (_, value, child) {
-              return value ? child! : const SizedBox.shrink();
-            },
-            child:
-                BlocSelector<
-                  SearchSuggestionsCubit,
-                  SearchSuggestionsState,
-                  List<String>
-                >(
-                  selector: (state) {
-                    if (state is SearchSuggestionsLoaded) {
-                      return state.suggestions;
-                    }
-                    return [];
-                  },
-                  builder: (context, suggestions) {
-                    if (suggestions.isNotEmpty) {
-                      return _suggestionsView(suggestions: suggestions);
-                    }
-                    return const SizedBox.shrink();
-                  },
-                ),
-          ),
-        ],
+            ValueListenableBuilder(
+              valueListenable: _showSuggestionsNotifire,
+              builder: (_, value, child) {
+                return value ? child! : const SizedBox.shrink();
+              },
+              child:
+                  BlocSelector<
+                    SearchSuggestionsCubit,
+                    SearchSuggestionsState,
+                    List<String>
+                  >(
+                    selector: (state) {
+                      if (state is SearchSuggestionsLoaded) {
+                        return state.suggestions;
+                      }
+                      return [];
+                    },
+                    builder: (context, suggestions) {
+                      if (suggestions.isNotEmpty) {
+                        return _suggestionsView(suggestions: suggestions);
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -113,7 +119,7 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
               dense: true,
               onTap: () {
                 widget.onSelected(suggestion);
-                _controller.setText(suggestion);
+                widget.controller.setText(suggestion);
                 _showSuggestionsNotifire.value = false;
               },
             );

@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/params/products_params.dart';
 import 'package:tech_nest/core/widgets/product_card.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 
 class ProductsGrid extends StatelessWidget {
-  final ProductsParams params;
-
-  const ProductsGrid({required this.params, super.key});
+  const ProductsGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +29,8 @@ class ProductsGrid extends StatelessWidget {
                     textAlign: TextAlign.center,
                   ),
                   IconButton(
-                    onPressed: () => context
-                        .read<FetchProductsCubit>()
-                        .initialFetching(params: params),
+                    onPressed: () =>
+                        context.read<FetchProductsCubit>().initialFetching(),
                     icon: const Icon(Icons.refresh, size: 100),
                   ),
                 ],
