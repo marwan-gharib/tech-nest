@@ -34,116 +34,98 @@ class AppRouter {
         builder: (context, state, navigationShell) =>
             AppShellEntry(navigationShell: navigationShell),
         branches: [
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: Routers.homeScreenPath,
-                builder: (context, state) => BlocProvider(
-                  create: (context) => sl<FetchProductsCubit>(),
-                  child: const HomeScreen(),
-                ),
-                routes: [
-                  GoRoute(
-                    path: Routers.productDetailsScreen,
-                    name: Routers.productDetailsScreen,
-                    builder: (context, state) => BlocProvider(
-                      create: (context) => sl<AddProductToCartCubit>(),
-                      child: ProductDetailsScreen(
-                        product: state.extra as Product,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: Routers.cartScreenPath,
-                builder: (context, state) => BlocProvider(
-                  create: (context) => sl<CartCubit>()..fetchCart(),
-                  child: const CartItemsScreen(),
-                ),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: Routers.categoriesScreenPath,
-                builder: (context, state) => MultiBlocProvider(
-                  providers: [
-                    BlocProvider(
-                      create: (context) =>
-                          sl<FetchCategoriesCubit>()..fetchCategories(),
-                    ),
-                    BlocProvider(
-                      create: (context) => sl<CategoryProductsCubit>(),
-                    ),
-                  ],
-                  child: const CategoriesScreen(),
-                ),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: "/settings",
-                builder: (context, state) =>
-                    const DemoScreen(label: "Settings Screen"),
-              ),
-            ],
-          ),
-          StatefulShellBranch(
-            routes: [
-              GoRoute(
-                path: "/profile",
-                builder: (context, state) =>
-                    const DemoScreen(label: "Profile Screen"),
-              ),
-            ],
-          ),
+          StatefulShellBranch(routes: [_homeScreenRouter]),
+          StatefulShellBranch(routes: [_cartScreenRouter]),
+          StatefulShellBranch(routes: [_categoriesScreenRouter]),
+          StatefulShellBranch(routes: [_settingsScreenRouter]),
+          StatefulShellBranch(routes: [_profileScreenRouter]),
         ],
       ),
-      GoRoute(
-        path: Routers.signUpScreenPath,
-        builder: (context, state) => BlocProvider(
-          create: (context) => sl<RegisterationCubit>(),
-          child: const SignUpScreen(),
-        ),
-      ),
-      GoRoute(
-        path: Routers.loginScreenPath,
-        builder: (context, state) => MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (context) => sl<LoginCubit>()),
-            BlocProvider(create: (context) => sl<ForgetPasswordCubit>()),
-          ],
-          child: const LoginScreen(),
-        ),
-      ),
+      _signUpScreenRouter,
+      _loginScreenRouter,
     ],
+    refreshListenable: _authNotifire,
     redirect: (context, state) {
-      Logger.logg("redirect check: ${state.matchedLocation}");
-
+      Logger.logg(state.matchedLocation);
       final bool isAuth = _authNotifire.isAuth;
-
       final authRoutes = [Routers.loginScreenPath, Routers.signUpScreenPath];
-
       final bool isAuthRoute = authRoutes.contains(state.matchedLocation);
 
       if (!isAuth && !isAuthRoute) {
         return Routers.loginScreenPath;
-      }
-
-      if (isAuth && isAuthRoute) {
+      } else if (isAuth && isAuthRoute) {
         return Routers.homeScreenPath;
       }
-
       return null;
     },
-    refreshListenable: _authNotifire,
+  );
+
+  static final _signUpScreenRouter = GoRoute(
+    path: Routers.signUpScreenPath,
+    builder: (context, state) => BlocProvider(
+      create: (context) => sl<RegisterationCubit>(),
+      child: const SignUpScreen(),
+    ),
+  );
+
+  static final _loginScreenRouter = GoRoute(
+    path: Routers.loginScreenPath,
+    builder: (context, state) => MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => sl<LoginCubit>()),
+        BlocProvider(create: (context) => sl<ForgetPasswordCubit>()),
+      ],
+      child: const LoginScreen(),
+    ),
+  );
+
+  static final _productdetailsRouter = GoRoute(
+    path: Routers.productDetailsScreen,
+    name: Routers.productDetailsScreen,
+    builder: (context, state) => BlocProvider(
+      create: (context) => sl<AddProductToCartCubit>(),
+      child: ProductDetailsScreen(product: state.extra as Product),
+    ),
+  );
+
+  static final _homeScreenRouter = GoRoute(
+    path: Routers.homeScreenPath,
+    builder: (context, state) => BlocProvider(
+      create: (context) => sl<FetchProductsCubit>(),
+      child: const HomeScreen(),
+    ),
+    routes: [_productdetailsRouter],
+  );
+
+  static final _cartScreenRouter = GoRoute(
+    path: Routers.cartScreenPath,
+    builder: (context, state) => BlocProvider(
+      create: (context) => sl<CartCubit>()..fetchCart(),
+      child: const CartItemsScreen(),
+    ),
+  );
+
+  static final _categoriesScreenRouter = GoRoute(
+    path: Routers.categoriesScreenPath,
+    builder: (context, state) => MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => sl<FetchCategoriesCubit>()..fetchCategories(),
+        ),
+        BlocProvider(create: (context) => sl<CategoryProductsCubit>()),
+      ],
+      child: const CategoriesScreen(),
+    ),
+    routes: [_productdetailsRouter],
+  );
+
+  static final _settingsScreenRouter = GoRoute(
+    path: "/settings",
+    builder: (context, state) => const DemoScreen(label: "Settings Screen"),
+  );
+
+  static final _profileScreenRouter = GoRoute(
+    path: "/profile",
+    builder: (context, state) => const DemoScreen(label: "Profile Screen"),
   );
 }
