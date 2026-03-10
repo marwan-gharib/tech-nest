@@ -1,9 +1,10 @@
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
+import 'package:tech_nest/core/params/add_to_cart_params.dart';
 import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
+import 'package:tech_nest/features/cart/data/models/cart_item_model.dart';
 import 'package:tech_nest/features/cart/data/models/cart_model.dart';
-import 'package:tech_nest/features/cart/domain/params/add_to_cart_params.dart';
 import 'package:tech_nest/features/cart/domain/params/update_item_quantity_params.dart';
 
 class CartRemoteDataSource {
@@ -11,9 +12,20 @@ class CartRemoteDataSource {
 
   CartRemoteDataSource(this._api);
 
-  Future<void> addToCart({required AddToCartParams params}) async {
+  Future<CartItemModel> addToCart({required AddToCartParams params}) async {
     try {
-      await _api.post(Endpoints.addToCart, data: params.toJson());
+      final response = await _api.post(
+        Endpoints.addToCart,
+        data: params.toJson(),
+      );
+
+      if (response != null) {
+        return CartItemModel.fromJson(
+          response[ApiKeys.data] as Map<String, dynamic>,
+        );
+      }
+
+      throw UnKnownException();
     } on AppException {
       rethrow;
     } catch (e) {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/cubits/add_product_to_cart_cubit/add_product_to_cart_cubit.dart';
+import 'package:tech_nest/core/cubits/cart_cubit/cart_cubit.dart';
 import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
@@ -116,7 +116,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ),
                   const SizedBox(height: 30),
-                  BlocConsumer<AddProductToCartCubit, AddProductToCartState>(
+                  BlocConsumer<CartCubit, CartState>(
                     listener: _listener,
                     builder: _builder,
                   ),
@@ -157,19 +157,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     ),
   );
 
-  void _listener(BuildContext context, AddProductToCartState state) {
-    if (state.message.isNotEmpty) {
+  void _listener(BuildContext context, CartState state) {
+    if (state is CartFailed) {
       customSnackBar(context, message: state.message);
     }
   }
 
-  Widget _builder(BuildContext context, AddProductToCartState state) {
+  Widget _builder(BuildContext context, CartState state) {
     return Center(
-      child: state.isLoading
+      child: state is CartLoading
           ? const CircularProgressIndicator(strokeAlign: 3)
           : ElevatedButton(
               onPressed: widget.product.stock > 0
-                  ? () => context.read<AddProductToCartCubit>().add(
+                  ? () => context.read<CartCubit>().add(
                       productId: widget.product.id,
                       quantity: quantityCounter,
                     )

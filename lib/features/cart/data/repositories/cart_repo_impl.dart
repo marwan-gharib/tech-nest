@@ -1,6 +1,7 @@
+import 'package:tech_nest/core/params/add_to_cart_params.dart';
 import 'package:tech_nest/features/cart/data/data_source/remote/cart_remote_data_source.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart.dart';
-import 'package:tech_nest/features/cart/domain/params/add_to_cart_params.dart';
+import 'package:tech_nest/features/cart/domain/entities/cart_item.dart';
 import 'package:tech_nest/features/cart/domain/params/update_item_quantity_params.dart';
 import 'package:tech_nest/features/cart/domain/repositories/cart_repo.dart';
 
@@ -10,8 +11,10 @@ class CartRepoImpl extends CartRepo {
   CartRepoImpl(this._dataSource);
 
   @override
-  Future<void> addToCart({required AddToCartParams params}) async {
-    await _dataSource.addToCart(params: params);
+  Future<CartItem> addToCart({required AddToCartParams params}) async {
+    final model = await _dataSource.addToCart(params: params);
+
+    return model.toEntity();
   }
 
   @override

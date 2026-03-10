@@ -1,6 +1,7 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/cubits/add_product_to_cart_cubit/add_product_to_cart_cubit.dart';
+import 'package:tech_nest/core/cubits/cart_cubit/cart_cubit.dart';
 import 'package:tech_nest/core/di/injection_container.dart';
 import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/core/router/routers.dart';
@@ -12,7 +13,6 @@ import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cu
 import 'package:tech_nest/features/auth/presentation/cubits/registeration_cubit/registeration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/screens/login_screen.dart';
 import 'package:tech_nest/features/auth/presentation/screens/sign_up_screen.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart_cubit/cart_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/screens/cart_items_screen.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
@@ -31,8 +31,7 @@ class AppRouter {
     initialLocation: Routers.homeScreenPath,
     routes: [
       StatefulShellRoute.indexedStack(
-        builder: (context, state, navigationShell) =>
-            AppShellEntry(navigationShell: navigationShell),
+        builder: _shellBuilder,
         branches: [
           StatefulShellBranch(routes: [_homeScreenRouter]),
           StatefulShellBranch(routes: [_cartScreenRouter]),
@@ -60,6 +59,15 @@ class AppRouter {
     },
   );
 
+  static Widget _shellBuilder(
+    BuildContext context,
+    GoRouterState state,
+    StatefulNavigationShell navigationShell,
+  ) => BlocProvider(
+    create: (context) => sl<CartCubit>()..fetchCart(),
+    child: AppShellEntry(navigationShell: navigationShell),
+  );
+
   static final _signUpScreenRouter = GoRoute(
     path: Routers.signUpScreenPath,
     builder: (context, state) => BlocProvider(
@@ -81,11 +89,8 @@ class AppRouter {
 
   static final _productdetailsRouter = GoRoute(
     path: Routers.productDetailsScreen,
-    name: Routers.productDetailsScreen,
-    builder: (context, state) => BlocProvider(
-      create: (context) => sl<AddProductToCartCubit>(),
-      child: ProductDetailsScreen(product: state.extra as Product),
-    ),
+    builder: (context, state) =>
+        ProductDetailsScreen(product: state.extra as Product),
   );
 
   static final _homeScreenRouter = GoRoute(
@@ -99,10 +104,7 @@ class AppRouter {
 
   static final _cartScreenRouter = GoRoute(
     path: Routers.cartScreenPath,
-    builder: (context, state) => BlocProvider(
-      create: (context) => sl<CartCubit>()..fetchCart(),
-      child: const CartItemsScreen(),
-    ),
+    builder: (context, state) => const CartItemsScreen(),
   );
 
   static final _categoriesScreenRouter = GoRoute(

@@ -5,8 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/assets.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/cubits/add_product_to_cart_cubit/add_product_to_cart_cubit.dart';
-import 'package:tech_nest/core/di/injection_container.dart';
+import 'package:tech_nest/core/cubits/cart_cubit/cart_cubit.dart';
 import 'package:tech_nest/core/entities/product_entity.dart';
 import 'package:tech_nest/core/router/routers.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
@@ -27,10 +26,16 @@ class ProductCard extends StatelessWidget {
           children: [
             Expanded(
               child: GestureDetector(
-                onTap: () => context.pushNamed(
-                  Routers.productDetailsScreen,
-                  extra: product,
-                ),
+                onTap: () {
+                  final String currentLocation = GoRouterState.of(
+                    context,
+                  ).matchedLocation;
+
+                  context.push(
+                    '$currentLocation/${Routers.productDetailsScreen}',
+                    extra: product,
+                  );
+                },
                 child: ClipRRect(
                   borderRadius: BorderRadiusGeometry.circular(12),
                   child: CachedNetworkImage(
@@ -94,13 +99,9 @@ class ProductCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                BlocProvider(
-                  create: (context) => sl<AddProductToCartCubit>(),
-                  child:
-                      BlocConsumer<
-                        AddProductToCartCubit,
-                        AddProductToCartState
-                      >(builder: _builder, listener: _listener),
+                BlocConsumer<CartCubit, CartState>(
+                  builder: _builder,
+                  listener: _listener,
                 ),
               ],
             ),
@@ -110,16 +111,16 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  void _listener(BuildContext context, AddProductToCartState state) {
-    if (state.message.isNotEmpty) {
+  void _listener(BuildContext context, CartState state) {
+    if (state is CartFailed) {
       customSnackBar(context, message: state.message);
     }
   }
 
-  Widget _builder(BuildContext context, AddProductToCartState state) {
+  Widget _builder(BuildContext context, CartState state) {
     return IconButton(
       onPressed: product.stock > 0
-          ? () async => await context.read<AddProductToCartCubit>().add(
+          ? () async => await context.read<CartCubit>().add(
               productId: product.id,
               quantity: 1,
             )
