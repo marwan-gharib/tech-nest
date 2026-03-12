@@ -15,7 +15,7 @@ class Cart {
     required this.grandTotal,
   });
 
-  Cart _copyWith({
+  Cart copyWith({
     List<CartItem>? items,
     int? totalQuantity,
     int? totalPrice,
@@ -43,7 +43,7 @@ class Cart {
 
     final grand = totalPrice + delivery;
 
-    return _copyWith(
+    return copyWith(
       items: newItems,
       totalQuantity: totalQty,
       totalPrice: totalPrice,

@@ -38,10 +38,27 @@ class CartCubit extends Cubit<CartState> {
     res.fold((failure) => emit(CartFailed(message: failure.message)), (
       newCartItem,
     ) {
-      final newCartItems = [...currentState.cart.items, newCartItem];
-      final newCart = currentState.cart.recalculate(newCartItems);
+      final currentItems = currentState.cart.items;
 
-      emit(currentState.copyWith(cart: newCart));
+      final index = currentItems.indexWhere(
+        (item) => item.product.id == newCartItem.product.id,
+      );
+
+      if (index != -1) {
+        final oldItem = currentItems[index];
+
+        currentItems[index] = oldItem.copyWith(
+          quantity: oldItem.quantity + newCartItem.quantity,
+        );
+      } else {
+        currentItems.add(newCartItem);
+      }
+
+      emit(
+        currentState.copyWith(
+          cart: currentState.cart.copyWith(items: currentItems),
+        ),
+      );
     });
   }
 

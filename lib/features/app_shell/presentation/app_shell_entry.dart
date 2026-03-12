@@ -80,17 +80,6 @@ class _AppShellEntryState extends State<AppShellEntry> {
     );
   }
 
-  Widget _cartCountLabel(int itemsCount) {
-    return Text(
-      itemsCount.toString(),
-      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-        color: Theme.of(context).colorScheme.onTertiary,
-        fontWeight: FontWeight.bold,
-      ),
-      textAlign: TextAlign.center,
-    );
-  }
-
   Widget _cartCountIcon() {
     return Positioned(
       right: -6,
@@ -116,6 +105,17 @@ class _AppShellEntryState extends State<AppShellEntry> {
           },
         ),
       ),
+    );
+  }
+
+  Widget _cartCountLabel(int itemsCount) {
+    return Text(
+      itemsCount.toString(),
+      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+        color: Theme.of(context).colorScheme.onTertiary,
+        fontWeight: FontWeight.bold,
+      ),
+      textAlign: TextAlign.center,
     );
   }
 }
