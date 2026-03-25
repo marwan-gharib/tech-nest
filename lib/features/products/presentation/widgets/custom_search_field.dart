@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomSearchField extends StatefulWidget {
+class CustomSearchField extends StatelessWidget {
   final ValueChanged<String?> onSubmit;
   final ValueChanged<String?>? onChange;
   final TextEditingController controller;
@@ -13,30 +13,16 @@ class CustomSearchField extends StatefulWidget {
   });
 
   @override
-  State<CustomSearchField> createState() => _CustomSearchFieldState();
-}
-
-class _CustomSearchFieldState extends State<CustomSearchField> {
-  String _lastEntry = '';
-
-  @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: widget.controller,
+      controller: controller,
       textInputAction: TextInputAction.search,
       onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       cursorColor: Theme.of(context).colorScheme.primary,
       cursorErrorColor: Theme.of(context).colorScheme.primary,
       keyboardType: TextInputType.name,
-      onSubmitted: (value) => widget.onSubmit(value),
-      onChanged: (value) {
-        widget.onChange?.call(value);
-        if ((_lastEntry.isNotEmpty && value.isEmpty) ||
-            (_lastEntry.isEmpty && value.isNotEmpty)) {
-          setState(() {});
-        }
-        _lastEntry = value;
-      },
+      onSubmitted: (value) => onSubmit(value),
+      onChanged: (value) => onChange?.call(value),
       decoration: InputDecoration(
         border: _border,
         errorBorder: _border,
@@ -47,22 +33,26 @@ class _CustomSearchFieldState extends State<CustomSearchField> {
         filled: true,
         fillColor: Theme.of(context).colorScheme.onPrimary,
         hintText: "Search...",
-        hintStyle: Theme.of(
-          context,
-        ).textTheme.bodyLarge!.copyWith(color: Theme.of(context).hintColor),
+        hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
+          color: Theme.of(context).hintColor,
+        ),
         prefixIcon: const Icon(Icons.search),
         isDense: true,
-        suffixIcon: widget.controller.text.isNotEmpty
-            ? IconButton(
+        suffixIcon: ValueListenableBuilder<TextEditingValue>(
+          valueListenable: controller,
+          builder: (context, value, child) {
+            if (value.text.isNotEmpty) {
+              return IconButton(
                 onPressed: () {
-                  widget.controller.clear();
-                  setState(() {});
-                  _lastEntry = '';
-                  widget.onSubmit(null);
+                  controller.clear();
+                  onSubmit(null);
                 },
                 icon: const Icon(Icons.clear),
-              )
-            : null,
+              );
+            }
+            return const SizedBox.shrink();
+          },
+        ),
       ),
     );
   }

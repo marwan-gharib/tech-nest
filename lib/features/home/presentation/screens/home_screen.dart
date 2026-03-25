@@ -5,7 +5,6 @@ import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_components.dart';
-import 'package:tech_nest/features/home/presentation/widgets/search_header_delegate.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/features/products/presentation/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
 import 'package:tech_nest/features/products/presentation/widgets/products_grid.dart';
@@ -62,21 +61,45 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: RefreshIndicator(
+    return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      body: RefreshIndicator(
         onRefresh: _onRefresh,
+        edgeOffset: 100,
         child: CustomScrollView(
           controller: _scrollController,
-          physics: const AlwaysScrollableScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
+          ),
           slivers: [
-            SliverPersistentHeader(
+            SliverAppBar(
+              pinned: true,
               floating: true,
-              delegate: SearchHeaderDelegate(
+              elevation: 0,
+              backgroundColor: Theme.of(
+                context,
+              ).colorScheme.surface.withValues(alpha: 0.95),
+              surfaceTintColor: Colors.transparent,
+              expandedHeight: 120,
+              flexibleSpace: FlexibleSpaceBar(
+                titlePadding: const EdgeInsets.only(
+                  left: 16,
+                  bottom: 68,
+                  right: 16,
+                ),
+                title: Text(
+                  "Discover",
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+              ),
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(70),
                 child: Padding(
-                  padding: const EdgeInsets.only(bottom: 2, left: 8, top: 20),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: BlocProvider(
@@ -87,22 +110,41 @@ class _HomeScreenState extends State<HomeScreen> {
                               context.read<FetchProductsCubit>().search(
                                 value ?? "",
                               );
-                              Logger.logg(value.toString());
+                              Logger.logg("Searched: $value");
                             },
                           ),
                         ),
                       ),
+                      const SizedBox(width: 12),
                       Container(
-                        height: 38,
+                        height: 50,
+                        width: 50,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.tertiary,
-                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                            colors: [
+                              Theme.of(context).colorScheme.primary,
+                              Theme.of(context).colorScheme.tertiary,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary.withValues(alpha: 0.3),
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
                         ),
                         child: IconButton(
-                          onPressed: () => _bottomSheet,
+                          onPressed: _showBottomSheet,
                           icon: const Icon(
-                            Icons.format_align_center_sharp,
-                            size: 18,
+                            Icons.tune_rounded,
+                            color: Colors.white,
+                            size: 24,
                           ),
                         ),
                       ),
@@ -111,32 +153,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            const ProductsGrid(),
-            const SliverToBoxAdapter(child: SizedBox(height: 20)),
+            const SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              sliver: ProductsGrid(),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 50)),
           ],
         ),
       ),
     );
   }
 
-  Future<void> get _bottomSheet async => await showModalBottomSheet(
-    context: context,
-    backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
-    isDismissible: false,
-    enableDrag: true,
-    showDragHandle: true,
-    isScrollControlled: true,
-    useSafeArea: true,
-    useRootNavigator: true,
-    builder: (context) {
-      return FilterComponents(
-        filterData: _filterData,
-        onApply: (FilterData filterData) async {
-          _filterData = filterData;
-          context.read<FetchProductsCubit>().applyFilters(_filterData);
-          context.pop();
-        },
-      );
-    },
-  );
+  Future<void> _showBottomSheet() async {
+    await showModalBottomSheet(
+      context: context,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
+      isDismissible: true,
+      enableDrag: true,
+      showDragHandle: true,
+      isScrollControlled: true,
+      elevation: 24,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (context) {
+        return FilterComponents(
+          filterData: _filterData,
+          onApply: (FilterData filterData) async {
+            _filterData = filterData;
+            context.read<FetchProductsCubit>().applyFilters(_filterData);
+            context.pop();
+          },
+        );
+      },
+    );
+  }
 }
