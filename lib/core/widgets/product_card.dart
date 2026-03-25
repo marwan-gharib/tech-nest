@@ -5,7 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/assets.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/cubits/cart_cubit/cart_cubit.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';

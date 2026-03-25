@@ -9,6 +9,7 @@ import 'package:tech_nest/features/cart/domain/use_cases/remove_from_cart_usecas
 import 'package:tech_nest/features/cart/domain/use_cases/update_item_quantity_usecase.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/delete_cart_item_cubit/delete_cart_item_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/update_item_quantity_cubit/update_item_quantity_cubit.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 
 void initCartDI(GetIt sl) {
   sl.registerLazySingleton(() => CartRemoteDataSource(sl<ApiClient>()));
@@ -26,4 +27,7 @@ void initCartDI(GetIt sl) {
     () => UpdateItemQuantityCubit(sl<UpdateItemQuantityUsecase>()),
   );
   sl.registerFactory(() => DeleteCartItemCubit(sl<RemoveFromCartUsecase>()));
+  sl.registerFactory(
+    () => CartCubit(sl<GetCartItemsUsecase>(), sl<AddToCartUsecase>()),
+  );
 }
