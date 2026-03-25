@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
       darkTheme: AppTheme.darkTheme,
       themeAnimationDuration: const Duration(milliseconds: 300),
       themeAnimationCurve: Curves.easeInOut,
-      themeMode: context.watch<ThemeCubit>().state,
+      themeMode: context.watch<ThemeCubit>().state.mode,
       routerConfig: AppRouter.routes,
     );
   }

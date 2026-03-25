@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/cubits/cart_cubit/cart_cubit.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_details_widget.dart';

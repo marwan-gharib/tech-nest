@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/cubits/cart_cubit/cart_cubit.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 
 class AppShellEntry extends StatefulWidget {
   final StatefulNavigationShell navigationShell;
