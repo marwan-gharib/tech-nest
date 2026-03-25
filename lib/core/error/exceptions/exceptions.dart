@@ -15,7 +15,7 @@ class NetworkException extends AppException {
 }
 
 class UnAuthorizedException extends AppException {
-  UnAuthorizedException() : super("UnAuthorized request.");
+  UnAuthorizedException([super.message = "UnAuthorized request."]);
 }
 
 class CacheException extends AppException {
@@ -23,7 +23,7 @@ class CacheException extends AppException {
 }
 
 class UnKnownException extends AppException {
-  UnKnownException() : super("UnExpected exception Accurred.");
+  UnKnownException() : super("Unexpected exception occurred.");
 }
 
 class PagingException extends AppException {

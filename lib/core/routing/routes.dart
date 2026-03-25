@@ -9,8 +9,6 @@ class Routes {
 
   static String get productDetailsScreen => "productDetails";
 
-  static String get forgetPasswordScreenPath => "/auth/forgetPassword";
-  static String get verifyEmailScreenPath => "/auth/verifyEmail";
   static String get profileScreenPath => "/profile";
   static String get settingsScreenPath => "/settings";
 }

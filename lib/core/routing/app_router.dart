@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
@@ -12,6 +11,7 @@ import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cu
 import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/screens/login_screen.dart';
 import 'package:tech_nest/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/screens/cart_items_screen.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
@@ -41,8 +41,6 @@ class AppRouter {
       ),
       _signUpScreenRouter,
       _loginScreenRouter,
-      _forgetPasswordRouter,
-      _verifyEmailRouter,
     ],
     refreshListenable: _authNotifier,
     redirect: (context, state) {
@@ -90,9 +88,8 @@ class AppRouter {
 
   static final _productdetailsRouter = GoRoute(
     path: '${Routes.productDetailsScreen}/:id',
-    builder: (context, state) => ProductDetailsScreen(
-      productId: int.parse(state.pathParameters['id']!),
-    ),
+    builder: (context, state) =>
+        ProductDetailsScreen(productId: int.parse(state.pathParameters['id']!)),
   );
 
   static final _homeScreenRouter = GoRoute(
@@ -131,15 +128,5 @@ class AppRouter {
   static final _profileScreenRouter = GoRoute(
     path: Routes.profileScreenPath,
     builder: (context, state) => const DemoScreen(label: "Profile Screen"),
-  );
-
-  static final _forgetPasswordRouter = GoRoute(
-    path: Routes.forgetPasswordScreenPath,
-    builder: (context, state) => const DemoScreen(label: "Forget Password"),
-  );
-
-  static final _verifyEmailRouter = GoRoute(
-    path: Routes.verifyEmailScreenPath,
-    builder: (context, state) => const DemoScreen(label: "Verify Email"),
   );
 }

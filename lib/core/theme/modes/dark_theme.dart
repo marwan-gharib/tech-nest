@@ -83,7 +83,7 @@ class DarkTheme {
         highlightElevation: 0,
       );
 
-  static const TextTheme textTheme = TextTheme(
+  static final TextTheme textTheme = const TextTheme(
     headlineLarge: AppTextStyles.headlineLarge,
     headlineMedium: AppTextStyles.headlineMedium,
     bodyLarge: AppTextStyles.bodyLarge,
@@ -91,6 +91,9 @@ class DarkTheme {
     labelLarge: AppTextStyles.labelLarge,
     labelMedium: AppTextStyles.labelMedium,
     labelSmall: AppTextStyles.labelSmall,
+  ).apply(
+    bodyColor: colorScheme.onSurface,
+    displayColor: colorScheme.onSurface,
   );
 
   static final AppBarTheme appBarTheme = AppBarTheme(
@@ -109,17 +112,24 @@ class DarkTheme {
     elevation: 1.5,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
   );
+  
+  static final IconThemeData iconTheme = const IconThemeData();
 
-  static final BottomNavigationBarThemeData bottomNavigationBarTheme =
-      BottomNavigationBarThemeData(
-        backgroundColor: colorScheme.onSecondary,
-        selectedIconTheme: IconThemeData(color: colorScheme.primary),
-        unselectedIconTheme: IconThemeData(color: colorScheme.onSurface),
-        selectedLabelStyle: textTheme.labelSmall!.copyWith(
-          color: colorScheme.primary,
-        ),
-        unselectedLabelStyle: textTheme.labelSmall!.copyWith(
-          color: colorScheme.onSurface,
-        ),
-      );
+  static final BottomNavigationBarThemeData bottomNavigationBarTheme = BottomNavigationBarThemeData(
+    backgroundColor: colorScheme.surface,
+    selectedIconTheme: IconThemeData(color: colorScheme.primary, size: 28),
+    unselectedIconTheme: IconThemeData(color: colorScheme.onSurfaceVariant),
+    selectedLabelStyle: textTheme.labelSmall?.copyWith(
+      color: colorScheme.primary,
+    ),
+    unselectedLabelStyle: textTheme.labelSmall?.copyWith(
+      color: colorScheme.onSurfaceVariant,
+    ),
+    selectedItemColor: colorScheme.primary,
+    unselectedItemColor: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+    type: BottomNavigationBarType.shifting,
+    landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
+    elevation: 10,
+    showSelectedLabels: true,
+  );
 }
