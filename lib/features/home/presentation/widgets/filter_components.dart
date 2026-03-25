@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/di/injection_container.dart';
-import 'package:tech_nest/core/enums/order_type.dart';
-import 'package:tech_nest/core/enums/sort_type.dart';
+import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/core/domain/enums/order_type.dart';
+import 'package:tech_nest/core/domain/enums/sort_type.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/widgets/categories_view.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';

@@ -1,10 +1,14 @@
-import 'package:flutter_riverpod/legacy.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ImageNotifire extends StateNotifier<XFile?> {
-  final ImagePicker _picker;
+class ImageNotifier extends AutoDisposeNotifier<XFile?> {
+  late final ImagePicker _picker;
 
-  ImageNotifire(this._picker) : super(null);
+  @override
+  XFile? build() {
+    _picker = ImagePicker();
+    return null;
+  }
 
   Future<void> pickImage() async {
     final img = await _picker.pickImage(

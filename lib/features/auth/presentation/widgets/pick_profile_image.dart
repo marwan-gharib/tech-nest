@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_nest/core/constants/assets.dart';
-import 'package:tech_nest/core/state/image/image_provider.dart';
+import 'package:tech_nest/core/services/image/image_provider.dart';
 
 class PickProfileImage extends ConsumerWidget {
   const PickProfileImage({super.key});

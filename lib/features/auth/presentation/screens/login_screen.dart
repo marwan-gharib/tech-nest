@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/di/injection_container.dart';
-import 'package:tech_nest/core/router/routers.dart';
-import 'package:tech_nest/core/services/auth/auth_notifire.dart';
-import 'package:tech_nest/core/utils/validatiors.dart';
+import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/core/routing/routes.dart';
+import 'package:tech_nest/core/services/auth/auth_notifier.dart';
+import 'package:tech_nest/core/utils/validators.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late final GlobalKey<FormState> _emailFormKey;
   late final GlobalKey<FormState> _passFormKey;
   //
-  late final AuthNotifire _authNotifire;
+  late final AuthNotifier _authNotifier;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
     _emailFormKey = GlobalKey<FormState>();
     _passFormKey = GlobalKey<FormState>();
 
-    _authNotifire = sl<AuthNotifire>();
+    _authNotifier = sl<AuthNotifier>();
 
     super.initState();
   }
@@ -108,8 +108,8 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 32),
             AskNavigationWidget(
               question: "Don't have an account ? ",
-              screenLabel: "Registeration",
-              onTap: () => context.go(Routers.signUpScreenPath),
+              screenLabel: "registration",
+              onTap: () => context.go(Routes.signUpScreenPath),
             ),
           ],
         ),
@@ -149,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _loginListener(BuildContext context, LoginState state) async {
     if (state is LoginSuccess) {
-      _authNotifire.login();
+      _authNotifier.login();
     } else if (state is LoginFailed) {
       customSnackBar(context, message: state.message);
     }

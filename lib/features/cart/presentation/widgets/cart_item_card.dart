@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/di/injection_container.dart';
+import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart_item.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/delete_cart_item_cubit/delete_cart_item_cubit.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/router/routers.dart';
+import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_colors.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_partition_dialoge.dart';
@@ -84,7 +84,7 @@ class _VerifyEmailDialogeState extends State<VerifyEmailDialoge> {
   ) async {
     if (state is VerifyEmailSuccess) {
       _isErrNotifire.value = false;
-      context.go(Routers.homeScreenPath);
+      context.go(Routes.homeScreenPath);
     } else if (state is VerifyEmailFailed) {
       _isErrNotifire.value = true;
     } else if (state is VerifyEmailSuccess || state is VerifyEmailLoading) {

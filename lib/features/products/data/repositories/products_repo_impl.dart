@@ -1,5 +1,5 @@
-import 'package:tech_nest/core/entities/product_entity.dart';
-import 'package:tech_nest/core/params/products_params.dart';
+import 'package:tech_nest/core/domain/entities/product_entity.dart';
+import 'package:tech_nest/core/domain/params/products_params.dart';
 import 'package:tech_nest/features/products/data/data_source/remote/products_remote_data_source.dart';
 import 'package:tech_nest/features/products/domain/repositories/products_repo.dart';
 

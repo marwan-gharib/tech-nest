@@ -20,7 +20,7 @@ class RemoveCartItemButton extends StatelessWidget {
 
   void _listener(BuildContext context, DeleteCartItemState state) {
     if (state is DeleteCartItemSuccess) {
-      context.read<CartCubit>().removeItemLocaly(id: state.id);
+      context.read<CartCubit>().removeItemLocally(id: state.id);
     } else if (state is DeleteCartItemFailed) {
       customSnackBar(context, message: state.message);
     }

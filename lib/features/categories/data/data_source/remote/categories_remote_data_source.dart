@@ -1,11 +1,11 @@
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
-import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
+import 'package:tech_nest/core/error/exceptions/exceptions.dart';
+import 'package:tech_nest/core/network/api_client.dart';
 import 'package:tech_nest/features/categories/data/models/category_model.dart';
 
 class CategoriesRemoteDataSource {
-  final ApiConsumer _api;
+  final ApiClient _api;
 
   CategoriesRemoteDataSource(this._api);
 

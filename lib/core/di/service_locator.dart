@@ -2,12 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tech_nest/core/cubits/cart_cubit/cart_cubit.dart';
-import 'package:tech_nest/core/services/auth/auth_notifire.dart';
+import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/services/local/cache/cache_service.dart';
 import 'package:tech_nest/core/services/local/cache/shared_preferences_service.dart';
-import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
-import 'package:tech_nest/core/services/remote/api_service/dio_consumer.dart';
-import 'package:tech_nest/core/services/remote/api_service/dio_interceptor.dart';
+import 'package:tech_nest/core/network/api_client.dart';
+import 'package:tech_nest/core/network/dio_client.dart';
+import 'package:tech_nest/core/network/interceptors/auth_interceptor.dart';
+import 'package:tech_nest/core/network/interceptors/error_interceptor.dart';
+import 'package:tech_nest/core/network/interceptors/logging_interceptor.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/features/auth/di/auth_di.dart';
 import 'package:tech_nest/features/cart/di/cart_di.dart';
@@ -24,22 +26,25 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<CacheService>(() => SharedPreferencesService(pref));
 
   sl.registerLazySingleton(() => Dio());
-  sl.registerLazySingleton<ApiConsumer>(() => DioConsumer(sl<Dio>()));
+  sl.registerLazySingleton<ApiClient>(
+    () => DioClient(
+      dio: sl<Dio>(),
+      authInterceptor: sl<AuthInterceptor>(),
+      errorInterceptor: sl<ErrorInterceptor>(),
+      loggingInterceptor: sl<LoggingInterceptor>(),
+    ),
+  );
 
-  sl.registerLazySingleton(() => AuthNotifire());
+  sl.registerLazySingleton(() => AuthNotifier());
 
   sl.registerFactory(
-    () => DioInterceptor(sl<CacheService>(), sl<AuthNotifire>()),
+    () => AuthInterceptor(sl<CacheService>()),
   );
   sl.registerFactory(
-    () => LogInterceptor(
-      error: true,
-      request: true,
-      requestBody: true,
-      requestHeader: true,
-      responseHeader: true,
-      responseBody: true,
-    ),
+    () => ErrorInterceptor(sl<CacheService>(), sl<AuthNotifier>()),
+  );
+  sl.registerFactory(
+    () => LoggingInterceptor(),
   );
 
   sl.registerFactory(() => ThemeCubit());

@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
-import 'package:tech_nest/core/di/injection_container.dart';
-import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
+import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/core/error/exceptions/exceptions.dart';
 import 'package:tech_nest/core/services/local/cache/cache_service.dart';
 
 class DioExceptions {

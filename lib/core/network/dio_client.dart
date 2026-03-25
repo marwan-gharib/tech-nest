@@ -1,18 +1,25 @@
 import 'package:dio/dio.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/di/injection_container.dart';
-import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
-import 'package:tech_nest/core/errors/handling_errors/dio_exceptions.dart';
-import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
-import 'package:tech_nest/core/services/remote/api_service/dio_interceptor.dart';
+import 'package:tech_nest/core/error/exceptions/exceptions.dart';
+import 'package:tech_nest/core/error/handling/dio_error_handler.dart';
+import 'package:tech_nest/core/network/api_client.dart';
 
-class DioConsumer extends ApiConsumer {
+class DioClient extends ApiClient {
   final Dio dio;
 
-  DioConsumer(this.dio) {
+  DioClient({
+    required this.dio,
+    required Interceptor authInterceptor,
+    required Interceptor errorInterceptor,
+    required Interceptor loggingInterceptor,
+  }) {
     dio.options.baseUrl = "${Endpoints.baseUrl}api/user/";
-    dio.interceptors.add(sl<DioInterceptor>());
-    dio.interceptors.add(sl<LogInterceptor>());
+    dio.options.connectTimeout = const Duration(seconds: 30);
+    dio.options.receiveTimeout = const Duration(seconds: 30);
+    dio.options.sendTimeout = const Duration(seconds: 30);
+    dio.interceptors.add(authInterceptor);
+    dio.interceptors.add(errorInterceptor);
+    dio.interceptors.add(loggingInterceptor);
   }
 
   @override

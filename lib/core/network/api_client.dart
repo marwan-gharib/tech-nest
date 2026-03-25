@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-abstract class ApiConsumer {
+abstract class ApiClient {
   Future<dynamic> get(
     String path, {
     Map<String, dynamic>? data,

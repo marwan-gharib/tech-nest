@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/constants/app_consts.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
-import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
+import 'package:tech_nest/core/error/exceptions/exceptions.dart';
+import 'package:tech_nest/core/network/api_client.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/core/utils/upload_img_to_api.dart';
 import 'package:tech_nest/features/auth/data/models/auth_model.dart';
@@ -14,7 +14,7 @@ import 'package:tech_nest/features/auth/domain/params/sign_up_params.dart';
 import 'package:tech_nest/features/auth/domain/params/verification_email_params.dart';
 
 class AuthRemoteDataSource {
-  final ApiConsumer _api;
+  final ApiClient _api;
 
   AuthRemoteDataSource(this._api);
 

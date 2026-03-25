@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tech_nest/core/di/injection_container.dart';
-import 'package:tech_nest/core/router/routers.dart';
-import 'package:tech_nest/core/state/image/image_provider.dart';
-import 'package:tech_nest/core/utils/validatiors.dart';
+import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/core/routing/routes.dart';
+import 'package:tech_nest/core/services/image/image_provider.dart';
+import 'package:tech_nest/core/utils/validators.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
-import 'package:tech_nest/features/auth/presentation/cubits/registeration_cubit/registeration_cubit.dart';
+import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widget.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
@@ -61,7 +61,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   Widget build(BuildContext context) {
     ref.listen<XFile?>(imageProvider, (previous, next) {
       if (previous != next) {
-        context.read<RegisterationCubit>().profileImg = next;
+        context.read<RegistrationCubit>().profileImg = next;
       }
     });
 
@@ -69,7 +69,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
 
-        appBar: AppBar(title: const Text("Registeration")),
+        appBar: AppBar(title: const Text("registration")),
         body: Form(
           key: _formKey,
           child: ListView(
@@ -119,7 +119,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               ValueListenableBuilder(
                 valueListenable: _checkBoxNotifire,
                 builder: (_, value, _) {
-                  return BlocConsumer<RegisterationCubit, RegisterationState>(
+                  return BlocConsumer<RegistrationCubit, RegistrationState>(
                     listener: _listener,
                     builder: _builder,
                   );
@@ -129,7 +129,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               AskNavigationWidget(
                 question: "Have an acount ? ",
                 screenLabel: "Login",
-                onTap: () => context.go(Routers.loginScreenPath),
+                onTap: () => context.go(Routes.loginScreenPath),
               ),
               const SizedBox(height: 40),
             ],
@@ -139,8 +139,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     );
   }
 
-  Future<void> _listener(BuildContext context, RegisterationState state) async {
-    if (state is RegisterationSuccess) {
+  Future<void> _listener(BuildContext context, RegistrationState state) async {
+    if (state is RegistrationSuccess) {
       await showDialog(
         context: context,
         builder: (_) => BlocProvider(
@@ -151,13 +151,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         useSafeArea: true,
         useRootNavigator: true,
       );
-    } else if (state is RegisterationFailed) {
+    } else if (state is RegistrationFailed) {
       customSnackBar(context, message: state.message);
     }
   }
 
-  Widget _builder(BuildContext context, RegisterationState state) {
-    if (state is RegisterationLoading) {
+  Widget _builder(BuildContext context, RegistrationState state) {
+    if (state is RegistrationLoading) {
       return Center(
         child: CircularProgressIndicator(
           color: Theme.of(context).colorScheme.primary,
@@ -183,7 +183,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   Future<void> _onPressedSignUp() async {
     if (_formKey.currentState!.validate()) {
-      await context.read<RegisterationCubit>().signUp(
+      await context.read<RegistrationCubit>().signUp(
         name: _fullName.text.trim(),
         email: _email.text.trim(),
         password: _password.text.trim(),

@@ -1,5 +1,5 @@
-import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
-import 'package:tech_nest/core/errors/failures/failures.dart';
+import 'package:tech_nest/core/error/exceptions/exceptions.dart';
+import 'package:tech_nest/core/error/failures/failures.dart';
 
 class ErrorMapper {
   const ErrorMapper._();

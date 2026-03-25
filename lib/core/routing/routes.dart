@@ -1,5 +1,5 @@
-class Routers {
-  const Routers._();
+class Routes {
+  const Routes._();
 
   static String get loginScreenPath => "/auth/login";
   static String get signUpScreenPath => "/auth/signUp";

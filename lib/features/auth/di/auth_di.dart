@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:tech_nest/core/services/local/cache/cache_service.dart';
-import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
+import 'package:tech_nest/core/network/api_client.dart';
 import 'package:tech_nest/features/auth/data/data_source/local/auth_local_data_source.dart';
 import 'package:tech_nest/features/auth/data/data_source/remote/auth_remote_data_source.dart';
 import 'package:tech_nest/features/auth/data/repositories/auth_repo_impl.dart';
@@ -13,12 +13,12 @@ import 'package:tech_nest/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:tech_nest/features/auth/domain/usecases/verify_email_usecase.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
-import 'package:tech_nest/features/auth/presentation/cubits/registeration_cubit/registeration_cubit.dart';
+import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
 
 void initAuthDI(GetIt sl) {
-  sl.registerLazySingleton(() => AuthRemoteDataSource(sl<ApiConsumer>()));
+  sl.registerLazySingleton(() => AuthRemoteDataSource(sl<ApiClient>()));
   sl.registerLazySingleton(() => AuthLocalDataSource(sl<CacheService>()));
 
   sl.registerLazySingleton<AuthRepo>(
@@ -37,6 +37,6 @@ void initAuthDI(GetIt sl) {
   sl.registerFactory(() => LoginCubit(sl<LoginUsecase>()));
   sl.registerFactory(() => ForgetPasswordCubit(sl<ForgetPasswordUsecase>()));
   sl.registerFactory(() => ResetPasswordCubit(sl<ResetPasswordUsecase>()));
-  sl.registerFactory(() => RegisterationCubit(sl<SignUpUsecase>()));
+  sl.registerFactory(() => RegistrationCubit(sl<SignUpUsecase>()));
   sl.registerFactory(() => VerifyEmailCubit(sl<VerifyEmailUsecase>()));
 }

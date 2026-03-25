@@ -6,8 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/assets.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/cubits/cart_cubit/cart_cubit.dart';
-import 'package:tech_nest/core/entities/product_entity.dart';
-import 'package:tech_nest/core/router/routers.dart';
+import 'package:tech_nest/core/domain/entities/product_entity.dart';
+import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 
 class ProductCard extends StatelessWidget {
@@ -32,7 +32,7 @@ class ProductCard extends StatelessWidget {
                   ).matchedLocation;
 
                   context.push(
-                    '$currentLocation/${Routers.productDetailsScreen}',
+                    '$currentLocation/${Routes.productDetailsScreen}',
                     extra: product,
                   );
                 },
