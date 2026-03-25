@@ -42,6 +42,8 @@ class AppRouter {
       ),
       _signUpScreenRouter,
       _loginScreenRouter,
+      _forgetPasswordRouter,
+      _verifyEmailRouter,
     ],
     refreshListenable: _authNotifier,
     redirect: (context, state) {
@@ -122,12 +124,22 @@ class AppRouter {
   );
 
   static final _settingsScreenRouter = GoRoute(
-    path: "/settings",
+    path: Routes.settingsScreenPath,
     builder: (context, state) => const DemoScreen(label: "Settings Screen"),
   );
 
   static final _profileScreenRouter = GoRoute(
-    path: "/profile",
+    path: Routes.profileScreenPath,
     builder: (context, state) => const DemoScreen(label: "Profile Screen"),
+  );
+
+  static final _forgetPasswordRouter = GoRoute(
+    path: Routes.forgetPasswordScreenPath,
+    builder: (context, state) => const DemoScreen(label: "Forget Password"),
+  );
+
+  static final _verifyEmailRouter = GoRoute(
+    path: Routes.verifyEmailScreenPath,
+    builder: (context, state) => const DemoScreen(label: "Verify Email"),
   );
 }
