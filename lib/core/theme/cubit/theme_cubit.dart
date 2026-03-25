@@ -24,7 +24,7 @@ class ThemeCubit extends Cubit<ThemeState> {
   }
 
   void _loadTheme() {
-    final int? themeIndex = _cacheService.get(AppConsts.themeKey) as int?;
+    final themeIndex = _cacheService.get(AppConsts.themeKey) as int?;
 
     if (themeIndex != null &&
         themeIndex >= 0 &&
