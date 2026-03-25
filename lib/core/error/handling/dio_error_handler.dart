@@ -54,7 +54,9 @@ class DioExceptions {
 
     switch (statusCode) {
       case 401:
-        throw UnAuthorizedException();
+        throw UnAuthorizedException(
+          errorMessage ?? "Your session has expired. Please login again.",
+        );
 
       case 400:
         throw ServerException(

@@ -7,12 +7,15 @@ import 'package:tech_nest/core/theme/cubit/theme_state.dart';
 class ThemeCubit extends Cubit<ThemeState> {
   final CacheService _cacheService;
 
-  ThemeCubit(this._cacheService) : super(const ThemeState(mode: ThemeMode.light)) {
+  ThemeCubit(this._cacheService)
+    : super(const ThemeState(mode: ThemeMode.light)) {
     _loadTheme();
   }
 
   void toggleTheme() {
-    _changeTheme(state.mode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark);
+    _changeTheme(
+      state.mode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark,
+    );
   }
 
   Future<void> _changeTheme(ThemeMode mode) async {
@@ -21,10 +24,12 @@ class ThemeCubit extends Cubit<ThemeState> {
   }
 
   void _loadTheme() {
-    final int? themeIndex = _cacheService.get(AppConsts.themeKey) as int?;
+    final themeIndex = _cacheService.get(AppConsts.themeKey) as int?;
 
-    if (themeIndex != null) {
-      emit(ThemeState(mode: themeIndex == 1 ? ThemeMode.light : ThemeMode.dark));
+    if (themeIndex != null &&
+        themeIndex >= 0 &&
+        themeIndex < ThemeMode.values.length) {
+      emit(ThemeState(mode: ThemeMode.values[themeIndex]));
     }
   }
 }
