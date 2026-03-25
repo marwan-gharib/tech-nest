@@ -8,11 +8,13 @@ import 'package:tech_nest/core/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/products/presentation/widgets/custom_counter.dart';
+import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
+import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  final Product product;
+  final int productId;
 
-  const ProductDetailsScreen({required this.product, super.key});
+  const ProductDetailsScreen({required this.productId, super.key});
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
@@ -20,9 +22,34 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int quantityCounter = 1;
+  late Product product;
+  bool _isProductFound = false;
+
+  @override
+  void initState() {
+    super.initState();
+    try {
+      product = context.read<FetchProductsCubit>().state.products.firstWhere((p) => p.id == widget.productId);
+      _isProductFound = true;
+    } catch (_) {
+      try {
+        product = context.read<CategoryProductsCubit>().state.products!.firstWhere((p) => p.id == widget.productId);
+        _isProductFound = true;
+      } catch (_) {
+        _isProductFound = false;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (!_isProductFound) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(child: Text("Product not found")),
+      );
+    }
+
     return Stack(
       children: [
         _productImage(context),
@@ -51,7 +78,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         spacing: 6,
                         children: [
                           Text(
-                            widget.product.name,
+                            product.name,
                             style: Theme.of(context).textTheme.headlineMedium!
                                 .copyWith(
                                   fontWeight: FontWeight.w700,
@@ -60,7 +87,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            "Category: ${widget.product.category.name}",
+                            "Category: ${product.category.name}",
                             style: Theme.of(context).textTheme.labelLarge!
                                 .copyWith(
                                   fontSize: 20,
@@ -70,11 +97,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ),
                           ),
                           BuildPrice(
-                            price: widget.product.price,
+                            price: product.price,
                             isLabeled: true,
                           ),
                           Text(
-                            "Stock: ${widget.product.stock > 0 ? widget.product.stock.toString() : "Out of stock"}",
+                            "Stock: ${product.stock > 0 ? product.stock.toString() : "Out of stock"}",
                             style: Theme.of(context).textTheme.labelLarge!
                                 .copyWith(
                                   fontSize: 20,
@@ -82,7 +109,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   color: Theme.of(
                                     context,
                                   ).shadowColor.withValues(alpha: 0.6),
-                                  decoration: widget.product.stock > 0
+                                  decoration: product.stock > 0
                                       ? null
                                       : TextDecoration.lineThrough,
                                 ),
@@ -91,7 +118,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       ),
                       const Expanded(child: SizedBox.shrink()),
                       CustomCounter(
-                        maxCount: widget.product.stock,
+                        maxCount: product.stock,
                         onChanged: (value) => quantityCounter = value,
                       ),
                       const SizedBox(width: 14),
@@ -108,7 +135,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ),
                   Text(
-                    widget.product.description,
+                    product.description,
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: Theme.of(
                         context,
@@ -151,7 +178,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     width: double.infinity,
     height: MediaQuery.of(context).size.height * 0.4,
     child: CachedNetworkImage(
-      imageUrl: Endpoints.baseUrl + widget.product.imgUrl,
+      imageUrl: Endpoints.baseUrl + product.imgUrl,
       fit: BoxFit.fill,
       width: double.infinity,
     ),
@@ -168,9 +195,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       child: state is CartLoading
           ? const CircularProgressIndicator(strokeAlign: 3)
           : ElevatedButton(
-              onPressed: widget.product.stock > 0
+              onPressed: product.stock > 0
                   ? () => context.read<CartCubit>().add(
-                      productId: widget.product.id,
+                      productId: product.id,
                       quantity: quantityCounter,
                     )
                   : null,

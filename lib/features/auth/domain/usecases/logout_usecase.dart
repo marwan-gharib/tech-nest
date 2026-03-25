@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
-import 'package:tech_nest/core/error/failures/failures.dart';
+import 'package:tech_nest/core/error/failures/failure.dart';
+import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/core/error/mappers/error_mapper.dart';
 import 'package:tech_nest/features/auth/domain/params/verification_email_params.dart';
 import 'package:tech_nest/features/auth/domain/repositories/auth_repo.dart';

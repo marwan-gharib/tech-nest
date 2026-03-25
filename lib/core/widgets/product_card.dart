@@ -27,15 +27,11 @@ class ProductCard extends StatelessWidget {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  final String currentLocation = GoRouterState.of(
-                    context,
-                  ).matchedLocation;
-
-                  context.push(
-                    '$currentLocation/${Routes.productDetailsScreen}',
-                    extra: product,
-                  );
-                },
+                    final currentLocation = GoRouterState.of(context).uri.path;
+                    context.push(
+                      '$currentLocation/${Routes.productDetailsScreen}/${product.id}',
+                    );
+                  },
                 child: ClipRRect(
                   borderRadius: BorderRadiusGeometry.circular(12),
                   child: CachedNetworkImage(
