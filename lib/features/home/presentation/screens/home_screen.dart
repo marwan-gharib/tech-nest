@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/di/injection_container.dart';
+import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_components.dart';

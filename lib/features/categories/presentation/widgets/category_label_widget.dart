@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/core/entities/category_entity.dart';
+import 'package:tech_nest/core/domain/entities/category_entity.dart';
 
 class CategoryLabelWidget<T> extends StatelessWidget {
   final dynamic category;

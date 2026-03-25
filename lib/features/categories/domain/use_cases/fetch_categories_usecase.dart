@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
-import 'package:tech_nest/core/entities/category_entity.dart';
-import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
-import 'package:tech_nest/core/errors/failures/failures.dart';
-import 'package:tech_nest/core/errors/mapping/error_mapper.dart';
+import 'package:tech_nest/core/domain/entities/category_entity.dart';
+import 'package:tech_nest/core/error/exceptions/exceptions.dart';
+import 'package:tech_nest/core/error/failures/failures.dart';
+import 'package:tech_nest/core/error/mappers/error_mapper.dart';
 import 'package:tech_nest/features/categories/domain/repositories/categories_repo.dart';
 
 class FetchCategoriesUsecase {

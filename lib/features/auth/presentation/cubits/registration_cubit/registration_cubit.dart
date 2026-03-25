@@ -8,23 +8,23 @@ import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
 import 'package:tech_nest/features/auth/domain/params/sign_up_params.dart';
 import 'package:tech_nest/features/auth/domain/usecases/sign_up_usecase.dart';
 
-part 'registeration_state.dart';
+part 'registration_state.dart';
 
-class RegisterationCubit extends Cubit<RegisterationState> {
+class registrationCubit extends Cubit<registrationState> {
   final SignUpUsecase _signUpUsecase;
 
   XFile? profileImg;
 
-  RegisterationCubit(SignUpUsecase signUpUsecase)
+  registrationCubit(SignUpUsecase signUpUsecase)
     : _signUpUsecase = signUpUsecase,
-      super(const RegisterationInitial());
+      super(const registrationInitial());
 
   Future<void> signUp({
     required String name,
     required String email,
     required String password,
   }) async {
-    emit(const RegisterationLoading());
+    emit(const registrationLoading());
 
     final res = await _signUpUsecase.call(
       params: SignUpParams(
@@ -36,8 +36,8 @@ class RegisterationCubit extends Cubit<RegisterationState> {
     );
 
     res.fold(
-      (failure) => emit(RegisterationFailed(message: failure.message)),
-      (user) => emit(RegisterationSuccess(user: user)),
+      (failure) => emit(registrationFailed(message: failure.message)),
+      (user) => emit(registrationSuccess(user: user)),
     );
   }
 }

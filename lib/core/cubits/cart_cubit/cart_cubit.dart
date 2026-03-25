@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/params/add_to_cart_params.dart';
+import 'package:tech_nest/core/domain/params/add_to_cart_params.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart.dart';
 import 'package:tech_nest/features/cart/domain/use_cases/add_to_cart_usecase.dart';
 import 'package:tech_nest/features/cart/domain/use_cases/get_cart_items_usecase.dart';
@@ -62,7 +62,7 @@ class CartCubit extends Cubit<CartState> {
     });
   }
 
-  void removeItemLocaly({required int id}) {
+  void removeItemLocally({required int id}) {
     final currentState = state;
     if (currentState is! CartLoaded) return;
 

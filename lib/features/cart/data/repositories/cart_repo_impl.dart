@@ -1,4 +1,4 @@
-import 'package:tech_nest/core/params/add_to_cart_params.dart';
+import 'package:tech_nest/core/domain/params/add_to_cart_params.dart';
 import 'package:tech_nest/features/cart/data/data_source/remote/cart_remote_data_source.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart_item.dart';

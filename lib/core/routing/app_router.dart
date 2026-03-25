@@ -2,15 +2,15 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/cubits/cart_cubit/cart_cubit.dart';
-import 'package:tech_nest/core/di/injection_container.dart';
-import 'package:tech_nest/core/entities/product_entity.dart';
-import 'package:tech_nest/core/router/routers.dart';
+import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/core/domain/entities/product_entity.dart';
+import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifire.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/app_shell/presentation/app_shell_entry.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
-import 'package:tech_nest/features/auth/presentation/cubits/registeration_cubit/registeration_cubit.dart';
+import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/screens/login_screen.dart';
 import 'package:tech_nest/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:tech_nest/features/cart/presentation/screens/cart_items_screen.dart';
@@ -28,7 +28,7 @@ class AppRouter {
   const AppRouter._();
 
   static final GoRouter routes = GoRouter(
-    initialLocation: Routers.cartScreenPath,
+    initialLocation: Routes.cartScreenPath,
     routes: [
       StatefulShellRoute.indexedStack(
         builder: _shellBuilder,
@@ -47,13 +47,13 @@ class AppRouter {
     redirect: (context, state) {
       Logger.logg(state.matchedLocation);
       final bool isAuth = _authNotifire.isAuth;
-      final authRoutes = [Routers.loginScreenPath, Routers.signUpScreenPath];
+      final authRoutes = [Routes.loginScreenPath, Routes.signUpScreenPath];
       final bool isAuthRoute = authRoutes.contains(state.matchedLocation);
 
       if (!isAuth && !isAuthRoute) {
-        return Routers.loginScreenPath;
+        return Routes.loginScreenPath;
       } else if (isAuth && isAuthRoute) {
-        return Routers.homeScreenPath;
+        return Routes.homeScreenPath;
       }
       return null;
     },
@@ -69,15 +69,15 @@ class AppRouter {
   );
 
   static final _signUpScreenRouter = GoRoute(
-    path: Routers.signUpScreenPath,
+    path: Routes.signUpScreenPath,
     builder: (context, state) => BlocProvider(
-      create: (context) => sl<RegisterationCubit>(),
+      create: (context) => sl<registrationCubit>(),
       child: const SignUpScreen(),
     ),
   );
 
   static final _loginScreenRouter = GoRoute(
-    path: Routers.loginScreenPath,
+    path: Routes.loginScreenPath,
     builder: (context, state) => MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => sl<LoginCubit>()),
@@ -88,13 +88,13 @@ class AppRouter {
   );
 
   static final _productdetailsRouter = GoRoute(
-    path: Routers.productDetailsScreen,
+    path: Routes.productDetailsScreen,
     builder: (context, state) =>
         ProductDetailsScreen(product: state.extra as Product),
   );
 
   static final _homeScreenRouter = GoRoute(
-    path: Routers.homeScreenPath,
+    path: Routes.homeScreenPath,
     builder: (context, state) => BlocProvider(
       create: (context) => sl<FetchProductsCubit>(),
       child: const HomeScreen(),
@@ -103,12 +103,12 @@ class AppRouter {
   );
 
   static final _cartScreenRouter = GoRoute(
-    path: Routers.cartScreenPath,
+    path: Routes.cartScreenPath,
     builder: (context, state) => const CartItemsScreen(),
   );
 
   static final _categoriesScreenRouter = GoRoute(
-    path: Routers.categoriesScreenPath,
+    path: Routes.categoriesScreenPath,
     builder: (context, state) => MultiBlocProvider(
       providers: [
         BlocProvider(

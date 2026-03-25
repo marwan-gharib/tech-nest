@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:tech_nest/core/errors/exceptions/exceptions.dart';
-import 'package:tech_nest/core/errors/failures/failures.dart';
-import 'package:tech_nest/core/errors/mapping/error_mapper.dart';
+import 'package:tech_nest/core/error/exceptions/exceptions.dart';
+import 'package:tech_nest/core/error/failures/failures.dart';
+import 'package:tech_nest/core/error/mappers/error_mapper.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart.dart';
 import 'package:tech_nest/features/cart/domain/repositories/cart_repo.dart';
 

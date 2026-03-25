@@ -1,4 +1,4 @@
-import 'package:tech_nest/core/entities/product_entity.dart';
+import 'package:tech_nest/core/domain/entities/product_entity.dart';
 
 class CartItem {
   final int id;

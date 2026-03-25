@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:tech_nest/core/services/remote/api_service/api_consumer.dart';
+import 'package:tech_nest/core/network/api_client.dart';
 import 'package:tech_nest/features/cart/data/data_source/remote/cart_remote_data_source.dart';
 import 'package:tech_nest/features/cart/data/repositories/cart_repo_impl.dart';
 import 'package:tech_nest/features/cart/domain/repositories/cart_repo.dart';

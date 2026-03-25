@@ -1,5 +1,5 @@
-import 'package:tech_nest/core/entities/product_entity.dart';
-import 'package:tech_nest/core/params/products_params.dart';
+import 'package:tech_nest/core/domain/entities/product_entity.dart';
+import 'package:tech_nest/core/domain/params/products_params.dart';
 
 abstract class ProductsRepo {
   Future<List<Product>> getProducts({required ProductsParams params});
