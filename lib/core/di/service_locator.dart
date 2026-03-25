@@ -14,12 +14,16 @@ import 'package:tech_nest/features/auth/di/auth_di.dart';
 import 'package:tech_nest/features/cart/di/cart_di.dart';
 import 'package:tech_nest/features/categories/di/categories_di.dart';
 import 'package:tech_nest/features/products/di/products_di.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:tech_nest/core/services/local/secure/secure_storage_impl.dart';
+import 'package:tech_nest/core/services/local/secure/secure_storage_service.dart';
 
 final GetIt sl = GetIt.instance;
 
 Future<void> initDependencies() async {
   final SharedPreferences pref = await SharedPreferences.getInstance();
 
+  sl.registerLazySingleton<SecureStorageService>(() => SecureStorageServiceImpl(const FlutterSecureStorage()));
   sl.registerLazySingleton<CacheService>(() => SharedPreferencesService(pref));
 
   sl.registerLazySingleton(() => Dio());
@@ -35,7 +39,7 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => AuthNotifier());
 
   sl.registerFactory(
-    () => AuthInterceptor(sl<CacheService>()),
+    () => AuthInterceptor(sl<SecureStorageService>()),
   );
   sl.registerFactory(
     () => ErrorInterceptor(sl<CacheService>(), sl<AuthNotifier>()),

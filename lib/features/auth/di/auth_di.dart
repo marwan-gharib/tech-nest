@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:tech_nest/core/services/local/cache/cache_service.dart';
+import 'package:tech_nest/core/services/local/secure/secure_storage_service.dart';
 import 'package:tech_nest/core/network/api_client.dart';
 import 'package:tech_nest/features/auth/data/data_source/local/auth_local_data_source.dart';
 import 'package:tech_nest/features/auth/data/data_source/remote/auth_remote_data_source.dart';
@@ -19,7 +19,7 @@ import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/v
 
 void initAuthDI(GetIt sl) {
   sl.registerLazySingleton(() => AuthRemoteDataSource(sl<ApiClient>()));
-  sl.registerLazySingleton(() => AuthLocalDataSource(sl<CacheService>()));
+  sl.registerLazySingleton(() => AuthLocalDataSource(sl<SecureStorageService>()));
 
   sl.registerLazySingleton<AuthRepo>(
     () => AuthRepoImpl(sl<AuthRemoteDataSource>(), sl<AuthLocalDataSource>()),
