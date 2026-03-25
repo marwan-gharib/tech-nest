@@ -9,7 +9,7 @@ import 'package:tech_nest/features/products/presentation/cubits/fetch_products_c
 import 'package:tech_nest/features/products/presentation/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
 
 void initProductsDI(GetIt sl) {
-  sl.registerLazySingleton(() => ProductsRemoteDataSource(sl<ApiConsumer>()));
+  sl.registerLazySingleton(() => ProductsRemoteDataSource(sl<ApiClient>()));
 
   sl.registerLazySingleton<ProductsRepo>(
     () => ProductsRepoImpl(sl<ProductsRemoteDataSource>()),

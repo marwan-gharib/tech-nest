@@ -9,7 +9,7 @@ import 'package:tech_nest/features/categories/presentation/cubits/fetch_categori
 import 'package:tech_nest/features/products/domain/use_cases/get_products_usecase.dart';
 
 void initCategoriesDI(GetIt sl) {
-  sl.registerLazySingleton(() => CategoriesRemoteDataSource(sl<ApiConsumer>()));
+  sl.registerLazySingleton(() => CategoriesRemoteDataSource(sl<ApiClient>()));
 
   sl.registerLazySingleton<CategoriesRepo>(
     () => CategoriesRepoImpl(sl<CategoriesRemoteDataSource>()),

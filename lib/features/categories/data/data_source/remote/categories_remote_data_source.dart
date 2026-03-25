@@ -5,7 +5,7 @@ import 'package:tech_nest/core/network/api_client.dart';
 import 'package:tech_nest/features/categories/data/models/category_model.dart';
 
 class CategoriesRemoteDataSource {
-  final ApiConsumer _api;
+  final ApiClient _api;
 
   CategoriesRemoteDataSource(this._api);
 

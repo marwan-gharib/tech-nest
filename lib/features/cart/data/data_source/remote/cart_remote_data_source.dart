@@ -8,7 +8,7 @@ import 'package:tech_nest/features/cart/data/models/cart_model.dart';
 import 'package:tech_nest/features/cart/domain/params/update_item_quantity_params.dart';
 
 class CartRemoteDataSource {
-  final ApiConsumer _api;
+  final ApiClient _api;
 
   CartRemoteDataSource(this._api);
 

@@ -14,7 +14,7 @@ import 'package:tech_nest/features/auth/domain/params/sign_up_params.dart';
 import 'package:tech_nest/features/auth/domain/params/verification_email_params.dart';
 
 class AuthRemoteDataSource {
-  final ApiConsumer _api;
+  final ApiClient _api;
 
   AuthRemoteDataSource(this._api);
 

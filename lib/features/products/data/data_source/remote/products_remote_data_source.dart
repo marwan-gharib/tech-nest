@@ -7,7 +7,7 @@ import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/products/data/models/product_model.dart';
 
 class ProductsRemoteDataSource {
-  final ApiConsumer _api;
+  final ApiClient _api;
 
   ProductsRemoteDataSource(this._api);
 

@@ -11,7 +11,7 @@ import 'package:tech_nest/features/cart/presentation/cubits/delete_cart_item_cub
 import 'package:tech_nest/features/cart/presentation/cubits/update_item_quantity_cubit/update_item_quantity_cubit.dart';
 
 void initCartDI(GetIt sl) {
-  sl.registerLazySingleton(() => CartRemoteDataSource(sl<ApiConsumer>()));
+  sl.registerLazySingleton(() => CartRemoteDataSource(sl<ApiClient>()));
 
   sl.registerLazySingleton<CartRepo>(
     () => CartRepoImpl(sl<CartRemoteDataSource>()),

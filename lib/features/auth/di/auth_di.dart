@@ -18,7 +18,7 @@ import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
 
 void initAuthDI(GetIt sl) {
-  sl.registerLazySingleton(() => AuthRemoteDataSource(sl<ApiConsumer>()));
+  sl.registerLazySingleton(() => AuthRemoteDataSource(sl<ApiClient>()));
   sl.registerLazySingleton(() => AuthLocalDataSource(sl<CacheService>()));
 
   sl.registerLazySingleton<AuthRepo>(
@@ -37,6 +37,6 @@ void initAuthDI(GetIt sl) {
   sl.registerFactory(() => LoginCubit(sl<LoginUsecase>()));
   sl.registerFactory(() => ForgetPasswordCubit(sl<ForgetPasswordUsecase>()));
   sl.registerFactory(() => ResetPasswordCubit(sl<ResetPasswordUsecase>()));
-  sl.registerFactory(() => registrationCubit(sl<SignUpUsecase>()));
+  sl.registerFactory(() => RegistrationCubit(sl<SignUpUsecase>()));
   sl.registerFactory(() => VerifyEmailCubit(sl<VerifyEmailUsecase>()));
 }

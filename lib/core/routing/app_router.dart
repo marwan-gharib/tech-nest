@@ -5,7 +5,7 @@ import 'package:tech_nest/core/cubits/cart_cubit/cart_cubit.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/routing/routes.dart';
-import 'package:tech_nest/core/services/auth/auth_notifire.dart';
+import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/app_shell/presentation/app_shell_entry.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
@@ -23,7 +23,7 @@ import 'package:tech_nest/features/products/presentation/cubits/fetch_products_c
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';
 
 class AppRouter {
-  static final AuthNotifire _authNotifire = sl<AuthNotifire>();
+  static final AuthNotifier _authNotifier = sl<AuthNotifier>();
 
   const AppRouter._();
 
@@ -43,10 +43,10 @@ class AppRouter {
       _signUpScreenRouter,
       _loginScreenRouter,
     ],
-    refreshListenable: _authNotifire,
+    refreshListenable: _authNotifier,
     redirect: (context, state) {
       Logger.logg(state.matchedLocation);
-      final bool isAuth = _authNotifire.isAuth;
+      final bool isAuth = _authNotifier.isAuth;
       final authRoutes = [Routes.loginScreenPath, Routes.signUpScreenPath];
       final bool isAuthRoute = authRoutes.contains(state.matchedLocation);
 
@@ -71,7 +71,7 @@ class AppRouter {
   static final _signUpScreenRouter = GoRoute(
     path: Routes.signUpScreenPath,
     builder: (context, state) => BlocProvider(
-      create: (context) => sl<registrationCubit>(),
+      create: (context) => sl<RegistrationCubit>(),
       child: const SignUpScreen(),
     ),
   );
