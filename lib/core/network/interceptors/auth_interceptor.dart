@@ -1,15 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
-import 'package:tech_nest/core/services/local/cache/cache_service.dart';
+import 'package:tech_nest/core/services/local/secure/secure_storage_service.dart';
 
 class AuthInterceptor extends Interceptor {
-  final CacheService _cacheService;
+  final SecureStorageService _secureStorage;
 
-  AuthInterceptor(this._cacheService);
+  AuthInterceptor(this._secureStorage);
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    options.headers[ApiKeys.token] = _cacheService.get(ApiKeys.token);
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    final token = await _secureStorage.getToken();
+    if (token != null) {
+      options.headers[ApiKeys.token] = token;
+    }
     super.onRequest(options, handler);
   }
 }

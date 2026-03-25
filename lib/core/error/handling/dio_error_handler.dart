@@ -1,10 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:tech_nest/core/constants/api_keys.dart';
-import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
-import 'package:tech_nest/core/services/local/cache/cache_service.dart';
 
 class DioExceptions {
   const DioExceptions._();
@@ -34,6 +31,10 @@ class DioExceptions {
   }
 
   static Never _handleHttpError(DioException e) {
+    // Note: Because we need async to check secure storage, 
+    // throwing synchronously is tricky. But since AuthInterceptor 
+    // handles token clearing, we can just throw UnAuthorizedException here.
+    // If the backend threw 401, it is an UnAuthorizedException.
     final statusCode = e.response?.statusCode;
     final responseData = e.response?.data;
     String? errorMessage;
@@ -53,13 +54,7 @@ class DioExceptions {
 
     switch (statusCode) {
       case 401:
-        if (sl<CacheService>().containsKey(ApiKeys.token)) {
-          throw UnAuthorizedException();
-        }
-        throw ServerException(
-          errorMessage ?? "Your session has expired. Please log in again.",
-          activeToUser: true,
-        );
+        throw UnAuthorizedException();
 
       case 400:
         throw ServerException(

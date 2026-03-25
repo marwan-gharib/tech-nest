@@ -1,27 +1,22 @@
-import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
-import 'package:tech_nest/core/services/local/cache/cache_service.dart';
+import 'package:tech_nest/core/services/local/secure/secure_storage_service.dart';
 
 class AuthLocalDataSource {
-  final CacheService _cache;
+  final SecureStorageService _secureStorage;
 
-  AuthLocalDataSource(this._cache);
+  AuthLocalDataSource(this._secureStorage);
 
   Future<void> saveToken(String token) async {
     try {
-      await _cache.setData(key: ApiKeys.token, value: token);
-    } on CacheException {
-      rethrow;
+      await _secureStorage.saveToken(token);
     } catch (e) {
       throw UnKnownException();
     }
   }
 
-  void getToken() {
+  Future<String?> getToken() async {
     try {
-      _cache.get(ApiKeys.token);
-    } on CacheException {
-      rethrow;
+      return await _secureStorage.getToken();
     } catch (e) {
       throw UnKnownException();
     }
@@ -29,9 +24,7 @@ class AuthLocalDataSource {
 
   Future<void> clearCache() async {
     try {
-      await _cache.clear();
-    } on CacheException {
-      rethrow;
+      await _secureStorage.deleteToken();
     } catch (e) {
       throw UnKnownException();
     }
