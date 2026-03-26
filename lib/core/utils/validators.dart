@@ -1,9 +1,9 @@
 import 'package:email_validator/email_validator.dart';
 
-class Validatiors {
-  const Validatiors._();
+class Validators {
+  const Validators._();
 
-  static String? fullNameValditor(String? value) {
+  static String? fullNameValidator(String? value) {
     if (value != null) {
       if (value.isEmpty) {
         return "Please enter your name";
@@ -15,7 +15,7 @@ class Validatiors {
     return null;
   }
 
-  static String? emailValditor(String? value) {
+  static String? emailValidator(String? value) {
     if (value == null || value.isEmpty) {
       return "Please enter your email address";
     } else if (!EmailValidator.validate(value)) {
@@ -24,7 +24,7 @@ class Validatiors {
     return null;
   }
 
-  static String? passwordValditor(String? value) {
+  static String? passwordValidator(String? value) {
     if (value == null || value.isEmpty) {
       return "Please enter your password";
     } else if (value.length < 8) {
@@ -33,7 +33,7 @@ class Validatiors {
     return null;
   }
 
-  static String? confirmPasswordValditor(
+  static String? confirmPasswordValidator(
     String? value, {
     required String password,
   }) {

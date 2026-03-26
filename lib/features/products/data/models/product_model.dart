@@ -45,8 +45,8 @@ class ProductModel {
     };
   }
 
-  Product toEntity() {
-    return Product(
+  ProductEntity toEntity() {
+    return ProductEntity(
       id: id,
       name: name,
       description: description,

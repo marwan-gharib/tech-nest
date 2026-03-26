@@ -22,7 +22,7 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   int quantityCounter = 1;
-  late Product product;
+  late ProductEntity product;
   bool _isProductFound = false;
 
   @override

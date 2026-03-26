@@ -34,7 +34,7 @@ class Cart {
   Cart recalculate(List<CartItem> newItems) {
     final totalQty = newItems.fold<int>(0, (sum, item) => sum + item.quantity);
 
-    final totalPrice = newItems.fold(
+    final totalPrice = newItems.fold<int>(
       0,
       (sum, item) => sum + (item.product.price.toInt() * item.quantity),
     );

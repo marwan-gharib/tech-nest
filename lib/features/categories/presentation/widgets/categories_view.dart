@@ -79,7 +79,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                     }
 
                     final category = categories[index - 1];
-                    return CategoryLabelWidget<Category>(
+                    return CategoryLabelWidget<CategoryEntity>(
                       category: category,
                       isSelected: selectedCategory == category.id,
                       onTap: (id) {

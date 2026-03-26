@@ -9,7 +9,7 @@ class ProductsRepoImpl extends ProductsRepo {
   ProductsRepoImpl(this._dataSource);
 
   @override
-  Future<List<Product>> getProducts({required ProductsParams params}) async {
+  Future<List<ProductEntity>> getProducts({required ProductsParams params}) async {
     final productsModel = await _dataSource.getProducts(params: params);
 
     return productsModel.map((model) => model.toEntity()).toList();

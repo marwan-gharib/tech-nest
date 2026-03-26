@@ -11,7 +11,7 @@ class FetchCategoriesUsecase {
 
   FetchCategoriesUsecase(this._repo);
 
-  Future<Either<Failure, List<Category>>> call() async {
+  Future<Either<Failure, List<CategoryEntity>>> call() async {
     try {
       return Right(await _repo.getCategories());
     } on AppException catch (e) {

@@ -3,11 +3,11 @@ import 'package:tech_nest/core/domain/entities/product_entity.dart';
 class CartItem {
   final int id;
   final int quantity;
-  final Product product;
+  final ProductEntity product;
 
   CartItem({required this.id, required this.quantity, required this.product});
 
-  CartItem copyWith({int? id, int? quantity, Product? product}) {
+  CartItem copyWith({int? id, int? quantity, ProductEntity? product}) {
     return CartItem(
       id: id ?? this.id,
       quantity: quantity ?? this.quantity,

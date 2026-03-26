@@ -82,7 +82,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 lable: "Full Name",
                 hint: "Enter your name",
                 keyboardType: TextInputType.name,
-                validator: Validatiors.fullNameValditor,
+                validator: Validators.fullNameValidator,
               ),
               const SizedBox(height: 24),
               CustomInputField(
@@ -90,7 +90,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 lable: "E-mail Address",
                 hint: "example@email.com",
                 keyboardType: TextInputType.emailAddress,
-                validator: Validatiors.emailValditor,
+                validator: Validators.emailValidator,
               ),
               const SizedBox(height: 24),
               CustomInputField(
@@ -99,7 +99,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 hint: "* " * 8,
                 keyboardType: TextInputType.visiblePassword,
                 isPassword: true,
-                validator: Validatiors.passwordValditor,
+                validator: Validators.passwordValidator,
               ),
               const SizedBox(height: 24),
               CustomInputField(
@@ -108,7 +108,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 hint: "* " * 8,
                 keyboardType: TextInputType.visiblePassword,
                 isPassword: true,
-                validator: (value) => Validatiors.confirmPasswordValditor(
+                validator: (value) => Validators.confirmPasswordValidator(
                   value,
                   password: _password.text,
                 ),
