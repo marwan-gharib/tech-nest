@@ -23,9 +23,28 @@ final GetIt sl = GetIt.instance;
 Future<void> initDependencies() async {
   final SharedPreferences pref = await SharedPreferences.getInstance();
 
-  sl.registerLazySingleton<SecureStorageService>(() => SecureStorageServiceImpl(const FlutterSecureStorage()));
-  sl.registerLazySingleton<CacheService>(() => SharedPreferencesService(pref));
+  // ── Local services (no dependencies) ──────────────────────────────────────
+  sl.registerLazySingleton<SecureStorageService>(
+    () => SecureStorageServiceImpl(const FlutterSecureStorage()),
+  );
+  sl.registerLazySingleton<CacheService>(
+    () => SharedPreferencesService(pref),
+  );
 
+  sl.registerLazySingleton(() => AuthNotifier());
+
+  // ── Interceptors (must be registered BEFORE DioClient) ────────────────────
+  // lazySingleton: interceptors are shared by the DioClient singleton,
+  // so creating a new instance each call would break the shared state.
+  sl.registerLazySingleton(
+    () => AuthInterceptor(sl<SecureStorageService>()),
+  );
+  sl.registerLazySingleton(
+    () => ErrorInterceptor(sl<CacheService>(), sl<AuthNotifier>()),
+  );
+  sl.registerLazySingleton(() => LoggingInterceptor());
+
+  // ── Network ───────────────────────────────────────────────────────────────
   sl.registerLazySingleton(() => Dio());
   sl.registerLazySingleton<ApiClient>(
     () => DioClient(
@@ -36,20 +55,10 @@ Future<void> initDependencies() async {
     ),
   );
 
-  sl.registerLazySingleton(() => AuthNotifier());
-
-  sl.registerFactory(
-    () => AuthInterceptor(sl<SecureStorageService>()),
-  );
-  sl.registerFactory(
-    () => ErrorInterceptor(sl<CacheService>(), sl<AuthNotifier>()),
-  );
-  sl.registerFactory(
-    () => LoggingInterceptor(),
-  );
-
+  // ── Theme ─────────────────────────────────────────────────────────────────
   sl.registerFactory(() => ThemeCubit(sl<CacheService>()));
 
+  // ── Features ──────────────────────────────────────────────────────────────
   initAuthDI(sl);
   initProductsDI(sl);
   initCategoriesDI(sl);
