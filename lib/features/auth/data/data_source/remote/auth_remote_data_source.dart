@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/constants/app_consts.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
@@ -27,7 +26,7 @@ class AuthRemoteDataSource {
           ApiKeys.profileImg,
           () async => await uploadImageToAPI(params.img),
         ),
-        options: Options(extra: {AppConsts.skipAuth: true}),
+        extra: {AppConsts.skipAuth: true},
       );
 
       if (response != null) {
@@ -51,7 +50,7 @@ class AuthRemoteDataSource {
       final response = await _api.post(
         Endpoints.login,
         data: params.toJson(),
-        options: Options(extra: {AppConsts.skipAuth: true}),
+        extra: {AppConsts.skipAuth: true},
       );
 
       if (response != null) {
@@ -77,7 +76,7 @@ class AuthRemoteDataSource {
       final response = await _api.post(
         Endpoints.verifyEmail,
         data: params.toJson(),
-        options: Options(extra: {AppConsts.skipAuth: true}),
+        extra: {AppConsts.skipAuth: true},
       );
 
       final json = response[ApiKeys.data];
@@ -100,7 +99,7 @@ class AuthRemoteDataSource {
       await _api.post(
         Endpoints.resetPassword,
         data: params.toJson(),
-        options: Options(extra: {AppConsts.skipAuth: true}),
+        extra: {AppConsts.skipAuth: true},
       );
     } on AppException {
       rethrow;
@@ -115,7 +114,7 @@ class AuthRemoteDataSource {
       await _api.post(
         Endpoints.forgetPassword,
         data: {ApiKeys.email: email},
-        options: Options(extra: {AppConsts.skipAuth: true}),
+        extra: {AppConsts.skipAuth: true},
       );
     } on AppException {
       rethrow;
