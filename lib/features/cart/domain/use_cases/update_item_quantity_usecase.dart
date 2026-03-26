@@ -1,8 +1,5 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:tech_nest/core/error/exceptions/exceptions.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
-import 'package:tech_nest/core/error/failures/unknown_failure.dart';
-import 'package:tech_nest/core/error/mappers/error_mapper.dart';
 import 'package:tech_nest/features/cart/domain/params/update_item_quantity_params.dart';
 import 'package:tech_nest/features/cart/domain/repositories/cart_repo.dart';
 
@@ -14,12 +11,6 @@ class UpdateItemQuantityUsecase {
   Future<Either<Failure, int>> call({
     required UpdateItemQuantityParams params,
   }) async {
-    try {
-      return Right(await _repo.updateItemQuantity(params: params));
-    } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
-    } catch (e) {
-      return Left(UnknownFailure());
-    }
+    return await _repo.updateItemQuantity(params: params);
   }
 }

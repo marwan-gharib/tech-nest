@@ -29,7 +29,7 @@ void customSnackBar(
           left: 30,
           right: 30,
         ),
-        shape: RoundedRectangleBorder(borderRadius: AppRadius.cardLg),
+        shape: const RoundedRectangleBorder(borderRadius: AppRadius.cardLg),
         duration: const Duration(seconds: 3),
       ),
       snackBarAnimationStyle: const AnimationStyle(

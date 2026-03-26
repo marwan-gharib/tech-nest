@@ -9,7 +9,7 @@ class SkeletonCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        decoration: BoxDecoration(borderRadius: AppRadius.cardLg),
+        decoration: const BoxDecoration(borderRadius: AppRadius.cardLg),
         child: Column(
           children: [
             Container(
@@ -23,7 +23,9 @@ class SkeletonCard extends StatelessWidget {
             Container(
               height: 20,
               width: MediaQuery.of(context).size.width * 0.3,
-              color: Theme.of(context).colorScheme.secondary.withValues(alpha: 0.5),
+              color: Theme.of(
+                context,
+              ).colorScheme.secondary.withValues(alpha: 0.5),
             ),
           ],
         ),

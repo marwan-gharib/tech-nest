@@ -84,18 +84,19 @@ class DarkTheme {
         highlightElevation: 0,
       );
 
-  static final TextTheme textTheme = const TextTheme(
-    headlineLarge: AppTextStyles.headlineLarge,
-    headlineMedium: AppTextStyles.headlineMedium,
-    bodyLarge: AppTextStyles.bodyLarge,
-    bodyMedium: AppTextStyles.bodyMedium,
-    labelLarge: AppTextStyles.labelLarge,
-    labelMedium: AppTextStyles.labelMedium,
-    labelSmall: AppTextStyles.labelSmall,
-  ).apply(
-    bodyColor: colorScheme.onSurface,
-    displayColor: colorScheme.onSurface,
-  );
+  static final TextTheme textTheme =
+      const TextTheme(
+        headlineLarge: AppTextStyles.headlineLarge,
+        headlineMedium: AppTextStyles.headlineMedium,
+        bodyLarge: AppTextStyles.bodyLarge,
+        bodyMedium: AppTextStyles.bodyMedium,
+        labelLarge: AppTextStyles.labelLarge,
+        labelMedium: AppTextStyles.labelMedium,
+        labelSmall: AppTextStyles.labelSmall,
+      ).apply(
+        bodyColor: colorScheme.onSurface,
+        displayColor: colorScheme.onSurface,
+      );
 
   static final AppBarTheme appBarTheme = AppBarTheme(
     backgroundColor: colorScheme.surface,
@@ -111,26 +112,29 @@ class DarkTheme {
     color: colorScheme.surfaceContainerHighest,
     shadowColor: colorScheme.onSurfaceVariant,
     elevation: 1.5,
-    shape: RoundedRectangleBorder(borderRadius: AppRadius.cardLg),
+    shape: const RoundedRectangleBorder(borderRadius: AppRadius.cardLg),
   );
-  
+
   static final IconThemeData iconTheme = const IconThemeData();
 
-  static final BottomNavigationBarThemeData bottomNavigationBarTheme = BottomNavigationBarThemeData(
-    backgroundColor: colorScheme.surface,
-    selectedIconTheme: IconThemeData(color: colorScheme.primary, size: 28),
-    unselectedIconTheme: IconThemeData(color: colorScheme.onSurfaceVariant),
-    selectedLabelStyle: textTheme.labelSmall?.copyWith(
-      color: colorScheme.primary,
-    ),
-    unselectedLabelStyle: textTheme.labelSmall?.copyWith(
-      color: colorScheme.onSurfaceVariant,
-    ),
-    selectedItemColor: colorScheme.primary,
-    unselectedItemColor: colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
-    type: BottomNavigationBarType.shifting,
-    landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
-    elevation: 10,
-    showSelectedLabels: true,
-  );
+  static final BottomNavigationBarThemeData bottomNavigationBarTheme =
+      BottomNavigationBarThemeData(
+        backgroundColor: colorScheme.surface,
+        selectedIconTheme: IconThemeData(color: colorScheme.primary, size: 28),
+        unselectedIconTheme: IconThemeData(color: colorScheme.onSurfaceVariant),
+        selectedLabelStyle: textTheme.labelSmall?.copyWith(
+          color: colorScheme.primary,
+        ),
+        unselectedLabelStyle: textTheme.labelSmall?.copyWith(
+          color: colorScheme.onSurfaceVariant,
+        ),
+        selectedItemColor: colorScheme.primary,
+        unselectedItemColor: colorScheme.onSurfaceVariant.withValues(
+          alpha: 0.5,
+        ),
+        type: BottomNavigationBarType.shifting,
+        landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
+        elevation: 10,
+        showSelectedLabels: true,
+      );
 }
