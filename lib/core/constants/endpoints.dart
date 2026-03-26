@@ -1,7 +1,12 @@
+import 'package:tech_nest/core/constants/build_config.dart';
+
 class Endpoints {
   const Endpoints._();
 
-  static String get baseUrl => "http://192.168.1.13/tech-nest-backend/";
+  static String get baseUrl => BuildConfig.apiBaseUrl;
+
+  /// Base path for all authenticated user API calls.
+  static String get apiUserBase => '${BuildConfig.apiBaseUrl}api/user/';
 
   static String get signUp => "auth/register.php";
   static String get login => "auth/login.php";
