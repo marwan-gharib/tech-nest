@@ -1,9 +1,12 @@
-import 'dart:developer';
+import 'dart:developer' as developer;
+import 'package:flutter/foundation.dart';
 
-class Logger {
-  const Logger._();
+class AppLogger {
+  const AppLogger._();
 
-  static void logg(Object message) {
-    log("APP LOG::  ${message.toString()}");
+  static void log(Object message) {
+    if (kDebugMode) {
+      developer.log("APP LOG::  ${message.toString()}");
+    }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/theme/app_colors.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/validators.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
@@ -53,8 +53,8 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
     return Dialog(
       insetAnimationDuration: const Duration(milliseconds: 400),
       alignment: Alignment.center,
-      backgroundColor: AppColors.transparent,
-      insetPadding: const EdgeInsets.all(16),
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(AppSpacing.md),
       child: TweenAnimationBuilder(
         tween: Tween<double>(begin: 0, end: 1),
         duration: const Duration(milliseconds: 700),
@@ -64,7 +64,7 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
         child: Form(
           key: _formKey,
           child: Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(AppSpacing.lg),
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
@@ -82,19 +82,19 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
                     isErrNotifire: _isErrNotifire,
                     label: "Reset Password",
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: AppSpacing.lg),
                   CustomInputField(
                     controller: _password,
-                    lable: "Password",
+                    label: "Password",
                     hint: "* " * 8,
                     keyboardType: TextInputType.visiblePassword,
                     isPassword: true,
                     validator: Validators.passwordValidator,
                   ),
-                  const SizedBox(height: 24),
+                  const SizedBox(height: AppSpacing.lg),
                   CustomInputField(
                     controller: _confirmPassword,
-                    lable: "Confirm Password",
+                    label: "Confirm Password",
                     hint: "* " * 8,
                     keyboardType: TextInputType.visiblePassword,
                     isPassword: true,
@@ -103,7 +103,7 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
                       password: _password.text,
                     ),
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: AppSpacing.xxl),
                   BlocConsumer<ResetPasswordCubit, ResetPasswordState>(
                     listener: _forgetPassListener,
                     builder: _forgetPassBuilder,

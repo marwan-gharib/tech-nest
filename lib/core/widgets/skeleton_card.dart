@@ -7,29 +7,60 @@ class SkeletonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        decoration: const BoxDecoration(borderRadius: AppRadius.cardLg),
-        child: Column(
-          children: [
-            Container(
-              height: 120,
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final skeletonColor = colorScheme.surfaceContainerHighest;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: AppRadius.cardLg,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                borderRadius: AppRadius.cardLg,
+                color: skeletonColor,
+                borderRadius: const BorderRadius.vertical(
+                  top: Radius.circular(AppRadius.lg),
+                ),
               ),
             ),
-            const SizedBox(height: AppSpacing.md),
-            Container(
-              height: 20,
-              width: MediaQuery.of(context).size.width * 0.3,
-              color: Theme.of(
-                context,
-              ).colorScheme.secondary.withValues(alpha: 0.5),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(AppSpacing.sm),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              spacing: AppSpacing.xs,
+              children: [
+                Container(
+                  height: 12,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: skeletonColor,
+                    borderRadius: AppRadius.md.radius,
+                  ),
+                ),
+                Container(
+                  height: 12,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    color: skeletonColor,
+                    borderRadius: AppRadius.md.radius,
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
+}
+
+extension on double {
+  BorderRadius get radius => BorderRadius.all(Radius.circular(this));
 }

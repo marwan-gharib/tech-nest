@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/features/products/presentation/widgets/counter_button.dart';
 
 class CustomCounter extends StatefulWidget {
   final int maxCount;
@@ -51,70 +53,54 @@ class _CustomCounterState extends State<CustomCounter> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Stack(
       children: [
         Row(
-          spacing: 12,
+          mainAxisSize: MainAxisSize.min,
+          spacing: AppSpacing.md,
           children: [
-            _buildCounterButton(
-              context,
-              icon: Icons.remove,
+            CounterButton(
+              icon: Icons.remove_rounded,
               onPressed: _decrement,
+              isEnabled: widget.maxCount > 0 && _counter.value > 1,
             ),
             ValueListenableBuilder<int>(
               valueListenable: _counter,
               builder: (context, value, _) {
-                return Text(
-                  "$value",
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    fontSize: 15,
-                    color: Theme.of(context).shadowColor,
+                return SizedBox(
+                  width: 24,
+                  child: Text(
+                    "$value",
+                    textAlign: TextAlign.center,
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: colorScheme.onSurface,
+                    ),
                   ),
                 );
               },
             ),
-            _buildCounterButton(
-              context,
-              icon: Icons.add,
+            CounterButton(
+              icon: Icons.add_rounded,
               onPressed: _increment,
+              isEnabled: widget.maxCount > 0 && _counter.value < widget.maxCount,
             ),
           ],
         ),
-        if (widget.maxCount == 0) ...[
+        if (widget.maxCount == 0)
           Positioned.fill(
-            top: 5,
-            child: Divider(
-              thickness: 2,
-              color: Theme.of(context).colorScheme.error,
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                height: 2,
+                color: colorScheme.error.withValues(alpha: 0.5),
+              ),
             ),
           ),
-          Positioned.fill(
-            bottom: 5,
-            child: Divider(
-              thickness: 2,
-              color: Theme.of(context).colorScheme.error,
-            ),
-          ),
-        ],
       ],
     );
   }
-
-  Widget _buildCounterButton(
-    BuildContext context, {
-    required IconData icon,
-    required VoidCallback onPressed,
-  }) => InkWell(
-    onTap: widget.maxCount == 0 ? null : onPressed,
-    child: Container(
-      height: 26,
-      width: 32,
-      decoration: BoxDecoration(
-        color: Theme.of(context).hintColor,
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(5),
-      ),
-      child: Icon(icon, size: 20, color: Theme.of(context).shadowColor),
-    ),
-  );
 }

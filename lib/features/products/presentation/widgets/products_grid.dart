@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/product_card.dart';
+import 'package:tech_nest/core/widgets/skeleton_card.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
+import 'package:tech_nest/features/products/presentation/widgets/products_error_view.dart';
 
 class ProductsGrid extends StatelessWidget {
   const ProductsGrid({super.key});
@@ -12,30 +14,17 @@ class ProductsGrid extends StatelessWidget {
     return BlocBuilder<FetchProductsCubit, FetchProductsState>(
       builder: (context, state) {
         if (state.isLoading) {
-          return const SliverToBoxAdapter(
-            child: Center(child: CircularProgressIndicator()),
+          return SliverGrid.builder(
+            itemCount: 6,
+            gridDelegate: _gridDelegate,
+            itemBuilder: (context, index) => const SkeletonCard(),
           );
         } else if (state.errMessage != null) {
           return SliverToBoxAdapter(
-            child: Center(
-              child: Column(
-                spacing: AppSpacing.lg,
-                children: [
-                  const SizedBox(height: AppSpacing.lg),
-                  Text(
-                    state.errMessage!,
-                    style: Theme.of(
-                      context,
-                    ).textTheme.bodyLarge!.copyWith(wordSpacing: 2),
-                    textAlign: TextAlign.center,
-                  ),
-                  IconButton(
-                    onPressed: () =>
-                        context.read<FetchProductsCubit>().initialFetching(),
-                    icon: const Icon(Icons.refresh, size: 100),
-                  ),
-                ],
-              ),
+            child: ProductsErrorView(
+              message: state.errMessage!,
+              onRetry: () =>
+                  context.read<FetchProductsCubit>().initialFetching(),
             ),
           );
         } else {
@@ -43,21 +32,16 @@ class ProductsGrid extends StatelessWidget {
             slivers: [
               SliverGrid.builder(
                 itemCount: state.products.length,
-                gridDelegate: _sliverGridDelegateWithFixedCrossAxisCount,
+                gridDelegate: _gridDelegate,
                 itemBuilder: (context, index) {
-                  final product = state.products[index];
-                  return ProductCard(product: product);
+                  return ProductCard(product: state.products[index]);
                 },
               ),
               if (state.isLoadingMore)
-                SliverToBoxAdapter(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
-                      alignment: Alignment.center,
-                      child: const CircularProgressIndicator(),
-                    ),
+                const SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
+                    child: Center(child: CircularProgressIndicator()),
                   ),
                 ),
             ],
@@ -67,12 +51,11 @@ class ProductsGrid extends StatelessWidget {
     );
   }
 
-  SliverGridDelegateWithFixedCrossAxisCount
-  get _sliverGridDelegateWithFixedCrossAxisCount =>
+  SliverGridDelegate get _gridDelegate =>
       const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.9,
-        crossAxisSpacing: 18,
-        mainAxisSpacing: 14,
+        childAspectRatio: 0.85,
+        crossAxisSpacing: AppSpacing.md,
+        mainAxisSpacing: AppSpacing.md,
       );
 }

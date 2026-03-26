@@ -1,5 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="8386296d-57c8-4858-92f4-7b08f3833d5d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/lib/core/routing/app_router.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/routing/app_router.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/utils/logger.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/utils/logger.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/utils/upload_img_to_api.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/widgets/build_price.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/widgets/build_price.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/widgets/custom_snack_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/widgets/custom_snack_bar.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/widgets/product_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/widgets/product_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/widgets/skeleton_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/widgets/skeleton_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/app_shell/presentation/app_shell_entry.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/app_shell/presentation/app_shell_entry.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/data/data_source/remote/auth_remote_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/data/data_source/remote/auth_remote_data_source.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/screens/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/screens/login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/screens/sign_up_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/screens/sign_up_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/widgets/custom_input_field.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/widgets/custom_input_field.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/widgets/custom_partition_dialoge.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/widgets/custom_partition_dialoge.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/widgets/forget_password_dialoge.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/widgets/forget_password_dialoge.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/widgets/pick_profile_image.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/widgets/pick_profile_image.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/widgets/privacy_policy_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/widgets/privacy_policy_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/widgets/verify_email_dialoge.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/widgets/verify_email_dialoge.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/cart/presentation/screens/cart_items_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/cart/presentation/screens/cart_items_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/cart/presentation/widgets/cart_details_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/cart/presentation/widgets/cart_details_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/cart/presentation/widgets/cart_item_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/cart/presentation/widgets/cart_item_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/cart/presentation/widgets/change_cart_item_count.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/cart/presentation/widgets/change_cart_item_count.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/cart/presentation/widgets/remove_cart_item_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/cart/presentation/widgets/remove_cart_item_button.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/categories/presentation/screens/categories_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/categories/presentation/screens/categories_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/categories/presentation/widgets/categories_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/categories/presentation/widgets/categories_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/categories/presentation/widgets/category_card.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/categories/presentation/widgets/category_card.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/demo_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/home/presentation/screens/home_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/presentation/screens/home_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/home/presentation/widgets/filter_components.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/presentation/widgets/filter_components.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/products/data/data_source/remote/products_remote_data_source.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/products/data/data_source/remote/products_remote_data_source.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/products/presentation/screens/product_details_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/products/presentation/screens/product_details_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/products/presentation/widgets/custom_counter.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/products/presentation/widgets/custom_counter.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/products/presentation/widgets/custom_search_field.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/products/presentation/widgets/custom_search_field.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/products/presentation/widgets/move_to_first_scroll_position_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/products/presentation/widgets/move_to_first_scroll_position_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/products/presentation/widgets/products_grid.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/products/presentation/widgets/products_grid.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/products/presentation/widgets/search_products_widget.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/products/presentation/widgets/search_products_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/products/presentation/widgets/search_suggestions_overlay_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/products/presentation/widgets/search_suggestions_overlay_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/products/presentation/widgets/skelton_card.dart" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="main.dart" pinned="false" current-in-tab="true">
@@ -13,24 +65,54 @@
       </file>
     </leaf>
   </component>
-  <component name="ToolWindowManager">
-    <editor active="true" />
-    <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-    </layout>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="3BUJ10RbykcmiZ4lBZj9Web6FBf" />
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-    </navigator>
+    <navigator currentView="ProjectPane" proportions="" version="1" />
     <panes>
       <pane id="ProjectPane">
         <option name="show-excluded-files" value="false" />
       </pane>
     </panes>
   </component>
-  <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="dart.analysis.tool.window.force.activate" value="true" />
-    <property name="show.migrate.to.gradle.popup" value="false" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "refactor/ui-enhancement",
+    "last_opened_file_path": "C:/Users/marwa/OneDrive/Desktop/Projects/tech_nest"
+  }
+}]]></component>
+  <component name="RunManager" selected="Unknown.main.dart1299993171" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="8386296d-57c8-4858-92f4-7b08f3833d5d" name="Changes" comment="" />
+      <created>1774537496736</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1774537496736</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+    </layout>
   </component>
 </project>

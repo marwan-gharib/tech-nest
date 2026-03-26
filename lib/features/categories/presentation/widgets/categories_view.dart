@@ -42,7 +42,7 @@ class _CategoriesViewState extends State<CategoriesView> {
       child: BlocConsumer<FetchCategoriesCubit, FetchCategoriesState>(
         listener: (context, state) {
           if (state is FetchCategoriesFailed) {
-            customSnackBar(context, message: state.message);
+            CustomSnackBar.show(context, message: state.message);
           }
         },
         builder: (context, state) {

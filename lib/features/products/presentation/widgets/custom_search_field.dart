@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/theme/app_radius.dart';
 
 class CustomSearchField extends StatelessWidget {
   final ValueChanged<String?> onSubmit;
@@ -14,12 +15,15 @@ class CustomSearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return TextField(
       controller: controller,
       textInputAction: TextInputAction.search,
       onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-      cursorColor: Theme.of(context).colorScheme.primary,
-      cursorErrorColor: Theme.of(context).colorScheme.primary,
+      cursorColor: colorScheme.primary,
+      cursorErrorColor: colorScheme.error,
       keyboardType: TextInputType.name,
       onSubmitted: (value) => onSubmit(value),
       onChanged: (value) => onChange?.call(value),
@@ -31,12 +35,12 @@ class CustomSearchField extends StatelessWidget {
         focusedBorder: _border,
         focusedErrorBorder: _border,
         filled: true,
-        fillColor: Theme.of(context).colorScheme.onPrimary,
-        hintText: "Search...",
-        hintStyle: Theme.of(context).textTheme.bodyLarge!.copyWith(
-          color: Theme.of(context).hintColor,
+        fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+        hintText: "Search products...",
+        hintStyle: theme.textTheme.bodyLarge?.copyWith(
+          color: colorScheme.outline,
         ),
-        prefixIcon: const Icon(Icons.search),
+        prefixIcon: Icon(Icons.search_rounded, color: colorScheme.primary),
         isDense: true,
         suffixIcon: ValueListenableBuilder<TextEditingValue>(
           valueListenable: controller,
@@ -47,7 +51,7 @@ class CustomSearchField extends StatelessWidget {
                   controller.clear();
                   onSubmit(null);
                 },
-                icon: const Icon(Icons.clear),
+                icon: const Icon(Icons.clear_rounded),
               );
             }
             return const SizedBox.shrink();
@@ -58,7 +62,7 @@ class CustomSearchField extends StatelessWidget {
   }
 
   InputBorder get _border => OutlineInputBorder(
-    borderSide: BorderSide.none,
-    borderRadius: BorderRadius.circular(20),
-  );
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(AppRadius.full),
+      );
 }

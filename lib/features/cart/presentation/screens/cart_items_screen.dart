@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
-import 'package:tech_nest/features/cart/presentation/widgets/cart_details_widget.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_item_card.dart';
+import 'package:tech_nest/features/cart/presentation/widgets/order_summary.dart';
 
 class CartItemsScreen extends StatefulWidget {
   const CartItemsScreen({super.key});
@@ -16,8 +17,8 @@ class CartItemsScreen extends StatefulWidget {
 class _CartItemsScreenState extends State<CartItemsScreen> {
   @override
   void initState() {
-    context.read<CartCubit>().fetchCart();
     super.initState();
+    context.read<CartCubit>().fetchCart();
   }
 
   @override
@@ -26,44 +27,16 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm + 2),
           child: Stack(
             children: [
               BlocConsumer<CartCubit, CartState>(
                 listener: _listener,
                 builder: _builder,
               ),
-              Align(
+              const Align(
                 alignment: Alignment.bottomCenter,
-                child: Container(
-                  // height: MediaQuery.of(context).size.height * 0.3,
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 6,
-                    vertical: 20,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 14,
-                    children: [
-                      Text(
-                        "Order Summary",
-                        style: Theme.of(
-                          context,
-                        ).textTheme.labelLarge!.copyWith(fontSize: 18),
-                      ),
-                      const CartDetailsWidget(),
-                    ],
-                  ),
-                ),
+                child: OrderSummary(),
               ),
             ],
           ),
@@ -74,7 +47,7 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
 
   void _listener(BuildContext context, CartState state) {
     if (state is CartFailed) {
-      customSnackBar(context, message: state.message);
+      CustomSnackBar.show(context, message: state.message);
     }
   }
 
@@ -84,10 +57,10 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
 
       return ListView.builder(
         itemCount: items.length,
-        padding: const EdgeInsets.symmetric(vertical: 20),
+        padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
         itemBuilder: (context, index) {
           final item = items[index];
-          Logger.logg(item.id.toString());
+          AppLogger.log("Displaying cart item: ${item.id}");
           return CartItemCard(cartItem: item);
         },
       );

@@ -1,39 +1,47 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_nest/core/constants/assets.dart';
 import 'package:tech_nest/core/services/image/image_provider.dart';
 
 class PickProfileImage extends ConsumerWidget {
+  static const double _avatarRadius = 56.0;
+  static const double _cameraIconBtnPadding = 3.0;
+  static const double _cameraIconSize = 30.0;
+
   const PickProfileImage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     final img = ref.watch(imageProvider);
-    final notifire = ref.read(imageProvider.notifier);
+    final notifier = ref.read(imageProvider.notifier);
 
     return GestureDetector(
-      onTap: () => notifire.clear(),
+      onTap: () => notifier.clear(),
       child: ClipRRect(
         child: CircleAvatar(
-          backgroundColor: Theme.of(context).colorScheme.surface,
+          backgroundColor: colorScheme.surface,
           backgroundImage: img != null
               ? FileImage(File(img.path))
-              : AssetImage(Assets.profileAvatar),
-          radius: 56,
+              : AssetImage(Assets.profileAvatar) as ImageProvider,
+          radius: _avatarRadius,
           child: img == null
               ? Align(
-                  alignment: AlignmentGeometry.bottomEnd,
+                  alignment: Alignment.bottomRight,
                   child: GestureDetector(
-                    onTap: () => notifire.pickImage(),
+                    onTap: () => notifier.pickImage(),
                     child: Container(
-                      padding: const EdgeInsets.all(3),
+                      padding: const EdgeInsets.all(_cameraIconBtnPadding),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: colorScheme.secondary,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.camera, size: 30),
+                      child: const Icon(
+                        Icons.camera,
+                        size: _cameraIconSize,
+                      ),
                     ),
                   ),
                 )

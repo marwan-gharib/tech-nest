@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_components.dart';
+import 'package:tech_nest/features/home/presentation/widgets/home_app_bar.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
-import 'package:tech_nest/features/products/presentation/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
 import 'package:tech_nest/features/products/presentation/widgets/products_grid.dart';
-import 'package:tech_nest/features/products/presentation/widgets/search_products_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -63,8 +60,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: theme.colorScheme.surface,
       body: RefreshIndicator(
         onRefresh: _onRefresh,
         edgeOffset: 100,
@@ -74,93 +73,17 @@ class _HomeScreenState extends State<HomeScreen> {
             parent: BouncingScrollPhysics(),
           ),
           slivers: [
-            SliverAppBar(
-              pinned: true,
-              floating: true,
-              elevation: 0,
-              backgroundColor: Theme.of(
-                context,
-              ).colorScheme.surface.withValues(alpha: 0.95),
-              surfaceTintColor: Colors.transparent,
-              expandedHeight: 120,
-              flexibleSpace: FlexibleSpaceBar(
-                titlePadding: const EdgeInsets.only(
-                  left: AppSpacing.md,
-                  bottom: 68,
-                  right: AppSpacing.md,
-                ),
-                title: Text(
-                  "Discover",
-                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: -0.5,
-                  ),
-                ),
-              ),
-              bottom: PreferredSize(
-                preferredSize: const Size.fromHeight(70),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                    AppSpacing.md, 0, AppSpacing.md, AppSpacing.md),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: BlocProvider(
-                          create: (context) => sl<SearchSuggestionsCubit>(),
-                          child: SearchProductsWidget(
-                            controller: _searchController,
-                            onSelected: (value) async {
-                              context.read<FetchProductsCubit>().search(
-                                value ?? "",
-                              );
-                              Logger.logg("Searched: $value");
-                            },
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: AppSpacing.sm),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Theme.of(context).colorScheme.primary,
-                              Theme.of(context).colorScheme.tertiary,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: AppRadius.button,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Theme.of(
-                                context,
-                              ).colorScheme.primary.withValues(alpha: 0.3),
-                              blurRadius: 12,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: IconButton(
-                          onPressed: _showBottomSheet,
-                          icon: const Icon(
-                            Icons.tune_rounded,
-                            color: Colors.white,
-                            size: 24,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            HomeAppBar(
+              searchController: _searchController,
+              onFilterPressed: _showBottomSheet,
             ),
-              const SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
+            const SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
               sliver: ProductsGrid(),
             ),
-            const SliverToBoxAdapter(child: SizedBox(height: 50)),
+            const SliverToBoxAdapter(
+              child: SizedBox(height: AppSpacing.xxl + AppSpacing.md),
+            ),
           ],
         ),
       ),

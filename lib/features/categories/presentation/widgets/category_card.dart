@@ -2,12 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/domain/entities/category_entity.dart';
-import 'package:tech_nest/core/theme/app_colors.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 
 class CategoryCard extends StatelessWidget {
   final VoidCallback? onTap;
   final CategoryEntity category;
   final bool isSelected;
+
+  static const double _cardBorderRadius = 12.0;
+  static const double _imageSize = 30.0;
+  static const double _selectionAlpha = 0.1;
+
   const CategoryCard({
     required this.isSelected,
     required this.category,
@@ -17,39 +22,43 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
-        margin: const EdgeInsets.symmetric(vertical: 4),
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.xs,
+          vertical: AppSpacing.sm,
+        ),
+        margin: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
         decoration: BoxDecoration(
           color: isSelected
-              ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1)
-              : AppColors.transparent,
-          borderRadius: BorderRadius.circular(12),
+              ? colorScheme.primary.withValues(alpha: _selectionAlpha)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(_cardBorderRadius),
           border: Border.all(
-            color: isSelected
-                ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.outline,
+            color: isSelected ? colorScheme.primary : colorScheme.outline,
             width: 1,
           ),
         ),
         child: Row(
-          spacing: 5,
+          spacing: AppSpacing.xs + 1,
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: CachedNetworkImage(
                 imageUrl: Endpoints.baseUrl + category.imgUrl,
-                width: 30,
-                height: 30,
+                width: _imageSize,
+                height: _imageSize,
                 fit: BoxFit.fill,
               ),
             ),
             Expanded(
               child: Text(
                 category.name,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: theme.textTheme.bodyMedium,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

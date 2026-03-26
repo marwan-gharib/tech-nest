@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/theme/app_radius.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 
 class SearchSuggestionsOverlayList extends StatelessWidget {
   final List<String> suggestions;
@@ -12,34 +14,38 @@ class SearchSuggestionsOverlayList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Material(
-      elevation: 12,
-      shadowColor: Theme.of(context).shadowColor.withValues(alpha: 0.2),
-      borderRadius: BorderRadius.circular(20),
-      color: Theme.of(context).colorScheme.surface,
+      elevation: 8,
+      shadowColor: theme.shadowColor.withValues(alpha: 0.15),
+      borderRadius: BorderRadius.circular(AppRadius.lg),
+      color: colorScheme.surface,
       clipBehavior: Clip.antiAlias,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 250),
         child: ListView.separated(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
           shrinkWrap: true,
           itemCount: suggestions.length,
           separatorBuilder: (context, index) => Divider(
             height: 1,
-            color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
+            color: colorScheme.outlineVariant.withValues(alpha: 0.5),
           ),
           itemBuilder: (context, i) {
             final String suggestion = suggestions[i];
             return ListTile(
               title: Text(
                 suggestion,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                style: theme.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
+                  color: colorScheme.onSurface,
                 ),
               ),
               leading: Icon(
                 Icons.search_rounded,
-                color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.7),
+                color: colorScheme.primary.withValues(alpha: 0.6),
                 size: 20,
               ),
               dense: true,

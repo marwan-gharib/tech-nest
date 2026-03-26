@@ -6,14 +6,13 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/image/image_provider.dart';
-import 'package:tech_nest/core/utils/validators.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widget.dart';
-import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/pick_profile_image.dart';
-import 'package:tech_nest/features/auth/presentation/widgets/privacy_policy_widget.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/sign_up_form.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/verify_email_dialoge.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
@@ -28,10 +27,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   late final TextEditingController _email;
   late final TextEditingController _password;
   late final TextEditingController _confirmPassword;
-
   late final GlobalKey<FormState> _formKey;
-
-  late final ValueNotifier<bool> _checkBoxNotifire;
+  late final ValueNotifier<bool> _checkBoxNotifier;
 
   @override
   void initState() {
@@ -40,21 +37,18 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     _email = TextEditingController();
     _password = TextEditingController();
     _confirmPassword = TextEditingController();
-
     _formKey = GlobalKey<FormState>();
-
-    _checkBoxNotifire = ValueNotifier<bool>(false);
+    _checkBoxNotifier = ValueNotifier<bool>(false);
   }
 
   @override
   void dispose() {
-    super.dispose();
     _fullName.dispose();
     _email.dispose();
     _password.dispose();
     _confirmPassword.dispose();
-
-    _checkBoxNotifire.dispose();
+    _checkBoxNotifier.dispose();
+    super.dispose();
   }
 
   @override
@@ -68,72 +62,41 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-
-        appBar: AppBar(title: const Text("registration")),
-        body: Form(
-          key: _formKey,
-          child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 20),
-            children: [
-              const Center(child: PickProfileImage()),
-              const SizedBox(height: 50),
-              CustomInputField(
-                controller: _fullName,
-                lable: "Full Name",
-                hint: "Enter your name",
-                keyboardType: TextInputType.name,
-                validator: Validators.fullNameValidator,
-              ),
-              const SizedBox(height: 24),
-              CustomInputField(
-                controller: _email,
-                lable: "E-mail Address",
-                hint: "example@email.com",
-                keyboardType: TextInputType.emailAddress,
-                validator: Validators.emailValidator,
-              ),
-              const SizedBox(height: 24),
-              CustomInputField(
-                controller: _password,
-                lable: "Password",
-                hint: "* " * 8,
-                keyboardType: TextInputType.visiblePassword,
-                isPassword: true,
-                validator: Validators.passwordValidator,
-              ),
-              const SizedBox(height: 24),
-              CustomInputField(
-                controller: _confirmPassword,
-                lable: "Confirm Password",
-                hint: "* " * 8,
-                keyboardType: TextInputType.visiblePassword,
-                isPassword: true,
-                validator: (value) => Validators.confirmPasswordValidator(
-                  value,
-                  password: _password.text,
-                ),
-              ),
-              const SizedBox(height: 40),
-              PrivacyPolicyWidget(_checkBoxNotifire),
-              const SizedBox(height: 16),
-              ValueListenableBuilder(
-                valueListenable: _checkBoxNotifire,
-                builder: (_, value, _) {
-                  return BlocConsumer<RegistrationCubit, RegistrationState>(
-                    listener: _listener,
-                    builder: _builder,
-                  );
-                },
-              ),
-              const SizedBox(height: 32),
-              AskNavigationWidget(
-                question: "Have an acount ? ",
-                screenLabel: "Login",
-                onTap: () => context.go(Routes.loginScreenPath),
-              ),
-              const SizedBox(height: 40),
-            ],
+        appBar: AppBar(title: const Text("Registration")),
+        body: ListView(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.lg,
           ),
+          children: [
+            const Center(child: PickProfileImage()),
+            const SizedBox(height: AppSpacing.xxl),
+            SignUpForm(
+              formKey: _formKey,
+              fullName: _fullName,
+              email: _email,
+              password: _password,
+              confirmPassword: _confirmPassword,
+              checkBoxNotifier: _checkBoxNotifier,
+            ),
+            const SizedBox(height: AppSpacing.md),
+            ValueListenableBuilder(
+              valueListenable: _checkBoxNotifier,
+              builder: (_, value, _) {
+                return BlocConsumer<RegistrationCubit, RegistrationState>(
+                  listener: _listener,
+                  builder: _builder,
+                );
+              },
+            ),
+            const SizedBox(height: AppSpacing.xl),
+            AskNavigationWidget(
+              question: "Have an account ? ",
+              screenLabel: "Login",
+              onTap: () => context.go(Routes.loginScreenPath),
+            ),
+            const SizedBox(height: AppSpacing.xxl),
+          ],
         ),
       ),
     );
@@ -152,7 +115,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         useRootNavigator: true,
       );
     } else if (state is RegistrationFailed) {
-      customSnackBar(context, message: state.message);
+      CustomSnackBar.show(context, message: state.message);
     }
   }
 
@@ -165,10 +128,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       );
     }
     return ElevatedButton(
-      onPressed: _checkBoxNotifire.value
+      onPressed: _checkBoxNotifier.value
           ? () {
               if (ref.read(imageProvider) == null) {
-                customSnackBar(
+                CustomSnackBar.show(
                   context,
                   message: "Profile Picture is required.",
                 );

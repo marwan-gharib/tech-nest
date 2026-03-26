@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/routing/routes.dart';
-import 'package:tech_nest/core/theme/app_colors.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_partition_dialoge.dart';
 
@@ -16,32 +16,31 @@ class VerifyEmailDialoge extends StatefulWidget {
 
 class _VerifyEmailDialogeState extends State<VerifyEmailDialoge> {
   late final TextEditingController _controller;
-
-  late final ValueNotifier<bool> _isErrNotifire;
+  late final ValueNotifier<bool> _isErrNotifier;
 
   @override
   void initState() {
-    _controller = TextEditingController();
-
-    _isErrNotifire = ValueNotifier<bool>(false);
-
     super.initState();
+    _controller = TextEditingController();
+    _isErrNotifier = ValueNotifier<bool>(false);
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _isErrNotifire.dispose();
+    _isErrNotifier.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    
     return Dialog(
       insetAnimationDuration: const Duration(milliseconds: 400),
       alignment: Alignment.center,
-      backgroundColor: AppColors.transparent,
-      insetPadding: const EdgeInsets.all(16),
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(AppSpacing.md),
       child: TweenAnimationBuilder(
         tween: Tween<double>(begin: 0, end: 1),
         duration: const Duration(milliseconds: 700),
@@ -49,13 +48,13 @@ class _VerifyEmailDialogeState extends State<VerifyEmailDialoge> {
         builder: (context, value, child) =>
             Transform.scale(scale: value, child: child),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(AppSpacing.lg),
           width: MediaQuery.of(context).size.width * 0.9,
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
+            color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
-              BoxShadow(blurRadius: 20, color: Theme.of(context).shadowColor),
+              BoxShadow(blurRadius: 20, color: theme.shadowColor),
             ],
           ),
           child: Column(
@@ -63,10 +62,10 @@ class _VerifyEmailDialogeState extends State<VerifyEmailDialoge> {
             children: [
               CustomPartitionDialoge(
                 pinCodeController: _controller,
-                isErrNotifire: _isErrNotifire,
+                isErrNotifire: _isErrNotifier,
                 label: "Verify your E-mail address",
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: AppSpacing.xxl),
               BlocConsumer<VerifyEmailCubit, VerifyEmailState>(
                 listener: _verifyEmailListener,
                 builder: _verifyEmailBuilder,
@@ -83,12 +82,12 @@ class _VerifyEmailDialogeState extends State<VerifyEmailDialoge> {
     VerifyEmailState state,
   ) async {
     if (state is VerifyEmailSuccess) {
-      _isErrNotifire.value = false;
+      _isErrNotifier.value = false;
       context.go(Routes.homeScreenPath);
     } else if (state is VerifyEmailFailed) {
-      _isErrNotifire.value = true;
+      _isErrNotifier.value = true;
     } else if (state is VerifyEmailSuccess || state is VerifyEmailLoading) {
-      _isErrNotifire.value = false;
+      _isErrNotifier.value = false;
     }
   }
 
@@ -102,7 +101,7 @@ class _VerifyEmailDialogeState extends State<VerifyEmailDialoge> {
     }
     return ElevatedButton(
       onPressed: _controller.text.isEmpty ? null : _onButtonPressed,
-      child: const Text("Create Acount"),
+      child: const Text("Create Account"),
     );
   }
 

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/widgets/build_price.dart';
 
 class CartDetailsWidget extends StatelessWidget {
   const CartDetailsWidget({super.key});
+
+  static const double _priceSize = 16.0;
+  static const double _labelAlpha = 0.6;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +17,7 @@ class CartDetailsWidget extends StatelessWidget {
         if (state is CartLoaded) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 10,
+            spacing: AppSpacing.sm + 2,
             children: [
               _dataRow(
                 context,
@@ -55,32 +59,33 @@ class CartDetailsWidget extends StatelessWidget {
     bool isPrice = false,
     Color? color,
   }) {
+    final theme = Theme.of(context);
+    final labelStyle = theme.textTheme.labelLarge;
+    final secondaryColor = theme.shadowColor.withValues(alpha: _labelAlpha);
+
     return Padding(
-      padding: const EdgeInsets.only(left: 10),
+      padding: const EdgeInsets.only(left: AppSpacing.sm + 2),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
             label,
-            style: Theme.of(context).textTheme.labelLarge!.copyWith(
-              color:
-                  color ?? Theme.of(context).shadowColor.withValues(alpha: 0.6),
+            style: labelStyle?.copyWith(
+              color: color ?? secondaryColor,
             ),
           ),
           isPrice
               ? BuildPrice(
                   price: number.toDouble(),
-                  size: 16,
+                  size: _priceSize,
                   numberColor: color,
                 )
               : Text(
                   number.toString(),
-                  style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                    fontSize: 16,
+                  style: labelStyle?.copyWith(
+                    fontSize: _priceSize,
                     fontWeight: FontWeight.w500,
-                    color:
-                        color ??
-                        Theme.of(context).shadowColor.withValues(alpha: 0.6),
+                    color: color ?? secondaryColor,
                   ),
                 ),
         ],

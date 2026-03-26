@@ -30,7 +30,7 @@ class ProductsRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      Logger.logg(e.toString());
+      AppLogger.log(e.toString());
       throw UnKnownException();
     }
   }
@@ -44,7 +44,7 @@ class ProductsRemoteDataSource {
 
       if (response != null) {
         (response[ApiKeys.data] as List).map(
-          (e) => Logger.logg(e.runtimeType.toString()),
+          (e) => AppLogger.log(e.runtimeType.toString()),
         );
         final List? list = response[ApiKeys.data];
         if (list != null) {
@@ -55,7 +55,7 @@ class ProductsRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      Logger.logg(e.toString());
+      AppLogger.log(e.toString());
       throw UnKnownException();
     }
   }

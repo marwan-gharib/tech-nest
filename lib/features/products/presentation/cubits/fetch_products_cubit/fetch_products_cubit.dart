@@ -37,7 +37,7 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
   Future<void> fetchMore() async {
     if (state.isLoadingMore || state.hasReachedMax) return;
 
-    Logger.logg(_params.page.toString());
+    AppLogger.log(_params.page.toString());
 
     emit(state.copyWith(isLoadingMore: true));
 

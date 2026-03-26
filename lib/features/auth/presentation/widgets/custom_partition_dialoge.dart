@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 
 class CustomPartitionDialoge extends StatelessWidget {
   final TextEditingController pinCodeController;
   final ValueNotifier<bool> isErrNotifire;
   final String label;
+
+  static const double _pinWidth = 35.0;
+  static const double _pinHeight = 40.0;
+  static const double _pinBorderRadius = 12.0;
+
   const CustomPartitionDialoge({
     required this.pinCodeController,
     required this.isErrNotifire,
@@ -15,30 +21,33 @@ class CustomPartitionDialoge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const SizedBox.shrink(),
-            Text(label, style: Theme.of(context).textTheme.labelLarge),
+            Text(label, style: theme.textTheme.labelLarge),
             IconButton(
               onPressed: () => context.pop(),
               icon: const Icon(Icons.close),
             ),
           ],
         ),
-        const SizedBox(height: 50),
+        const SizedBox(height: AppSpacing.xxl),
         Align(
-          alignment: AlignmentGeometry.centerLeft,
+          alignment: Alignment.centerLeft,
           child: Text(
             "Enter code",
-            style: Theme.of(
-              context,
-            ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: AppSpacing.sm),
         Pinput(
           controller: pinCodeController,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -49,23 +58,23 @@ class CustomPartitionDialoge extends StatelessWidget {
           autofocus: true,
           defaultPinTheme: PinTheme(
             margin: const EdgeInsets.all(2),
-            width: 35,
-            height: 40,
+            width: _pinWidth,
+            height: _pinHeight,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.outline,
-              borderRadius: BorderRadius.circular(12),
+              color: colorScheme.outline,
+              borderRadius: BorderRadius.circular(_pinBorderRadius),
             ),
           ),
         ),
-        const SizedBox(height: 15),
+        const SizedBox(height: AppSpacing.md),
         ValueListenableBuilder(
           valueListenable: isErrNotifire,
           builder: (context, value, child) {
-            if (!value) return SizedBox.fromSize();
+            if (!value) return const SizedBox.shrink();
             return Text(
               "Invalid verification code",
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: Theme.of(context).colorScheme.error,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: colorScheme.error,
               ),
             );
           },

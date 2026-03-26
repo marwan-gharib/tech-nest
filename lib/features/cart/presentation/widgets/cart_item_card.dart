@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart_item.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/delete_cart_item_cubit/delete_cart_item_cubit.dart';
@@ -13,26 +14,36 @@ import 'package:tech_nest/features/cart/presentation/widgets/remove_cart_item_bu
 class CartItemCard extends StatelessWidget {
   final CartItem cartItem;
 
+  static const double _cardHeight = 100.0;
+  static const double _imageWidth = 125.0;
+  static const double _borderRadius = 10.0;
+  static const double _priceSize = 16.0;
+
   const CartItemCard({required this.cartItem, super.key});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      constraints: const BoxConstraints(maxHeight: 100, minHeight: 100),
-      margin: const EdgeInsets.only(bottom: 20),
+      color: theme.scaffoldBackgroundColor,
+      constraints: const BoxConstraints(
+        maxHeight: _cardHeight,
+        minHeight: _cardHeight,
+      ),
+      margin: const EdgeInsets.only(bottom: AppSpacing.lg),
       child: Row(
-        spacing: 5,
+        spacing: AppSpacing.xs + 1,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           ClipRRect(
-            borderRadius: BorderRadiusGeometry.circular(10),
+            borderRadius: BorderRadius.circular(_borderRadius),
             child: CachedNetworkImage(
               imageUrl: Endpoints.baseUrl + cartItem.product.imgUrl,
               memCacheHeight: 300,
               memCacheWidth: 300,
-              height: 100,
-              width: 125,
+              height: _cardHeight,
+              width: _imageWidth,
               fit: BoxFit.fill,
             ),
           ),
@@ -43,12 +54,12 @@ class CartItemCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.end,
-                  spacing: 20,
+                  spacing: AppSpacing.md + 4,
                   children: [
                     Expanded(
                       child: Text(
-                        "${cartItem.product.name}ascknlad cakldcnlkdazdc ascdlk",
-                        style: Theme.of(context).textTheme.labelMedium,
+                        cartItem.product.name,
+                        style: theme.textTheme.labelMedium,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -59,17 +70,20 @@ class CartItemCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: AppSpacing.sm + 2),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      BuildPrice(price: cartItem.product.price, size: 16),
+                      BuildPrice(
+                        price: cartItem.product.price,
+                        size: _priceSize,
+                      ),
                       BlocProvider(
                         create: (context) => sl<UpdateItemQuantityCubit>(),
                         child: Align(
-                          alignment: AlignmentGeometry.bottomCenter,
+                          alignment: Alignment.bottomCenter,
                           child: ChangeCartItemCount(
                             cartId: cartItem.id,
                             initialCount: cartItem.quantity,

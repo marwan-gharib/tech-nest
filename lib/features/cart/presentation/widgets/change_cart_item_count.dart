@@ -65,12 +65,12 @@ class _ChangeCartItemCountState extends State<ChangeCartItemCount> {
         !isMaxCount) {
       _counter = state.updatedQuantity;
       isMaxCount = true;
-      customSnackBar(
+      CustomSnackBar.show(
         context,
         message: "The quantity you need is not compatible with the new stock.",
       );
     } else if (state is UpdateItemQuantityFailed) {
-      customSnackBar(context, message: state.message);
+      CustomSnackBar.show(context, message: state.message);
     }
   }
 

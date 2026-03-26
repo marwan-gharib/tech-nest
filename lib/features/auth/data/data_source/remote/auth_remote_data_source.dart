@@ -3,8 +3,8 @@ import 'package:tech_nest/core/constants/app_consts.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
 import 'package:tech_nest/core/network/api_client.dart';
+import 'package:tech_nest/core/network/utils/file_upload_utils.dart';
 import 'package:tech_nest/core/utils/logger.dart';
-import 'package:tech_nest/core/utils/upload_img_to_api.dart';
 import 'package:tech_nest/features/auth/data/models/auth_model.dart';
 import 'package:tech_nest/features/auth/data/models/user_model.dart';
 import 'package:tech_nest/features/auth/domain/params/login_params.dart';
@@ -24,7 +24,7 @@ class AuthRemoteDataSource {
         isFormData: true,
         data: params.toJson().putIfAbsent(
           ApiKeys.profileImg,
-          () async => await uploadImageToAPI(params.img),
+          () async => await FileUploadUtils.uploadImageToAPI(params.img),
         ),
         extra: {AppConsts.skipAuth: true},
       );
@@ -40,7 +40,7 @@ class AuthRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      Logger.logg(e.toString());
+      AppLogger.log(e.toString());
       throw UnKnownException();
     }
   }
@@ -64,7 +64,7 @@ class AuthRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      Logger.logg(e.toString());
+      AppLogger.log(e.toString());
       throw UnKnownException();
     }
   }
@@ -89,7 +89,7 @@ class AuthRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      Logger.logg(e.toString());
+      AppLogger.log(e.toString());
       throw UnKnownException();
     }
   }
@@ -104,7 +104,7 @@ class AuthRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      Logger.logg(e.toString());
+      AppLogger.log(e.toString());
       throw UnKnownException();
     }
   }
@@ -119,7 +119,7 @@ class AuthRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      Logger.logg(e.toString());
+      AppLogger.log(e.toString());
       throw UnKnownException();
     }
   }
@@ -130,7 +130,7 @@ class AuthRemoteDataSource {
     } on AppException {
       rethrow;
     } catch (e) {
-      Logger.logg(e.toString());
+      AppLogger.log(e.toString());
       throw UnKnownException();
     }
   }
