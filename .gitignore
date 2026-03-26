@@ -122,6 +122,9 @@ app.*.symbols
 *.md
 !README.md
 
+# Scratch / debug text files
+*.txt
+
 # AI agent / tool config — local only
 .agent/
 .gemini/
