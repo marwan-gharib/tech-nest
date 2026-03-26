@@ -20,7 +20,9 @@ class DioClient extends ApiClient {
     dio.interceptors.add(authInterceptor);
     dio.interceptors.add(errorInterceptor);
     dio.interceptors.add(loggingInterceptor);
-    dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+    dio.interceptors.add(
+      LogInterceptor(requestBody: true, responseBody: true),
+    ); // never delete it
   }
 
   @override
@@ -28,16 +30,15 @@ class DioClient extends ApiClient {
     String path, {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
+    Map<String, dynamic>? extra,
   }) async {
     try {
       final response = await dio.get(
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options,
+        options: extra != null ? Options(extra: extra) : null,
       );
-
       return response.data;
     } on DioException catch (e) {
       DioExceptions.handle(e);
@@ -54,16 +55,15 @@ class DioClient extends ApiClient {
     Map<String, dynamic>? data,
     bool isFormData = false,
     Map<String, dynamic>? queryParameters,
-    Options? options,
+    Map<String, dynamic>? extra,
   }) async {
     try {
       final response = await dio.post(
         path,
         data: isFormData ? FormData.fromMap(data!) : data,
         queryParameters: queryParameters,
-        options: options,
+        options: extra != null ? Options(extra: extra) : null,
       );
-
       return response.data;
     } on DioException catch (e) {
       DioExceptions.handle(e);
@@ -78,16 +78,15 @@ class DioClient extends ApiClient {
     Map<String, dynamic>? data,
     bool isFormData = false,
     Map<String, dynamic>? queryParameters,
-    Options? options,
+    Map<String, dynamic>? extra,
   }) async {
     try {
       final response = await dio.patch(
         path,
         data: isFormData ? FormData.fromMap(data!) : data,
         queryParameters: queryParameters,
-        options: options,
+        options: extra != null ? Options(extra: extra) : null,
       );
-
       return response.data;
     } on DioException catch (e) {
       DioExceptions.handle(e);
@@ -101,16 +100,15 @@ class DioClient extends ApiClient {
     String path, {
     Map<String, dynamic>? data,
     Map<String, dynamic>? queryParameters,
-    Options? options,
+    Map<String, dynamic>? extra,
   }) async {
     try {
       final response = await dio.delete(
         path,
         data: data,
         queryParameters: queryParameters,
-        options: options,
+        options: extra != null ? Options(extra: extra) : null,
       );
-
       return response.data;
     } on DioException catch (e) {
       DioExceptions.handle(e);
