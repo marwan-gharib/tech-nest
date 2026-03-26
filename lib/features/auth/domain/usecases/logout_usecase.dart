@@ -1,6 +1,5 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
-import 'package:tech_nest/features/auth/domain/params/verification_email_params.dart';
 import 'package:tech_nest/features/auth/domain/repositories/auth_repo.dart';
 
 class LogoutUsecase {
@@ -8,9 +7,7 @@ class LogoutUsecase {
 
   LogoutUsecase(this._repo);
 
-  Future<Either<Failure, void>> call({
-    required VerificationEmailParams params,
-  }) async {
+  Future<Either<Failure, void>> call() async {
     return await _repo.logout();
   }
 }

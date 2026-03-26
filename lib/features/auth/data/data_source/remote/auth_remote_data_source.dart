@@ -19,13 +19,14 @@ class AuthRemoteDataSource {
 
   Future<UserModel> signUp({required SignUpParams params}) async {
     try {
+      final Map<String, dynamic> data = params.toJson();
+      data[ApiKeys.profileImg] =
+          await FileUploadUtils.uploadImageToAPI(params.img);
+
       final response = await _api.post(
         Endpoints.signUp,
         isFormData: true,
-        data: params.toJson().putIfAbsent(
-          ApiKeys.profileImg,
-          () async => await FileUploadUtils.uploadImageToAPI(params.img),
-        ),
+        data: data,
         extra: {AppConsts.skipAuth: true},
       );
 
@@ -96,11 +97,18 @@ class AuthRemoteDataSource {
 
   Future<void> resetPassword({required ResetPasswordParams params}) async {
     try {
-      await _api.post(
+      final response = await _api.post(
         Endpoints.resetPassword,
         data: params.toJson(),
         extra: {AppConsts.skipAuth: true},
       );
+
+      if (response != null && response[ApiKeys.status] != 200) {
+        throw ServerException(
+          response[ApiKeys.message] ?? "Failed to reset password",
+          activeToUser: true,
+        );
+      }
     } on AppException {
       rethrow;
     } catch (e) {
@@ -111,11 +119,18 @@ class AuthRemoteDataSource {
 
   Future<void> forgetPassword({required String email}) async {
     try {
-      await _api.post(
+      final response = await _api.post(
         Endpoints.forgetPassword,
         data: {ApiKeys.email: email},
         extra: {AppConsts.skipAuth: true},
       );
+
+      if (response != null && response[ApiKeys.status] != 200) {
+        throw ServerException(
+          response[ApiKeys.message] ?? "Failed to process request",
+          activeToUser: true,
+        );
+      }
     } on AppException {
       rethrow;
     } catch (e) {
