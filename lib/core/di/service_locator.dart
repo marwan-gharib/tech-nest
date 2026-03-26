@@ -1,22 +1,22 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tech_nest/core/services/auth/auth_notifier.dart';
-import 'package:tech_nest/core/services/local/cache/cache_service.dart';
-import 'package:tech_nest/core/services/local/cache/shared_preferences_service.dart';
 import 'package:tech_nest/core/network/api_client.dart';
 import 'package:tech_nest/core/network/dio_client.dart';
 import 'package:tech_nest/core/network/interceptors/auth_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/error_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/logging_interceptor.dart';
+import 'package:tech_nest/core/services/auth/auth_notifier.dart';
+import 'package:tech_nest/core/services/local/cache/cache_service.dart';
+import 'package:tech_nest/core/services/local/cache/shared_preferences_service.dart';
+import 'package:tech_nest/core/services/local/secure/secure_storage_impl.dart';
+import 'package:tech_nest/core/services/local/secure/secure_storage_service.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/features/auth/di/auth_di.dart';
 import 'package:tech_nest/features/cart/di/cart_di.dart';
 import 'package:tech_nest/features/categories/di/categories_di.dart';
 import 'package:tech_nest/features/products/di/products_di.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:tech_nest/core/services/local/secure/secure_storage_impl.dart';
-import 'package:tech_nest/core/services/local/secure/secure_storage_service.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -27,18 +27,12 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<SecureStorageService>(
     () => SecureStorageServiceImpl(const FlutterSecureStorage()),
   );
-  sl.registerLazySingleton<CacheService>(
-    () => SharedPreferencesService(pref),
-  );
+  sl.registerLazySingleton<CacheService>(() => SharedPreferencesService(pref));
 
   sl.registerLazySingleton(() => AuthNotifier());
 
   // ── Interceptors (must be registered BEFORE DioClient) ────────────────────
-  // lazySingleton: interceptors are shared by the DioClient singleton,
-  // so creating a new instance each call would break the shared state.
-  sl.registerLazySingleton(
-    () => AuthInterceptor(sl<SecureStorageService>()),
-  );
+  sl.registerLazySingleton(() => AuthInterceptor(sl<SecureStorageService>()));
   sl.registerLazySingleton(
     () => ErrorInterceptor(sl<CacheService>(), sl<AuthNotifier>()),
   );
