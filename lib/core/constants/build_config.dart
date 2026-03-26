@@ -5,7 +5,7 @@
 class BuildConfig {
   BuildConfig._();
 
-  static const String environment = String.fromEnvironment(
+  static const String _environment = String.fromEnvironment(
     'ENVIRONMENT',
     defaultValue: 'dev',
   );
@@ -15,7 +15,7 @@ class BuildConfig {
     defaultValue: 'http://192.168.1.13/tech-nest-backend/',
   );
 
-  static bool get isDev => environment == 'dev';
-  static bool get isStaging => environment == 'staging';
-  static bool get isProd => environment == 'prod';
+  static bool get isDev => _environment == 'dev';
+  static bool get isStaging => _environment == 'staging';
+  static bool get isProd => _environment == 'prod';
 }

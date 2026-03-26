@@ -14,7 +14,6 @@ class DioClient extends ApiClient {
     required Interceptor loggingInterceptor,
   }) {
     dio.options.baseUrl = Endpoints.apiUserBase;
-
     dio.options.connectTimeout = const Duration(seconds: 30);
     dio.options.receiveTimeout = const Duration(seconds: 30);
     dio.options.sendTimeout = const Duration(seconds: 30);
