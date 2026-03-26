@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/product_card.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 
@@ -18,9 +19,9 @@ class ProductsGrid extends StatelessWidget {
           return SliverToBoxAdapter(
             child: Center(
               child: Column(
-                spacing: 20,
+                spacing: AppSpacing.lg,
                 children: [
-                  const SizedBox(height: 30),
+                  const SizedBox(height: AppSpacing.lg),
                   Text(
                     state.errMessage!,
                     style: Theme.of(
@@ -53,7 +54,7 @@ class ProductsGrid extends StatelessWidget {
                   child: Align(
                     alignment: Alignment.center,
                     child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 30),
+                      margin: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
                       alignment: Alignment.center,
                       child: const CircularProgressIndicator(),
                     ),

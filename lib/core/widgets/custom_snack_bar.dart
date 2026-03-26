@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/theme/app_radius.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 
 void customSnackBar(
   BuildContext context, {
@@ -20,14 +22,14 @@ void customSnackBar(
         ),
         dismissDirection: DismissDirection.horizontal,
         backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
-        padding: const EdgeInsets.all(15),
+        padding: const EdgeInsets.all(AppSpacing.md),
         behavior: SnackBarBehavior.floating,
         margin: EdgeInsets.only(
           bottom: isAbove ? MediaQuery.of(context).size.height * 0.86 : 40,
           left: 30,
           right: 30,
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        shape: RoundedRectangleBorder(borderRadius: AppRadius.cardLg),
         duration: const Duration(seconds: 3),
       ),
       snackBarAnimationStyle: const AnimationStyle(

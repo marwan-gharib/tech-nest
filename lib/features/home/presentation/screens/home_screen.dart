@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/core/theme/app_radius.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_components.dart';
@@ -83,9 +85,9 @@ class _HomeScreenState extends State<HomeScreen> {
               expandedHeight: 120,
               flexibleSpace: FlexibleSpaceBar(
                 titlePadding: const EdgeInsets.only(
-                  left: 16,
+                  left: AppSpacing.md,
                   bottom: 68,
-                  right: 16,
+                  right: AppSpacing.md,
                 ),
                 title: Text(
                   "Discover",
@@ -98,7 +100,8 @@ class _HomeScreenState extends State<HomeScreen> {
               bottom: PreferredSize(
                 preferredSize: const Size.fromHeight(70),
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpacing.md, 0, AppSpacing.md, AppSpacing.md),
                   child: Row(
                     children: [
                       Expanded(
@@ -115,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(width: 12),
+                      const SizedBox(width: AppSpacing.sm),
                       Container(
                         height: 50,
                         width: 50,
@@ -128,7 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: AppRadius.button,
                           boxShadow: [
                             BoxShadow(
                               color: Theme.of(
@@ -153,8 +156,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            const SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              const SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
               sliver: ProductsGrid(),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 50)),
@@ -173,9 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
       showDragHandle: true,
       isScrollControlled: true,
       elevation: 24,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
+      shape: AppRadius.sheetShape,
       builder: (context) {
         return FilterComponents(
           filterData: _filterData,
