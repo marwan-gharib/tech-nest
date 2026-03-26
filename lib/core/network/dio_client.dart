@@ -20,6 +20,7 @@ class DioClient extends ApiClient {
     dio.interceptors.add(authInterceptor);
     dio.interceptors.add(errorInterceptor);
     dio.interceptors.add(loggingInterceptor);
+    dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
   }
 
   @override
