@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_colors.dart';
+import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_text_styles.dart';
 
 class DarkTheme {
@@ -48,17 +49,17 @@ class DarkTheme {
       );
 
   static final OutlineInputBorder _enabledBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(6),
+    borderRadius: AppRadius.input,
     borderSide: BorderSide(color: colorScheme.outline, width: 1),
   );
 
   static final OutlineInputBorder _focusedBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(6),
+    borderRadius: AppRadius.input,
     borderSide: BorderSide(color: colorScheme.primary, width: 2),
   );
 
   static final OutlineInputBorder _errorBorder = OutlineInputBorder(
-    borderRadius: BorderRadius.circular(6),
+    borderRadius: AppRadius.input,
     borderSide: BorderSide(color: colorScheme.error, width: 1.5),
   );
 
@@ -110,7 +111,7 @@ class DarkTheme {
     color: colorScheme.surfaceContainerHighest,
     shadowColor: colorScheme.onSurfaceVariant,
     elevation: 1.5,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    shape: RoundedRectangleBorder(borderRadius: AppRadius.cardLg),
   );
   
   static final IconThemeData iconTheme = const IconThemeData();

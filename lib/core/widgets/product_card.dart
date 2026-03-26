@@ -8,6 +8,8 @@ import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/routing/routes.dart';
+import 'package:tech_nest/core/theme/app_radius.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 
 class ProductCard extends StatelessWidget {
@@ -33,7 +35,7 @@ class ProductCard extends StatelessWidget {
                     );
                   },
                 child: ClipRRect(
-                  borderRadius: BorderRadiusGeometry.circular(12),
+                  borderRadius: AppRadius.cardLg,
                   child: CachedNetworkImage(
                     fit: BoxFit.cover,
                     memCacheHeight: 300,
@@ -54,7 +56,7 @@ class ProductCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const SizedBox(width: 10),
+                const SizedBox(width: AppSpacing.sm),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/validators.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
@@ -60,7 +61,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
         appBar: AppBar(title: const Text("Login")),
         body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 60),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.xxl,
+          ),
           children: [
             Form(
               key: _emailFormKey,
@@ -72,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 validator: Validatiors.emailValditor,
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSpacing.lg),
             Form(
               key: _passFormKey,
               child: CustomInputField(
@@ -100,12 +104,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 44),
+            const SizedBox(height: AppSpacing.xl),
             BlocConsumer<LoginCubit, LoginState>(
               listener: _loginListener,
               builder: _loginBuilder,
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppSpacing.xl),
             AskNavigationWidget(
               question: "Don't have an account ? ",
               screenLabel: "registration",
