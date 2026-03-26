@@ -17,7 +17,7 @@ final class LoginLoading extends LoginState {
 }
 
 final class LoginSuccess extends LoginState {
-  final User user;
+  final UserEntity user;
 
   const LoginSuccess({required this.user});
 

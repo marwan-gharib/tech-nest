@@ -12,7 +12,7 @@ class VerifyEmailUsecase {
 
   VerifyEmailUsecase(this._repo);
 
-  Future<Either<Failure, User>> call({
+  Future<Either<Failure, UserEntity>> call({
     required VerificationEmailParams params,
   }) async {
     try {

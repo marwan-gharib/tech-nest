@@ -89,7 +89,7 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
                     hint: "* " * 8,
                     keyboardType: TextInputType.visiblePassword,
                     isPassword: true,
-                    validator: Validatiors.passwordValditor,
+                    validator: Validators.passwordValidator,
                   ),
                   const SizedBox(height: 24),
                   CustomInputField(
@@ -98,7 +98,7 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
                     hint: "* " * 8,
                     keyboardType: TextInputType.visiblePassword,
                     isPassword: true,
-                    validator: (value) => Validatiors.confirmPasswordValditor(
+                    validator: (value) => Validators.confirmPasswordValidator(
                       value,
                       password: _password.text,
                     ),

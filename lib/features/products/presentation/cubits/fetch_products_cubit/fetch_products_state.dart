@@ -1,7 +1,7 @@
 part of 'fetch_products_cubit.dart';
 
 class FetchProductsState extends Equatable {
-  final List<Product> products;
+  final List<ProductEntity> products;
   final String? errMessage;
   final bool isLoading;
   final bool isLoadingMore;
@@ -18,7 +18,7 @@ class FetchProductsState extends Equatable {
   });
 
   FetchProductsState copyWith({
-    List<Product>? products,
+    List<ProductEntity>? products,
     String? errMessage,
     bool? isLoading,
     bool? isLoadingMore,

@@ -13,7 +13,7 @@ import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 
 class ProductCard extends StatelessWidget {
-  final Product product;
+  final ProductEntity product;
 
   const ProductCard({required this.product, super.key});
 

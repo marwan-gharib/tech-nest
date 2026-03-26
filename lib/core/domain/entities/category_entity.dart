@@ -1,9 +1,9 @@
-class Category {
+class CategoryEntity {
   final int id;
   final String name;
   final String imgUrl;
 
-  Category({required this.id, required this.name, required this.imgUrl});
+  CategoryEntity({required this.id, required this.name, required this.imgUrl});
 
-  Category.empty() : id = -1, name = "", imgUrl = "";
+  CategoryEntity.empty() : id = -1, name = "", imgUrl = "";
 }

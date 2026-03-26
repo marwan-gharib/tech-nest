@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 lable: "E-mail Address",
                 hint: "example@email.com",
                 keyboardType: TextInputType.emailAddress,
-                validator: Validatiors.emailValditor,
+                validator: Validators.emailValidator,
               ),
             ),
             const SizedBox(height: AppSpacing.lg),
@@ -85,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 hint: "* " * 8,
                 keyboardType: TextInputType.visiblePassword,
                 isPassword: true,
-                validator: Validatiors.passwordValditor,
+                validator: Validators.passwordValidator,
               ),
             ),
             Align(
