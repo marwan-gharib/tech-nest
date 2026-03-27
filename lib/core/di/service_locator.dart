@@ -12,6 +12,8 @@ import 'package:tech_nest/core/services/local/cache/cache_service.dart';
 import 'package:tech_nest/core/services/local/cache/shared_preferences_service.dart';
 import 'package:tech_nest/core/services/local/secure/secure_storage_impl.dart';
 import 'package:tech_nest/core/services/local/secure/secure_storage_service.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:tech_nest/core/logic/connectivity_cubit/connectivity_cubit.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/features/auth/di/auth_di.dart';
 import 'package:tech_nest/features/cart/di/cart_di.dart';
@@ -51,6 +53,10 @@ Future<void> initDependencies() async {
 
   // ── Theme ─────────────────────────────────────────────────────────────────
   sl.registerFactory(() => ThemeCubit(sl<CacheService>()));
+
+  // ── Connectivity ────────────────────────────────────────────────────────────
+  sl.registerLazySingleton(() => Connectivity());
+  sl.registerLazySingleton(() => ConnectivityCubit(sl<Connectivity>()));
 
   // ── Features ──────────────────────────────────────────────────────────────
   initAuthDI(sl);

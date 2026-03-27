@@ -14,12 +14,14 @@ class AppShellEntry extends StatefulWidget {
 class _AppShellEntryState extends State<AppShellEntry> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: widget.navigationShell,
-      bottomNavigationBar: BottomNavBar(
-        navigationShell: widget.navigationShell,
-        onTap: _goBranch,
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: widget.navigationShell,
+        bottomNavigationBar: BottomNavBar(
+          navigationShell: widget.navigationShell,
+          onTap: _goBranch,
+        ),
       ),
     );
   }
