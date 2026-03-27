@@ -35,6 +35,7 @@ class CartDetailsWidget extends StatelessWidget {
                 label: 'Delivery Charges',
                 number: state.cart.deliveryCharges,
                 isPrice: true,
+                isFree: state.cart.deliveryCharges == 0,
               ),
               Divider(color: Theme.of(context).hintColor),
               _dataRow(
@@ -57,6 +58,7 @@ class CartDetailsWidget extends StatelessWidget {
     required String label,
     required int number,
     bool isPrice = false,
+    bool isFree = false,
     Color? color,
   }) {
     final theme = Theme.of(context);
@@ -74,7 +76,16 @@ class CartDetailsWidget extends StatelessWidget {
               color: color ?? secondaryColor,
             ),
           ),
-          isPrice
+          isFree
+              ? Text(
+                  "Free",
+                  style: labelStyle?.copyWith(
+                    fontSize: _priceSize,
+                    fontWeight: FontWeight.w500,
+                    color: color ?? secondaryColor,
+                  ),
+                )
+              : isPrice
               ? BuildPrice(
                   price: number.toDouble(),
                   size: _priceSize,

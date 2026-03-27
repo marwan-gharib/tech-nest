@@ -19,6 +19,9 @@ final class RegistrationLoading extends RegistrationState {
 final class RegistrationSuccess extends RegistrationState {
   final UserEntity user;
   const RegistrationSuccess({required this.user});
+
+  @override
+  List<Object> get props => [user];
 }
 
 final class RegistrationFailed extends RegistrationState {

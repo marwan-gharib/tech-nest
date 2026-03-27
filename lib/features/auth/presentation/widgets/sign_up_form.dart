@@ -11,6 +11,7 @@ class SignUpForm extends StatelessWidget {
   final TextEditingController password;
   final TextEditingController confirmPassword;
   final ValueNotifier<bool> checkBoxNotifier;
+  final ValueNotifier<bool> isPasswordObscure;
 
   const SignUpForm({
     required this.formKey,
@@ -19,6 +20,7 @@ class SignUpForm extends StatelessWidget {
     required this.password,
     required this.confirmPassword,
     required this.checkBoxNotifier,
+    required this.isPasswordObscure,
     super.key,
   });
 
@@ -44,25 +46,38 @@ class SignUpForm extends StatelessWidget {
             validator: Validators.emailValidator,
           ),
           const SizedBox(height: AppSpacing.lg),
-          CustomInputField(
-            controller: password,
-            label: "Password",
-            hint: "* " * 8,
-            keyboardType: TextInputType.visiblePassword,
-            isPassword: true,
-            validator: Validators.passwordValidator,
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          CustomInputField(
-            controller: confirmPassword,
-            label: "Confirm Password",
-            hint: "* " * 8,
-            keyboardType: TextInputType.visiblePassword,
-            isPassword: true,
-            validator: (value) => Validators.confirmPasswordValidator(
-              value,
-              password: password.text,
-            ),
+          ValueListenableBuilder(
+            valueListenable: isPasswordObscure,
+            builder: (context, obscure, child) {
+              return Column(
+                children: [
+                  CustomInputField(
+                    controller: password,
+                    label: "Password",
+                    hint: "* " * 8,
+                    keyboardType: TextInputType.visiblePassword,
+                    isPassword: true,
+                    isObscure: obscure,
+                    onVisibilityToggle: () =>
+                        isPasswordObscure.value = !isPasswordObscure.value,
+                    validator: Validators.passwordValidator,
+                  ),
+                  const SizedBox(height: AppSpacing.lg),
+                  CustomInputField(
+                    controller: confirmPassword,
+                    label: "Confirm Password",
+                    hint: "* " * 8,
+                    keyboardType: TextInputType.visiblePassword,
+                    isPassword: true,
+                    isObscure: obscure,
+                    validator: (value) => Validators.confirmPasswordValidator(
+                      value,
+                      password: password.text,
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
           const SizedBox(height: AppSpacing.xl),
           PrivacyPolicyWidget(checkBoxNotifier),

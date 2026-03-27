@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/update_item_quantity_cubit/update_item_quantity_cubit.dart';
 
 class ChangeCartItemCount extends StatefulWidget {
@@ -60,15 +61,20 @@ class _ChangeCartItemCountState extends State<ChangeCartItemCount> {
   );
 
   void _listener(BuildContext context, UpdateItemQuantityState state) {
-    if (state is UpdateItemQuantitySuccess &&
-        state.updatedQuantity != _counter &&
-        !isMaxCount) {
-      _counter = state.updatedQuantity;
-      isMaxCount = true;
-      CustomSnackBar.show(
-        context,
-        message: "The quantity you need is not compatible with the new stock.",
+    if (state is UpdateItemQuantitySuccess) {
+      context.read<CartCubit>().updateItemQuantityLocally(
+        id: widget.cartId,
+        quantity: state.updatedQuantity,
       );
+
+      if (state.updatedQuantity != _counter && !isMaxCount) {
+        _counter = state.updatedQuantity;
+        isMaxCount = true;
+        CustomSnackBar.show(
+          context,
+          message: "The quantity you need is not compatible with the new stock.",
+        );
+      }
     } else if (state is UpdateItemQuantityFailed) {
       CustomSnackBar.show(context, message: state.message);
     }

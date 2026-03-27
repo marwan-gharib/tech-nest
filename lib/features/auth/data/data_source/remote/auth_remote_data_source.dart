@@ -30,11 +30,11 @@ class AuthRemoteDataSource {
         extra: {AppConsts.skipAuth: true},
       );
 
-      if (response != null) {
-        final json = response[ApiKeys.data][ApiKeys.user];
-        if (json != null) {
-          return UserModel.fromJson(json as Map<String, dynamic>);
-        }
+      _validateResponse(response);
+
+      final json = response[ApiKeys.data][ApiKeys.user];
+      if (json != null) {
+        return UserModel.fromJson(json as Map<String, dynamic>);
       }
 
       throw UnKnownException();
@@ -54,11 +54,11 @@ class AuthRemoteDataSource {
         extra: {AppConsts.skipAuth: true},
       );
 
-      if (response != null) {
-        final json = response[ApiKeys.data];
-        if (json != null) {
-          return AuthModel.fromJson(json as Map<String, dynamic>);
-        }
+      _validateResponse(response);
+
+      final json = response[ApiKeys.data];
+      if (json != null) {
+        return AuthModel.fromJson(json as Map<String, dynamic>);
       }
 
       throw UnKnownException();
@@ -80,9 +80,10 @@ class AuthRemoteDataSource {
         extra: {AppConsts.skipAuth: true},
       );
 
-      final json = response[ApiKeys.data];
+      _validateResponse(response);
 
-      if (response != null && json != null) {
+      final json = response[ApiKeys.data];
+      if (json != null) {
         return AuthModel.fromJson(json as Map<String, dynamic>);
       }
 
@@ -103,12 +104,7 @@ class AuthRemoteDataSource {
         extra: {AppConsts.skipAuth: true},
       );
 
-      if (response != null && response[ApiKeys.status] != 200) {
-        throw ServerException(
-          response[ApiKeys.message] ?? "Failed to reset password",
-          activeToUser: true,
-        );
-      }
+      _validateResponse(response);
     } on AppException {
       rethrow;
     } catch (e) {
@@ -125,12 +121,7 @@ class AuthRemoteDataSource {
         extra: {AppConsts.skipAuth: true},
       );
 
-      if (response != null && response[ApiKeys.status] != 200) {
-        throw ServerException(
-          response[ApiKeys.message] ?? "Failed to process request",
-          activeToUser: true,
-        );
-      }
+      _validateResponse(response);
     } on AppException {
       rethrow;
     } catch (e) {
@@ -147,6 +138,22 @@ class AuthRemoteDataSource {
     } catch (e) {
       AppLogger.log(e.toString());
       throw UnKnownException();
+    }
+  }
+
+  void _validateResponse(dynamic response) {
+    if (response == null) {
+      throw UnKnownException();
+    }
+
+    final int? status = response[ApiKeys.status];
+    final String? message = response[ApiKeys.message];
+
+    if (status != null && status != 200) {
+      throw ServerException(
+        message ?? "An error occurred, please try again",
+        activeToUser: true,
+      );
     }
   }
 }

@@ -23,6 +23,7 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
   late final ValueNotifier<bool> _isErrNotifire;
 
   late final GlobalKey<FormState> _formKey;
+  late final ValueNotifier<bool> _isPasswordObscure;
 
   @override
   void initState() {
@@ -31,6 +32,7 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
     _confirmPassword = TextEditingController();
 
     _isErrNotifire = ValueNotifier<bool>(false);
+    _isPasswordObscure = ValueNotifier<bool>(true);
 
     _formKey = GlobalKey<FormState>();
 
@@ -44,6 +46,7 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
     _confirmPassword.dispose();
 
     _isErrNotifire.dispose();
+    _isPasswordObscure.dispose();
 
     super.dispose();
   }
@@ -83,25 +86,38 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
                     label: "Reset Password",
                   ),
                   const SizedBox(height: AppSpacing.lg),
-                  CustomInputField(
-                    controller: _password,
-                    label: "Password",
-                    hint: "* " * 8,
-                    keyboardType: TextInputType.visiblePassword,
-                    isPassword: true,
-                    validator: Validators.passwordValidator,
-                  ),
-                  const SizedBox(height: AppSpacing.lg),
-                  CustomInputField(
-                    controller: _confirmPassword,
-                    label: "Confirm Password",
-                    hint: "* " * 8,
-                    keyboardType: TextInputType.visiblePassword,
-                    isPassword: true,
-                    validator: (value) => Validators.confirmPasswordValidator(
-                      value,
-                      password: _password.text,
-                    ),
+                  ValueListenableBuilder(
+                    valueListenable: _isPasswordObscure,
+                    builder: (context, obscure, child) {
+                      return Column(
+                        children: [
+                          CustomInputField(
+                            controller: _password,
+                            label: "Password",
+                            hint: "* " * 8,
+                            keyboardType: TextInputType.visiblePassword,
+                            isPassword: true,
+                            isObscure: obscure,
+                            onVisibilityToggle: () =>
+                                _isPasswordObscure.value = !_isPasswordObscure.value,
+                            validator: Validators.passwordValidator,
+                          ),
+                          const SizedBox(height: AppSpacing.lg),
+                          CustomInputField(
+                            controller: _confirmPassword,
+                            label: "Confirm Password",
+                            hint: "* " * 8,
+                            keyboardType: TextInputType.visiblePassword,
+                            isPassword: true,
+                            isObscure: obscure,
+                            validator: (value) => Validators.confirmPasswordValidator(
+                              value,
+                              password: _password.text,
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   ),
                   const SizedBox(height: AppSpacing.xxl),
                   BlocConsumer<ResetPasswordCubit, ResetPasswordState>(

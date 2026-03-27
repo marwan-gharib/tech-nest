@@ -10,12 +10,16 @@ class CustomInputField extends StatefulWidget {
     super.key,
     this.isPassword = false,
     this.validator,
+    this.isObscure,
+    this.onVisibilityToggle,
   });
 
   final TextEditingController controller;
   final String? label;
   final String hint;
   final bool isPassword;
+  final bool? isObscure;
+  final VoidCallback? onVisibilityToggle;
   final TextInputType keyboardType;
   final String? Function(String? value)? validator;
 
@@ -24,7 +28,9 @@ class CustomInputField extends StatefulWidget {
 }
 
 class _CustomInputFieldState extends State<CustomInputField> {
-  bool _isObscure = true;
+  bool _internalIsObscure = true;
+
+  bool get _isObscure => widget.isObscure ?? _internalIsObscure;
 
   @override
   Widget build(BuildContext context) {
@@ -49,24 +55,41 @@ class _CustomInputFieldState extends State<CustomInputField> {
         hintStyle: theme.textTheme.bodyMedium?.copyWith(
           color: theme.hintColor,
         ),
-        suffixIcon: widget.isPassword ? _passwordVisibility() : null,
+        suffixIcon: widget.isPassword ? _buildVisibilityIcon() : null,
       ),
       validator: widget.validator,
     );
   }
 
-  IconButton _passwordVisibility() {
-    return IconButton(
-      onPressed: () {
-        setState(() {
-          _isObscure = !_isObscure;
-        });
-      },
-      icon: Icon(
-        _isObscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-        color: Theme.of(context).colorScheme.onSurfaceVariant,
-      ),
-    );
+  Widget? _buildVisibilityIcon() {
+    // If external listener is provided, this field handles the button
+    if (widget.onVisibilityToggle != null) {
+      return IconButton(
+        onPressed: widget.onVisibilityToggle,
+        icon: Icon(
+          _isObscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
+      );
+    }
+    // If no external state at all, handle it internally
+    if (widget.isObscure == null) {
+      return IconButton(
+        onPressed: () {
+          setState(() {
+            _internalIsObscure = !_internalIsObscure;
+          });
+        },
+        icon: Icon(
+          _internalIsObscure
+              ? Icons.visibility_off_outlined
+              : Icons.visibility_outlined,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
+      );
+    }
+    // If isObscure is provided but no toggle, this is a slave field (no button)
+    return null;
   }
 
   Widget _errorBuilder(BuildContext context, String errorText) {

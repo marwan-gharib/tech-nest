@@ -38,7 +38,7 @@ class CartCubit extends Cubit<CartState> {
     res.fold((failure) => emit(CartFailed(message: failure.message)), (
       newCartItem,
     ) {
-      final currentItems = currentState.cart.items;
+      final currentItems = List.of(currentState.cart.items);
 
       final index = currentItems.indexWhere(
         (item) => item.product.id == newCartItem.product.id,
@@ -54,11 +54,8 @@ class CartCubit extends Cubit<CartState> {
         currentItems.add(newCartItem);
       }
 
-      emit(
-        currentState.copyWith(
-          cart: currentState.cart.copyWith(items: currentItems),
-        ),
-      );
+      final updatedCart = currentState.cart.recalculate(currentItems);
+      emit(currentState.copyWith(cart: updatedCart));
     });
   }
 
@@ -72,6 +69,24 @@ class CartCubit extends Cubit<CartState> {
 
     final newCart = currentState.cart.recalculate(updatedCart);
 
+    emit(currentState.copyWith(cart: newCart));
+  }
+
+  void updateItemQuantityLocally({
+    required int id,
+    required int quantity,
+  }) {
+    final currentState = state;
+    if (currentState is! CartLoaded) return;
+
+    final updatedItems = currentState.cart.items.map((item) {
+      if (item.id == id) {
+        return item.copyWith(quantity: quantity);
+      }
+      return item;
+    }).toList();
+
+    final newCart = currentState.cart.recalculate(updatedItems);
     emit(currentState.copyWith(cart: newCart));
   }
 }

@@ -1,6 +1,9 @@
 import 'package:tech_nest/features/cart/domain/entities/cart_item.dart';
 
 class Cart {
+  static const int _defaultDeliveryCharges = 50;
+  static const int _freeDeliveryThreshold = 500;
+
   final List<CartItem> items;
   final int totalQuantity;
   final int totalPrice;
@@ -39,7 +42,7 @@ class Cart {
       (sum, item) => sum + (item.product.price.toInt() * item.quantity),
     );
 
-    const delivery = 50;
+    final delivery = _calculateDeliveryCharges(totalPrice);
 
     final grand = totalPrice + delivery;
 
@@ -50,5 +53,15 @@ class Cart {
       deliveryCharges: delivery,
       grandTotal: grand,
     );
+  }
+
+  int _calculateDeliveryCharges(int subtotal) {
+    if (subtotal <= 0) {
+      return 0;
+    }
+    if (subtotal >= _freeDeliveryThreshold) {
+      return 0;
+    }
+    return _defaultDeliveryCharges;
   }
 }

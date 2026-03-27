@@ -29,6 +29,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   late final TextEditingController _confirmPassword;
   late final GlobalKey<FormState> _formKey;
   late final ValueNotifier<bool> _checkBoxNotifier;
+  late final ValueNotifier<bool> _isPasswordObscure;
 
   @override
   void initState() {
@@ -39,6 +40,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     _confirmPassword = TextEditingController();
     _formKey = GlobalKey<FormState>();
     _checkBoxNotifier = ValueNotifier<bool>(false);
+    _isPasswordObscure = ValueNotifier<bool>(true);
   }
 
   @override
@@ -48,6 +50,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     _password.dispose();
     _confirmPassword.dispose();
     _checkBoxNotifier.dispose();
+    _isPasswordObscure.dispose();
     super.dispose();
   }
 
@@ -63,40 +66,43 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(title: const Text("Registration")),
-        body: ListView(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.md,
-            vertical: AppSpacing.lg,
+        body: BlocListener<RegistrationCubit, RegistrationState>(
+          listener: _listener,
+          child: ListView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.md,
+              vertical: AppSpacing.lg,
+            ),
+            children: [
+              const Center(child: PickProfileImage()),
+              const SizedBox(height: AppSpacing.xxl),
+              SignUpForm(
+                formKey: _formKey,
+                fullName: _fullName,
+                email: _email,
+                password: _password,
+                confirmPassword: _confirmPassword,
+                checkBoxNotifier: _checkBoxNotifier,
+                isPasswordObscure: _isPasswordObscure,
+              ),
+              const SizedBox(height: AppSpacing.md),
+              ValueListenableBuilder(
+                valueListenable: _checkBoxNotifier,
+                builder: (_, value, _) {
+                  return BlocBuilder<RegistrationCubit, RegistrationState>(
+                    builder: _builder,
+                  );
+                },
+              ),
+              const SizedBox(height: AppSpacing.xl),
+              AskNavigationWidget(
+                question: "Have an account ? ",
+                screenLabel: "Login",
+                onTap: () => context.go(Routes.loginScreenPath),
+              ),
+              const SizedBox(height: AppSpacing.xxl),
+            ],
           ),
-          children: [
-            const Center(child: PickProfileImage()),
-            const SizedBox(height: AppSpacing.xxl),
-            SignUpForm(
-              formKey: _formKey,
-              fullName: _fullName,
-              email: _email,
-              password: _password,
-              confirmPassword: _confirmPassword,
-              checkBoxNotifier: _checkBoxNotifier,
-            ),
-            const SizedBox(height: AppSpacing.md),
-            ValueListenableBuilder(
-              valueListenable: _checkBoxNotifier,
-              builder: (_, value, _) {
-                return BlocConsumer<RegistrationCubit, RegistrationState>(
-                  listener: _listener,
-                  builder: _builder,
-                );
-              },
-            ),
-            const SizedBox(height: AppSpacing.xl),
-            AskNavigationWidget(
-              question: "Have an account ? ",
-              screenLabel: "Login",
-              onTap: () => context.go(Routes.loginScreenPath),
-            ),
-            const SizedBox(height: AppSpacing.xxl),
-          ],
         ),
       ),
     );
