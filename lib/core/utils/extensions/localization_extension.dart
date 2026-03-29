@@ -1,13 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+
+import 'package:tech_nest/l10n/app_localizations.dart';
 
 extension LocalizationExtension on BuildContext {
-  _L10n get l10n => const _L10n();
-}
-
-class _L10n {
-  const _L10n();
-  
-  String get errorNoInternetConnection => "No Internet Connection";
-  String get errorRequestFailed => "Request Failed";
-  String get actionRetry => "Retry";
+  AppLocalizations get l10n => AppLocalizations.of(this)!;
 }

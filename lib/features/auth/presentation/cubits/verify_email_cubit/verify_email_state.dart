@@ -22,6 +22,7 @@ final class VerifyEmailSuccess extends VerifyEmailState {
 
 final class VerifyEmailFailed extends VerifyEmailState {
   final Failure failure;
+
   const VerifyEmailFailed({required this.failure});
 
   @override

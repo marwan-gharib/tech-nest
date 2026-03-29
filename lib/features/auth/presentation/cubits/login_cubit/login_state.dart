@@ -27,6 +27,7 @@ final class LoginSuccess extends LoginState {
 
 final class LoginFailed extends LoginState {
   final Failure failure;
+
   const LoginFailed({required this.failure});
 
   @override

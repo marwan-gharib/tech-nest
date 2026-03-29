@@ -1,52 +1,64 @@
 part of 'fetch_products_cubit.dart';
 
-class FetchProductsState extends Equatable {
+sealed class FetchProductsState extends Equatable {
+  const FetchProductsState();
+
+  @override
+  List<Object?> get props => [];
+}
+
+final class FetchProductsInitial extends FetchProductsState {
+  const FetchProductsInitial();
+}
+
+final class FetchProductsLoading extends FetchProductsState {
+  const FetchProductsLoading();
+}
+
+final class FetchProductsError extends FetchProductsState {
+  final Failure failure;
+
+  const FetchProductsError(this.failure);
+
+  @override
+  List<Object?> get props => [failure];
+}
+
+final class FetchProductsLoaded extends FetchProductsState {
   final List<ProductEntity> products;
-  final String? errMessage;
-  final Failure? failure;
-  final bool isLoading;
   final bool isLoadingMore;
   final bool hasReachedMax;
-  final int page;
+  final Failure? loadMoreFailure;
 
-  const FetchProductsState({
-    this.products = const [],
-    this.errMessage,
-    this.failure,
-    this.isLoading = false,
+  const FetchProductsLoaded({
+    required this.products,
     this.isLoadingMore = false,
     this.hasReachedMax = false,
-    this.page = 1,
+    this.loadMoreFailure,
   });
 
-  FetchProductsState copyWith({
+  FetchProductsLoaded copyWith({
     List<ProductEntity>? products,
-    String? errMessage,
-    Failure? failure,
-    bool? isLoading,
     bool? isLoadingMore,
     bool? hasReachedMax,
-    int? page,
+    Failure? loadMoreFailure,
+    bool clearLoadMoreError = false,
   }) {
-    return FetchProductsState(
+    return FetchProductsLoaded(
       products: products ?? this.products,
-      errMessage: errMessage ?? this.errMessage,
-      failure: failure ?? this.failure,
-      isLoading: isLoading ?? this.isLoading,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-      page: page ?? this.page,
+      loadMoreFailure: clearLoadMoreError
+          ? null
+          : (loadMoreFailure ?? this.loadMoreFailure),
     );
   }
 
   @override
   List<Object?> get props => [
     products,
-    errMessage,
-    failure,
-    isLoading,
     isLoadingMore,
     hasReachedMax,
-    page,
+    loadMoreFailure,
   ];
 }

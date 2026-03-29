@@ -3,10 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/l10n/app_localizations.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/image/image_provider.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/localization_extension.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
@@ -56,6 +59,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     ref.listen<XFile?>(imageProvider, (previous, next) {
       if (previous != next) {
         context.read<RegistrationCubit>().profileImg = next;
@@ -65,8 +70,9 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(title: const Text("Registration")),
+        appBar: AppBar(title: Text(l10n.authScreenRegistrationTitle)),
         body: BlocListener<RegistrationCubit, RegistrationState>(
+          listenWhen: (p, c) => c is RegistrationSuccess || c is RegistrationFailed,
           listener: _listener,
           child: ListView(
             padding: const EdgeInsets.symmetric(
@@ -86,18 +92,19 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 isPasswordObscure: _isPasswordObscure,
               ),
               const SizedBox(height: AppSpacing.md),
-              ValueListenableBuilder(
+              ValueListenableBuilder<bool>(
                 valueListenable: _checkBoxNotifier,
                 builder: (_, value, _) {
                   return BlocBuilder<RegistrationCubit, RegistrationState>(
+                    buildWhen: (p, c) => p != c,
                     builder: _builder,
                   );
                 },
               ),
               const SizedBox(height: AppSpacing.xl),
               AskNavigationWidget(
-                question: "Have an account ? ",
-                screenLabel: "Login",
+                question: '${l10n.authNavigateHasAccount} ',
+                screenLabel: l10n.authNavigateLogin,
                 onTap: () => context.go(Routes.loginScreenPath),
               ),
               const SizedBox(height: AppSpacing.xxl),
@@ -118,7 +125,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         ),
         barrierDismissible: false,
         useSafeArea: true,
-        useRootNavigator: false,
+        useRootNavigator: true,
       );
     } else if (state is RegistrationFailed) {
       CustomSnackBar.showError(context, failure: state.failure);
@@ -127,26 +134,34 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   Widget _builder(BuildContext context, RegistrationState state) {
     if (state is RegistrationLoading) {
-      return Center(
-        child: CircularProgressIndicator(
-          color: Theme.of(context).colorScheme.primary,
+      return SizedBox(
+        height: AppSpacing.xxl + AppSpacing.lg,
+        child: Center(
+          child: CircularProgressIndicator(
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       );
     }
+
+    return _signUpButton(context.l10n);
+  }
+
+  Widget _signUpButton(AppLocalizations l10n) {
     return ElevatedButton(
       onPressed: _checkBoxNotifier.value
           ? () {
               if (ref.read(imageProvider) == null) {
                 CustomSnackBar.show(
                   context,
-                  message: "Profile Picture is required.",
+                  message: l10n.authProfilePictureRequired,
                 );
               } else {
                 _onPressedSignUp();
               }
             }
           : null,
-      child: const Text("Sign Up"),
+      child: Text(l10n.authSignUpButton),
     );
   }
 

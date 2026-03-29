@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/routing/routes.dart';
+import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/localization_extension.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_partition_dialoge.dart';
 
 class VerifyEmailDialoge extends StatefulWidget {
   final String email;
+
   const VerifyEmailDialoge({required this.email, super.key});
 
   @override
@@ -52,7 +55,7 @@ class _VerifyEmailDialogeState extends State<VerifyEmailDialoge> {
           width: MediaQuery.of(context).size.width * 0.9,
           decoration: BoxDecoration(
             color: theme.colorScheme.surface,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppRadius.xl),
             boxShadow: [BoxShadow(blurRadius: 20, color: theme.shadowColor)],
           ),
           child: Column(
@@ -75,31 +78,33 @@ class _VerifyEmailDialogeState extends State<VerifyEmailDialoge> {
     );
   }
 
-  void _verifyEmailListener(
-    BuildContext context,
-    VerifyEmailState state,
-  ) async {
+  void _verifyEmailListener(BuildContext context, VerifyEmailState state) {
     if (state is VerifyEmailSuccess) {
       _isErrNotifier.value = false;
       context.go(Routes.homeScreenPath);
     } else if (state is VerifyEmailFailed) {
+      // no showing snack bar here
       _isErrNotifier.value = true;
-    } else if (state is VerifyEmailInitial || state is VerifyEmailLoading) {
+    } else if (state is VerifyEmailLoading) {
       _isErrNotifier.value = false;
     }
   }
 
   Widget _verifyEmailBuilder(BuildContext context, VerifyEmailState state) {
     if (state is VerifyEmailLoading) {
-      return Center(
-        child: CircularProgressIndicator(
-          color: Theme.of(context).colorScheme.primary,
+      return SizedBox(
+        height: AppSpacing.xxl + AppSpacing.lg,
+        child: Center(
+          child: CircularProgressIndicator(
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       );
     }
+
     return ElevatedButton(
       onPressed: _controller.text.isEmpty ? null : _onButtonPressed,
-      child: const Text("Create Account"),
+      child: Text(context.l10n.authVerifyCreateAccountButton),
     );
   }
 

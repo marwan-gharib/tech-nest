@@ -26,6 +26,7 @@ final class RegistrationSuccess extends RegistrationState {
 
 final class RegistrationFailed extends RegistrationState {
   final Failure failure;
+
   const RegistrationFailed({required this.failure});
 
   @override

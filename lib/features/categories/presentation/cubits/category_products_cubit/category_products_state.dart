@@ -1,52 +1,64 @@
 part of 'category_products_cubit.dart';
 
-class CategoryProductsState extends Equatable {
-  final List<ProductEntity>? products;
-  final String? errMessage;
-  final Failure? failure;
-  final int? categoryId;
-  final bool isLoading;
+sealed class CategoryProductsState extends Equatable {
+  const CategoryProductsState();
+
+  @override
+  List<Object?> get props => [];
+}
+
+final class CategoryProductsInitial extends CategoryProductsState {
+  const CategoryProductsInitial();
+}
+
+final class CategoryProductsLoading extends CategoryProductsState {
+  const CategoryProductsLoading();
+}
+
+final class CategoryProductsError extends CategoryProductsState {
+  final Failure failure;
+
+  const CategoryProductsError(this.failure);
+
+  @override
+  List<Object?> get props => [failure];
+}
+
+final class CategoryProductsLoaded extends CategoryProductsState {
+  final List<ProductEntity> products;
   final bool isLoadingMore;
   final bool hasReachedMax;
+  final Failure? loadMoreFailure;
 
-  const CategoryProductsState({
-    this.products,
-    this.errMessage,
-    this.failure,
-    this.categoryId,
-    this.isLoading = false,
+  const CategoryProductsLoaded({
+    required this.products,
     this.isLoadingMore = false,
     this.hasReachedMax = false,
+    this.loadMoreFailure,
   });
 
-  CategoryProductsState copyWith({
+  CategoryProductsLoaded copyWith({
     List<ProductEntity>? products,
-    String? errMessage,
-    Failure? failure,
-    int? categoryId,
-    bool? isLoading,
     bool? isLoadingMore,
     bool? hasReachedMax,
+    Failure? loadMoreFailure,
+    bool clearLoadMoreError = false,
   }) {
-    return CategoryProductsState(
+    return CategoryProductsLoaded(
       products: products ?? this.products,
-      errMessage: errMessage ?? this.errMessage,
-      failure: failure ?? this.failure,
-      categoryId: categoryId ?? this.categoryId,
-      isLoading: isLoading ?? this.isLoading,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      loadMoreFailure: clearLoadMoreError
+          ? null
+          : (loadMoreFailure ?? this.loadMoreFailure),
     );
   }
 
   @override
   List<Object?> get props => [
     products,
-    errMessage,
-    failure,
-    categoryId,
-    isLoading,
     isLoadingMore,
     hasReachedMax,
+    loadMoreFailure,
   ];
 }

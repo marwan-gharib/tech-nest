@@ -2,32 +2,30 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/domain/params/products_params.dart';
+import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
 import 'package:tech_nest/features/products/domain/use_cases/get_products_usecase.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
 
 part 'fetch_products_state.dart';
 
 class FetchProductsCubit extends Cubit<FetchProductsState> {
-  final GetProductsUsecase _getProductsUsecase;
-
   FetchProductsCubit(this._getProductsUsecase)
-    : super(const FetchProductsState());
+    : super(const FetchProductsInitial());
+
+  final GetProductsUsecase _getProductsUsecase;
 
   ProductsParams _params = ProductsParams(limit: 10, page: 1);
 
   Future<void> initialFetching() async {
-    emit(const FetchProductsState(isLoading: true));
+    emit(const FetchProductsLoading());
 
     final res = await _getProductsUsecase.call(params: _params);
 
     res.fold(
-      (failure) =>
-          emit(state.copyWith(isLoading: false, failure: failure, errMessage: failure.message)),
+      (failure) => emit(FetchProductsError(failure)),
       (products) => emit(
-        state.copyWith(
-          isLoading: false,
+        FetchProductsLoaded(
           products: products,
           hasReachedMax: products.length < _params.limit!,
         ),
@@ -36,28 +34,48 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
   }
 
   Future<void> fetchMore() async {
-    if (state.isLoadingMore || state.hasReachedMax) return;
+    final current = state;
+    if (current is! FetchProductsLoaded) return;
+    if (current.isLoadingMore || current.hasReachedMax) return;
 
     AppLogger.log(_params.page.toString());
 
-    emit(state.copyWith(isLoadingMore: true));
+    emit(
+      current.copyWith(
+        isLoadingMore: true,
+        clearLoadMoreError: true,
+      ),
+    );
 
-    _params = _params.copyWith(page: _params.page! + 1);
+    final previousPage = _params.page ?? 1;
+    _params = _params.copyWith(page: previousPage + 1);
 
     final res = await _getProductsUsecase.call(params: _params);
 
     res.fold(
-      (failure) => emit(
-        state.copyWith(isLoadingMore: false, failure: failure, errMessage: failure.message),
-      ),
-      (products) => emit(
-        state.copyWith(
-          isLoadingMore: false,
-          products: List.of(state.products)..addAll(products),
-          hasReachedMax: products.length < _params.limit!,
-          page: _params.page! + 1,
-        ),
-      ),
+      (failure) {
+        _params = _params.copyWith(page: previousPage);
+        final loaded = state;
+        if (loaded is! FetchProductsLoaded) return;
+        emit(
+          loaded.copyWith(
+            isLoadingMore: false,
+            loadMoreFailure: failure,
+          ),
+        );
+      },
+      (products) {
+        final loaded = state;
+        if (loaded is! FetchProductsLoaded) return;
+        emit(
+          loaded.copyWith(
+            isLoadingMore: false,
+            products: List.of(loaded.products)..addAll(products),
+            hasReachedMax: products.length < _params.limit!,
+            clearLoadMoreError: true,
+          ),
+        );
+      },
     );
   }
 

@@ -25,10 +25,10 @@ final class SearchSuggestionsLoaded extends SearchSuggestionsState {
 }
 
 final class SearchSuggestionsFailed extends SearchSuggestionsState {
-  final String message;
+  final Failure failure;
 
-  const SearchSuggestionsFailed({required this.message});
+  const SearchSuggestionsFailed({required this.failure});
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [failure];
 }

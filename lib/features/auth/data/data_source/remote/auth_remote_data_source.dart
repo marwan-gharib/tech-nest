@@ -20,8 +20,9 @@ class AuthRemoteDataSource {
   Future<UserModel> signUp({required SignUpParams params}) async {
     try {
       final Map<String, dynamic> data = params.toJson();
-      data[ApiKeys.profileImg] =
-          await FileUploadUtils.uploadImageToAPI(params.img);
+      data[ApiKeys.profileImg] = await FileUploadUtils.uploadImageToAPI(
+        params.img,
+      );
 
       final response = await _api.post(
         Endpoints.signUp,
@@ -149,7 +150,7 @@ class AuthRemoteDataSource {
     final int? status = response[ApiKeys.status];
     final String? message = response[ApiKeys.message];
 
-    if (status != null && status != 200) {
+    if (status != null && !status.toString().startsWith("2")) {
       throw ServerException(
         message ?? "An error occurred, please try again",
         activeToUser: true,

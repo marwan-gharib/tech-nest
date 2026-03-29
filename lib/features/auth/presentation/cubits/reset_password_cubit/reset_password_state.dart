@@ -22,6 +22,7 @@ final class ResetPasswordSuccess extends ResetPasswordState {
 
 final class ResetPasswordFailed extends ResetPasswordState {
   final Failure failure;
+
   const ResetPasswordFailed({required this.failure});
 
   @override

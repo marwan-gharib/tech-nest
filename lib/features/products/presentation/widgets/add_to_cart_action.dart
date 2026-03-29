@@ -19,6 +19,10 @@ class AddToCartAction extends StatelessWidget {
       return const Center(child: CircularProgressIndicator());
     }
 
+    if (state case CartLoaded(isMutating: true)) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'package:tech_nest/core/theme/app_radius.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 
 class HomeFilterButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const HomeFilterButton({required this.onPressed, super.key});
 
-  static const double _buttonSize = 50.0;
   static const double _iconSize = 24.0;
 
   @override
@@ -14,8 +15,8 @@ class HomeFilterButton extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      height: _buttonSize,
-      width: _buttonSize,
+      height: AppSpacing.homeFilterButtonWidth,
+      width: AppSpacing.homeFilterButtonWidth,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [colorScheme.primary, colorScheme.tertiary],

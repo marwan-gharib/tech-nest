@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
 
 class CustomSnackBar {
   const CustomSnackBar._();
@@ -21,11 +21,13 @@ class CustomSnackBar {
             message,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
           ),
           dismissDirection: DismissDirection.horizontal,
-          backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+          backgroundColor: Theme.of(
+            context,
+          ).colorScheme.surfaceContainerHighest,
           padding: const EdgeInsets.all(AppSpacing.md),
           behavior: SnackBarBehavior.floating,
           margin: EdgeInsets.only(
@@ -42,7 +44,7 @@ class CustomSnackBar {
           duration: Duration(seconds: 1),
           reverseDuration: Duration(seconds: 1),
         ),
-    );
+      );
   }
 
   static void showError(

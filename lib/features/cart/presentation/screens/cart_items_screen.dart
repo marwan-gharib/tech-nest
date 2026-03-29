@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
-import 'package:tech_nest/features/cart/domain/entities/cart_item.dart';
+import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_item_card.dart';
+import 'package:tech_nest/features/cart/presentation/widgets/cart_items_skeleton_list.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/order_summary.dart';
 
 class CartItemsScreen extends StatefulWidget {
@@ -32,18 +34,33 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
           child: Stack(
             children: [
               BlocConsumer<CartCubit, CartState>(
-                listener: _listener,
-                builder: _builder,
+                listenWhen: (p, c) =>
+                    c is CartLoaded &&
+                    c.mutationFailure != null &&
+                    (p is! CartLoaded || p.mutationFailure != c.mutationFailure),
+                listener: (context, state) {
+                  if (state is CartLoaded && state.mutationFailure != null) {
+                    CustomSnackBar.showError(
+                      context,
+                      failure: state.mutationFailure!,
+                    );
+                    context.read<CartCubit>().clearMutationError();
+                  }
+                },
+                buildWhen: (previous, current) => previous != current,
+                builder: _listBuilder,
               ),
               BlocBuilder<CartCubit, CartState>(
+                buildWhen: (p, c) =>
+                    c is CartLoaded || (p is CartLoaded && c is! CartLoaded),
                 builder: (context, state) {
-                  if (state is CartLoaded || state is CartMutationFailed) {
-                    return const Align(
-                      alignment: Alignment.bottomCenter,
-                      child: OrderSummary(),
-                    );
+                  if (state is! CartLoaded) {
+                    return const SizedBox.shrink();
                   }
-                  return const SizedBox.shrink();
+                  return const Align(
+                    alignment: Alignment.bottomCenter,
+                    child: OrderSummary(),
+                  );
                 },
               ),
             ],
@@ -53,44 +70,25 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
     );
   }
 
-  void _listener(BuildContext context, CartState state) {
-    if (state is CartMutationFailed) {
-      CustomSnackBar.showError(context, failure: state.failure);
-    }
-  }
-
-  Widget _builder(BuildContext context, CartState state) {
-    if (state is CartLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-    if (state is CartFailed) {
-      return Center(
-        child: RemoteDataFailureView(
-          failure: state.failure,
-          onRetry: () => context.read<CartCubit>().fetchCart(),
-        ),
-      );
-    }
-    final items = switch (state) {
-      CartLoaded(:final cart) => cart.items,
-      CartMutationFailed(:final cart) => cart.items,
-      _ => const <CartItem>[],
-    };
-
-    if (items.isEmpty) {
-      return const Center(child: Text("Your cart is empty"));
-    }
-
-    return ListView.builder(
-      itemCount: items.length,
-      padding: const EdgeInsets.only(
-        top: AppSpacing.lg,
-        bottom: AppSpacing.xxl * 3,
+  Widget _listBuilder(BuildContext context, CartState state) {
+    return switch (state) {
+      CartInitial() || CartLoading() => const CartItemsSkeletonList(),
+      CartFailed(:final failure) => RemoteDataFailureView(
+        failure: failure,
+        onRetry: () => context.read<CartCubit>().fetchCart(),
       ),
-      itemBuilder: (context, index) {
-        final item = items[index];
-        return CartItemCard(cartItem: item);
-      },
-    );
+      CartLoaded(:final cart) => ListView.builder(
+        itemCount: cart.items.length,
+        padding: const EdgeInsets.only(
+          top: AppSpacing.lg,
+          bottom: AppSpacing.xxl * 4,
+        ),
+        itemBuilder: (context, index) {
+          final item = cart.items[index];
+          AppLogger.log("Displaying cart item: ${item.id}");
+          return CartItemCard(cartItem: item);
+        },
+      ),
+    };
   }
 }

@@ -22,6 +22,7 @@ final class ForgetPasswordSuccess extends ForgetPasswordState {
 
 final class ForgetPasswordFailed extends ForgetPasswordState {
   final Failure failure;
+
   const ForgetPasswordFailed({required this.failure});
 
   @override

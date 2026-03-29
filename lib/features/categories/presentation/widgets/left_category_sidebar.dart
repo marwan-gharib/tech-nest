@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
@@ -28,6 +29,10 @@ class LeftCategorySidebar extends StatelessWidget {
         ),
       ),
       child: BlocConsumer<FetchCategoriesCubit, FetchCategoriesState>(
+        listenWhen: (previous, current) =>
+            current is FetchCategoriesLoaded &&
+            (previous is! FetchCategoriesLoaded ||
+                previous.categories != current.categories),
         listener: (context, state) {
           if (state is FetchCategoriesLoaded && state.categories.isNotEmpty) {
             final categoryId = state.categories[selectedCategoryIndex.value].id;
@@ -37,18 +42,17 @@ class LeftCategorySidebar extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          if (state is FetchCategoriesFailed) {
-            return Center(
-              child: RemoteDataFailureView(
-                failure: state.failure,
-                onRetry: () =>
-                    context.read<FetchCategoriesCubit>().fetchCategories(),
-              ),
-            );
-          }
-          if (state is FetchCategoriesLoaded) {
-            final categories = state.categories;
-            return ListView.builder(
+          return switch (state) {
+            FetchCategoriesInitial() ||
+            FetchCategoriesLoading() =>
+              const CategorySkeletonList(),
+            FetchCategoriesFailed(:final failure) => RemoteDataFailureView(
+              failure: failure,
+              compact: true,
+              onRetry: () =>
+                  context.read<FetchCategoriesCubit>().fetchCategories(),
+            ),
+            FetchCategoriesLoaded(:final categories) => ListView.builder(
               itemCount: categories.length,
               padding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.xs,
@@ -70,9 +74,8 @@ class LeftCategorySidebar extends StatelessWidget {
                   },
                 );
               },
-            );
-          }
-          return const CategorySkeletonList();
+            ),
+          };
         },
       ),
     );

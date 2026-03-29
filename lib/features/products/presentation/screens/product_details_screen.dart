@@ -30,15 +30,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   void initState() {
     super.initState();
-    try {
-      product = context.read<FetchProductsCubit>().state.products.firstWhere((p) => p.id == widget.productId);
-      _isProductFound = true;
-    } catch (_) {
+    final fetchState = context.read<FetchProductsCubit>().state;
+    if (fetchState is FetchProductsLoaded) {
       try {
-        product = context.read<CategoryProductsCubit>().state.products!.firstWhere((p) => p.id == widget.productId);
+        product = fetchState.products.firstWhere((p) => p.id == widget.productId);
         _isProductFound = true;
-      } catch (_) {
-        _isProductFound = false;
+      } catch (_) {}
+    }
+    if (!_isProductFound) {
+      final categoryState = context.read<CategoryProductsCubit>().state;
+      if (categoryState is CategoryProductsLoaded) {
+        try {
+          product = categoryState.products.firstWhere(
+            (p) => p.id == widget.productId,
+          );
+          _isProductFound = true;
+        } catch (_) {}
       }
     }
   }
@@ -84,6 +91,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ProductDescriptionSection(description: product.description),
                     const SizedBox(height: AppSpacing.xl),
                     BlocConsumer<CartCubit, CartState>(
+                      listenWhen: (previous, current) =>
+                          current is CartLoaded &&
+                          current.mutationFailure != null &&
+                          (previous is! CartLoaded ||
+                              previous.mutationFailure !=
+                                  current.mutationFailure),
                       listener: _listener,
                       builder: (context, state) {
                         return AddToCartAction(
@@ -109,8 +122,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   void _listener(BuildContext context, CartState state) {
-    if (state is CartMutationFailed) {
-      CustomSnackBar.showError(context, failure: state.failure);
+    if (state is CartLoaded && state.mutationFailure != null) {
+      CustomSnackBar.showError(context, failure: state.mutationFailure!);
+      context.read<CartCubit>().clearMutationError();
     }
   }
 }

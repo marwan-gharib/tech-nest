@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/localization_extension.dart';
 import 'package:tech_nest/core/widgets/product_card.dart';
-import 'package:tech_nest/core/widgets/skeleton_card.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
+import 'package:tech_nest/core/widgets/skeleton_card.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 
 class ProductsGrid extends StatelessWidget {
@@ -12,41 +14,55 @@ class ProductsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FetchProductsCubit, FetchProductsState>(
+      buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
-        if (state.isLoading) {
-          return SliverGrid.builder(
-            itemCount: 6,
-            gridDelegate: _gridDelegate,
-            itemBuilder: (context, index) => const SkeletonCard(),
-          );
-        } else if (state.failure != null) {
-          return SliverToBoxAdapter(
-            child: RemoteDataFailureView(
-              failure: state.failure!,
-              onRetry: () =>
-                  context.read<FetchProductsCubit>().initialFetching(),
+        return switch (state) {
+          FetchProductsInitial() || FetchProductsLoading() => SliverGrid.builder(
+              itemCount: 6,
+              gridDelegate: _gridDelegate,
+              itemBuilder: (context, index) => const SkeletonCard(),
             ),
-          );
-        } else {
-          return SliverMainAxisGroup(
-            slivers: [
-              SliverGrid.builder(
-                itemCount: state.products.length,
-                gridDelegate: _gridDelegate,
-                itemBuilder: (context, index) {
-                  return ProductCard(product: state.products[index]);
-                },
+          FetchProductsError(:final failure) => SliverToBoxAdapter(
+              child: RemoteDataFailureView(
+                failure: failure,
+                onRetry: () =>
+                    context.read<FetchProductsCubit>().initialFetching(),
               ),
-              if (state.isLoadingMore)
-                const SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
-                    child: Center(child: CircularProgressIndicator()),
-                  ),
+            ),
+          FetchProductsLoaded(
+            :final products,
+            :final isLoadingMore,
+            :final loadMoreFailure,
+          ) =>
+            SliverMainAxisGroup(
+              slivers: [
+                SliverGrid.builder(
+                  itemCount: products.length,
+                  gridDelegate: _gridDelegate,
+                  itemBuilder: (context, index) {
+                    return ProductCard(product: products[index]);
+                  },
                 ),
-            ],
-          );
-        }
+                if (loadMoreFailure != null)
+                  SliverToBoxAdapter(
+                    child: RemoteDataFailureView(
+                      failure: loadMoreFailure,
+                      titleOverride: context.l10n.errorCouldNotLoadMore,
+                      compact: true,
+                      onRetry: () =>
+                          context.read<FetchProductsCubit>().fetchMore(),
+                    ),
+                  ),
+                if (isLoadingMore)
+                  const SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
+                      child: Center(child: CircularProgressIndicator()),
+                    ),
+                  ),
+              ],
+            ),
+        };
       },
     );
   }
