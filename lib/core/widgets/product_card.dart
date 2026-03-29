@@ -3,15 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductEntity product;
@@ -53,10 +52,8 @@ class ProductCard extends StatelessWidget {
                   memCacheHeight: 400,
                   memCacheWidth: 400,
                   imageUrl: "${Endpoints.baseUrl}${product.imgUrl}",
-                  placeholder: (context, url) => SpinKitWaveSpinner(
-                    color: colorScheme.primary,
-                    size: 40,
-                  ),
+                  placeholder: (context, url) =>
+                      SpinKitWaveSpinner(color: colorScheme.primary, size: 40),
                   errorWidget: (context, url, error) => Container(
                     color: colorScheme.surfaceContainerHighest,
                     child: Icon(
@@ -85,21 +82,18 @@ class ProductCard extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      BuildPrice(
-                        price: product.price,
-                        size: 14,
-                      ),
+                      BuildPrice(price: product.price, size: 14),
                     ],
                   ),
                 ),
-                BlocConsumer<CartCubit, CartState>(
+                BlocListener<CartCubit, CartState>(
                   listenWhen: (previous, current) =>
                       current is CartLoaded &&
                       current.mutationFailure != null &&
                       (previous is! CartLoaded ||
                           previous.mutationFailure != current.mutationFailure),
-                  builder: _builder,
                   listener: _listener,
+                  child: _addToCartButton(context),
                 ),
               ],
             ),
@@ -126,38 +120,15 @@ class ProductCard extends StatelessWidget {
     }
   }
 
-  Widget _builder(BuildContext context, CartState state) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    if (state is CartLoading) {
-      return const SizedBox(
-        width: 40,
-        height: 40,
-        child: Padding(
-          padding: EdgeInsets.all(AppSpacing.xs),
-          child: CircularProgressIndicator(strokeWidth: 2),
-        ),
-      );
-    }
-
-    if (state is CartLoaded && state.isMutating) {
-      return const SizedBox(
-        width: 40,
-        height: 40,
-        child: Padding(
-          padding: EdgeInsets.all(AppSpacing.xs),
-          child: CircularProgressIndicator(strokeWidth: 2),
-        ),
-      );
-    }
+  Widget _addToCartButton(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
     return IconButton(
       onPressed: product.stock > 0
           ? () => context.read<CartCubit>().add(
-                productId: product.id,
-                quantity: 1,
-              )
+              productId: product.id,
+              quantity: 1,
+            )
           : null,
       icon: Container(
         padding: const EdgeInsets.all(AppSpacing.xs),
