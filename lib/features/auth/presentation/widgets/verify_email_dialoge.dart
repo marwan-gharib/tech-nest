@@ -35,7 +35,7 @@ class _VerifyEmailDialogeState extends State<VerifyEmailDialoge> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Dialog(
       insetAnimationDuration: const Duration(milliseconds: 400),
       alignment: Alignment.center,
@@ -53,9 +53,7 @@ class _VerifyEmailDialogeState extends State<VerifyEmailDialoge> {
           decoration: BoxDecoration(
             color: theme.colorScheme.surface,
             borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(blurRadius: 20, color: theme.shadowColor),
-            ],
+            boxShadow: [BoxShadow(blurRadius: 20, color: theme.shadowColor)],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -86,7 +84,7 @@ class _VerifyEmailDialogeState extends State<VerifyEmailDialoge> {
       context.go(Routes.homeScreenPath);
     } else if (state is VerifyEmailFailed) {
       _isErrNotifier.value = true;
-    } else if (state is VerifyEmailSuccess || state is VerifyEmailLoading) {
+    } else if (state is VerifyEmailInitial || state is VerifyEmailLoading) {
       _isErrNotifier.value = false;
     }
   }

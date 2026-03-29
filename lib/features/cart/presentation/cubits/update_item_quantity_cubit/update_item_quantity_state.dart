@@ -25,10 +25,10 @@ final class UpdateItemQuantitySuccess extends UpdateItemQuantityState {
 }
 
 final class UpdateItemQuantityFailed extends UpdateItemQuantityState {
-  final String message;
+  final Failure failure;
 
-  const UpdateItemQuantityFailed({required this.message});
+  const UpdateItemQuantityFailed({required this.failure});
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [failure];
 }

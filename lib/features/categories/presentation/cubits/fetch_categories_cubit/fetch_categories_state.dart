@@ -25,10 +25,10 @@ final class FetchCategoriesLoaded extends FetchCategoriesState {
 }
 
 final class FetchCategoriesFailed extends FetchCategoriesState {
-  final String message;
+  final Failure failure;
 
-  const FetchCategoriesFailed({required this.message});
+  const FetchCategoriesFailed({required this.failure});
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [failure];
 }

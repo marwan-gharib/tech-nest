@@ -4,6 +4,7 @@ import 'package:tech_nest/core/domain/params/add_to_cart_params.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart.dart';
 import 'package:tech_nest/features/cart/domain/use_cases/add_to_cart_usecase.dart';
 import 'package:tech_nest/features/cart/domain/use_cases/get_cart_items_usecase.dart';
+import 'package:tech_nest/core/error/failures/failure.dart';
 
 part 'cart_state.dart';
 
@@ -20,7 +21,7 @@ class CartCubit extends Cubit<CartState> {
     final res = await _getCartItemsUsecase.call();
 
     res.fold(
-      (failure) => emit(CartFailed(message: failure.message)),
+      (failure) => emit(CartFailed(failure: failure)),
       (cart) => emit(CartLoaded(cart: cart)),
     );
   }
@@ -35,7 +36,7 @@ class CartCubit extends Cubit<CartState> {
       params: AddToCartParams(productId: productId, quantity: quantity),
     );
 
-    res.fold((failure) => emit(CartFailed(message: failure.message)), (
+    res.fold((failure) => emit(CartMutationFailed(cart: currentState.cart, failure: failure)), (
       newCartItem,
     ) {
       final currentItems = List.of(currentState.cart.items);

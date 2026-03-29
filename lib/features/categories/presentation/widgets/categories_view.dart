@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tech_nest/core/domain/entities/category_entity.dart';
-import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/widgets/category_label_widget.dart';
 
@@ -39,13 +39,15 @@ class _CategoriesViewState extends State<CategoriesView> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 45,
-      child: BlocConsumer<FetchCategoriesCubit, FetchCategoriesState>(
-        listener: (context, state) {
-          if (state is FetchCategoriesFailed) {
-            CustomSnackBar.show(context, message: state.message);
-          }
-        },
+      child: BlocBuilder<FetchCategoriesCubit, FetchCategoriesState>(
         builder: (context, state) {
+          if (state is FetchCategoriesFailed) {
+            return RemoteDataFailureView(
+              failure: state.failure,
+              onRetry: () =>
+                  context.read<FetchCategoriesCubit>().fetchCategories(),
+            );
+          }
           if (state is FetchCategoriesLoading) {
             return ListView.builder(
               itemCount: 8,
@@ -92,7 +94,17 @@ class _CategoriesViewState extends State<CategoriesView> {
               },
             );
           }
-          return const Center(child: CircularProgressIndicator());
+
+          // Fallback (e.g. Initial State)
+          return ListView.builder(
+            itemCount: 8,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return const Skeletonizer(
+                child: SizedBox(height: 24, width: 80),
+              );
+            },
+          );
         },
       ),
     );

@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/features/auth/domain/usecases/forget_password_usecase.dart';
+import 'package:tech_nest/core/error/failures/failure.dart';
 
 part 'forget_password_state.dart';
 
@@ -17,7 +18,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
     final res = await _forgetPasswordUsecase.call(email: email);
 
     res.fold(
-      (failure) => emit(ForgetPasswordFailed(message: failure.message)),
+      (failure) => emit(ForgetPasswordFailed(failure: failure)),
       (_) => emit(const ForgetPasswordSuccess()),
     );
   }

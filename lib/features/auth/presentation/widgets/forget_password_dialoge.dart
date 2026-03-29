@@ -9,7 +9,12 @@ import 'package:tech_nest/features/auth/presentation/widgets/custom_partition_di
 
 class ForgetPasswordDialoge extends StatefulWidget {
   final String email;
-  const ForgetPasswordDialoge({required this.email, super.key});
+  final BuildContext dialogeContext;
+  const ForgetPasswordDialoge({
+    required this.dialogeContext,
+    required this.email,
+    super.key,
+  });
 
   @override
   State<ForgetPasswordDialoge> createState() => _ForgetPasswordDialogeState();
@@ -98,8 +103,8 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
                             keyboardType: TextInputType.visiblePassword,
                             isPassword: true,
                             isObscure: obscure,
-                            onVisibilityToggle: () =>
-                                _isPasswordObscure.value = !_isPasswordObscure.value,
+                            onVisibilityToggle: () => _isPasswordObscure.value =
+                                !_isPasswordObscure.value,
                             validator: Validators.passwordValidator,
                           ),
                           const SizedBox(height: AppSpacing.lg),
@@ -110,10 +115,11 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
                             keyboardType: TextInputType.visiblePassword,
                             isPassword: true,
                             isObscure: obscure,
-                            validator: (value) => Validators.confirmPasswordValidator(
-                              value,
-                              password: _password.text,
-                            ),
+                            validator: (value) =>
+                                Validators.confirmPasswordValidator(
+                                  value,
+                                  password: _password.text,
+                                ),
                           ),
                         ],
                       );
@@ -138,7 +144,8 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
       context.pop();
     } else if (state is ResetPasswordFailed) {
       _isErrNotifire.value = true;
-    } else if (state is ResetPasswordSuccess || state is ResetPasswordLoading) {
+      // don't show here snackBar
+    } else if (state is ResetPasswordInitial || state is ResetPasswordLoading) {
       _isErrNotifire.value = false;
     }
   }

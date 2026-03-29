@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/product_card.dart';
 import 'package:tech_nest/core/widgets/skeleton_card.dart';
+import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
-import 'package:tech_nest/features/products/presentation/widgets/products_error_view.dart';
 
 class ProductsGrid extends StatelessWidget {
   const ProductsGrid({super.key});
@@ -19,10 +19,10 @@ class ProductsGrid extends StatelessWidget {
             gridDelegate: _gridDelegate,
             itemBuilder: (context, index) => const SkeletonCard(),
           );
-        } else if (state.errMessage != null) {
+        } else if (state.failure != null) {
           return SliverToBoxAdapter(
-            child: ProductsErrorView(
-              message: state.errMessage!,
+            child: RemoteDataFailureView(
+              failure: state.failure!,
               onRetry: () =>
                   context.read<FetchProductsCubit>().initialFetching(),
             ),

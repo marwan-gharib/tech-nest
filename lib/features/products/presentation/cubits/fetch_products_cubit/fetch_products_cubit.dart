@@ -5,6 +5,7 @@ import 'package:tech_nest/core/domain/params/products_params.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
 import 'package:tech_nest/features/products/domain/use_cases/get_products_usecase.dart';
+import 'package:tech_nest/core/error/failures/failure.dart';
 
 part 'fetch_products_state.dart';
 
@@ -23,7 +24,7 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
 
     res.fold(
       (failure) =>
-          emit(state.copyWith(isLoading: false, errMessage: failure.message)),
+          emit(state.copyWith(isLoading: false, failure: failure, errMessage: failure.message)),
       (products) => emit(
         state.copyWith(
           isLoading: false,
@@ -47,7 +48,7 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
 
     res.fold(
       (failure) => emit(
-        state.copyWith(isLoadingMore: false, errMessage: failure.message),
+        state.copyWith(isLoadingMore: false, failure: failure, errMessage: failure.message),
       ),
       (products) => emit(
         state.copyWith(

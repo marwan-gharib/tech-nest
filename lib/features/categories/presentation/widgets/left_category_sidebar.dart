@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/widgets/category_card.dart';
@@ -35,11 +35,17 @@ class LeftCategorySidebar extends StatelessWidget {
                   categoryId: categoryId,
                 );
           }
-          if (state is FetchCategoriesFailed) {
-            CustomSnackBar.show(context, message: state.message);
-          }
         },
         builder: (context, state) {
+          if (state is FetchCategoriesFailed) {
+            return Center(
+              child: RemoteDataFailureView(
+                failure: state.failure,
+                onRetry: () =>
+                    context.read<FetchCategoriesCubit>().fetchCategories(),
+              ),
+            );
+          }
           if (state is FetchCategoriesLoaded) {
             final categories = state.categories;
             return ListView.builder(

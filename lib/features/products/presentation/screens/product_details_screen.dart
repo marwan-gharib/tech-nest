@@ -109,8 +109,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   void _listener(BuildContext context, CartState state) {
-    if (state is CartFailed) {
-      CustomSnackBar.show(context, message: state.message);
+    if (state is CartMutationFailed) {
+      CustomSnackBar.showError(context, failure: state.failure);
     }
   }
 }

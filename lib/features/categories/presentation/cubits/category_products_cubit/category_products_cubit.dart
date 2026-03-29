@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/domain/params/products_params.dart';
 import 'package:tech_nest/features/products/domain/use_cases/get_products_usecase.dart';
+import 'package:tech_nest/core/error/failures/failure.dart';
 
 part 'category_products_state.dart';
 
@@ -15,7 +16,7 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
   ProductsParams _params = ProductsParams(limit: 10);
 
   Future<void> fetchInitialCategoryProducts({required int categoryId}) async {
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(isLoading: true, categoryId: categoryId, failure: null, errMessage: null));
 
     _params = _params.copyWith(page: 1, categoryId: categoryId);
 
@@ -23,7 +24,7 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
 
     res.fold(
       (failure) =>
-          emit(state.copyWith(errMessage: failure.message, isLoading: false)),
+          emit(state.copyWith(failure: failure, errMessage: failure.message, isLoading: false)),
       (products) => emit(
         state.copyWith(
           products: products,
@@ -45,7 +46,7 @@ class CategoryProductsCubit extends Cubit<CategoryProductsState> {
 
     res.fold(
       (failure) => emit(
-        state.copyWith(errMessage: failure.message, isLoadingMore: false),
+        state.copyWith(failure: failure, errMessage: failure.message, isLoadingMore: false),
       ),
       (products) => emit(
         state.copyWith(

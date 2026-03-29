@@ -22,7 +22,7 @@ class RemoveCartItemButton extends StatelessWidget {
     if (state is DeleteCartItemSuccess) {
       context.read<CartCubit>().removeItemLocally(id: state.id);
     } else if (state is DeleteCartItemFailed) {
-      CustomSnackBar.show(context, message: state.message);
+      CustomSnackBar.showError(context, failure: state.failure);
     }
   }
 

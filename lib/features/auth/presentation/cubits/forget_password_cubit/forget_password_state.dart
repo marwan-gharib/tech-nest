@@ -21,9 +21,9 @@ final class ForgetPasswordSuccess extends ForgetPasswordState {
 }
 
 final class ForgetPasswordFailed extends ForgetPasswordState {
-  final String message;
-  const ForgetPasswordFailed({required this.message});
+  final Failure failure;
+  const ForgetPasswordFailed({required this.failure});
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [failure];
 }

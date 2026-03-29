@@ -64,7 +64,15 @@ class _LoginScreenState extends State<LoginScreen> {
               onForgetPass: _onTappedForgetPass,
               forgetPasswordListener: _forgetPasswordListener,
             ),
-            const SizedBox(height: AppSpacing.xl),
+            const SizedBox(height: AppSpacing.md),
+            BlocListener<ForgetPasswordCubit, ForgetPasswordState>(
+              listener: (context, state) {
+                if (state is ForgetPasswordFailed) {
+                  CustomSnackBar.showError(context, failure: state.failure);
+                }
+              },
+              child: const SizedBox.shrink(),
+            ),
             BlocConsumer<LoginCubit, LoginState>(
               listener: _loginListener,
               builder: _loginBuilder,
@@ -85,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (state is LoginSuccess) {
       _authNotifier.login();
     } else if (state is LoginFailed) {
-      CustomSnackBar.show(context, message: state.message);
+      CustomSnackBar.showError(context, failure: state.failure);
     }
   }
 
@@ -122,22 +130,29 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  void _forgetPasswordListener(BuildContext context, ForgetPasswordState state) async {
+  void _forgetPasswordListener(
+    BuildContext context,
+    ForgetPasswordState state,
+  ) async {
     if (state is ForgetPasswordFailed) {
-      CustomSnackBar.show(context, message: state.message);
+      context.pop(); // this pop for loading dialoge , pop it when failed
+      CustomSnackBar.showError(context, failure: state.failure);
     } else if (state is ForgetPasswordLoading) {
       _showLoadingDialog(context);
     } else if (state is ForgetPasswordSuccess) {
       context.pop();
       await showDialog(
         context: context,
-        builder: (context) => BlocProvider(
+        builder: (dialogeContext) => BlocProvider(
           create: (context) => sl<ResetPasswordCubit>(),
-          child: ForgetPasswordDialoge(email: _email.text),
+          child: ForgetPasswordDialoge(
+            dialogeContext: dialogeContext,
+            email: _email.text,
+          ),
         ),
         barrierDismissible: false,
         useSafeArea: true,
-        useRootNavigator: true,
+        useRootNavigator: false,
       );
       if (context.mounted) {
         CustomSnackBar.show(

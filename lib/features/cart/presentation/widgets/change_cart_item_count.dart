@@ -76,7 +76,7 @@ class _ChangeCartItemCountState extends State<ChangeCartItemCount> {
         );
       }
     } else if (state is UpdateItemQuantityFailed) {
-      CustomSnackBar.show(context, message: state.message);
+      CustomSnackBar.showError(context, failure: state.failure);
     }
   }
 

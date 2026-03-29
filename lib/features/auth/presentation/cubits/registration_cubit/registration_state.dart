@@ -25,9 +25,9 @@ final class RegistrationSuccess extends RegistrationState {
 }
 
 final class RegistrationFailed extends RegistrationState {
-  final String message;
-  const RegistrationFailed({required this.message});
+  final Failure failure;
+  const RegistrationFailed({required this.failure});
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [failure];
 }

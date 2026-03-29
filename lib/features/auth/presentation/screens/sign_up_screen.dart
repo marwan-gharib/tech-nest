@@ -118,10 +118,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         ),
         barrierDismissible: false,
         useSafeArea: true,
-        useRootNavigator: true,
+        useRootNavigator: false,
       );
     } else if (state is RegistrationFailed) {
-      CustomSnackBar.show(context, message: state.message);
+      CustomSnackBar.showError(context, failure: state.failure);
     }
   }
 

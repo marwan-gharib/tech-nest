@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/domain/entities/category_entity.dart';
 import 'package:tech_nest/features/categories/domain/use_cases/fetch_categories_usecase.dart';
+import 'package:tech_nest/core/error/failures/failure.dart';
 
 part 'fetch_categories_state.dart';
 
@@ -17,7 +18,7 @@ class FetchCategoriesCubit extends Cubit<FetchCategoriesState> {
     final res = await _fetchCategoriesUsecase.call();
 
     res.fold(
-      (failure) => emit(FetchCategoriesFailed(message: failure.message)),
+      (failure) => emit(FetchCategoriesFailed(failure: failure)),
       (categories) => emit(FetchCategoriesLoaded(categories: categories)),
     );
   }

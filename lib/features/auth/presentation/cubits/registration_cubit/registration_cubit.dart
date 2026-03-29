@@ -7,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
 import 'package:tech_nest/features/auth/domain/params/sign_up_params.dart';
 import 'package:tech_nest/features/auth/domain/usecases/sign_up_usecase.dart';
+import 'package:tech_nest/core/error/failures/failure.dart';
 
 part 'registration_state.dart';
 
@@ -36,7 +37,7 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
 
     res.fold(
-      (failure) => emit(RegistrationFailed(message: failure.message)),
+      (failure) => emit(RegistrationFailed(failure: failure)),
       (user) => emit(RegistrationSuccess(user: user)),
     );
   }

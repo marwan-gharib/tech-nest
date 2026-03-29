@@ -24,10 +24,10 @@ final class DeleteCartItemSuccess extends DeleteCartItemState {
 }
 
 final class DeleteCartItemFailed extends DeleteCartItemState {
-  final String message;
+  final Failure failure;
 
-  const DeleteCartItemFailed({required this.message});
+  const DeleteCartItemFailed({required this.failure});
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [failure];
 }

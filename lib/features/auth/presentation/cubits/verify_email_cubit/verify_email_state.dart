@@ -21,9 +21,9 @@ final class VerifyEmailSuccess extends VerifyEmailState {
 }
 
 final class VerifyEmailFailed extends VerifyEmailState {
-  final String message;
-  const VerifyEmailFailed({required this.message});
+  final Failure failure;
+  const VerifyEmailFailed({required this.failure});
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [failure];
 }
