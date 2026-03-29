@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tech_nest/core/error/failures/failure_extensions.dart';
 import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
 import 'package:tech_nest/features/auth/domain/params/sign_up_params.dart';
 import 'package:tech_nest/features/auth/domain/usecases/sign_up_usecase.dart';
@@ -36,7 +37,12 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     );
 
     res.fold(
-      (failure) => emit(RegistrationFailed(message: failure.message)),
+      (failure) => emit(
+        RegistrationFailed(
+          message: failure.message,
+          isNoConnection: failure.isNetworkFailure,
+        ),
+      ),
       (user) => emit(RegistrationSuccess(user: user)),
     );
   }

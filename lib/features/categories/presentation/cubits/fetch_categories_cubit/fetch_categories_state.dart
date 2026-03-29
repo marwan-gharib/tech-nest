@@ -24,6 +24,10 @@ final class FetchCategoriesLoaded extends FetchCategoriesState {
   List<Object> get props => [categories];
 }
 
+final class FetchCategoriesNoConnection extends FetchCategoriesState {
+  const FetchCategoriesNoConnection();
+}
+
 final class FetchCategoriesFailed extends FetchCategoriesState {
   final String message;
 

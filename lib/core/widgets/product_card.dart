@@ -93,6 +93,12 @@ class ProductCard extends StatelessWidget {
                   ),
                 ),
                 BlocConsumer<CartCubit, CartState>(
+                  listenWhen: (previous, current) =>
+                      current is CartLoaded &&
+                      current.mutationErrorMessage != null &&
+                      (previous is! CartLoaded ||
+                          previous.mutationErrorMessage !=
+                              current.mutationErrorMessage),
                   builder: _builder,
                   listener: _listener,
                 ),
@@ -115,8 +121,9 @@ class ProductCard extends StatelessWidget {
   }
 
   void _listener(BuildContext context, CartState state) {
-    if (state is CartFailed) {
-      CustomSnackBar.show(context, message: state.message);
+    if (state is CartLoaded && state.mutationErrorMessage != null) {
+      CustomSnackBar.show(context, message: state.mutationErrorMessage!);
+      context.read<CartCubit>().clearMutationError();
     }
   }
 
@@ -125,6 +132,17 @@ class ProductCard extends StatelessWidget {
     final colorScheme = theme.colorScheme;
 
     if (state is CartLoading) {
+      return const SizedBox(
+        width: 40,
+        height: 40,
+        child: Padding(
+          padding: EdgeInsets.all(AppSpacing.xs),
+          child: CircularProgressIndicator(strokeWidth: 2),
+        ),
+      );
+    }
+
+    if (state is CartLoaded && state.isMutating) {
       return const SizedBox(
         width: 40,
         height: 40,

@@ -24,6 +24,10 @@ final class SearchSuggestionsLoaded extends SearchSuggestionsState {
   List<Object> get props => [suggestions];
 }
 
+final class SearchSuggestionsNoConnection extends SearchSuggestionsState {
+  const SearchSuggestionsNoConnection();
+}
+
 final class SearchSuggestionsFailed extends SearchSuggestionsState {
   final String message;
 

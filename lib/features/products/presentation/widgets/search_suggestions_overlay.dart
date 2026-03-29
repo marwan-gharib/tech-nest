@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/products/presentation/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
 import 'package:tech_nest/features/products/presentation/widgets/search_suggestions_overlay_list.dart';
 
@@ -19,15 +22,17 @@ class SearchSuggestionsOverlay extends StatelessWidget {
   static const double _overlayOffset = 56.0;
   static const double _overlayElevation = 12.0;
   static const double _shadowAlpha = 0.2;
+  static const int _loadingPlaceholderCount = 5;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final size = MediaQuery.sizeOf(context);
 
-    // Calc width based on screen width - AppSpacing.md*2 - FilterButtonWidth(50) - spacing(AppSpacing.sm)
-    final double overlayWidth =
-        size.width - (AppSpacing.md * 2) - 50.0 - AppSpacing.sm;
+    final double overlayWidth = size.width -
+        (AppSpacing.md * 2) -
+        AppSpacing.homeFilterButtonWidth -
+        AppSpacing.sm;
 
     return Positioned(
       width: overlayWidth,
@@ -44,15 +49,45 @@ class SearchSuggestionsOverlay extends StatelessWidget {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxHeight: _overlayHeight),
             child: BlocBuilder<SearchSuggestionsCubit, SearchSuggestionsState>(
+              buildWhen: (previous, current) => previous != current,
               builder: (context, state) {
-                if (state is SearchSuggestionsLoaded &&
-                    state.suggestions.isNotEmpty) {
-                  return SearchSuggestionsOverlayList(
-                    suggestions: state.suggestions,
-                    onSelected: onSelected,
-                  );
-                }
-                return const SizedBox.shrink();
+                return switch (state) {
+                  SearchSuggestionsInitial() => const SizedBox.shrink(),
+                  SearchSuggestionsLoading() => ListView.builder(
+                    itemCount: _loadingPlaceholderCount,
+                    itemBuilder: (context, index) {
+                      return const Skeletonizer(
+                        child: ListTile(
+                          title: Text(''),
+                        ),
+                      );
+                    },
+                  ),
+                  SearchSuggestionsNoConnection() =>
+                    RemoteDataFailureView(
+                      isNoConnection: true,
+                      compact: true,
+                      onRetry: () => context
+                          .read<SearchSuggestionsCubit>()
+                          .retryLastQuery(),
+                    ),
+                  SearchSuggestionsFailed(:final message) =>
+                    RemoteDataFailureView(
+                      isNoConnection: false,
+                      compact: true,
+                      detailMessage: message,
+                      onRetry: () => context
+                          .read<SearchSuggestionsCubit>()
+                          .retryLastQuery(),
+                    ),
+                  SearchSuggestionsLoaded(:final suggestions)
+                      when suggestions.isNotEmpty =>
+                    SearchSuggestionsOverlayList(
+                      suggestions: suggestions,
+                      onSelected: onSelected,
+                    ),
+                  SearchSuggestionsLoaded() => const SizedBox.shrink(),
+                };
               },
             ),
           ),

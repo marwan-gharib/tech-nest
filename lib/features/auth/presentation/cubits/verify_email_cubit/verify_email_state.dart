@@ -22,8 +22,13 @@ final class VerifyEmailSuccess extends VerifyEmailState {
 
 final class VerifyEmailFailed extends VerifyEmailState {
   final String message;
-  const VerifyEmailFailed({required this.message});
+  final bool isNoConnection;
+
+  const VerifyEmailFailed({
+    required this.message,
+    required this.isNoConnection,
+  });
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message, isNoConnection];
 }

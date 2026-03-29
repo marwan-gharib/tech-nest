@@ -26,8 +26,13 @@ final class RegistrationSuccess extends RegistrationState {
 
 final class RegistrationFailed extends RegistrationState {
   final String message;
-  const RegistrationFailed({required this.message});
+  final bool isNoConnection;
+
+  const RegistrationFailed({
+    required this.message,
+    required this.isNoConnection,
+  });
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message, isNoConnection];
 }
