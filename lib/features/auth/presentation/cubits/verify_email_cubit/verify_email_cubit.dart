@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/error/failures/failure_extensions.dart';
 import 'package:tech_nest/features/auth/domain/params/verification_email_params.dart';
 import 'package:tech_nest/features/auth/domain/usecases/verify_email_usecase.dart';
 
@@ -23,7 +24,12 @@ class VerifyEmailCubit extends Cubit<VerifyEmailState> {
     );
 
     res.fold(
-      (failure) => emit(VerifyEmailFailed(message: failure.message)),
+      (failure) => emit(
+        VerifyEmailFailed(
+          message: failure.message,
+          isNoConnection: failure.isNetworkFailure,
+        ),
+      ),
       (_) => emit(const VerifyEmailSuccess()),
     );
   }

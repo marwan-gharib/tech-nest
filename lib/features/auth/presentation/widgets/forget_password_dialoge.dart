@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/constants/auth_constants.dart';
+import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/localization_extension.dart';
 import 'package:tech_nest/core/utils/validators.dart';
+import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_partition_dialoge.dart';
@@ -71,7 +75,7 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surface,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(AppRadius.xl),
               boxShadow: [
                 BoxShadow(blurRadius: 20, color: Theme.of(context).shadowColor),
               ],
@@ -136,24 +140,53 @@ class _ForgetPasswordDialogeState extends State<ForgetPasswordDialoge> {
   void _forgetPassListener(BuildContext context, ResetPasswordState state) {
     if (state is ResetPasswordSuccess) {
       context.pop();
-    } else if (state is ResetPasswordFailed) {
+    } else if (state is ResetPasswordFailed && !state.isNoConnection) {
       _isErrNotifire.value = true;
-    } else if (state is ResetPasswordSuccess || state is ResetPasswordLoading) {
+    } else if (state is ResetPasswordLoading) {
       _isErrNotifire.value = false;
     }
   }
 
   Widget _forgetPassBuilder(BuildContext context, ResetPasswordState state) {
+    final l10n = context.l10n;
+
     if (state is ResetPasswordLoading) {
-      return Center(
-        child: CircularProgressIndicator(
-          color: Theme.of(context).colorScheme.primary,
+      return SizedBox(
+        height: AppSpacing.xxl + AppSpacing.lg,
+        child: Center(
+          child: CircularProgressIndicator(
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       );
     }
+
+    if (state is ResetPasswordFailed) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          RemoteDataFailureView(
+            isNoConnection: state.isNoConnection,
+            detailMessage: state.message,
+            compact: true,
+            onRetry: _onButtonPressed,
+          ),
+          const SizedBox(height: AppSpacing.md),
+          ElevatedButton(
+            onPressed: _code.text.length < AuthConstants.verificationPinLength
+                ? null
+                : _onButtonPressed,
+            child: Text(l10n.authResetPasswordButton),
+          ),
+        ],
+      );
+    }
+
     return ElevatedButton(
-      onPressed: _code.text.length < 6 ? null : _onButtonPressed,
-      child: const Text("Reset password"),
+      onPressed: _code.text.length < AuthConstants.verificationPinLength
+          ? null
+          : _onButtonPressed,
+      child: Text(l10n.authResetPasswordButton),
     );
   }
 

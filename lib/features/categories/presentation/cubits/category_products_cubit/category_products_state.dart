@@ -1,42 +1,75 @@
 part of 'category_products_cubit.dart';
 
-class CategoryProductsState extends Equatable {
-  final List<ProductEntity>? products;
-  final String? errMessage;
-  final bool isLoading;
+sealed class CategoryProductsState extends Equatable {
+  const CategoryProductsState();
+
+  @override
+  List<Object?> get props => [];
+}
+
+final class CategoryProductsInitial extends CategoryProductsState {
+  const CategoryProductsInitial();
+}
+
+final class CategoryProductsLoading extends CategoryProductsState {
+  const CategoryProductsLoading();
+}
+
+final class CategoryProductsNoConnection extends CategoryProductsState {
+  const CategoryProductsNoConnection();
+}
+
+final class CategoryProductsError extends CategoryProductsState {
+  final String message;
+
+  const CategoryProductsError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+final class CategoryProductsLoaded extends CategoryProductsState {
+  final List<ProductEntity> products;
   final bool isLoadingMore;
   final bool hasReachedMax;
+  final String? loadMoreErrorMessage;
+  final bool loadMoreErrorIsNetwork;
 
-  const CategoryProductsState({
-    this.products,
-    this.errMessage,
-    this.isLoading = false,
+  const CategoryProductsLoaded({
+    required this.products,
     this.isLoadingMore = false,
     this.hasReachedMax = false,
+    this.loadMoreErrorMessage,
+    this.loadMoreErrorIsNetwork = false,
   });
 
-  CategoryProductsState copyWith({
+  CategoryProductsLoaded copyWith({
     List<ProductEntity>? products,
-    String? errMessage,
-    bool? isLoading,
     bool? isLoadingMore,
     bool? hasReachedMax,
+    String? loadMoreErrorMessage,
+    bool? loadMoreErrorIsNetwork,
+    bool clearLoadMoreError = false,
   }) {
-    return CategoryProductsState(
+    return CategoryProductsLoaded(
       products: products ?? this.products,
-      errMessage: errMessage ?? this.errMessage,
-      isLoading: isLoading ?? this.isLoading,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      loadMoreErrorMessage: clearLoadMoreError
+          ? null
+          : (loadMoreErrorMessage ?? this.loadMoreErrorMessage),
+      loadMoreErrorIsNetwork: clearLoadMoreError
+          ? false
+          : (loadMoreErrorIsNetwork ?? this.loadMoreErrorIsNetwork),
     );
   }
 
   @override
   List<Object?> get props => [
     products,
-    errMessage,
-    isLoading,
     isLoadingMore,
     hasReachedMax,
+    loadMoreErrorMessage,
+    loadMoreErrorIsNetwork,
   ];
 }

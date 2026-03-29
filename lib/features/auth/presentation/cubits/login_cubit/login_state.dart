@@ -27,8 +27,13 @@ final class LoginSuccess extends LoginState {
 
 final class LoginFailed extends LoginState {
   final String message;
-  const LoginFailed({required this.message});
+  final bool isNoConnection;
+
+  const LoginFailed({
+    required this.message,
+    required this.isNoConnection,
+  });
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message, isNoConnection];
 }

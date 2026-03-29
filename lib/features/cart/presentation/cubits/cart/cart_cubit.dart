@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/domain/params/add_to_cart_params.dart';
+import 'package:tech_nest/core/error/failures/failure_extensions.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart.dart';
 import 'package:tech_nest/features/cart/domain/use_cases/add_to_cart_usecase.dart';
 import 'package:tech_nest/features/cart/domain/use_cases/get_cart_items_usecase.dart';
@@ -8,11 +9,11 @@ import 'package:tech_nest/features/cart/domain/use_cases/get_cart_items_usecase.
 part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
-  final GetCartItemsUsecase _getCartItemsUsecase;
-  final AddToCartUsecase _addToCartUsecase;
-
   CartCubit(this._getCartItemsUsecase, this._addToCartUsecase)
     : super(const CartInitial());
+
+  final GetCartItemsUsecase _getCartItemsUsecase;
+  final AddToCartUsecase _addToCartUsecase;
 
   Future<void> fetchCart() async {
     emit(const CartLoading());
@@ -20,7 +21,13 @@ class CartCubit extends Cubit<CartState> {
     final res = await _getCartItemsUsecase.call();
 
     res.fold(
-      (failure) => emit(CartFailed(message: failure.message)),
+      (failure) {
+        if (failure.isNetworkFailure) {
+          emit(const CartNoConnection());
+        } else {
+          emit(CartError(message: failure.message));
+        }
+      },
       (cart) => emit(CartLoaded(cart: cart)),
     );
   }
@@ -29,34 +36,63 @@ class CartCubit extends Cubit<CartState> {
     final currentState = state;
     if (currentState is! CartLoaded) return;
 
-    emit(const CartLoading());
+    emit(
+      currentState.copyWith(
+        isMutating: true,
+        clearMutationError: true,
+      ),
+    );
 
     final res = await _addToCartUsecase.call(
       params: AddToCartParams(productId: productId, quantity: quantity),
     );
 
-    res.fold((failure) => emit(CartFailed(message: failure.message)), (
-      newCartItem,
-    ) {
-      final currentItems = List.of(currentState.cart.items);
-
-      final index = currentItems.indexWhere(
-        (item) => item.product.id == newCartItem.product.id,
-      );
-
-      if (index != -1) {
-        final oldItem = currentItems[index];
-
-        currentItems[index] = oldItem.copyWith(
-          quantity: oldItem.quantity + newCartItem.quantity,
+    res.fold(
+      (failure) {
+        final latest = state;
+        if (latest is! CartLoaded) return;
+        emit(
+          latest.copyWith(
+            isMutating: false,
+            mutationErrorMessage: failure.message,
+            mutationErrorIsNetwork: failure.isNetworkFailure,
+          ),
         );
-      } else {
-        currentItems.add(newCartItem);
-      }
+      },
+      (newCartItem) {
+        final baseline = currentState;
+        final currentItems = List.of(baseline.cart.items);
 
-      final updatedCart = currentState.cart.recalculate(currentItems);
-      emit(currentState.copyWith(cart: updatedCart));
-    });
+        final index = currentItems.indexWhere(
+          (item) => item.product.id == newCartItem.product.id,
+        );
+
+        if (index != -1) {
+          final oldItem = currentItems[index];
+          currentItems[index] = oldItem.copyWith(
+            quantity: oldItem.quantity + newCartItem.quantity,
+          );
+        } else {
+          currentItems.add(newCartItem);
+        }
+
+        final updatedCart = baseline.cart.recalculate(currentItems);
+        emit(
+          baseline.copyWith(
+            cart: updatedCart,
+            isMutating: false,
+            clearMutationError: true,
+          ),
+        );
+      },
+    );
+  }
+
+  void clearMutationError() {
+    final currentState = state;
+    if (currentState is! CartLoaded) return;
+    if (currentState.mutationErrorMessage == null) return;
+    emit(currentState.copyWith(clearMutationError: true));
   }
 
   void removeItemLocally({required int id}) {

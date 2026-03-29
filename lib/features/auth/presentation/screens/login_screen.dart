@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
+
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/localization_extension.dart';
 import 'package:tech_nest/core/utils/validators.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
@@ -47,10 +50,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(title: const Text("Login")),
+        appBar: AppBar(title: Text(l10n.authScreenLoginTitle)),
         body: ListView(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
@@ -64,42 +69,67 @@ class _LoginScreenState extends State<LoginScreen> {
               onForgetPass: _onTappedForgetPass,
               forgetPasswordListener: _forgetPasswordListener,
             ),
-            const SizedBox(height: AppSpacing.xl),
+            const SizedBox(height: AppSpacing.md),
+            BlocBuilder<ForgetPasswordCubit, ForgetPasswordState>(
+              buildWhen: (p, c) => c is ForgetPasswordFailed || p is ForgetPasswordFailed,
+              builder: (context, fpState) {
+                if (fpState is ForgetPasswordFailed) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: AppSpacing.md),
+                    child: RemoteDataFailureView(
+                      isNoConnection: fpState.isNoConnection,
+                      detailMessage: fpState.message,
+                      compact: true,
+                      onRetry: () => context.read<ForgetPasswordCubit>().forgetPassword(
+                            email: _email.text,
+                          ),
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
             BlocConsumer<LoginCubit, LoginState>(
-              listener: _loginListener,
-              builder: _loginBuilder,
+              listenWhen: (p, c) => c is LoginSuccess,
+              listener: (context, state) {
+                if (state is LoginSuccess) {
+                  _authNotifier.login();
+                }
+              },
+              builder: (context, state) {
+                if (state is LoginFailed) {
+                  return RemoteDataFailureView(
+                    isNoConnection: state.isNoConnection,
+                    detailMessage: state.message,
+                    compact: true,
+                    onRetry: _onPressedLogin,
+                  );
+                }
+                if (state is LoginLoading) {
+                  return SizedBox(
+                    height: AppSpacing.xxl + AppSpacing.lg,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
+                  );
+                }
+                return ElevatedButton(
+                  onPressed: _onPressedLogin,
+                  child: Text(l10n.authLoginButton),
+                );
+              },
             ),
             const SizedBox(height: AppSpacing.xl),
             AskNavigationWidget(
-              question: "Don't have an account ? ",
-              screenLabel: "registration",
+              question: '${l10n.authNavigateNoAccount} ',
+              screenLabel: l10n.authNavigateRegistration,
               onTap: () => context.go(Routes.signUpScreenPath),
             ),
           ],
         ),
       ),
-    );
-  }
-
-  Future<void> _loginListener(BuildContext context, LoginState state) async {
-    if (state is LoginSuccess) {
-      _authNotifier.login();
-    } else if (state is LoginFailed) {
-      CustomSnackBar.show(context, message: state.message);
-    }
-  }
-
-  Widget _loginBuilder(BuildContext context, LoginState state) {
-    if (state is LoginLoading) {
-      return Center(
-        child: CircularProgressIndicator(
-          color: Theme.of(context).colorScheme.primary,
-        ),
-      );
-    }
-    return ElevatedButton(
-      onPressed: _onPressedLogin,
-      child: const Text("Login"),
     );
   }
 
@@ -118,14 +148,18 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _email.text,
       );
     } else {
-      CustomSnackBar.show(context, message: "Please enter a valid email first");
+      CustomSnackBar.show(
+        context,
+        message: context.l10n.authEnterValidEmailFirst,
+      );
     }
   }
 
-  void _forgetPasswordListener(BuildContext context, ForgetPasswordState state) async {
-    if (state is ForgetPasswordFailed) {
-      CustomSnackBar.show(context, message: state.message);
-    } else if (state is ForgetPasswordLoading) {
+  Future<void> _forgetPasswordListener(
+    BuildContext context,
+    ForgetPasswordState state,
+  ) async {
+    if (state is ForgetPasswordLoading) {
       _showLoadingDialog(context);
     } else if (state is ForgetPasswordSuccess) {
       context.pop();
@@ -142,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (context.mounted) {
         CustomSnackBar.show(
           context,
-          message: "Password changed Successfully",
+          message: context.l10n.authPasswordChangedSuccess,
           isAbove: true,
         );
       }

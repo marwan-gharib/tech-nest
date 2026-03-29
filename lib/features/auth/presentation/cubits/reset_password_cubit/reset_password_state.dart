@@ -22,8 +22,13 @@ final class ResetPasswordSuccess extends ResetPasswordState {
 
 final class ResetPasswordFailed extends ResetPasswordState {
   final String message;
-  const ResetPasswordFailed({required this.message});
+  final bool isNoConnection;
+
+  const ResetPasswordFailed({
+    required this.message,
+    required this.isNoConnection,
+  });
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [message, isNoConnection];
 }

@@ -1,0 +1,74 @@
+{
+  "errorNoInternetConnection": "No internet connection",
+  "@errorNoInternetConnection": {
+    "description": "Message when a request fails due to no network."
+  },
+  "errorRequestFailed": "Something went wrong",
+  "@errorRequestFailed": {
+    "description": "Title for a failed request that is not a network failure."
+  },
+  "actionRetry": "Retry",
+  "@actionRetry": {
+    "description": "Button label to retry a failed remote request."
+  },
+  "errorCouldNotLoadMore": "Could not load more items",
+  "@errorCouldNotLoadMore": {
+    "description": "Shown when loading the next page of a list fails."
+  },
+  "authScreenLoginTitle": "Login",
+  "@authScreenLoginTitle": {
+    "description": "Login screen AppBar title."
+  },
+  "authScreenRegistrationTitle": "Registration",
+  "@authScreenRegistrationTitle": {
+    "description": "Registration screen AppBar title."
+  },
+  "authLoginButton": "Login",
+  "@authLoginButton": {
+    "description": "Login submit button label."
+  },
+  "authSignUpButton": "Sign Up",
+  "@authSignUpButton": {
+    "description": "Sign up submit button label."
+  },
+  "authNavigateNoAccount": "Don't have an account?",
+  "@authNavigateNoAccount": {
+    "description": "Prompt before link to registration from login."
+  },
+  "authNavigateHasAccount": "Have an account?",
+  "@authNavigateHasAccount": {
+    "description": "Prompt before link to login from sign up."
+  },
+  "authNavigateRegistration": "registration",
+  "@authNavigateRegistration": {
+    "description": "Link label to registration screen."
+  },
+  "authNavigateLogin": "Login",
+  "@authNavigateLogin": {
+    "description": "Link label to login screen."
+  },
+  "authForgetPassword": "Forget password",
+  "@authForgetPassword": {
+    "description": "Link to start password recovery."
+  },
+  "authEnterValidEmailFirst": "Please enter a valid email first",
+  "@authEnterValidEmailFirst": {
+    "description": "When forget password is used without a valid email."
+  },
+  "authPasswordChangedSuccess": "Password changed successfully",
+  "@authPasswordChangedSuccess": {
+    "description": "After successful password reset."
+  },
+  "authProfilePictureRequired": "Profile picture is required.",
+  "@authProfilePictureRequired": {
+    "description": "When sign up is submitted without an image."
+  },
+  "authResetPasswordButton": "Reset password",
+  "@authResetPasswordButton": {
+    "description": "Reset password dialog submit button."
+  },
+  "authVerifyCreateAccountButton": "Create Account",
+  "@authVerifyCreateAccountButton": {
+    "description": "Verify email dialog submit button."
+  }
+}
