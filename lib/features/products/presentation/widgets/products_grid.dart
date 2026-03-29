@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/localization_extension.dart';
 import 'package:tech_nest/core/widgets/product_card.dart';
@@ -17,18 +16,19 @@ class ProductsGrid extends StatelessWidget {
       buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
         return switch (state) {
-          FetchProductsInitial() || FetchProductsLoading() => SliverGrid.builder(
-              itemCount: 6,
-              gridDelegate: _gridDelegate,
-              itemBuilder: (context, index) => const SkeletonCard(),
+          FetchProductsInitial() ||
+          FetchProductsLoading() => SliverGrid.builder(
+            itemCount: 6,
+            gridDelegate: _gridDelegate,
+            itemBuilder: (context, index) => const SkeletonCard(),
+          ),
+          FetchProductsError() => SliverFillRemaining(
+            child: RemoteDataFailureView(
+              failure: state.failure,
+              onRetry: () =>
+                  context.read<FetchProductsCubit>().initialFetching(),
             ),
-          FetchProductsError(:final failure) => SliverToBoxAdapter(
-              child: RemoteDataFailureView(
-                failure: failure,
-                onRetry: () =>
-                    context.read<FetchProductsCubit>().initialFetching(),
-              ),
-            ),
+          ),
           FetchProductsLoaded(
             :final products,
             :final isLoadingMore,

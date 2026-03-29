@@ -2,7 +2,7 @@ import 'package:tech_nest/features/cart/domain/entities/cart_item.dart';
 
 class Cart {
   static const int _defaultDeliveryCharges = 50;
-  static const int _freeDeliveryThreshold = 500;
+  static const int _freeDeliveryThreshold = 2000;
 
   final List<CartItem> items;
   final int totalQuantity;

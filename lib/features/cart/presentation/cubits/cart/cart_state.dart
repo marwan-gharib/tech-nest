@@ -44,7 +44,9 @@ final class CartLoaded extends CartState {
     return CartLoaded(
       cart: cart ?? this.cart,
       isMutating: isMutating ?? this.isMutating,
-      mutationFailure: clearMutationError ? null : (mutationFailure ?? this.mutationFailure),
+      mutationFailure: clearMutationError
+          ? null
+          : (mutationFailure ?? this.mutationFailure),
     );
   }
 

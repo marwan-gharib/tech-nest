@@ -7,7 +7,7 @@ class CartBadge extends StatelessWidget {
   const CartBadge({super.key});
 
   static const double _badgeOffset = -6.0;
-  static const double _minBadgeSize = AppSpacing.md * 2; // 16
+  static const double _minBadgeSize = AppSpacing.md + 2;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +23,9 @@ class CartBadge extends StatelessWidget {
           if (count == 0) return const SizedBox.shrink();
 
           return Container(
-            padding: const EdgeInsets.all(AppSpacing.xs),
             decoration: BoxDecoration(
-              color: colorScheme.primary,
-              shape: BoxShape.circle,
+              color: colorScheme.tertiaryFixed,
+              borderRadius: const BorderRadius.all(Radius.circular(50)),
               boxShadow: [
                 BoxShadow(
                   color: colorScheme.primary.withValues(alpha: 0.3),
@@ -44,7 +43,7 @@ class CartBadge extends StatelessWidget {
                 count > 99 ? "99+" : count.toString(),
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: colorScheme.onPrimary,
-                  fontSize: 10,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,

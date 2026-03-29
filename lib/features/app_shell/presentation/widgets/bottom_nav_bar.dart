@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/theme/app_colors.dart';
 import 'package:tech_nest/features/app_shell/presentation/widgets/cart_badge.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -19,6 +20,7 @@ class BottomNavBar extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
+        border: Border(top: BorderSide(color: colorScheme.primary, width: 2.5)),
         color: colorScheme.surface,
         boxShadow: [
           BoxShadow(
@@ -30,8 +32,8 @@ class BottomNavBar extends StatelessWidget {
       ),
       child: BottomNavigationBar(
         elevation: 0,
-        backgroundColor: Colors.transparent,
-        type: BottomNavigationBarType.fixed,
+        backgroundColor: AppColors.transparent,
+        type: BottomNavigationBarType.shifting,
         currentIndex: navigationShell.currentIndex,
         onTap: onTap,
         items: const [

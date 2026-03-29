@@ -19,13 +19,18 @@ class ChangeCartItemCount extends StatefulWidget {
 }
 
 class _ChangeCartItemCountState extends State<ChangeCartItemCount> {
-  late int _counter;
-  bool isMaxCount = false;
+  late final ValueNotifier<int> _counterNotifier;
 
   @override
   void initState() {
-    _counter = widget.initialCount;
     super.initState();
+    _counterNotifier = ValueNotifier<int>(widget.initialCount);
+  }
+
+  @override
+  void dispose() {
+    _counterNotifier.dispose();
+    super.dispose();
   }
 
   @override
@@ -62,54 +67,56 @@ class _ChangeCartItemCountState extends State<ChangeCartItemCount> {
 
   void _listener(BuildContext context, UpdateItemQuantityState state) {
     if (state is UpdateItemQuantitySuccess) {
+      _counterNotifier.value = state.updatedQuantity;
       context.read<CartCubit>().updateItemQuantityLocally(
         id: widget.cartId,
         quantity: state.updatedQuantity,
       );
-
-      if (state.updatedQuantity != _counter && !isMaxCount) {
-        _counter = state.updatedQuantity;
-        isMaxCount = true;
-        CustomSnackBar.show(
-          context,
-          message: "The quantity you need is not compatible with the new stock.",
-        );
-      }
     } else if (state is UpdateItemQuantityFailed) {
       CustomSnackBar.showError(context, failure: state.failure);
     }
   }
 
   Widget _builder(BuildContext context, UpdateItemQuantityState state) {
-    return Text(
-      state is UpdateItemQuantitySuccess
-          ? "${state.updatedQuantity}"
-          : "$_counter",
-      style: Theme.of(context).textTheme.labelLarge!.copyWith(
-        fontSize: 15,
-        color: Theme.of(context).shadowColor,
-      ),
+    return ValueListenableBuilder<int>(
+      valueListenable: _counterNotifier,
+      builder: (context, counter, _) {
+        return Text(
+          "$counter",
+          style: Theme.of(context).textTheme.labelLarge!.copyWith(
+            fontSize: 15,
+            color: Theme.of(context).shadowColor,
+          ),
+        );
+      },
     );
   }
 
   void _decrement() async {
-    if (_counter > 1) {
-      _counter--;
+    if (context.read<UpdateItemQuantityCubit>().state
+        is UpdateItemQuantityLoading) {
+      return;
+    }
+
+    if (_counterNotifier.value > 1) {
+      final newQuantity = _counterNotifier.value - 1;
       await context.read<UpdateItemQuantityCubit>().updateQuantity(
         cartId: widget.cartId,
-        updatedQuantity: _counter,
+        updatedQuantity: newQuantity,
       );
-      isMaxCount = false;
     }
   }
 
   void _increment() async {
-    if (isMaxCount) return;
-    _counter++;
+    if (context.read<UpdateItemQuantityCubit>().state
+        is UpdateItemQuantityLoading) {
+      return;
+    }
 
+    final newQuantity = _counterNotifier.value + 1;
     await context.read<UpdateItemQuantityCubit>().updateQuantity(
       cartId: widget.cartId,
-      updatedQuantity: _counter,
+      updatedQuantity: newQuantity,
     );
   }
 }
