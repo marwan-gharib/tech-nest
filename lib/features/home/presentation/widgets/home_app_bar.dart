@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/features/home/presentation/widgets/home_filter_button.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/features/products/presentation/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
 import 'package:tech_nest/features/products/presentation/widgets/search_products_widget.dart';
-import 'package:tech_nest/features/home/presentation/widgets/home_filter_button.dart';
 
 class HomeAppBar extends StatelessWidget {
   final TextEditingController searchController;
@@ -64,6 +64,13 @@ class HomeAppBar extends StatelessWidget {
                     controller: searchController,
                     onSelected: (value) async {
                       context.read<FetchProductsCubit>().search(value ?? "");
+                    },
+                    onClear: () {
+                      final state = context.read<FetchProductsCubit>().state;
+                      if (state is FetchProductsLoaded &&
+                          state.isSearchApplied) {
+                        context.read<FetchProductsCubit>().refresh();
+                      }
                     },
                   ),
                 ),

@@ -20,8 +20,19 @@ final class SearchSuggestionsLoaded extends SearchSuggestionsState {
 
   const SearchSuggestionsLoaded({required this.suggestions});
 
+  bool get isEmpty => suggestions.isEmpty;
+
   @override
   List<Object> get props => [suggestions];
+}
+
+final class SearchSuggestionsEmpty extends SearchSuggestionsState {
+  final String query;
+
+  const SearchSuggestionsEmpty({required this.query});
+
+  @override
+  List<Object> get props => [query];
 }
 
 final class SearchSuggestionsFailed extends SearchSuggestionsState {

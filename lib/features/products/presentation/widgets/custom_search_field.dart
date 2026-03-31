@@ -4,12 +4,14 @@ import 'package:tech_nest/core/theme/app_radius.dart';
 class CustomSearchField extends StatelessWidget {
   final ValueChanged<String?> onSubmit;
   final ValueChanged<String?>? onChange;
+  final VoidCallback? onClear;
   final TextEditingController controller;
 
   const CustomSearchField({
     required this.controller,
     required this.onSubmit,
     this.onChange,
+    this.onClear,
     super.key,
   });
 
@@ -48,8 +50,9 @@ class CustomSearchField extends StatelessWidget {
             if (value.text.isNotEmpty) {
               return IconButton(
                 onPressed: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
                   controller.clear();
-                  onSubmit(null);
+                  onClear?.call();
                 },
                 icon: const Icon(Icons.clear_rounded),
               );
@@ -62,7 +65,7 @@ class CustomSearchField extends StatelessWidget {
   }
 
   InputBorder get _border => OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(AppRadius.full),
-      );
+    borderSide: BorderSide.none,
+    borderRadius: BorderRadius.circular(AppRadius.full),
+  );
 }

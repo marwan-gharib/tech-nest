@@ -29,7 +29,6 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm + 2),
           child: Stack(

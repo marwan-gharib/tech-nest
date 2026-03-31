@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/widgets/custom_skeleton_list.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/widgets/category_card.dart';
-import 'package:tech_nest/features/categories/presentation/widgets/category_skeleton_list.dart';
 
 class LeftCategorySidebar extends StatelessWidget {
   final ValueNotifier<int> selectedCategoryIndex;
@@ -24,9 +23,7 @@ class LeftCategorySidebar extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        border: Border(
-          right: BorderSide(color: theme.colorScheme.outline),
-        ),
+        border: Border(right: BorderSide(color: theme.colorScheme.outline)),
       ),
       child: BlocConsumer<FetchCategoriesCubit, FetchCategoriesState>(
         listenWhen: (previous, current) =>
@@ -37,15 +34,14 @@ class LeftCategorySidebar extends StatelessWidget {
           if (state is FetchCategoriesLoaded && state.categories.isNotEmpty) {
             final categoryId = state.categories[selectedCategoryIndex.value].id;
             context.read<CategoryProductsCubit>().fetchInitialCategoryProducts(
-                  categoryId: categoryId,
-                );
+              categoryId: categoryId,
+            );
           }
         },
         builder: (context, state) {
           return switch (state) {
             FetchCategoriesInitial() ||
-            FetchCategoriesLoading() =>
-              const CategorySkeletonList(),
+            FetchCategoriesLoading() => const CustomSkeletonList(),
             FetchCategoriesFailed(:final failure) => RemoteDataFailureView(
               failure: failure,
               compact: true,
