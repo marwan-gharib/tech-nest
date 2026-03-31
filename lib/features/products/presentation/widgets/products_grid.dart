@@ -15,45 +15,59 @@ class ProductsGrid extends StatelessWidget {
     return BlocBuilder<FetchProductsCubit, FetchProductsState>(
       buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
-        return switch (state) {
-          FetchProductsInitial() ||
-          FetchProductsLoading() => SliverGrid.builder(
-            itemCount: 6,
-            gridDelegate: _gridDelegate,
-            itemBuilder: (context, index) => const SkeletonCard(),
-          ),
-          FetchProductsError() => SliverFillRemaining(
-            child: RemoteDataFailureView(
-              failure: state.failure,
-              onRetry: () =>
-                  context.read<FetchProductsCubit>().initialFetching(),
-            ),
-          ),
-          FetchProductsLoaded(
-            :final products,
-            :final isLoadingMore,
-            :final loadMoreFailure,
-          ) =>
-            SliverMainAxisGroup(
+        switch (state) {
+          case FetchProductsInitial():
+          case FetchProductsLoading():
+            return SliverGrid.builder(
+              itemCount: 6,
+              gridDelegate: _gridDelegate,
+              itemBuilder: (context, index) => const SkeletonCard(),
+            );
+
+          case FetchProductsError():
+            return SliverFillRemaining(
+              child: RemoteDataFailureView(
+                failure: state.failure,
+                onRetry: () =>
+                    context.read<FetchProductsCubit>().initialFetching(),
+              ),
+            );
+
+          case FetchProductsLoaded():
+            if (state.isSearchApplied && state.products.isEmpty) {
+              return SliverFillRemaining(
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(AppSpacing.lg),
+                    child: Text(
+                      "No Products Found",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ),
+                ),
+              );
+            }
+            return SliverMainAxisGroup(
               slivers: [
                 SliverGrid.builder(
-                  itemCount: products.length,
+                  itemCount: state.products.length,
                   gridDelegate: _gridDelegate,
                   itemBuilder: (context, index) {
-                    return ProductCard(product: products[index]);
+                    return ProductCard(product: state.products[index]);
                   },
                 ),
-                if (loadMoreFailure != null)
+                if (state.loadMoreFailure != null)
                   SliverToBoxAdapter(
                     child: RemoteDataFailureView(
-                      failure: loadMoreFailure,
+                      failure: state.loadMoreFailure!,
                       titleOverride: context.l10n.errorCouldNotLoadMore,
                       compact: true,
                       onRetry: () =>
                           context.read<FetchProductsCubit>().fetchMore(),
                     ),
                   ),
-                if (isLoadingMore)
+                if (state.isLoadingMore)
                   const SliverToBoxAdapter(
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
@@ -61,8 +75,8 @@ class ProductsGrid extends StatelessWidget {
                     ),
                   ),
               ],
-            ),
-        };
+            );
+        }
       },
     );
   }

@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-
 import 'package:tech_nest/core/di/service_locator.dart';
-import 'package:tech_nest/l10n/app_localizations.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/image/image_provider.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
@@ -17,6 +15,7 @@ import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widg
 import 'package:tech_nest/features/auth/presentation/widgets/pick_profile_image.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/sign_up_form.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/verify_email_dialoge.dart';
+import 'package:tech_nest/l10n/app_localizations.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -69,10 +68,10 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(title: Text(l10n.authScreenRegistrationTitle)),
         body: BlocListener<RegistrationCubit, RegistrationState>(
-          listenWhen: (p, c) => c is RegistrationSuccess || c is RegistrationFailed,
+          listenWhen: (p, c) =>
+              c is RegistrationSuccess || c is RegistrationFailed,
           listener: _listener,
           child: ListView(
             padding: const EdgeInsets.symmetric(

@@ -7,10 +7,12 @@ import 'package:tech_nest/features/products/presentation/widgets/search_suggesti
 class SearchProductsWidget extends StatefulWidget {
   final TextEditingController controller;
   final ValueChanged<String?> onSelected;
+  final VoidCallback? onClear;
 
   const SearchProductsWidget({
     required this.controller,
     required this.onSelected,
+    this.onClear,
     super.key,
   });
 
@@ -21,6 +23,7 @@ class SearchProductsWidget extends StatefulWidget {
 class _SearchProductsWidgetState extends State<SearchProductsWidget> {
   late final OverlayPortalController _overlayController;
   final LayerLink _layerLink = LayerLink();
+  final Object _groupId = Object();
 
   static const double _searchFieldHeight = 50.0;
   static const int _minSearchChars = 2;
@@ -33,25 +36,50 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
   }
 
   void _textChanged() {
-    final show = widget.controller.text.length >= _minSearchChars;
+    final text = widget.controller.text;
+    final show = text.length >= _minSearchChars;
+
     if (_overlayController.isShowing != show) {
       if (show) {
         _overlayController.show();
+        context.read<SearchSuggestionsCubit>().getSuggestions(
+          searchLabel: text,
+        );
       } else {
         _overlayController.hide();
+        context.read<SearchSuggestionsCubit>().clearCache();
       }
+    } else if (show) {
+      context.read<SearchSuggestionsCubit>().getSuggestions(searchLabel: text);
     }
+  }
+
+  void _onSuggestionSelected(String suggestion) {
+    widget.controller.removeListener(_textChanged);
+
+    widget.controller.text = suggestion;
+
+    widget.controller.addListener(_textChanged);
+
+    _overlayController.hide();
+
+    context.read<SearchSuggestionsCubit>().clearCache();
+
+    widget.onSelected(suggestion);
   }
 
   @override
   void dispose() {
     widget.controller.removeListener(_textChanged);
+    // Cancel ongoing requests when widget is disposed
+    context.read<SearchSuggestionsCubit>().cancelRequest();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return TapRegion(
+      groupId: _groupId,
       onTapOutside: (_) => _overlayController.hide(),
       child: CompositedTransformTarget(
         link: _layerLink,
@@ -62,25 +90,22 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
             overlayChildBuilder: (context) {
               return SearchSuggestionsOverlay(
                 layerLink: _layerLink,
-                onSelected: (suggestion) {
-                  widget.onSelected(suggestion);
-                  widget.controller.text = suggestion;
-                  _overlayController.hide();
-                },
+                onSelected: _onSuggestionSelected,
+                groupId: _groupId,
               );
             },
             child: CustomSearchField(
               controller: widget.controller,
               onSubmit: (value) {
-                widget.onSelected(value);
-                _overlayController.hide();
-              },
-              onChange: (value) async {
-                if (value != null && value.length >= _minSearchChars) {
-                  await context.read<SearchSuggestionsCubit>().getSuggestions(
-                        searchLabel: value,
-                      );
+                if (value != null && value.isNotEmpty) {
+                  _overlayController.hide();
+                  widget.onSelected(value);
                 }
+              },
+              onClear: () {
+                widget.onClear?.call();
+                _overlayController.hide();
+                context.read<SearchSuggestionsCubit>().clearCache();
               },
             ),
           ),

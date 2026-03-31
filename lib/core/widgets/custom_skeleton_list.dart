@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 
-class CategorySkeletonList extends StatelessWidget {
-  const CategorySkeletonList({super.key});
+class CustomSkeletonList extends StatelessWidget {
+  const CustomSkeletonList({super.key});
 
   @override
   Widget build(BuildContext context) {

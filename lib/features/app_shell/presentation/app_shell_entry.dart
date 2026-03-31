@@ -16,7 +16,6 @@ class _AppShellEntryState extends State<AppShellEntry> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         body: widget.navigationShell,
         bottomNavigationBar: BottomNavBar(
           navigationShell: widget.navigationShell,
