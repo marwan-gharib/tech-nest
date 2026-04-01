@@ -28,7 +28,8 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
         FetchProductsLoaded(
           products: products,
           hasReachedMax: products.length < _params.limit!,
-          isSearchApplied: _params.search?.isNotEmpty == true, // Set flag based on search
+          isSearchApplied:
+              _params.search?.isNotEmpty == true, // Set flag based on search
         ),
       ),
     );
@@ -41,12 +42,7 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
 
     AppLogger.log(_params.page.toString());
 
-    emit(
-      current.copyWith(
-        isLoadingMore: true,
-        clearLoadMoreError: true,
-      ),
-    );
+    emit(current.copyWith(isLoadingMore: true, clearLoadMoreError: true));
 
     final previousPage = _params.page ?? 1;
     _params = _params.copyWith(page: previousPage + 1);
@@ -58,12 +54,7 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
         _params = _params.copyWith(page: previousPage);
         final loaded = state;
         if (loaded is! FetchProductsLoaded) return;
-        emit(
-          loaded.copyWith(
-            isLoadingMore: false,
-            loadMoreFailure: failure,
-          ),
-        );
+        emit(loaded.copyWith(isLoadingMore: false, loadMoreFailure: failure));
       },
       (products) {
         final loaded = state;
@@ -85,18 +76,7 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
 
     emit(const FetchProductsLoading());
 
-    final res = await _getProductsUsecase.call(params: _params);
-
-    res.fold(
-      (failure) => emit(FetchProductsError(failure)),
-      (products) => emit(
-        FetchProductsLoaded(
-          products: products,
-          hasReachedMax: products.length < _params.limit!,
-          isSearchApplied: true, // Mark search as applied
-        ),
-      ),
-    );
+    await _emitStateOfUsecase(true);
   }
 
   Future<void> applyFilters(FilterData filter) async {
@@ -106,7 +86,9 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
       page: 1,
     );
 
-    await initialFetching();
+    emit(const FetchProductsLoading());
+
+    await _emitStateOfUsecase(_params.search?.isNotEmpty == true);
   }
 
   Future<void> refresh() async {
@@ -114,6 +96,10 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
 
     emit(const FetchProductsLoading());
 
+    await _emitStateOfUsecase(false);
+  }
+
+  Future<void> _emitStateOfUsecase(bool isSearchAppliedValue) async {
     final res = await _getProductsUsecase.call(params: _params);
 
     res.fold(
@@ -122,7 +108,7 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
         FetchProductsLoaded(
           products: products,
           hasReachedMax: products.length < _params.limit!,
-          isSearchApplied: false, // Reset search flag
+          isSearchApplied: isSearchAppliedValue,
         ),
       ),
     );

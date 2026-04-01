@@ -14,8 +14,10 @@ class CategoryLabelWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: GestureDetector(
         onTap: () {
           if (category is CategoryEntity) {
@@ -24,26 +26,47 @@ class CategoryLabelWidget<T> extends StatelessWidget {
             onTap(null);
           }
         },
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOutCubic,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.onSecondary,
-            borderRadius: BorderRadius.circular(12),
+            color: isSelected
+                ? theme.colorScheme.primary
+                : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: isSelected
+                ? [
+                    BoxShadow(
+                      color: theme.colorScheme.primary.withValues(alpha: 0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ]
+                : null,
+            border: Border.all(
+              color: isSelected
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.outlineVariant.withValues(alpha: 0.2),
+              width: 1.5,
+            ),
           ),
           child: Center(
-            child: RepaintBoundary(
+            child: AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 300),
+              style: theme.textTheme.labelLarge!.copyWith(
+                color: isSelected
+                    ? theme.colorScheme.onPrimary
+                    : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
+                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                fontSize: 13,
+              ),
               child: Text(
                 category is CategoryEntity
                     ? (category as CategoryEntity).name
                     : category is String
-                    ? category as String
-                    : category.toString(),
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: isSelected
-                      ? Theme.of(context).shadowColor
-                      : Theme.of(context).hintColor,
-                  fontSize: 12,
-                ),
+                        ? category as String
+                        : category.toString(),
               ),
             ),
           ),

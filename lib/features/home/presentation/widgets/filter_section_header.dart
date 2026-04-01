@@ -1,38 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/theme/app_text_styles.dart';
 
 class FilterSectionHeader extends StatelessWidget {
   final String label;
+
   const FilterSectionHeader({required this.label, super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    const double indent = 8.0;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
+      padding: const EdgeInsets.only(top: AppSpacing.lg, bottom: AppSpacing.sm),
       child: Row(
         children: [
-          Expanded(
-            child: Divider(
-              endIndent: indent,
+          Container(
+            width: 3,
+            height: 16,
+            decoration: BoxDecoration(
               color: theme.colorScheme.primary,
-              thickness: 1.5,
+              borderRadius: BorderRadius.circular(AppRadius.full),
             ),
           ),
+          const SizedBox(width: AppSpacing.sm),
           Text(
             label,
-            style: theme.textTheme.labelLarge?.copyWith(
-              color: theme.colorScheme.primary,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Expanded(
-            child: Divider(
-              indent: indent,
-              color: theme.colorScheme.primary,
-              thickness: 1.5,
+            style: AppTextStyles.labelMedium.copyWith(
+              color: theme.colorScheme.onSurface,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.4,
             ),
           ),
         ],

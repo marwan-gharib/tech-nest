@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:tech_nest/core/theme/app_radius.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/theme/app_text_styles.dart';
 
-class CustomPriceField extends StatelessWidget {
+class CustomPriceField extends StatefulWidget {
   final TextEditingController controller;
   final String label;
 
@@ -11,34 +15,90 @@ class CustomPriceField extends StatelessWidget {
   });
 
   @override
+  State<CustomPriceField> createState() => _CustomPriceFieldState();
+}
+
+class _CustomPriceFieldState extends State<CustomPriceField> {
+  late final FocusNode _focusNode;
+  bool _isFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode()
+      ..addListener(() {
+        setState(() => _isFocused = _focusNode.hasFocus);
+      });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Expanded(
+    final theme = Theme.of(context);
+
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppRadius.lg),
+        border: Border.all(
+          color: _isFocused
+              ? theme.colorScheme.primary
+              : theme.colorScheme.outlineVariant.withValues(alpha: 0.4),
+          width: _isFocused ? 1.5 : 1.0,
+        ),
+        color: _isFocused
+            ? theme.colorScheme.primary.withValues(alpha: 0.04)
+            : theme.colorScheme.surfaceContainerLow.withValues(alpha: 0.5),
+        boxShadow: _isFocused
+            ? [
+                BoxShadow(
+                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                  blurRadius: 8,
+                  offset: const Offset(0, 3),
+                ),
+              ]
+            : null,
+      ),
       child: TextField(
-        controller: controller,
+        controller: widget.controller,
+        focusNode: _focusNode,
         onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-        cursorColor: Theme.of(context).colorScheme.primary,
-        keyboardType: TextInputType.number,
+        cursorColor: theme.colorScheme.primary,
+        keyboardType: const TextInputType.numberWithOptions(decimal: false),
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
         decoration: InputDecoration(
-          border: _border,
-          errorBorder: _border,
-          disabledBorder: _border,
-          enabledBorder: _border,
-          focusedBorder: _border,
-          focusedErrorBorder: _border,
-          filled: true,
-          fillColor: Theme.of(context).colorScheme.onPrimary,
-          hintText: label,
-          hintStyle: Theme.of(
-            context,
-          ).textTheme.bodyLarge!.copyWith(color: Theme.of(context).hintColor),
-          isDense: true,
+          border: InputBorder.none,
+          enabledBorder: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          prefixIcon: Padding(
+            padding: const EdgeInsets.only(left: AppSpacing.md, right: AppSpacing.sm),
+            child: Text(
+              '\$',
+              style: AppTextStyles.bodyLarge.copyWith(
+                color: _isFocused
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+          hintText: widget.label,
+          hintStyle: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: AppSpacing.md,
+            horizontal: AppSpacing.sm,
+          ),
         ),
       ),
     );
   }
-
-  InputBorder get _border => OutlineInputBorder(
-    borderSide: BorderSide.none,
-    borderRadius: BorderRadius.circular(16),
-  );
 }

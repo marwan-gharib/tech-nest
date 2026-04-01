@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
@@ -101,13 +102,16 @@ class _HomeScreenState extends State<HomeScreen> {
       elevation: 24,
       shape: AppRadius.sheetShape,
       builder: (context) {
-        return FilterComponents(
-          filterData: _filterData,
-          onApply: (FilterData filterData) async {
-            _filterData = filterData;
-            context.read<FetchProductsCubit>().applyFilters(_filterData);
-            context.pop();
-          },
+        return BlocProvider(
+          create: (context) => sl<FetchProductsCubit>(),
+          child: FilterComponents(
+            filterData: _filterData,
+            onApply: (FilterData filterData) async {
+              _filterData = filterData;
+              context.read<FetchProductsCubit>().applyFilters(_filterData);
+              context.pop();
+            },
+          ),
         );
       },
     );
