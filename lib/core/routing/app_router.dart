@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
-import 'package:tech_nest/core/utils/logger.dart';
+import 'package:tech_nest/core/shared/utils/logger.dart';
 import 'package:tech_nest/features/app_shell/presentation/app_shell_entry.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
@@ -16,7 +16,7 @@ import 'package:tech_nest/features/cart/presentation/screens/cart_items_screen.d
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/screens/categories_screen.dart';
-import 'package:tech_nest/features/common/presentation/screens/demo_screen.dart';
+import 'package:tech_nest/core/shared/widgets/demo_screen.dart';
 import 'package:tech_nest/features/home/presentation/screens/home_screen.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';

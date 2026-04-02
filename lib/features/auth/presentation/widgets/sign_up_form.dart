@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/utils/validators.dart';
+import 'package:tech_nest/core/shared/utils/validators.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/privacy_policy_widget.dart';
 

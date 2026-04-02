@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/features/cart/domain/use_cases/remove_from_cart_usecase.dart';
+import 'package:tech_nest/features/cart/domain/usecases/remove_from_cart_usecase.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
 
 part 'delete_cart_item_state.dart';

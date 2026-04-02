@@ -27,7 +27,7 @@ linter:
     prefer_const_literals_to_create_immutables: true
     always_put_required_named_parameters_first: true
     avoid_unnecessary_containers: true
-    
+    unreachable_from_main: true
     
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

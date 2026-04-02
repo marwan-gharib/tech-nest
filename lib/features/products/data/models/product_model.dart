@@ -1,5 +1,5 @@
 import 'package:tech_nest/core/constants/api_keys.dart';
-import 'package:tech_nest/core/domain/entities/product_entity.dart';
+import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
 import 'package:tech_nest/features/categories/data/models/category_model.dart';
 
 class ProductModel {

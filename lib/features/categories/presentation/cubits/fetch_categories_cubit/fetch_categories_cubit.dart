@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/domain/entities/category_entity.dart';
+import 'package:tech_nest/core/shared/domain/entities/category_entity.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
-import 'package:tech_nest/features/categories/domain/use_cases/fetch_categories_usecase.dart';
+import 'package:tech_nest/features/categories/domain/usecases/fetch_categories_usecase.dart';
 
 part 'fetch_categories_state.dart';
 

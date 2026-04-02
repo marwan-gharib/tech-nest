@@ -7,14 +7,14 @@ import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/utils/extensions/localization_extension.dart';
-import 'package:tech_nest/core/utils/validators.dart';
-import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/shared/utils/extensions/localization_extension.dart';
+import 'package:tech_nest/core/shared/utils/validators.dart';
+import 'package:tech_nest/core/shared/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widget.dart';
-import 'package:tech_nest/features/auth/presentation/widgets/forget_password_dialoge.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/reset_password_dialog.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/login_form.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -148,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
         context: context,
         builder: (context) => BlocProvider(
           create: (context) => sl<ResetPasswordCubit>(),
-          child: ForgetPasswordDialoge(email: _email.text),
+          child: ResetPasswordDialog(email: _email.text),
         ),
         barrierDismissible: false,
         useSafeArea: true,

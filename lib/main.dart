@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/routing/app_router.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
-import 'package:tech_nest/core/services/local/secure/secure_storage_service.dart';
+import 'package:tech_nest/core/local/secure/secure_storage_client.dart';
 import 'package:tech_nest/core/theme/app_theme.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/l10n/app_localizations.dart';
@@ -13,7 +13,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initDependencies();
 
-  final secureStorage = sl<SecureStorageService>();
+  final secureStorage = sl<SecureStorageClient>();
   final authNotifier = sl<AuthNotifier>();
 
   if (await secureStorage.hasToken()) {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/widgets/custom_skeleton_list.dart';
-import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
+import 'package:tech_nest/core/shared/widgets/custom_skeleton_list.dart';
+import 'package:tech_nest/core/shared/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/products/presentation/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
 import 'package:tech_nest/features/products/presentation/widgets/search_suggestions_overlay_list.dart';
 

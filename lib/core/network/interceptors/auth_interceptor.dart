@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
-import 'package:tech_nest/core/services/local/secure/secure_storage_service.dart';
+import 'package:tech_nest/core/local/secure/secure_storage_client.dart';
 
 class AuthInterceptor extends Interceptor {
-  final SecureStorageService _secureStorage;
+  final SecureStorageClient _secureStorage;
 
   AuthInterceptor(this._secureStorage);
 

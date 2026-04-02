@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_colors.dart';
-import 'package:tech_nest/core/theme/modes/dark_theme.dart';
-import 'package:tech_nest/core/theme/modes/light_theme.dart';
+import 'package:tech_nest/core/theme/modes/dark.dart';
+import 'package:tech_nest/core/theme/modes/light.dart';
 
 class AppTheme {
   const AppTheme._();

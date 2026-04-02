@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/features/cart/domain/params/update_item_quantity_params.dart';
-import 'package:tech_nest/features/cart/domain/use_cases/update_item_quantity_usecase.dart';
+import 'package:tech_nest/features/cart/domain/usecases/update_item_quantity_usecase.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
 
 part 'update_item_quantity_state.dart';

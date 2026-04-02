@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:tech_nest/core/constants/app_consts.dart';
+import 'package:tech_nest/core/constants/app_constants.dart';
+import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
-import 'package:tech_nest/core/services/local/cache/cache_service.dart';
 
 class ErrorInterceptor extends Interceptor {
   final CacheService _cacheService;
@@ -11,15 +11,14 @@ class ErrorInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    final bool skipAuth = err.requestOptions.extra[AppConsts.skipAuth] ?? false;
+    final bool skipAuth =
+        err.requestOptions.extra[AppConstants.skipAuth] ?? false;
 
     if (err.response?.statusCode == 401 && !skipAuth) {
       _cacheService.clear();
       _authNotifier.logout();
     }
-    
-    // Pass the error to the DioErrorHandler to throw ServerException
-    // Or we just forward the error so DioClient can catch it and handle it
+
     super.onError(err, handler);
   }
 }

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/domain/entities/category_entity.dart';
+import 'package:tech_nest/core/shared/domain/entities/category_entity.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 
 class CategoryCard extends StatelessWidget {

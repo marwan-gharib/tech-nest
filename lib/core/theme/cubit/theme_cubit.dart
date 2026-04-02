@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/constants/app_consts.dart';
-import 'package:tech_nest/core/services/local/cache/cache_service.dart';
+import 'package:tech_nest/core/constants/app_constants.dart';
+import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/theme/cubit/theme_state.dart';
 
 class ThemeCubit extends Cubit<ThemeState> {
@@ -19,12 +19,12 @@ class ThemeCubit extends Cubit<ThemeState> {
   }
 
   Future<void> _changeTheme(ThemeMode mode) async {
-    await _cacheService.setData(key: AppConsts.themeKey, value: mode.index);
+    await _cacheService.setData(key: AppConstants.themeKey, value: mode.index);
     emit(ThemeState(mode: mode));
   }
 
   void _loadTheme() {
-    final themeIndex = _cacheService.get(AppConsts.themeKey) as int?;
+    final themeIndex = _cacheService.get(AppConstants.themeKey) as int?;
 
     if (themeIndex != null &&
         themeIndex >= 0 &&
