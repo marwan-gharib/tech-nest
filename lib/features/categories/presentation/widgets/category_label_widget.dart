@@ -27,13 +27,15 @@ class CategoryLabelWidget<T> extends StatelessWidget {
           }
         },
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 800),
           curve: Curves.easeInOutCubic,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             color: isSelected
                 ? theme.colorScheme.primary
-                : theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+                : theme.colorScheme.surfaceContainerHighest.withValues(
+                    alpha: 0.4,
+                  ),
             borderRadius: BorderRadius.circular(16),
             boxShadow: isSelected
                 ? [
@@ -65,8 +67,8 @@ class CategoryLabelWidget<T> extends StatelessWidget {
                 category is CategoryEntity
                     ? (category as CategoryEntity).name
                     : category is String
-                        ? category as String
-                        : category.toString(),
+                    ? category as String
+                    : category.toString(),
               ),
             ),
           ),

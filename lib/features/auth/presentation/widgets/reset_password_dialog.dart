@@ -5,10 +5,9 @@ import 'package:tech_nest/core/constants/auth_constants.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/shared/utils/extensions/localization_extension.dart';
-import 'package:tech_nest/core/shared/utils/validators.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
-import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_pin_code_dialog.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/reset_password_form_fields.dart';
 
 class ResetPasswordDialog extends StatefulWidget {
   final String email;
@@ -89,39 +88,10 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
                     label: "Reset Password",
                   ),
                   const SizedBox(height: AppSpacing.lg),
-                  ValueListenableBuilder(
-                    valueListenable: _isPasswordObscure,
-                    builder: (context, obscure, child) {
-                      return Column(
-                        children: [
-                          CustomInputField(
-                            controller: _password,
-                            label: "Password",
-                            hint: "* " * 8,
-                            keyboardType: TextInputType.visiblePassword,
-                            isPassword: true,
-                            isObscure: obscure,
-                            onVisibilityToggle: () => _isPasswordObscure.value =
-                                !_isPasswordObscure.value,
-                            validator: Validators.passwordValidator,
-                          ),
-                          const SizedBox(height: AppSpacing.lg),
-                          CustomInputField(
-                            controller: _confirmPassword,
-                            label: "Confirm Password",
-                            hint: "* " * 8,
-                            keyboardType: TextInputType.visiblePassword,
-                            isPassword: true,
-                            isObscure: obscure,
-                            validator: (value) =>
-                                Validators.confirmPasswordValidator(
-                                  value,
-                                  password: _password.text,
-                                ),
-                          ),
-                        ],
-                      );
-                    },
+                  ResetPasswordFormFields(
+                    passwordController: _password,
+                    confirmPasswordController: _confirmPassword,
+                    isPasswordObscure: _isPasswordObscure,
                   ),
                   const SizedBox(height: AppSpacing.xxl),
                   BlocConsumer<ResetPasswordCubit, ResetPasswordState>(

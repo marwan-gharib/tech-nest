@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
 import 'package:tech_nest/core/shared/domain/entities/category_entity.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/shared/widgets/remote_data_failure_view.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/widgets/category_label_widget.dart';
 
@@ -57,51 +56,49 @@ class _CategoriesViewState extends State<CategoriesView> {
         return SizedBox(
           height: AppSpacing.homeCategoryRowHeight,
           child: switch (state) {
-            FetchCategoriesInitial() || FetchCategoriesLoading() =>
-              ListView.builder(
-                itemCount: 8,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return const Skeletonizer(
-                    child: SizedBox(height: 24, width: 80),
-                  );
-                },
-              ),
+            FetchCategoriesInitial() ||
+            FetchCategoriesLoading() => ListView.builder(
+              itemCount: 8,
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) {
+                return const Skeletonizer(
+                  child: SizedBox(height: 24, width: 80),
+                );
+              },
+            ),
             FetchCategoriesLoaded(:final categories) => ListView.builder(
-                itemCount: categories.length + 1,
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpacing.lg,
-                  vertical: AppSpacing.md,
-                ),
-                itemBuilder: (context, index) {
-                  return ValueListenableBuilder<int?>(
-                    valueListenable: _selectedCategoryNotifier,
-                    builder: (_, selectedCategory, _) {
-                      if (index == 0) {
-                        return CategoryLabelWidget<String>(
-                          category: "All",
-                          isSelected: selectedCategory == null,
-                          onTap: (id) {
-                            _selectedCategoryNotifier.value = id;
-                            widget.onCategorySelected(id);
-                          },
-                        );
-                      }
-
-                      final category = categories[index - 1];
-                      return CategoryLabelWidget<CategoryEntity>(
-                        category: category,
-                        isSelected: selectedCategory == category.id,
+              itemCount: categories.length + 1,
+              scrollDirection: Axis.horizontal,
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+              itemBuilder: (context, index) {
+                return ValueListenableBuilder<int?>(
+                  valueListenable: _selectedCategoryNotifier,
+                  builder: (_, selectedCategory, _) {
+                    if (index == 0) {
+                      return CategoryLabelWidget<String>(
+                        category: "All",
+                        isSelected: selectedCategory == null,
                         onTap: (id) {
                           _selectedCategoryNotifier.value = id;
                           widget.onCategorySelected(id);
                         },
                       );
-                    },
-                  );
-                },
-              ),
+                    }
+
+                    final category = categories[index - 1];
+                    return CategoryLabelWidget<CategoryEntity>(
+                      category: category,
+                      isSelected: selectedCategory == category.id,
+                      onTap: (id) {
+                        _selectedCategoryNotifier.value = id;
+                        widget.onCategorySelected(id);
+                      },
+                    );
+                  },
+                );
+              },
+            ),
             _ => const SizedBox.shrink(),
           },
         );
