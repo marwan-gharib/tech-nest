@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
@@ -92,6 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> _showBottomSheet() async {
+    final fetchProductsCubit = context.read<FetchProductsCubit>();
+
     await showModalBottomSheet(
       context: context,
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
@@ -101,14 +102,14 @@ class _HomeScreenState extends State<HomeScreen> {
       isScrollControlled: true,
       elevation: 24,
       shape: AppRadius.sheetShape,
-      builder: (context) {
-        return BlocProvider(
-          create: (context) => sl<FetchProductsCubit>(),
+      builder: (_) {
+        return BlocProvider.value(
+          value: fetchProductsCubit,
           child: FilterComponents(
             filterData: _filterData,
             onApply: (FilterData filterData) async {
               _filterData = filterData;
-              context.read<FetchProductsCubit>().applyFilters(_filterData);
+              fetchProductsCubit.applyFilters(_filterData);
               context.pop();
             },
           ),
