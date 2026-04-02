@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
-import 'package:tech_nest/core/widgets/build_price.dart';
+import 'package:tech_nest/core/shared/widgets/build_price.dart';
 
 class CartDetailsWidget extends StatelessWidget {
   const CartDetailsWidget({super.key});

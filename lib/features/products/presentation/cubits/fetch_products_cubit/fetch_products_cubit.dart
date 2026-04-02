@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/domain/entities/product_entity.dart';
-import 'package:tech_nest/core/domain/params/products_params.dart';
+import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
+import 'package:tech_nest/core/shared/domain/params/products_params.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
-import 'package:tech_nest/core/utils/logger.dart';
+import 'package:tech_nest/core/shared/utils/logger.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
-import 'package:tech_nest/features/products/domain/use_cases/get_products_usecase.dart';
+import 'package:tech_nest/features/products/domain/usecases/get_products_usecase.dart';
 
 part 'fetch_products_state.dart';
 

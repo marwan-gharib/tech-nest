@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/core/domain/enums/order_type.dart';
-import 'package:tech_nest/core/domain/enums/sort_type.dart';
+import 'package:tech_nest/core/shared/domain/enums/order_type.dart';
+import 'package:tech_nest/core/shared/domain/enums/sort_type.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/theme/app_text_styles.dart';

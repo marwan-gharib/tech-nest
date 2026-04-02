@@ -1,9 +1,9 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
-import 'package:tech_nest/features/auth/domain/repositories/auth_repo.dart';
+import 'package:tech_nest/features/auth/domain/repositories/auth_repository.dart';
 
 class LogoutUsecase {
-  final AuthRepo _repo;
+  final AuthRepository _repo;
 
   LogoutUsecase(this._repo);
 

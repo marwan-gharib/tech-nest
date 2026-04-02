@@ -1,5 +1,5 @@
 import 'package:tech_nest/core/constants/api_keys.dart';
-import 'package:tech_nest/core/domain/entities/category_entity.dart';
+import 'package:tech_nest/core/shared/domain/entities/category_entity.dart';
 
 class CategoryModel {
   final int id;

@@ -5,16 +5,16 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
-import 'package:tech_nest/core/services/image/image_provider.dart';
+import 'package:tech_nest/features/auth/presentation/providers/image_provider.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/utils/extensions/localization_extension.dart';
-import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/shared/utils/extensions/localization_extension.dart';
+import 'package:tech_nest/core/shared/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widget.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/pick_profile_image.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/sign_up_form.dart';
-import 'package:tech_nest/features/auth/presentation/widgets/verify_email_dialoge.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/verify_email_dialog.dart';
 import 'package:tech_nest/l10n/app_localizations.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
@@ -120,7 +120,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
         context: context,
         builder: (_) => BlocProvider(
           create: (context) => sl<VerifyEmailCubit>(),
-          child: VerifyEmailDialoge(email: _email.text.trim()),
+          child: VerifyEmailDialog(email: _email.text.trim()),
         ),
         barrierDismissible: false,
         useSafeArea: true,
