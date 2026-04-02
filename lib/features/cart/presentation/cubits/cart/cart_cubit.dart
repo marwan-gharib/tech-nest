@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/shared/domain/params/add_to_cart_params.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
+import 'package:tech_nest/core/shared/domain/params/add_to_cart_params.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart_entity.dart';
 import 'package:tech_nest/features/cart/domain/usecases/add_to_cart_usecase.dart';
 import 'package:tech_nest/features/cart/domain/usecases/get_cart_items_usecase.dart';
@@ -29,13 +29,9 @@ class CartCubit extends Cubit<CartState> {
   Future<void> add({required int productId, required int quantity}) async {
     final currentState = state;
     if (currentState is! CartLoaded) return;
+    if (currentState.isMutating) return;
 
-    emit(
-      currentState.copyWith(
-        isMutating: true,
-        clearMutationError: true,
-      ),
-    );
+    emit(currentState.copyWith(isMutating: true, clearMutationError: true));
 
     final res = await _addToCartUsecase.call(
       params: AddToCartParams(productId: productId, quantity: quantity),
@@ -45,12 +41,7 @@ class CartCubit extends Cubit<CartState> {
       (failure) {
         final latest = state;
         if (latest is! CartLoaded) return;
-        emit(
-          latest.copyWith(
-            isMutating: false,
-            mutationFailure: failure,
-          ),
-        );
+        emit(latest.copyWith(isMutating: false, mutationFailure: failure));
       },
       (newCartItem) {
         final baseline = currentState;
@@ -101,10 +92,7 @@ class CartCubit extends Cubit<CartState> {
     emit(currentState.copyWith(cart: newCart));
   }
 
-  void updateItemQuantityLocally({
-    required int id,
-    required int quantity,
-  }) {
+  void updateItemQuantityLocally({required int id, required int quantity}) {
     final currentState = state;
     if (currentState is! CartLoaded) return;
 

@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/routing/routes.dart';
-import 'package:tech_nest/core/theme/app_radius.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/shared/widgets/build_price.dart';
 import 'package:tech_nest/core/shared/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/theme/app_radius.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 
 class ProductCard extends StatelessWidget {

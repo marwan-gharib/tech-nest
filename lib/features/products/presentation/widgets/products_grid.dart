@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/shared/utils/extensions/localization_extension.dart';
 import 'package:tech_nest/core/shared/widgets/product_card.dart';
 import 'package:tech_nest/core/shared/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/core/shared/widgets/skeleton_card.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
+import 'package:tech_nest/features/products/presentation/widgets/no_products_found_view.dart';
 
 class ProductsGrid extends StatelessWidget {
   const ProductsGrid({super.key});
@@ -35,17 +36,9 @@ class ProductsGrid extends StatelessWidget {
 
           case FetchProductsLoaded():
             if (state.isSearchApplied && state.products.isEmpty) {
-              return SliverFillRemaining(
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(AppSpacing.lg),
-                    child: Text(
-                      "No Products Found",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ),
-                ),
+              return const SliverFillRemaining(
+                hasScrollBody: false,
+                child: NoProductsFoundView(),
               );
             }
             return SliverMainAxisGroup(
