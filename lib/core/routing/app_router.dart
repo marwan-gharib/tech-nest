@@ -9,7 +9,6 @@ import 'package:tech_nest/core/shared/cubits/fetch_categories_cubit/fetch_catego
 import 'package:tech_nest/core/shared/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/shared/utils/logger.dart';
-import 'package:tech_nest/core/shared/widgets/demo_screen.dart';
 import 'package:tech_nest/features/app_shell/presentation/app_shell_entry.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
@@ -21,6 +20,7 @@ import 'package:tech_nest/features/categories/presentation/cubits/category_produ
 import 'package:tech_nest/features/categories/presentation/screens/categories_screen.dart';
 import 'package:tech_nest/features/home/presentation/screens/home_screen.dart';
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';
+import 'package:tech_nest/features/settings/presentation/screens/settings_screen.dart';
 
 class AppRouter {
   static final AuthNotifier _authNotifier = sl<AuthNotifier>();
@@ -37,7 +37,6 @@ class AppRouter {
           StatefulShellBranch(routes: [_cartScreenRouter]),
           StatefulShellBranch(routes: [_categoriesScreenRouter]),
           StatefulShellBranch(routes: [_settingsScreenRouter]),
-          StatefulShellBranch(routes: [_profileScreenRouter]),
         ],
       ),
       _signUpScreenRouter,
@@ -123,11 +122,6 @@ class AppRouter {
 
   static final _settingsScreenRouter = GoRoute(
     path: Routes.settingsScreenPath,
-    builder: (context, state) => const DemoScreen(label: "Settings Screen"),
-  );
-
-  static final _profileScreenRouter = GoRoute(
-    path: Routes.profileScreenPath,
-    builder: (context, state) => const DemoScreen(label: "Profile Screen"),
+    builder: (context, state) => const SettingsScreen(),
   );
 }
