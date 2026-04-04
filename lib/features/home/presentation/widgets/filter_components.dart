@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/shared/domain/enums/order_type.dart';
 import 'package:tech_nest/core/shared/domain/enums/sort_type.dart';
 import 'package:tech_nest/core/shared/utils/extensions/string_extension.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
 import 'package:tech_nest/features/home/presentation/notifires/filter_components_notifier.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_apply_button.dart';
@@ -84,16 +87,17 @@ class _FilterComponentsState extends State<FilterComponents> {
                   const SizedBox(height: AppSpacing.sm),
                   const Divider(height: 1, thickness: 0.5),
                   const SizedBox(height: AppSpacing.xs),
-                  ValueListenableBuilder<Key>(
-                    valueListenable: _notifier.resetNotifier,
-                    builder: (context, resetKey, _) {
-                      return Flexible(
-                        child: Column(
+                  BlocProvider(
+                    create: (context) =>
+                        sl<FetchCategoriesCubit>()..fetchCategories(),
+                    child: ListenableBuilder(
+                      listenable: _notifier,
+                      builder: (context, _) {
+                        return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const FilterSectionHeader(label: 'Categories'),
                             FilterCategorySection(
-                              key: ValueKey('cat_$resetKey'),
                               initialCategoryId: _notifier.categoryId,
                               onSelected: (value) =>
                                   _notifier.categoryId = value,
@@ -102,10 +106,11 @@ class _FilterComponentsState extends State<FilterComponents> {
                             FilterPriceRangeFields(
                               minPrice: _notifier.minPrice,
                               maxPrice: _notifier.maxPrice,
+                              minPriceError: _notifier.minPriceError,
+                              maxPriceError: _notifier.maxPriceError,
                             ),
                             const FilterSectionHeader(label: 'Sort by'),
                             RadioButtonsGroup<SortType>(
-                              key: ValueKey('sort_$resetKey'),
                               initialValue: _notifier.sortType,
                               values: const [SortType.name, SortType.price],
                               onTap: (value) => _notifier.sortType = value,
@@ -114,7 +119,6 @@ class _FilterComponentsState extends State<FilterComponents> {
                             ),
                             const FilterSectionHeader(label: 'Order by'),
                             RadioButtonsGroup<OrderType>(
-                              key: ValueKey('order_$resetKey'),
                               initialValue: _notifier.orderType,
                               values: const [OrderType.asc, OrderType.desc],
                               onTap: (value) => _notifier.orderType = value,
@@ -123,14 +127,15 @@ class _FilterComponentsState extends State<FilterComponents> {
                             ),
                             const SizedBox(height: AppSpacing.md),
                           ],
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                   ListenableBuilder(
                     listenable: _notifier,
                     builder: (context, _) => FilterApplyButton(
                       activeCount: _notifier.activeFilterCount,
+                      enabled: _notifier.isValid,
                       onPressed: () {
                         widget.onApply(
                           FilterData(

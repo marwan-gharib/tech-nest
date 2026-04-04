@@ -40,6 +40,7 @@ class CartItemCard extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(_borderRadius),
             child: CachedNetworkImage(
+              filterQuality: FilterQuality.high,
               imageUrl: Endpoints.baseUrl + cartItem.product.imgUrl,
               memCacheHeight: 300,
               memCacheWidth: 300,

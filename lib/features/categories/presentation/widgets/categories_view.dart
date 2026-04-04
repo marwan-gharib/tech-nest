@@ -31,6 +31,14 @@ class _CategoriesViewState extends State<CategoriesView> {
   }
 
   @override
+  void didUpdateWidget(covariant CategoriesView oldWidget) {
+    if (oldWidget.initialCategoryId != widget.initialCategoryId) {
+      _selectedCategoryNotifier.value = widget.initialCategoryId;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   void dispose() {
     _selectedCategoryNotifier.dispose();
     super.dispose();

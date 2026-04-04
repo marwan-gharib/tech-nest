@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/theme/app_text_styles.dart';
 
-class NoProductsFoundView extends StatelessWidget {
-  const NoProductsFoundView({super.key});
+class NoResultsFoundView extends StatelessWidget {
+  final String title;
+  final String message;
+  final IconData icon;
+
+  const NoResultsFoundView({
+    required this.title,
+    required this.message,
+    required this.icon,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +32,11 @@ class NoProductsFoundView extends StatelessWidget {
                 ),
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                Icons.search_off_rounded,
-                size: 80,
-                color: theme.colorScheme.primary,
-              ),
+              child: Icon(icon, size: 80, color: theme.colorScheme.primary),
             ),
             const SizedBox(height: AppSpacing.xl),
             Text(
-              "No Results Found",
+              title,
               textAlign: TextAlign.center,
               style: AppTextStyles.headlineMedium.copyWith(
                 fontWeight: FontWeight.w800,
@@ -40,7 +45,7 @@ class NoProductsFoundView extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              "We couldn't find any products matching your search. Try adjusting your filters or search keywords.",
+              message,
               textAlign: TextAlign.center,
               style: AppTextStyles.bodyMedium.copyWith(
                 color: theme.colorScheme.onSurfaceVariant.withValues(
