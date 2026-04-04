@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/shared/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/shared/widgets/custom_snack_bar.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/update_item_quantity_cubit/update_item_quantity_cubit.dart';
 
-class ChangeCartItemCount extends StatefulWidget {
+class ChangeCartItemCount extends StatelessWidget {
   final int cartId;
   final int initialCount;
 
@@ -15,35 +15,24 @@ class ChangeCartItemCount extends StatefulWidget {
   });
 
   @override
-  State<ChangeCartItemCount> createState() => _ChangeCartItemCountState();
-}
-
-class _ChangeCartItemCountState extends State<ChangeCartItemCount> {
-  late final ValueNotifier<int> _counterNotifier;
-
-  @override
-  void initState() {
-    super.initState();
-    _counterNotifier = ValueNotifier<int>(widget.initialCount);
-  }
-
-  @override
-  void dispose() {
-    _counterNotifier.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Row(
       spacing: 12,
       children: [
-        _buildCounterButton(context, icon: Icons.remove, onPressed: _decrement),
-        BlocConsumer<UpdateItemQuantityCubit, UpdateItemQuantityState>(
-          listener: _listener,
-          builder: _builder,
+        _buildCounterButton(
+          context,
+          icon: Icons.remove,
+          onPressed: () => _decrement(context),
         ),
-        _buildCounterButton(context, icon: Icons.add, onPressed: _increment),
+        BlocListener<UpdateItemQuantityCubit, UpdateItemQuantityState>(
+          listener: _listener,
+          child: BlocBuilder<CartCubit, CartState>(builder: _builder),
+        ),
+        _buildCounterButton(
+          context,
+          icon: Icons.add,
+          onPressed: () => _increment(context),
+        ),
       ],
     );
   }
@@ -67,9 +56,8 @@ class _ChangeCartItemCountState extends State<ChangeCartItemCount> {
 
   void _listener(BuildContext context, UpdateItemQuantityState state) {
     if (state is UpdateItemQuantitySuccess) {
-      _counterNotifier.value = state.updatedQuantity;
       context.read<CartCubit>().updateItemQuantityLocally(
-        id: widget.cartId,
+        id: cartId,
         quantity: state.updatedQuantity,
       );
     } else if (state is UpdateItemQuantityFailed) {
@@ -77,45 +65,54 @@ class _ChangeCartItemCountState extends State<ChangeCartItemCount> {
     }
   }
 
-  Widget _builder(BuildContext context, UpdateItemQuantityState state) {
-    return ValueListenableBuilder<int>(
-      valueListenable: _counterNotifier,
-      builder: (context, counter, _) {
-        return Text(
-          "$counter",
-          style: Theme.of(context).textTheme.labelLarge!.copyWith(
-            fontSize: 15,
-            color: Theme.of(context).shadowColor,
-          ),
-        );
-      },
+  Widget _builder(BuildContext context, CartState state) {
+    if (state is! CartLoaded) {
+      return const SizedBox();
+    }
+
+    final item = state.cart.items.firstWhere((item) => item.id == cartId);
+
+    return Text(
+      "${item.quantity}",
+      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+        fontSize: 15,
+        color: Theme.of(context).shadowColor,
+      ),
     );
   }
 
-  void _decrement() async {
-    if (context.read<UpdateItemQuantityCubit>().state
-        is UpdateItemQuantityLoading) {
-      return;
-    }
+  void _decrement(BuildContext context) async {
+    final cartCubit = context.read<CartCubit>();
+    final updateCubit = context.read<UpdateItemQuantityCubit>();
 
-    if (_counterNotifier.value > 1) {
-      final newQuantity = _counterNotifier.value - 1;
-      await context.read<UpdateItemQuantityCubit>().updateQuantity(
-        cartId: widget.cartId,
+    if (updateCubit.state is UpdateItemQuantityLoading) return;
+
+    final cartState = cartCubit.state;
+    if (cartState is! CartLoaded) return;
+
+    final currentItem = cartState.cart.items.firstWhere((item) => item.id == cartId);
+    if (currentItem.quantity > 1) {
+      final newQuantity = currentItem.quantity - 1;
+      await updateCubit.updateQuantity(
+        cartId: cartId,
         updatedQuantity: newQuantity,
       );
     }
   }
 
-  void _increment() async {
-    if (context.read<UpdateItemQuantityCubit>().state
-        is UpdateItemQuantityLoading) {
-      return;
-    }
+  void _increment(BuildContext context) async {
+    final cartCubit = context.read<CartCubit>();
+    final updateCubit = context.read<UpdateItemQuantityCubit>();
 
-    final newQuantity = _counterNotifier.value + 1;
-    await context.read<UpdateItemQuantityCubit>().updateQuantity(
-      cartId: widget.cartId,
+    if (updateCubit.state is UpdateItemQuantityLoading) return;
+
+    final cartState = cartCubit.state;
+    if (cartState is! CartLoaded) return;
+
+    final currentItem = cartState.cart.items.firstWhere((item) => item.id == cartId);
+    final newQuantity = currentItem.quantity + 1;
+    await updateCubit.updateQuantity(
+      cartId: cartId,
       updatedQuantity: newQuantity,
     );
   }

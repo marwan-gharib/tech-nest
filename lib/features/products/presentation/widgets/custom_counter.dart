@@ -58,38 +58,38 @@ class _CustomCounterState extends State<CustomCounter> {
 
     return Stack(
       children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          spacing: AppSpacing.md,
-          children: [
-            CounterButton(
-              icon: Icons.remove_rounded,
-              onPressed: _decrement,
-              isEnabled: widget.maxCount > 0 && _counter.value > 1,
-            ),
             ValueListenableBuilder<int>(
               valueListenable: _counter,
               builder: (context, value, _) {
-                return SizedBox(
-                  width: 24,
-                  child: Text(
-                    "$value",
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.onSurface,
+                return Row(
+                  mainAxisSize: MainAxisSize.min,
+                  spacing: AppSpacing.md,
+                  children: [
+                    CounterButton(
+                      icon: Icons.remove_rounded,
+                      onPressed: _decrement,
+                      isEnabled: widget.maxCount > 0 && value > 1,
                     ),
-                  ),
+                    SizedBox(
+                      width: 24,
+                      child: Text(
+                        "$value",
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: colorScheme.onSurface,
+                        ),
+                      ),
+                    ),
+                    CounterButton(
+                      icon: Icons.add_rounded,
+                      onPressed: _increment,
+                      isEnabled: widget.maxCount > 0 && value < widget.maxCount,
+                    ),
+                  ],
                 );
               },
             ),
-            CounterButton(
-              icon: Icons.add_rounded,
-              onPressed: _increment,
-              isEnabled: widget.maxCount > 0 && _counter.value < widget.maxCount,
-            ),
-          ],
-        ),
         if (widget.maxCount == 0)
           Positioned.fill(
             child: Align(

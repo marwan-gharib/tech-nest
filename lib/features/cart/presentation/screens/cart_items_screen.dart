@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/routing/routes.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/shared/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/shared/utils/logger.dart';
 import 'package:tech_nest/core/shared/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/shared/widgets/remote_data_failure_view.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_item_card.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_items_skeleton_list.dart';
+import 'package:tech_nest/features/cart/presentation/widgets/empty_cart_widget.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/order_summary.dart';
 
 class CartItemsScreen extends StatefulWidget {
@@ -80,7 +79,7 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
       ),
       CartLoaded(:final cart) =>
         cart.items.isEmpty
-            ? _buildEmptyCartUI(context)
+            ? const EmptyCartWidget()
             : ListView.builder(
                 itemCount: cart.items.length,
                 padding: const EdgeInsets.only(
@@ -94,54 +93,5 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
                 },
               ),
     };
-  }
-
-  Widget _buildEmptyCartUI(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(AppSpacing.xl),
-            decoration: BoxDecoration(
-              color: colorScheme.primary.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.shopping_basket_outlined,
-              size: 80,
-              color: colorScheme.primary,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.lg),
-          Text(
-            "Your cart is empty",
-            style: theme.textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: colorScheme.onSurface,
-            ),
-          ),
-          const SizedBox(height: AppSpacing.xs),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-            child: Text(
-              "Looks like you haven't added anything to your cart yet. Explore our products and find something you love!",
-              textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.hintColor,
-              ),
-            ),
-          ),
-          const SizedBox(height: AppSpacing.xl),
-          ElevatedButton(
-            onPressed: () => context.go(Routes.homeScreenPath),
-            child: const Text("Start Shopping"),
-          ),
-        ],
-      ),
-    );
   }
 }

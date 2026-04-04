@@ -5,12 +5,12 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/routing/routes.dart';
+import 'package:tech_nest/core/shared/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/shared/widgets/build_price.dart';
 import 'package:tech_nest/core/shared/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductEntity product;
@@ -109,7 +109,8 @@ class ProductCard extends StatelessWidget {
     if (currentLocation.contains(Routes.productDetailsScreen)) return;
 
     context.push(
-      '$currentLocation/${Routes.productDetailsScreen}/${product.id}',
+      '$currentLocation/${Routes.productDetailsScreen}',
+      extra: product,
     );
   }
 

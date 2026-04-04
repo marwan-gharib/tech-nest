@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/shared/domain/entities/category_entity.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
@@ -53,6 +54,17 @@ class CategoryCard extends StatelessWidget {
                 width: _imageSize,
                 height: _imageSize,
                 fit: BoxFit.fill,
+                placeholder: (context, url) => SpinKitWaveSpinner(
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 40,
+                ),
+                errorWidget: (context, url, error) => Container(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  child: Icon(
+                    Icons.broken_image_outlined,
+                    color: Theme.of(context).colorScheme.outline,
+                  ),
+                ),
               ),
             ),
             Expanded(
