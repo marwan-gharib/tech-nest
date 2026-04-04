@@ -1,6 +1,6 @@
 import 'package:tech_nest/core/constants/api_keys.dart';
+import 'package:tech_nest/core/shared/domain/entities/cart_entity.dart';
 import 'package:tech_nest/features/cart/data/models/cart_item_model.dart';
-import 'package:tech_nest/features/cart/domain/entities/cart_entity.dart';
 
 class CartModel {
   final List<CartItemModel> items;

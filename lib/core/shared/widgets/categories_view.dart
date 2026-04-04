@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:tech_nest/core/shared/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/core/shared/domain/entities/category_entity.dart';
+import 'package:tech_nest/core/shared/widgets/category_label_widget.dart';
 import 'package:tech_nest/core/shared/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
-import 'package:tech_nest/features/categories/presentation/widgets/category_label_widget.dart';
 
 class CategoriesView extends StatefulWidget {
   final int? initialCategoryId;

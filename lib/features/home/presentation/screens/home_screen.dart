@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/shared/cubits/fetch_products_cubit/fetch_products_cubit.dart';
+import 'package:tech_nest/core/shared/models/filter_data.dart';
+import 'package:tech_nest/core/shared/widgets/move_to_first_scroll_position_widget.dart';
+import 'package:tech_nest/core/shared/widgets/products_grid.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_components.dart';
 import 'package:tech_nest/features/home/presentation/widgets/home_app_bar.dart';
-import 'package:tech_nest/features/products/presentation/widgets/move_to_first_scroll_position_widget.dart';
-import 'package:tech_nest/features/products/presentation/widgets/products_grid.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

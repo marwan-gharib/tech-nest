@@ -16,5 +16,4 @@ abstract class AuthRepository {
     required ResetPasswordParams params,
   });
   Future<Either<Failure, void>> forgetPassword({required String email});
-  Future<Either<Failure, void>> logout();
 }

@@ -1,13 +1,14 @@
 import 'package:get_it/get_it.dart';
 import 'package:tech_nest/core/local/secure/secure_storage_client.dart';
 import 'package:tech_nest/core/network/api_client.dart';
+import 'package:tech_nest/core/shared/domain/repositories/auth_session_repository.dart';
+import 'package:tech_nest/core/shared/domain/usecases/logout_usecase.dart';
 import 'package:tech_nest/features/auth/data/datasources/local/auth_local_data_source.dart';
 import 'package:tech_nest/features/auth/data/datasources/remote/auth_remote_data_source.dart';
 import 'package:tech_nest/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:tech_nest/features/auth/domain/repositories/auth_repository.dart';
 import 'package:tech_nest/features/auth/domain/usecases/forget_password_usecase.dart';
 import 'package:tech_nest/features/auth/domain/usecases/login_usecase.dart';
-import 'package:tech_nest/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:tech_nest/features/auth/domain/usecases/reset_password_usecase.dart';
 import 'package:tech_nest/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:tech_nest/features/auth/domain/usecases/verify_email_usecase.dart';
@@ -19,10 +20,23 @@ import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/v
 
 void initAuthDI(GetIt sl) {
   sl.registerLazySingleton(() => AuthRemoteDatasource(sl<ApiClient>()));
-  sl.registerLazySingleton(() => AuthLocalDatasource(sl<SecureStorageClient>()));
+  sl.registerLazySingleton(
+    () => AuthLocalDatasource(sl<SecureStorageClient>()),
+  );
+
+  sl.registerLazySingleton<AuthRepositorysitoryImpl>(
+    () => AuthRepositorysitoryImpl(
+      sl<AuthRemoteDatasource>(),
+      sl<AuthLocalDatasource>(),
+    ),
+  );
+
+  sl.registerLazySingleton<AuthSessionRepository>(
+    () => sl<AuthRepositorysitoryImpl>(),
+  );
 
   sl.registerLazySingleton<AuthRepository>(
-    () => AuthRepositorysitoryImpl(sl<AuthRemoteDatasource>(), sl<AuthLocalDatasource>()),
+    () => sl<AuthRepositorysitoryImpl>(),
   );
 
   /***************usecases*************/
@@ -31,7 +45,7 @@ void initAuthDI(GetIt sl) {
   sl.registerLazySingleton(() => VerifyEmailUsecase(sl<AuthRepository>()));
   sl.registerLazySingleton(() => ResetPasswordUsecase(sl<AuthRepository>()));
   sl.registerLazySingleton(() => ForgetPasswordUsecase(sl<AuthRepository>()));
-  sl.registerLazySingleton(() => LogoutUsecase(sl<AuthRepository>()));
+  sl.registerLazySingleton(() => LogoutUsecase(sl<AuthSessionRepository>()));
 
   /***************cubits*************/
   sl.registerFactory(() => LoginCubit(sl<LoginUsecase>()));

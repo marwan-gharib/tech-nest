@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/shared/domain/params/products_params.dart';
-import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
-import 'package:tech_nest/features/products/domain/usecases/get_products_usecase.dart';
+import 'package:tech_nest/core/shared/domain/usecases/get_products_usecase.dart';
+import 'package:tech_nest/core/shared/models/filter_data.dart';
 
 part 'fetch_products_state.dart';
 
@@ -28,7 +28,8 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
           products: products,
           hasReachedMax: products.length < _params.limit!,
           isSearchApplied: _params.search?.isNotEmpty == true,
-          isFilterApplied: _params.categoryId != null ||
+          isFilterApplied:
+              _params.categoryId != null ||
               _params.minPrice != null ||
               _params.maxPrice != null ||
               _params.sortType != null ||
@@ -77,7 +78,8 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
     emit(const FetchProductsLoading());
     await _emitStateOfUsecase(
       isSearchValue: _params.search?.isNotEmpty == true,
-      isFilterValue: _params.categoryId != null ||
+      isFilterValue:
+          _params.categoryId != null ||
           _params.minPrice != null ||
           _params.maxPrice != null,
     );
@@ -92,7 +94,8 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
     emit(const FetchProductsLoading());
     await _emitStateOfUsecase(
       isSearchValue: _params.search?.isNotEmpty == true,
-      isFilterValue: true, // If applyFilters is called, we assume a filter is applied
+      isFilterValue:
+          true, // If applyFilters is called, we assume a filter is applied
     );
   }
 

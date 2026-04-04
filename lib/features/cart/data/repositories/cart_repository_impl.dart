@@ -1,19 +1,20 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:tech_nest/core/shared/domain/params/add_to_cart_params.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/core/error/mappers/error_mapper.dart';
+import 'package:tech_nest/core/shared/domain/entities/cart_entity.dart';
+import 'package:tech_nest/core/shared/domain/entities/cart_item_entity.dart';
+import 'package:tech_nest/core/shared/domain/params/add_to_cart_params.dart';
+import 'package:tech_nest/core/shared/domain/repositories/cart_shared_repository.dart';
 import 'package:tech_nest/features/cart/data/datasources/remote/cart_remote_data_source.dart';
-import 'package:tech_nest/features/cart/domain/entities/cart_entity.dart';
-import 'package:tech_nest/features/cart/domain/entities/cart_item_entity.dart';
 import 'package:tech_nest/features/cart/domain/params/update_item_quantity_params.dart';
 import 'package:tech_nest/features/cart/domain/repositories/cart_repository.dart';
 
-class CartRepositorysitoryImpl extends CartRepository {
+class CartRepositoryImpl implements CartRepository, CartSharedRepository {
   final CartRemoteDatasource _dataSource;
 
-  CartRepositorysitoryImpl(this._dataSource);
+  CartRepositoryImpl(this._dataSource);
 
   @override
   Future<Either<Failure, CartItem>> addToCart({

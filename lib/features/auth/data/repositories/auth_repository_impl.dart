@@ -3,6 +3,7 @@ import 'package:tech_nest/core/error/exceptions/exceptions.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/core/error/mappers/error_mapper.dart';
+import 'package:tech_nest/core/shared/domain/repositories/auth_session_repository.dart';
 import 'package:tech_nest/features/auth/data/datasources/local/auth_local_data_source.dart';
 import 'package:tech_nest/features/auth/data/datasources/remote/auth_remote_data_source.dart';
 import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
@@ -12,14 +13,17 @@ import 'package:tech_nest/features/auth/domain/params/sign_up_params.dart';
 import 'package:tech_nest/features/auth/domain/params/verification_email_params.dart';
 import 'package:tech_nest/features/auth/domain/repositories/auth_repository.dart';
 
-class AuthRepositorysitoryImpl extends AuthRepository {
+class AuthRepositorysitoryImpl
+    implements AuthRepository, AuthSessionRepository {
   final AuthRemoteDatasource _remoteDataSource;
   final AuthLocalDatasource _localDataSource;
 
   AuthRepositorysitoryImpl(this._remoteDataSource, this._localDataSource);
 
   @override
-  Future<Either<Failure, UserEntity>> login({required LoginParams params}) async {
+  Future<Either<Failure, UserEntity>> login({
+    required LoginParams params,
+  }) async {
     try {
       final model = await _remoteDataSource.login(params: params);
       await _localDataSource.saveToken(model.token);
@@ -45,7 +49,9 @@ class AuthRepositorysitoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> signUp({required SignUpParams params}) async {
+  Future<Either<Failure, UserEntity>> signUp({
+    required SignUpParams params,
+  }) async {
     try {
       final model = await _remoteDataSource.signUp(params: params);
       return Right(model.toEntity());
@@ -57,7 +63,9 @@ class AuthRepositorysitoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserEntity>> verifyEmail({required VerificationEmailParams params}) async {
+  Future<Either<Failure, UserEntity>> verifyEmail({
+    required VerificationEmailParams params,
+  }) async {
     try {
       final model = await _remoteDataSource.verifyEmail(params: params);
       await _localDataSource.saveToken(model.token);
@@ -70,7 +78,9 @@ class AuthRepositorysitoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, void>> resetPassword({required ResetPasswordParams params}) async {
+  Future<Either<Failure, void>> resetPassword({
+    required ResetPasswordParams params,
+  }) async {
     try {
       await _remoteDataSource.resetPassword(params: params);
       return const Right(null);

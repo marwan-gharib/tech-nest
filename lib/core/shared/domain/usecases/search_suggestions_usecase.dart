@@ -1,9 +1,9 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
-import 'package:tech_nest/features/products/domain/repositories/products_repository.dart';
+import 'package:tech_nest/core/shared/domain/repositories/products_shared_repository.dart';
 
 class SearchSuggestionsUsecase {
-  final ProductsRepository _repo;
+  final ProductsSharedRepository _repo;
 
   SearchSuggestionsUsecase(this._repo);
 
