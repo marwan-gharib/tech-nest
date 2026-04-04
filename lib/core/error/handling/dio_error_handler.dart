@@ -31,10 +31,6 @@ class DioExceptions {
   }
 
   static Never _handleHttpError(DioException e) {
-    // Note: Because we need async to check secure storage, 
-    // throwing synchronously is tricky. But since AuthInterceptor 
-    // handles token clearing, we can just throw UnAuthorizedException here.
-    // If the backend threw 401, it is an UnAuthorizedException.
     final statusCode = e.response?.statusCode;
     final responseData = e.response?.data;
     String? errorMessage;

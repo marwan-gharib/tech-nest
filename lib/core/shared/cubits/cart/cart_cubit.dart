@@ -44,25 +44,27 @@ class CartCubit extends Cubit<CartState> {
         emit(latest.copyWith(isMutating: false, mutationFailure: failure));
       },
       (newCartItem) {
-        final baseline = currentState;
-        final currentItems = List.of(baseline.cart.items);
+        final latest = state;
+        if (latest is! CartLoaded) return;
+
+        final currentItems = List.of(latest.cart.items);
 
         final index = currentItems.indexWhere(
           (item) => item.product.id == newCartItem.product.id,
         );
 
         if (index != -1) {
-          final oldItem = currentItems[index];
-          currentItems[index] = oldItem.copyWith(
-            quantity: oldItem.quantity + newCartItem.quantity,
+          currentItems[index] = currentItems[index].copyWith(
+            quantity: newCartItem.quantity,
           );
         } else {
           currentItems.add(newCartItem);
         }
 
-        final updatedCart = baseline.cart.recalculate(currentItems);
+        final updatedCart = latest.cart.recalculate(currentItems);
+
         emit(
-          baseline.copyWith(
+          latest.copyWith(
             cart: updatedCart,
             isMutating: false,
             clearMutationError: true,

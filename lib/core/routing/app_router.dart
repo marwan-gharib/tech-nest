@@ -4,19 +4,20 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
+import 'package:tech_nest/core/shared/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/shared/utils/logger.dart';
+import 'package:tech_nest/core/shared/widgets/demo_screen.dart';
 import 'package:tech_nest/features/app_shell/presentation/app_shell_entry.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/screens/login_screen.dart';
 import 'package:tech_nest/features/auth/presentation/screens/sign_up_screen.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/screens/cart_items_screen.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/screens/categories_screen.dart';
-import 'package:tech_nest/core/shared/widgets/demo_screen.dart';
 import 'package:tech_nest/features/home/presentation/screens/home_screen.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';
@@ -87,9 +88,9 @@ class AppRouter {
   );
 
   static final _productdetailsRouter = GoRoute(
-    path: '${Routes.productDetailsScreen}/:id',
+    path: Routes.productDetailsScreen,
     builder: (context, state) =>
-        ProductDetailsScreen(productId: int.parse(state.pathParameters['id']!)),
+        ProductDetailsScreen(product: state.extra as ProductEntity),
   );
 
   static final _homeScreenRouter = GoRoute(

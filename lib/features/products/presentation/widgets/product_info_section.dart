@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/shared/widgets/build_price.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/products/presentation/widgets/custom_counter.dart';
 
 class ProductInfoSection extends StatelessWidget {
@@ -47,7 +47,7 @@ class ProductInfoSection extends StatelessWidget {
                     : "Out of Stock",
                 style: theme.textTheme.labelMedium?.copyWith(
                   color: product.stock > 0
-                      ? theme.colorScheme.secondary
+                      ? theme.colorScheme.tertiary
                       : theme.colorScheme.error,
                   fontWeight: FontWeight.w600,
                 ),
@@ -55,10 +55,7 @@ class ProductInfoSection extends StatelessWidget {
             ],
           ),
         ),
-        CustomCounter(
-          maxCount: product.stock,
-          onChanged: onQuantityChanged,
-        ),
+        CustomCounter(maxCount: product.stock, onChanged: onQuantityChanged),
       ],
     );
   }

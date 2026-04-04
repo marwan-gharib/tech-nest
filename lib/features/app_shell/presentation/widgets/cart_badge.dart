@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/shared/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 
 class CartBadge extends StatelessWidget {
   const CartBadge({super.key});
