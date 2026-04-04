@@ -7,10 +7,12 @@ import 'package:tech_nest/core/theme/app_text_styles.dart';
 class CustomPriceField extends StatefulWidget {
   final TextEditingController controller;
   final String label;
+  final String? errorText;
 
   const CustomPriceField({
     required this.controller,
     required this.label,
+    this.errorText,
     super.key,
   });
 
@@ -40,65 +42,88 @@ class _CustomPriceFieldState extends State<CustomPriceField> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isError = widget.errorText != null;
 
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppRadius.lg),
-        border: Border.all(
-          color: _isFocused
-              ? theme.colorScheme.primary
-              : theme.colorScheme.outlineVariant.withValues(alpha: 0.4),
-          width: _isFocused ? 1.5 : 1.0,
-        ),
-        color: _isFocused
-            ? theme.colorScheme.primary.withValues(alpha: 0.04)
-            : theme.colorScheme.surfaceContainerLow.withValues(alpha: 0.5),
-        boxShadow: _isFocused
-            ? [
-                BoxShadow(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                  blurRadius: 8,
-                  offset: const Offset(0, 3),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppRadius.lg),
+            border: Border.all(
+              color: isError
+                  ? theme.colorScheme.error
+                  : _isFocused
+                      ? theme.colorScheme.primary
+                      : theme.colorScheme.outlineVariant.withValues(alpha: 0.4),
+              width: _isFocused || isError ? 1.5 : 1.0,
+            ),
+            color: isError
+                ? theme.colorScheme.error.withValues(alpha: 0.04)
+                : _isFocused
+                    ? theme.colorScheme.primary.withValues(alpha: 0.04)
+                    : theme.colorScheme.surfaceContainerLow.withValues(alpha: 0.5),
+            boxShadow: _isFocused && !isError
+                ? [
+                    BoxShadow(
+                      color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 3),
+                    ),
+                  ]
+                : null,
+          ),
+          child: TextField(
+            controller: widget.controller,
+            focusNode: _focusNode,
+            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+            cursorColor: isError ? theme.colorScheme.error : theme.colorScheme.primary,
+            keyboardType: const TextInputType.numberWithOptions(decimal: false),
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.only(left: AppSpacing.md, right: AppSpacing.sm),
+                child: Text(
+                  '\$',
+                  style: AppTextStyles.bodyLarge.copyWith(
+                    color: isError
+                        ? theme.colorScheme.error
+                        : _isFocused
+                            ? theme.colorScheme.primary
+                            : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ]
-            : null,
-      ),
-      child: TextField(
-        controller: widget.controller,
-        focusNode: _focusNode,
-        onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-        cursorColor: theme.colorScheme.primary,
-        keyboardType: const TextInputType.numberWithOptions(decimal: false),
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: AppSpacing.md, right: AppSpacing.sm),
-            child: Text(
-              '\$',
-              style: AppTextStyles.bodyLarge.copyWith(
-                color: _isFocused
-                    ? theme.colorScheme.primary
-                    : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
-                fontWeight: FontWeight.w600,
+              ),
+              prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+              hintText: widget.label,
+              hintStyle: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: AppSpacing.md,
+                horizontal: AppSpacing.sm,
               ),
             ),
           ),
-          prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
-          hintText: widget.label,
-          hintStyle: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-            vertical: AppSpacing.md,
-            horizontal: AppSpacing.sm,
-          ),
         ),
-      ),
+        if (isError)
+          Padding(
+            padding: const EdgeInsets.only(top: AppSpacing.xs, left: AppSpacing.xs),
+            child: Text(
+              widget.errorText!,
+              style: theme.textTheme.labelSmall?.copyWith(
+                color: theme.colorScheme.error,
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

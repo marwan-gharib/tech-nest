@@ -29,14 +29,16 @@ final class FetchProductsLoaded extends FetchProductsState {
   final bool isLoadingMore;
   final bool hasReachedMax;
   final Failure? loadMoreFailure;
-  final bool isSearchApplied; // New flag to track if search is applied
+  final bool isSearchApplied;
+  final bool isFilterApplied;
 
   const FetchProductsLoaded({
     required this.products,
     this.isLoadingMore = false,
     this.hasReachedMax = false,
     this.loadMoreFailure,
-    this.isSearchApplied = false, // Default to false
+    this.isSearchApplied = false,
+    this.isFilterApplied = false,
   });
 
   FetchProductsLoaded copyWith({
@@ -44,7 +46,8 @@ final class FetchProductsLoaded extends FetchProductsState {
     bool? isLoadingMore,
     bool? hasReachedMax,
     Failure? loadMoreFailure,
-    bool? isSearchApplied, // Add to copyWith
+    bool? isSearchApplied,
+    bool? isFilterApplied,
     bool clearLoadMoreError = false,
   }) {
     return FetchProductsLoaded(
@@ -54,7 +57,8 @@ final class FetchProductsLoaded extends FetchProductsState {
       loadMoreFailure: clearLoadMoreError
           ? null
           : (loadMoreFailure ?? this.loadMoreFailure),
-      isSearchApplied: isSearchApplied ?? this.isSearchApplied, // Copy flag
+      isSearchApplied: isSearchApplied ?? this.isSearchApplied,
+      isFilterApplied: isFilterApplied ?? this.isFilterApplied,
     );
   }
 
@@ -64,6 +68,7 @@ final class FetchProductsLoaded extends FetchProductsState {
     isLoadingMore,
     hasReachedMax,
     loadMoreFailure,
-    isSearchApplied, // Include in props
+    isSearchApplied,
+    isFilterApplied,
   ];
 }

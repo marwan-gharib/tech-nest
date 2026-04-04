@@ -48,9 +48,10 @@ class ProductCard extends StatelessWidget {
                   top: Radius.circular(AppRadius.lg),
                 ),
                 child: CachedNetworkImage(
+                  filterQuality: FilterQuality.high,
                   fit: BoxFit.cover,
-                  memCacheHeight: 400,
-                  memCacheWidth: 400,
+                  memCacheHeight: 300,
+                  memCacheWidth: 300,
                   imageUrl: "${Endpoints.baseUrl}${product.imgUrl}",
                   placeholder: (context, url) =>
                       SpinKitWaveSpinner(color: colorScheme.primary, size: 40),

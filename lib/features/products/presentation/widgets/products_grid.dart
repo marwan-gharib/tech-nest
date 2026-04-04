@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/shared/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/core/shared/utils/extensions/localization_extension.dart';
+import 'package:tech_nest/core/shared/widgets/no_results_found_view.dart';
 import 'package:tech_nest/core/shared/widgets/product_card.dart';
 import 'package:tech_nest/core/shared/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/core/shared/widgets/skeleton_card.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
-import 'package:tech_nest/features/products/presentation/widgets/no_products_found_view.dart';
 
 class ProductsGrid extends StatelessWidget {
   const ProductsGrid({super.key});
@@ -35,10 +35,26 @@ class ProductsGrid extends StatelessWidget {
             );
 
           case FetchProductsLoaded():
-            if (state.isSearchApplied && state.products.isEmpty) {
+            if ((state.isSearchApplied) && state.products.isEmpty) {
               return const SliverFillRemaining(
                 hasScrollBody: false,
-                child: NoProductsFoundView(),
+                child: NoResultsFoundView(
+                  title: "No Results Found",
+                  message:
+                      "We couldn't find any products matching your search. Try adjusting your search keywords.",
+                  icon: Icons.search_off_rounded,
+                ),
+              );
+            }
+            if ((state.isFilterApplied) && state.products.isEmpty) {
+              return const SliverFillRemaining(
+                hasScrollBody: false,
+                child: NoResultsFoundView(
+                  title: "No Results Found",
+                  message:
+                      "We couldn't find any products matching your filters. Try adjusting your filters.",
+                  icon: Icons.filter_alt_off_rounded,
+                ),
               );
             }
             return SliverMainAxisGroup(
