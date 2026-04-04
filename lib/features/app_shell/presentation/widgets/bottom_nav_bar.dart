@@ -58,11 +58,6 @@ class BottomNavBar extends StatelessWidget {
             activeIcon: Icon(Icons.settings_rounded),
             label: "Settings",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            activeIcon: Icon(Icons.person_rounded),
-            label: "Profile",
-          ),
         ],
       ),
     );
