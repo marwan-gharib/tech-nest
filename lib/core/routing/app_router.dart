@@ -5,6 +5,7 @@ import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/shared/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/core/shared/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/shared/utils/logger.dart';
 import 'package:tech_nest/core/shared/widgets/demo_screen.dart';
@@ -19,7 +20,6 @@ import 'package:tech_nest/features/categories/presentation/cubits/category_produ
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/screens/categories_screen.dart';
 import 'package:tech_nest/features/home/presentation/screens/home_screen.dart';
-import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';
 
 class AppRouter {

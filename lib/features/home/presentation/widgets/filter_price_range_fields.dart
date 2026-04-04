@@ -6,10 +6,14 @@ import 'package:tech_nest/features/home/presentation/widgets/custom_price_field.
 class FilterPriceRangeFields extends StatelessWidget {
   final TextEditingController minPrice;
   final TextEditingController maxPrice;
+  final String? minPriceError;
+  final String? maxPriceError;
 
   const FilterPriceRangeFields({
     required this.minPrice,
     required this.maxPrice,
+    this.minPriceError,
+    this.maxPriceError,
     super.key,
   });
 
@@ -20,16 +24,21 @@ class FilterPriceRangeFields extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: CustomPriceField(
               controller: minPrice,
               label: 'Min price',
+              errorText: minPriceError,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
+            padding: const EdgeInsets.only(
+              left: AppSpacing.sm,
+              right: AppSpacing.sm,
+              top: 20, // Align dash with input center
+            ),
             child: Text(
               '—',
               style: AppTextStyles.bodyLarge.copyWith(
@@ -42,6 +51,7 @@ class FilterPriceRangeFields extends StatelessWidget {
             child: CustomPriceField(
               controller: maxPrice,
               label: 'Max price',
+              errorText: maxPriceError,
             ),
           ),
         ],

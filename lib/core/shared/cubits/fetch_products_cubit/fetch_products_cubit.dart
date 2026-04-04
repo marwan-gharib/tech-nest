@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/shared/domain/params/products_params.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
-import 'package:tech_nest/core/shared/utils/logger.dart';
 import 'package:tech_nest/features/home/presentation/models/filter_data.dart';
 import 'package:tech_nest/features/products/domain/usecases/get_products_usecase.dart';
 
@@ -28,8 +27,12 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
         FetchProductsLoaded(
           products: products,
           hasReachedMax: products.length < _params.limit!,
-          isSearchApplied:
-              _params.search?.isNotEmpty == true, // Set flag based on search
+          isSearchApplied: _params.search?.isNotEmpty == true,
+          isFilterApplied: _params.categoryId != null ||
+              _params.minPrice != null ||
+              _params.maxPrice != null ||
+              _params.sortType != null ||
+              _params.orderType != null,
         ),
       ),
     );
@@ -39,8 +42,6 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
     final current = state;
     if (current is! FetchProductsLoaded) return;
     if (current.isLoadingMore || current.hasReachedMax) return;
-
-    AppLogger.log(_params.page.toString());
 
     emit(current.copyWith(isLoadingMore: true, clearLoadMoreError: true));
 
@@ -73,10 +74,13 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
 
   Future<void> search(String query) async {
     _params = _params.copyWith(search: query, page: 1);
-
     emit(const FetchProductsLoading());
-
-    await _emitStateOfUsecase(true);
+    await _emitStateOfUsecase(
+      isSearchValue: _params.search?.isNotEmpty == true,
+      isFilterValue: _params.categoryId != null ||
+          _params.minPrice != null ||
+          _params.maxPrice != null,
+    );
   }
 
   Future<void> applyFilters(FilterData filter) async {
@@ -85,21 +89,23 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
       limit: 10,
       page: 1,
     );
-
     emit(const FetchProductsLoading());
-
-    await _emitStateOfUsecase(_params.search?.isNotEmpty == true);
+    await _emitStateOfUsecase(
+      isSearchValue: _params.search?.isNotEmpty == true,
+      isFilterValue: true, // If applyFilters is called, we assume a filter is applied
+    );
   }
 
   Future<void> refresh() async {
     _params = ProductsParams(page: 1, limit: 10);
-
     emit(const FetchProductsLoading());
-
-    await _emitStateOfUsecase(false);
+    await _emitStateOfUsecase(isSearchValue: false, isFilterValue: false);
   }
 
-  Future<void> _emitStateOfUsecase(bool isSearchAppliedValue) async {
+  Future<void> _emitStateOfUsecase({
+    required bool isSearchValue,
+    required bool isFilterValue,
+  }) async {
     final res = await _getProductsUsecase.call(params: _params);
 
     res.fold(
@@ -108,7 +114,8 @@ class FetchProductsCubit extends Cubit<FetchProductsState> {
         FetchProductsLoaded(
           products: products,
           hasReachedMax: products.length < _params.limit!,
-          isSearchApplied: isSearchAppliedValue,
+          isSearchApplied: isSearchValue,
+          isFilterApplied: isFilterValue,
         ),
       ),
     );

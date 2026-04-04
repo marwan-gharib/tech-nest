@@ -29,8 +29,8 @@ class ApiKeys {
   static String get page => "page";
   static String get products => "products";
   static String get search => "search";
-  static String get minPrice => "minPrice";
-  static String get maxPrice => "maxPrice";
+  static String get minPrice => "min_price";
+  static String get maxPrice => "max_price";
   static String get sort => "sort";
   static String get order => "order";
   static String get searchQuery => "search_query";

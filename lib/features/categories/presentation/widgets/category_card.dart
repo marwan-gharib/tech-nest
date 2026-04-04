@@ -50,9 +50,12 @@ class CategoryCard extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(100),
               child: CachedNetworkImage(
+                filterQuality: FilterQuality.high,
                 imageUrl: Endpoints.baseUrl + category.imgUrl,
                 width: _imageSize,
                 height: _imageSize,
+                memCacheHeight: 300,
+                memCacheWidth: 300,
                 fit: BoxFit.fill,
                 placeholder: (context, url) => SpinKitWaveSpinner(
                   color: Theme.of(context).colorScheme.primary,

@@ -14,6 +14,9 @@ class ProductHeroImage extends StatelessWidget {
       width: double.infinity,
       height: MediaQuery.sizeOf(context).height * 0.45,
       child: CachedNetworkImage(
+        filterQuality: FilterQuality.high,
+        memCacheHeight: 300,
+        memCacheWidth: 300,
         imageUrl: Endpoints.baseUrl + product.imgUrl,
         fit: BoxFit.cover,
         placeholder: (context, url) => SpinKitWaveSpinner(

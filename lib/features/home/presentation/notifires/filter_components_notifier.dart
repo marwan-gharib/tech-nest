@@ -46,8 +46,6 @@ class FilterComponentsNotifier extends ChangeNotifier {
   late final TextEditingController minPrice;
   late final TextEditingController maxPrice;
 
-  final ValueNotifier<Key> resetNotifier = ValueNotifier(UniqueKey());
-
   int get activeFilterCount {
     int count = 0;
     if (_categoryId != null) count++;
@@ -58,13 +56,26 @@ class FilterComponentsNotifier extends ChangeNotifier {
     return count;
   }
 
+  String? get minPriceError => null;
+
+  String? get maxPriceError {
+    final min = int.tryParse(minPrice.text);
+    final max = int.tryParse(maxPrice.text);
+
+    if (min != null && max != null && max < min) {
+      return 'Max price must be greater than Min';
+    }
+    return null;
+  }
+
+  bool get isValid => maxPriceError == null;
+
   void reset() {
     _categoryId = null;
     _sortType = null;
     _orderType = null;
     minPrice.clear();
     maxPrice.clear();
-    resetNotifier.value = UniqueKey();
     notifyListeners();
   }
 
@@ -74,7 +85,6 @@ class FilterComponentsNotifier extends ChangeNotifier {
     _orderType = data.orderType;
     minPrice.text = data.minPrice?.toString() ?? '';
     maxPrice.text = data.maxPrice?.toString() ?? '';
-    resetNotifier.value = UniqueKey();
     notifyListeners();
   }
 
@@ -82,7 +92,6 @@ class FilterComponentsNotifier extends ChangeNotifier {
   void dispose() {
     minPrice.dispose();
     maxPrice.dispose();
-    resetNotifier.dispose();
     super.dispose();
   }
 }

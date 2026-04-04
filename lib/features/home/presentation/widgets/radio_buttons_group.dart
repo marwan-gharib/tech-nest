@@ -32,6 +32,14 @@ class _RadioButtonsGroupState<T> extends State<RadioButtonsGroup<T>> {
   }
 
   @override
+  void didUpdateWidget(covariant RadioButtonsGroup<T> oldWidget) {
+    if (oldWidget.initialValue != widget.initialValue) {
+      _selected = widget.initialValue;
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
