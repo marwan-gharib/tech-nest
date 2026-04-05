@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/shared/cubits/fetch_products_cubit/fetch_products_cubit.dart';
-import 'package:tech_nest/core/shared/models/filter_data.dart';
-import 'package:tech_nest/core/shared/widgets/move_to_first_scroll_position_widget.dart';
-import 'package:tech_nest/core/shared/widgets/products_grid.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
+import 'package:tech_nest/core/shared/presentation/models/filter_data.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/move_to_first_scroll_position_widget.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/products_grid.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_components.dart';
@@ -100,33 +100,41 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           ),
-          BlocSelector<FetchProductsCubit, FetchProductsState, bool>(
-            selector: (state) => state is FetchProductsLoaded,
-            builder: (context, isLoaded) {
-              return ValueListenableBuilder<bool>(
-                valueListenable: _showScrollToTop,
-                builder: (context, show, _) {
-                  if (!isLoaded || !show) {
-                    return const SizedBox.shrink();
-                  }
-
-                  return Positioned(
-                    bottom: 20,
-                    right: 20,
-                    child: MoveToFirstScrollPositionWidget(
-                      onTap: () => _scrollController.animateTo(
-                        0,
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
+          Positioned(
+            bottom: AppSpacing.xxl,
+            right: AppSpacing.md,
+            child: BlocSelector<FetchProductsCubit, FetchProductsState, bool>(
+              selector: (state) => state is FetchProductsLoaded,
+              builder: (context, isLoaded) {
+                return ValueListenableBuilder<bool>(
+                  valueListenable: _showScrollToTop,
+                  builder: (context, show, _) {
+                    return Visibility(
+                      visible: isLoaded && show,
+                      child: MoveToFirstScrollPositionWidget(
+                        onTap: _scrollToTop,
                       ),
-                    ),
-                  );
-                },
-              );
-            },
+                    );
+                  },
+                );
+              },
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  void _scrollToTop() {
+    final double currentOffset = _scrollController.offset;
+    final int durationMs = (500 + (currentOffset * 0.4))
+        .clamp(500, 3000)
+        .toInt();
+
+    _scrollController.animateTo(
+      0,
+      duration: Duration(milliseconds: durationMs),
+      curve: Curves.easeInOutCubic,
     );
   }
 

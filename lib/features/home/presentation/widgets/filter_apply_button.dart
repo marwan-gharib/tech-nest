@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/theme/app_text_styles.dart';
 
 class FilterApplyButton extends StatelessWidget {
   final int activeCount;
@@ -43,8 +42,12 @@ class FilterApplyButton extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: theme.colorScheme.primary,
               foregroundColor: theme.colorScheme.onPrimary,
-              disabledBackgroundColor: theme.colorScheme.onSurface.withValues(alpha: 0.12),
-              disabledForegroundColor: theme.colorScheme.onSurface.withValues(alpha: 0.38),
+              disabledBackgroundColor: theme.colorScheme.onSurface.withValues(
+                alpha: 0.12,
+              ),
+              disabledForegroundColor: theme.colorScheme.onSurface.withValues(
+                alpha: 0.38,
+              ),
               elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppRadius.xl),
@@ -62,7 +65,7 @@ class FilterApplyButton extends StatelessWidget {
                     activeCount > 0
                         ? 'Apply $activeCount Filter${activeCount == 1 ? '' : 's'}'
                         : 'Apply Filters',
-                    style: AppTextStyles.labelLarge.copyWith(
+                    style: theme.textTheme.labelLarge!.copyWith(
                       color: enabled
                           ? theme.colorScheme.onPrimary
                           : theme.colorScheme.onSurface.withValues(alpha: 0.38),

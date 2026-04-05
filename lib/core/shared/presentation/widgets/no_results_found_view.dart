@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/theme/app_text_styles.dart';
 
 class NoResultsFoundView extends StatelessWidget {
   final String title;
@@ -38,7 +37,7 @@ class NoResultsFoundView extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: AppTextStyles.headlineMedium.copyWith(
+              style: theme.textTheme.headlineMedium!.copyWith(
                 fontWeight: FontWeight.w800,
                 color: theme.colorScheme.onSurface,
               ),
@@ -47,7 +46,7 @@ class NoResultsFoundView extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: AppTextStyles.bodyMedium.copyWith(
+              style: theme.textTheme.bodyMedium!.copyWith(
                 color: theme.colorScheme.onSurfaceVariant.withValues(
                   alpha: 0.7,
                 ),

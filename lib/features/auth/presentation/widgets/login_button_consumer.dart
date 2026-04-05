@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/shared/utils/extensions/localization_extension.dart';
-import 'package:tech_nest/core/shared/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
 
@@ -22,9 +22,15 @@ class LoginButtonConsumer extends StatelessWidget {
       listenWhen: (p, c) => c is LoginSuccess || c is LoginFailed,
       listener: (context, state) {
         if (state is LoginSuccess) {
-          authNotifier.login();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (context.mounted) {
+              authNotifier.login();
+            }
+          });
         } else if (state is LoginFailed) {
-          CustomSnackBar.showError(context, failure: state.failure);
+          if (context.mounted) {
+            CustomSnackBar.showError(context, failure: state.failure);
+          }
         }
       },
       builder: (context, state) {

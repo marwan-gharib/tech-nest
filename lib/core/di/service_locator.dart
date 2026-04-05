@@ -13,12 +13,12 @@ import 'package:tech_nest/core/network/interceptors/error_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/logging_interceptor.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/shared/data/datasources/local/user_local_datasource.dart';
-import 'package:tech_nest/core/shared/cubits/user_profile/user_profile_cubit.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/features/auth/di/auth_di.dart';
 import 'package:tech_nest/features/cart/di/cart_di.dart';
 import 'package:tech_nest/features/categories/di/categories_di.dart';
 import 'package:tech_nest/features/products/di/products_di.dart';
+import 'package:tech_nest/features/settings/di/settings_di.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -32,9 +32,6 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton<CacheService>(() => SharedPreferencesService(pref));
   sl.registerLazySingleton<UserLocalDataSource>(
     () => UserLocalDataSourceImpl(sl<CacheService>()),
-  );
-  sl.registerLazySingleton<UserProfileCubit>(
-    () => UserProfileCubit(sl<UserLocalDataSource>()),
   );
 
   sl.registerLazySingleton(() => AuthNotifier());
@@ -65,4 +62,5 @@ Future<void> initDependencies() async {
   initProductsDI(sl);
   initCategoriesDI(sl);
   initCartDI(sl);
+  initSettingsDI(sl);
 }

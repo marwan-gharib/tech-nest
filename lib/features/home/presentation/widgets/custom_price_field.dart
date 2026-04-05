@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/theme/app_text_styles.dart';
 
 class CustomPriceField extends StatefulWidget {
   final TextEditingController controller;
@@ -27,14 +26,16 @@ class _CustomPriceFieldState extends State<CustomPriceField> {
   @override
   void initState() {
     super.initState();
-    _focusNode = FocusNode()
-      ..addListener(() {
-        setState(() => _isFocused = _focusNode.hasFocus);
-      });
+    _focusNode = FocusNode()..addListener(_focusNodeListener);
+  }
+
+  void _focusNodeListener() {
+    setState(() => _isFocused = _focusNode.hasFocus);
   }
 
   @override
   void dispose() {
+    _focusNode.removeListener(_focusNodeListener);
     _focusNode.dispose();
     super.dispose();
   }
@@ -56,15 +57,15 @@ class _CustomPriceFieldState extends State<CustomPriceField> {
               color: isError
                   ? theme.colorScheme.error
                   : _isFocused
-                      ? theme.colorScheme.primary
-                      : theme.colorScheme.outlineVariant.withValues(alpha: 0.4),
+                  ? theme.colorScheme.primary
+                  : theme.colorScheme.outlineVariant.withValues(alpha: 0.4),
               width: _isFocused || isError ? 1.5 : 1.0,
             ),
             color: isError
                 ? theme.colorScheme.error.withValues(alpha: 0.04)
                 : _isFocused
-                    ? theme.colorScheme.primary.withValues(alpha: 0.04)
-                    : theme.colorScheme.surfaceContainerLow.withValues(alpha: 0.5),
+                ? theme.colorScheme.primary.withValues(alpha: 0.04)
+                : theme.colorScheme.surfaceContainerLow.withValues(alpha: 0.5),
             boxShadow: _isFocused && !isError
                 ? [
                     BoxShadow(
@@ -79,32 +80,46 @@ class _CustomPriceFieldState extends State<CustomPriceField> {
             controller: widget.controller,
             focusNode: _focusNode,
             onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-            cursorColor: isError ? theme.colorScheme.error : theme.colorScheme.primary,
+            cursorColor: isError
+                ? theme.colorScheme.error
+                : theme.colorScheme.primary,
             keyboardType: const TextInputType.numberWithOptions(decimal: false),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
+            style: theme.textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w500,
+            ),
             decoration: InputDecoration(
               border: InputBorder.none,
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,
               prefixIcon: Padding(
-                padding: const EdgeInsets.only(left: AppSpacing.md, right: AppSpacing.sm),
+                padding: const EdgeInsets.only(
+                  left: AppSpacing.md,
+                  right: AppSpacing.sm,
+                ),
                 child: Text(
                   '\$',
-                  style: AppTextStyles.bodyLarge.copyWith(
+                  style: theme.textTheme.bodyLarge!.copyWith(
                     color: isError
                         ? theme.colorScheme.error
                         : _isFocused
-                            ? theme.colorScheme.primary
-                            : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                        ? theme.colorScheme.primary
+                        : theme.colorScheme.onSurfaceVariant.withValues(
+                            alpha: 0.6,
+                          ),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-              prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+              prefixIconConstraints: const BoxConstraints(
+                minWidth: 0,
+                minHeight: 0,
+              ),
               hintText: widget.label,
               hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+                color: theme.colorScheme.onSurfaceVariant.withValues(
+                  alpha: 0.4,
+                ),
               ),
               contentPadding: const EdgeInsets.symmetric(
                 vertical: AppSpacing.md,
@@ -115,7 +130,10 @@ class _CustomPriceFieldState extends State<CustomPriceField> {
         ),
         if (isError)
           Padding(
-            padding: const EdgeInsets.only(top: AppSpacing.xs, left: AppSpacing.xs),
+            padding: const EdgeInsets.only(
+              top: AppSpacing.xs,
+              left: AppSpacing.xs,
+            ),
             child: Text(
               widget.errorText!,
               style: theme.textTheme.labelSmall?.copyWith(

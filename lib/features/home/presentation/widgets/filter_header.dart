@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/theme/app_text_styles.dart';
 import 'package:tech_nest/features/home/presentation/widgets/active_filter_badge.dart';
 
 class FilterHeader extends StatelessWidget {
@@ -24,7 +23,7 @@ class FilterHeader extends StatelessWidget {
         children: [
           Text(
             'Filters',
-            style: AppTextStyles.headlineMedium.copyWith(
+            style: theme.textTheme.headlineMedium!.copyWith(
               fontWeight: FontWeight.w800,
               color: theme.colorScheme.onSurface,
               letterSpacing: -0.3,
@@ -47,7 +46,7 @@ class FilterHeader extends StatelessWidget {
               ),
               label: Text(
                 'Clear all',
-                style: AppTextStyles.labelMedium.copyWith(
+                style: theme.textTheme.labelMedium!.copyWith(
                   color: theme.colorScheme.primary,
                   fontWeight: FontWeight.w600,
                 ),

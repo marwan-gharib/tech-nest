@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/core/theme/app_colors.dart';
 
 class BuildPrice extends StatelessWidget {
   final double price;
@@ -19,7 +18,7 @@ class BuildPrice extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    
+
     return Text.rich(
       TextSpan(
         text: isLabeled ? "Price: " : "",
@@ -34,7 +33,7 @@ class BuildPrice extends StatelessWidget {
             style: theme.textTheme.labelLarge!.copyWith(
               fontSize: size,
               fontWeight: FontWeight.bold,
-              color: numberColor ?? AppColors.gray700,
+              color: numberColor ?? theme.shadowColor,
             ),
           ),
           TextSpan(

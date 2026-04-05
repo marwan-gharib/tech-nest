@@ -6,16 +6,17 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/shared/utils/extensions/localization_extension.dart';
 import 'package:tech_nest/core/shared/utils/validators.dart';
-import 'package:tech_nest/core/shared/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widget.dart';
-import 'package:tech_nest/features/auth/presentation/widgets/reset_password_dialog.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/login_button_consumer.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/login_form.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/reset_password_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -76,31 +77,9 @@ class _LoginScreenState extends State<LoginScreen> {
               },
               child: const SizedBox.shrink(),
             ),
-            BlocConsumer<LoginCubit, LoginState>(
-              listenWhen: (p, c) => c is LoginSuccess || c is LoginFailed,
-              listener: (context, state) {
-                if (state is LoginSuccess) {
-                  _authNotifier.login();
-                } else if (state is LoginFailed) {
-                  CustomSnackBar.showError(context, failure: state.failure);
-                }
-              },
-              builder: (context, state) {
-                if (state is LoginLoading) {
-                  return SizedBox(
-                    height: AppSpacing.xxl + AppSpacing.lg,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  );
-                }
-                return ElevatedButton(
-                  onPressed: _onPressedLogin,
-                  child: Text(l10n.authLoginButton),
-                );
-              },
+            LoginButtonConsumer(
+              authNotifier: _authNotifier,
+              onPressed: _onPressedLogin,
             ),
             const SizedBox(height: AppSpacing.xl),
             AskNavigationWidget(

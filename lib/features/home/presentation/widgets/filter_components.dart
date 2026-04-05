@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
-import 'package:tech_nest/core/shared/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/core/shared/domain/enums/order_type.dart';
 import 'package:tech_nest/core/shared/domain/enums/sort_type.dart';
-import 'package:tech_nest/core/shared/models/filter_data.dart';
+import 'package:tech_nest/core/shared/presentation/models/filter_data.dart';
 import 'package:tech_nest/core/shared/utils/extensions/string_extension.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';

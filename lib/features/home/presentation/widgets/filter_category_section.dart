@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/core/shared/widgets/categories_view.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/categories_view.dart';
 
 class FilterCategorySection extends StatelessWidget {
   final int? initialCategoryId;

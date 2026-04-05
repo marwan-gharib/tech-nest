@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/theme/app_text_styles.dart';
 
 class FilterSectionHeader extends StatelessWidget {
   final String label;
@@ -27,7 +26,7 @@ class FilterSectionHeader extends StatelessWidget {
           const SizedBox(width: AppSpacing.sm),
           Text(
             label,
-            style: AppTextStyles.labelMedium.copyWith(
+            style: theme.textTheme.labelMedium!.copyWith(
               color: theme.colorScheme.onSurface,
               fontWeight: FontWeight.w700,
               letterSpacing: 0.4,

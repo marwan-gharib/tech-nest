@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/constants/links.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
-import 'package:tech_nest/core/routing/routes.dart';
-import 'package:tech_nest/core/shared/cubits/user_profile/user_profile_cubit.dart';
-import 'package:tech_nest/core/theme/app_colors.dart';
+import 'package:tech_nest/core/shared/utils/lanch_url.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/theme/app_text_styles.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/core/theme/cubit/theme_state.dart';
+import 'package:tech_nest/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
+import 'package:tech_nest/features/settings/presentation/cubits/user_profile/user_profile_cubit.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/settings_logout_button.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/settings_profile_header.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/settings_section.dart';
@@ -21,7 +20,10 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings', style: AppTextStyles.headlineMedium),
+        title: Text(
+          'Settings',
+          style: Theme.of(context).textTheme.headlineMedium,
+        ),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -64,60 +66,36 @@ class SettingsScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SettingsSection(
+              SettingsSection(
                 title: 'More',
                 children: [
                   SettingsTile(
                     leadingIcon: Icons.help_outline_rounded,
                     title: 'Help & Support',
+                    onTap: () => LanchUrl.launch(Links.helpAndSupport),
                   ),
                   SettingsTile(
                     leadingIcon: Icons.info_outline_rounded,
                     title: 'About App',
+                    onTap: () => LanchUrl.launch(Links.aboutApp),
                   ),
                 ],
               ),
-              SettingsLogoutButton(onTap: () => _handleLogout(context)),
+              BlocProvider(
+                create: (context) => sl<LogoutCubit>(),
+                child: SettingsLogoutButton(),
+              ),
               const SizedBox(height: AppSpacing.xl),
               Text(
                 'Version 1.0.0',
-                style: AppTextStyles.labelSmall.copyWith(
-                  color: AppColors.gray400,
+                style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               const SizedBox(height: AppSpacing.xxl),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  void _handleLogout(BuildContext context) {
-    // Show confirmation dialog before logout
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Logout'),
-        content: const Text('Are you sure you want to log out?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              // TODO: Call LogoutUsecase via AuthBloc/Cubit
-              // sl<LogoutUsecase>().call(NoParams());
-              Navigator.pop(context);
-              context.go(Routes.loginScreenPath);
-            },
-            child: const Text(
-              'Logout',
-              style: TextStyle(color: AppColors.red500),
-            ),
-          ),
-        ],
       ),
     );
   }

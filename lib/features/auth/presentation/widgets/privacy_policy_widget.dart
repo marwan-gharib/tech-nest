@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/constants/links.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:tech_nest/core/shared/utils/lanch_url.dart';
 
 class PrivacyPolicyWidget extends StatelessWidget {
   final ValueNotifier<bool> _checkBoxNotifier;
@@ -60,13 +60,10 @@ class PrivacyPolicyWidget extends StatelessWidget {
     required String link,
   }) {
     final theme = Theme.of(context);
-    
+
     return GestureDetector(
       onTap: () async {
-        final uri = Uri.parse(link);
-        if (await canLaunchUrl(uri)) {
-          await launchUrl(uri);
-        }
+        await LanchUrl.launch(link);
       },
       child: Text(
         text,

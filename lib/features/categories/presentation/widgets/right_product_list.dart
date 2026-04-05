@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/shared/utils/extensions/localization_extension.dart';
-import 'package:tech_nest/core/shared/widgets/product_card.dart';
-import 'package:tech_nest/core/shared/widgets/remote_data_failure_view.dart';
-import 'package:tech_nest/core/shared/widgets/skeleton_card.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/product_card.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/remote_data_failure_view.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/skeleton_card.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/widgets/loading_more_indicator.dart';
 
