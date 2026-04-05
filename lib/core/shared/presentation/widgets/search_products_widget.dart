@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/shared/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
-import 'package:tech_nest/core/shared/widgets/custom_search_field.dart';
-import 'package:tech_nest/core/shared/widgets/search_suggestions_overlay.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/custom_search_field.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/search_suggestions_overlay.dart';
 
 class SearchProductsWidget extends StatefulWidget {
   final TextEditingController controller;
@@ -24,6 +24,7 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
   late final OverlayPortalController _overlayController;
   final LayerLink _layerLink = LayerLink();
   final Object _groupId = Object();
+  SearchSuggestionsCubit? _searchSuggestionsCubit;
 
   static const double _searchFieldHeight = 50.0;
   static const int _minSearchChars = 2;
@@ -33,6 +34,12 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
     super.initState();
     widget.controller.addListener(_textChanged);
     _overlayController = OverlayPortalController();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _searchSuggestionsCubit ??= context.read<SearchSuggestionsCubit>();
   }
 
   void _textChanged() {
@@ -72,7 +79,7 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
   void dispose() {
     widget.controller.removeListener(_textChanged);
     // Cancel ongoing requests when widget is disposed
-    context.read<SearchSuggestionsCubit>().cancelRequest();
+    _searchSuggestionsCubit?.cancelRequest();
     super.dispose();
   }
 

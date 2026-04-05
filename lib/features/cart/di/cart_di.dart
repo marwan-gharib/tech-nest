@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:tech_nest/core/network/api_client.dart';
-import 'package:tech_nest/core/shared/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/shared/domain/repositories/cart_shared_repository.dart';
 import 'package:tech_nest/core/shared/domain/usecases/add_to_cart_usecase.dart';
 import 'package:tech_nest/core/shared/domain/usecases/get_cart_items_usecase.dart';

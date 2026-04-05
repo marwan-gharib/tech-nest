@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/shared/cubits/cart/cart_cubit.dart';
-import 'package:tech_nest/core/shared/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/update_item_quantity_cubit/update_item_quantity_cubit.dart';
 
 class ChangeCartItemCount extends StatelessWidget {
@@ -90,7 +90,9 @@ class ChangeCartItemCount extends StatelessWidget {
     final cartState = cartCubit.state;
     if (cartState is! CartLoaded) return;
 
-    final currentItem = cartState.cart.items.firstWhere((item) => item.id == cartId);
+    final currentItem = cartState.cart.items.firstWhere(
+      (item) => item.id == cartId,
+    );
     if (currentItem.quantity > 1) {
       final newQuantity = currentItem.quantity - 1;
       await updateCubit.updateQuantity(
@@ -109,7 +111,9 @@ class ChangeCartItemCount extends StatelessWidget {
     final cartState = cartCubit.state;
     if (cartState is! CartLoaded) return;
 
-    final currentItem = cartState.cart.items.firstWhere((item) => item.id == cartId);
+    final currentItem = cartState.cart.items.firstWhere(
+      (item) => item.id == cartId,
+    );
     final newQuantity = currentItem.quantity + 1;
     await updateCubit.updateQuantity(
       cartId: cartId,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/core/shared/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
 
 class AddToCartAction extends StatelessWidget {
   final CartState state;
@@ -22,10 +22,11 @@ class AddToCartAction extends StatelessWidget {
       return const Center(child: CircularProgressIndicator());
     }
 
-    final bool isInCart = state is CartLoaded &&
+    final bool isInCart =
+        state is CartLoaded &&
         (state as CartLoaded).cart.items.any(
-              (item) => item.product.id == productId,
-            );
+          (item) => item.product.id == productId,
+        );
 
     return SizedBox(
       width: double.infinity,

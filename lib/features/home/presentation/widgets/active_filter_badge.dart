@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
-import 'package:tech_nest/core/theme/app_text_styles.dart';
 
 class ActiveFilterBadge extends StatelessWidget {
   final int count;
@@ -24,7 +23,7 @@ class ActiveFilterBadge extends StatelessWidget {
         ),
         child: Text(
           '$count',
-          style: AppTextStyles.labelSmall.copyWith(
+          style: theme.textTheme.labelSmall!.copyWith(
             color: theme.colorScheme.onPrimary,
             fontWeight: FontWeight.w700,
             fontSize: 11,

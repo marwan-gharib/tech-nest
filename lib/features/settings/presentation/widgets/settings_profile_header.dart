@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/shared/cubits/user_profile/user_profile_cubit.dart';
-import 'package:tech_nest/core/shared/cubits/user_profile/user_profile_state.dart';
 import 'package:tech_nest/core/shared/domain/entities/user_entity.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/features/settings/presentation/cubits/user_profile/user_profile_cubit.dart';
+import 'package:tech_nest/features/settings/presentation/cubits/user_profile/user_profile_state.dart';
 
 class SettingsProfileHeader extends StatelessWidget {
   const SettingsProfileHeader({super.key});
@@ -76,12 +76,12 @@ class SettingsProfileHeader extends StatelessWidget {
   Widget _avatarSection(String? image, ThemeData theme) {
     return Container(
       padding: const EdgeInsets.all(4),
-      decoration: const BoxDecoration(
-        color: Colors.white24,
+      decoration: BoxDecoration(
+        color: theme.colorScheme.outline.withValues(alpha: 0.3),
         shape: BoxShape.circle,
       ),
       child: CircleAvatar(
-        radius: 45,
+        radius: 55,
         backgroundColor: Colors.white,
         backgroundImage: image != null
             ? NetworkImage(Endpoints.baseUrl + image)

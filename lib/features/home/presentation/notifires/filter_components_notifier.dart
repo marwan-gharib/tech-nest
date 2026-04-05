@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/shared/domain/enums/order_type.dart';
 import 'package:tech_nest/core/shared/domain/enums/sort_type.dart';
-import 'package:tech_nest/core/shared/models/filter_data.dart';
+import 'package:tech_nest/core/shared/presentation/models/filter_data.dart';
 
 class FilterComponentsNotifier extends ChangeNotifier {
   FilterComponentsNotifier(FilterData initialData) {
@@ -90,6 +90,8 @@ class FilterComponentsNotifier extends ChangeNotifier {
 
   @override
   void dispose() {
+    minPrice.removeListener(notifyListeners);
+    maxPrice.removeListener(notifyListeners);
     minPrice.dispose();
     maxPrice.dispose();
     super.dispose();

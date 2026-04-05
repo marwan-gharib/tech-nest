@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:tech_nest/core/network/api_client.dart';
-import 'package:tech_nest/core/shared/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/core/shared/domain/repositories/categories_repository.dart';
 import 'package:tech_nest/core/shared/domain/usecases/fetch_categories_usecase.dart';
 import 'package:tech_nest/core/shared/domain/usecases/get_products_usecase.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/theme/app_text_styles.dart';
 import 'package:tech_nest/features/home/presentation/widgets/custom_price_field.dart';
 
 class FilterPriceRangeFields extends StatelessWidget {
@@ -41,8 +40,10 @@ class FilterPriceRangeFields extends StatelessWidget {
             ),
             child: Text(
               '—',
-              style: AppTextStyles.bodyLarge.copyWith(
-                color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+              style: theme.textTheme.bodyLarge!.copyWith(
+                color: theme.colorScheme.onSurfaceVariant.withValues(
+                  alpha: 0.4,
+                ),
                 fontWeight: FontWeight.w300,
               ),
             ),
