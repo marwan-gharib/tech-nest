@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/auth_constants.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/shared/utils/extensions/localization_extension.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_pin_code_dialog.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/reset_password_form_fields.dart';
@@ -134,7 +133,7 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
       onPressed: _code.text.length < AuthConstants.verificationPinLength
           ? null
           : _onButtonPressed,
-      child: Text(context.l10n.authResetPasswordButton),
+      child: const Text("Reset Password"),
     );
   }
 

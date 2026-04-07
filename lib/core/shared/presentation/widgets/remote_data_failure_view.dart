@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/error/failures/network_failure.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/shared/utils/extensions/localization_extension.dart';
 
 class RemoteDataFailureView extends StatelessWidget {
   const RemoteDataFailureView({
@@ -21,13 +20,10 @@ class RemoteDataFailureView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final l10n = context.l10n;
     final isNetworkFailure = failure is NetworkFailure;
     final title =
         titleOverride ??
-        (isNetworkFailure
-            ? l10n.errorNoInternetConnection
-            : l10n.errorRequestFailed);
+        (isNetworkFailure ? "No Internet Connection" : "Request Failed");
     final iconSize = compact ? AppSpacing.iconMd : AppSpacing.iconXl;
 
     return Center(
@@ -60,11 +56,11 @@ class RemoteDataFailureView extends StatelessWidget {
             SizedBox(height: compact ? AppSpacing.sm : AppSpacing.md),
             Semantics(
               button: true,
-              label: l10n.actionRetry,
+              label: "Retry",
               child: FilledButton.icon(
                 onPressed: onRetry,
                 icon: const Icon(Icons.refresh_rounded),
-                label: Text(l10n.actionRetry),
+                label: const Text("Retry"),
               ),
             ),
           ],

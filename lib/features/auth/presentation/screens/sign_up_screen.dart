@@ -5,17 +5,15 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
-import 'package:tech_nest/features/auth/presentation/notifiers/image_provider.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/shared/utils/extensions/localization_extension.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
+import 'package:tech_nest/features/auth/presentation/notifiers/image_provider.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widget.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/pick_profile_image.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/sign_up_form.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/verify_email_dialog.dart';
-import 'package:tech_nest/l10n/app_localizations.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -58,8 +56,6 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
     ref.listen<XFile?>(imageProvider, (previous, next) {
       if (previous != next) {
         context.read<RegistrationCubit>().profileImg = next;
@@ -68,7 +64,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text(l10n.authScreenRegistrationTitle)),
+        appBar: AppBar(title: const Text("Sign Up")),
         body: BlocListener<RegistrationCubit, RegistrationState>(
           listenWhen: (p, c) =>
               c is RegistrationSuccess || c is RegistrationFailed,
@@ -102,8 +98,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               ),
               const SizedBox(height: AppSpacing.xl),
               AskNavigationWidget(
-                question: '${l10n.authNavigateHasAccount} ',
-                screenLabel: l10n.authNavigateLogin,
+                question: "Have an account?",
+                screenLabel: "Login",
                 onTap: () => context.go(Routes.loginScreenPath),
               ),
               const SizedBox(height: AppSpacing.xxl),
@@ -143,24 +139,24 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       );
     }
 
-    return _signUpButton(context.l10n);
+    return _signUpButton();
   }
 
-  Widget _signUpButton(AppLocalizations l10n) {
+  Widget _signUpButton() {
     return ElevatedButton(
       onPressed: _checkBoxNotifier.value
           ? () {
               if (ref.read(imageProvider) == null) {
                 CustomSnackBar.show(
                   context,
-                  message: l10n.authProfilePictureRequired,
+                  message: "Please select a profile image.",
                 );
               } else {
                 _onPressedSignUp();
               }
             }
           : null,
-      child: Text(l10n.authSignUpButton),
+      child: const Text("Sign Up"),
     );
   }
 

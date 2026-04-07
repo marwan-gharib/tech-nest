@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/shared/utils/extensions/localization_extension.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_pin_code_dialog.dart';
 
@@ -104,7 +103,7 @@ class _VerifyEmailDialogState extends State<VerifyEmailDialog> {
 
     return ElevatedButton(
       onPressed: _controller.text.isEmpty ? null : _onButtonPressed,
-      child: Text(context.l10n.authVerifyCreateAccountButton),
+      child: const Text("Verify Email"),
     );
   }
 

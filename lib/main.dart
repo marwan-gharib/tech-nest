@@ -7,7 +7,6 @@ import 'package:tech_nest/core/routing/app_router.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/theme/app_theme.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
-import 'package:tech_nest/l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,8 +44,6 @@ class MyApp extends StatelessWidget {
       themeAnimationCurve: Curves.easeInOut,
       themeMode: context.watch<ThemeCubit>().state.mode,
       routerConfig: AppRouter.routes,
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }

@@ -7,7 +7,6 @@ import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
-import 'package:tech_nest/core/shared/utils/extensions/localization_extension.dart';
 import 'package:tech_nest/core/shared/utils/validators.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
@@ -49,11 +48,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
-
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text(l10n.authScreenLoginTitle)),
+        appBar: AppBar(title: const Text("Login")),
         body: ListView(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
@@ -83,8 +80,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: AppSpacing.xl),
             AskNavigationWidget(
-              question: '${l10n.authNavigateNoAccount} ',
-              screenLabel: l10n.authNavigateRegistration,
+              question: 'Don\'t have an account?',
+              screenLabel: 'Sign Up',
               onTap: () => context.go(Routes.signUpScreenPath),
             ),
           ],
@@ -110,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       CustomSnackBar.show(
         context,
-        message: context.l10n.authEnterValidEmailFirst,
+        message: "Please enter a valid email to reset password",
       );
     }
   }
@@ -136,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (context.mounted) {
         CustomSnackBar.show(
           context,
-          message: context.l10n.authPasswordChangedSuccess,
+          message: "Password reset email sent successfully.",
           isAbove: true,
         );
       }
