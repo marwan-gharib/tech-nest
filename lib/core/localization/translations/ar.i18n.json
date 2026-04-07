@@ -1,0 +1,186 @@
+{
+    "auth": {
+        "validation": {
+            "full_name_required": "يرجى إدخال اسمك",
+            "full_name_invalid": "يجب أن يكون الاسم الاسم الأول والأخير مفصولين بمسافة",
+            "email_required": "يرجى إدخال عنوان بريدك الإلكتروني",
+            "email_invalid": "يرجى إدخال عنوان بريد إلكتروني صالح",
+            "password_required": "يرجى إدخال كلمة المرور الخاصة بك",
+            "password_too_short": "يجب أن تكون كلمة المرور 8 أحرف على الأقل",
+            "confirm_password_required": "يرجى تأكيد كلمة المرور الخاصة بك",
+            "passwords_not_match": "كلمات المرور غير متطابقة"
+        },
+        "forms": {
+            "full_name_label": "الاسم الكامل",
+            "full_name_hint": "أدخل اسمك",
+            "email_label": "عنوان البريد الإلكتروني",
+            "email_hint": "example@email.com",
+            "password_label": "كلمة المرور",
+            "password_hint": "* * * * * * * *",
+            "confirm_password_label": "تأكيد كلمة المرور"
+        },
+        "screens": {
+            "login_title": "تسجيل الدخول",
+            "signup_title": "إنشاء حساب",
+            "forgot_password_link": "هل نسيت كلمة المرور",
+            "have_account_question": "هل لديك حساب بالفعل؟",
+            "dont_have_account_question": "ليس لديك حساب؟",
+            "login_link": "تسجيل الدخول",
+            "signup_link": "إنشاء حساب"
+        },
+        "buttons": {
+            "login": "تسجيل الدخول",
+            "signup": "إنشاء حساب",
+            "verify_email": "تحقق من البريد الإلكتروني",
+            "reset_password": "إعادة تعيين كلمة المرور"
+        },
+        "dialogs": {
+            "verify_email_title": "تحقق من عنوان بريدك الإلكتروني",
+            "enter_code_hint": "أدخل الرمز",
+            "invalid_verification_code": "رمز التحقق غير صحيح",
+            "reset_password_title": "إعادة تعيين كلمة المرور",
+            "profile_image_validation": "يرجى تحديد صورة الملف الشخصي.",
+            "password_reset_validation": "يرجى إدخال بريد إلكتروني صالح لإعادة تعيين كلمة المرور",
+            "password_reset_success": "تم إرسال بريد إعادة تعيين كلمة المرور بنجاح."
+        },
+        "privacy": {
+            "accept_text": "من خلال إنشاء حساب، أوافق على ",
+            "terms_of_use": "شروط الاستخدام",
+            "separator": " و ",
+            "privacy_policy": "سياسة الخصوصية"
+        },
+        "errors": {
+            "profile_load_failed": "فشل تحميل ملف المستخدم الشخصي"
+        }
+    },
+    "errors": {
+        "network": {
+            "no_connection": "لا يوجد اتصال بالإنترنت.",
+            "timeout": "انتهت مهلة الطلب",
+            "cancelled": "تم إلغاء الطلب"
+        },
+        "server": {
+            "bad_certificate": "شهادة SSL غير صالحة",
+            "error": "خطأ في الخادم",
+            "something_wrong": "حدث خطأ من جانبنا. يرجى المحاولة مرة أخرى لاحقًا.",
+            "unhandled": "خطأ HTTP غير معالج: {statusCode}"
+        },
+        "auth": {
+            "unauthorized": "طلب غير مصرح به.",
+            "session_expired": "انتهت صلاحية جلستك. يرجى تسجيل الدخول مرة أخرى."
+        },
+        "cache": {
+            "operation_failed": "فشلت عملية التخزين المؤقت.",
+            "load_failed": "غير قادر على تحميل البيانات المحفوظة."
+        },
+        "validation": {
+            "invalid_request": "طلب غير صالح. يرجى التحقق من إدخالك.",
+            "no_permission": "ليس لديك إذن لإجراء هذا الإجراء.",
+            "not_found": "لم يتم العثور على المورد المطلوب.",
+            "already_exists": "هذه البيانات موجودة بالفعل.",
+            "invalid_data": "البيانات المقدمة غير صالحة."
+        },
+        "unknown": {
+            "unexpected": "حدث استثناء غير متوقع.",
+            "error_occurred": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى."
+        },
+        "general": {
+            "something_wrong": "حدث خطأ ما. يرجى المحاولة مرة أخرى."
+        },
+        "api": {
+            "no_internet": "لا يوجد اتصال بالإنترنت",
+            "request_failed": "فشل الطلب"
+        },
+        "products": {
+            "could_not_load_more": "لم يتمكن من تحميل المزيد من المنتجات",
+            "load_failure": "لم يتمكن من تحميل المزيد من المنتجات"
+        }
+    },
+    "common": {
+        "navigation": {
+            "home": "الرئيسية",
+            "cart": "السلة",
+            "categories": "الفئات",
+            "settings": "الإعدادات",
+            "discover": "اكتشف"
+        },
+        "buttons": {
+            "cancel": "إلغاء",
+            "logout": "تسجيل الخروج",
+            "retry": "أعد المحاولة",
+            "clear_all": "مسح الكل"
+        },
+        "labels": {
+            "search_products": "ابحث عن المنتجات...",
+            "all_categories": "الكل",
+            "price_label": "السعر: ",
+            "currency": "$",
+            "loading": "جاري تحميل الملف الشخصي...",
+            "guest_user": "مستخدم ضيف"
+        },
+        "empty_states": {
+            "no_results_found": "لم يتم العثور على نتائج",
+            "search_empty": "لم نتمكن من العثور على أي منتجات تطابق بحثك. حاول تعديل كلمات البحث الخاصة بك.",
+            "filter_empty": "لم نتمكن من العثور على أي منتجات تطابق المرشحات الخاصة بك. حاول تعديل المرشحات الخاصة بك.",
+            "no_suggestions": "لم يتم العثور على اقتراحات"
+        },
+        "errors": {
+            "error_loading_profile": "خطأ في تحميل الملف الشخصي",
+            "not_authenticated": "يرجى تسجيل الدخول للوصول إلى الميزات الكاملة"
+        }
+    },
+    "settings": {
+        "screens": {
+            "title": "الإعدادات"
+        },
+        "sections": {
+            "preferences": "التفضيلات",
+            "more": "المزيد"
+        },
+        "options": {
+            "dark_mode": "الوضع الليلي",
+            "notifications": "الإخطارات",
+            "help_support": "المساعدة والدعم",
+            "about_app": "حول التطبيق",
+            "version": "الإصدار 1.0.0"
+        },
+        "buttons": {
+            "logout": "تسجيل الخروج"
+        },
+        "dialogs": {
+            "logout_title": "تسجيل الخروج",
+            "logout_confirmation": "هل أنت متأكد من رغبتك في تسجيل الخروج من حسابك؟"
+        }
+    },
+    "products": {
+        "info": {
+            "category": "الفئة: {category}",
+            "in_stock": "متوفر ({stock})",
+            "out_of_stock": "غير متوفر",
+            "description_title": "الوصف"
+        },
+        "actions": {
+            "add_to_cart": "أضف إلى السلة",
+            "update_cart_quantity": "تحديث كمية الإضافة إلى السلة"
+        },
+        "cart": {
+            "display_log": "عرض عنصر السلة: {id}",
+            "badge_max": "99+"
+        }
+    },
+    "home": {
+        "filters": {
+            "title": "المرشحات",
+            "categories_label": "الفئات",
+            "price_range_label": "نطاق السعر",
+            "sort_by_label": "ترتيب حسب",
+            "order_by_label": "طلبية بواسطة",
+            "min_price": "السعر الأدنى",
+            "max_price": "السعر الأقصى",
+            "separator": "—",
+            "apply_button": "تطبيق {count} مرشح{plural}",
+            "apply_button_default": "تطبيق المرشحات",
+            "max_price_validation": "يجب أن يكون السعر الأقصى أكبر من السعر الأدنى"
+        }
+    }
+}

@@ -1,0 +1,186 @@
+{
+    "auth": {
+        "validation": {
+            "full_name_required": "Please enter your name",
+            "full_name_invalid": "Name must be first and last name separation by space",
+            "email_required": "Please enter your email address",
+            "email_invalid": "Please enter a valid email address",
+            "password_required": "Please enter your password",
+            "password_too_short": "Password must be at least 8 characters",
+            "confirm_password_required": "Please confirm your password",
+            "passwords_not_match": "Passwords do not match"
+        },
+        "forms": {
+            "full_name_label": "Full Name",
+            "full_name_hint": "Enter your name",
+            "email_label": "E-mail Address",
+            "email_hint": "example@email.com",
+            "password_label": "Password",
+            "password_hint": "* * * * * * * *",
+            "confirm_password_label": "Confirm Password"
+        },
+        "screens": {
+            "login_title": "Login",
+            "signup_title": "Sign Up",
+            "forgot_password_link": "Forget password",
+            "have_account_question": "Have an account?",
+            "dont_have_account_question": "Don't have an account?",
+            "login_link": "Login",
+            "signup_link": "Sign Up"
+        },
+        "buttons": {
+            "login": "Login",
+            "signup": "Sign Up",
+            "verify_email": "Verify Email",
+            "reset_password": "Reset Password"
+        },
+        "dialogs": {
+            "verify_email_title": "Verify your E-mail address",
+            "enter_code_hint": "Enter code",
+            "invalid_verification_code": "Invalid verification code",
+            "reset_password_title": "Reset Password",
+            "profile_image_validation": "Please select a profile image.",
+            "password_reset_validation": "Please enter a valid email to reset password",
+            "password_reset_success": "Password reset email sent successfully."
+        },
+        "privacy": {
+            "accept_text": "By Creating an Account, i accept Tech Nest ",
+            "terms_of_use": "Terms of Use",
+            "separator": " and ",
+            "privacy_policy": "Privacy Policy"
+        },
+        "errors": {
+            "profile_load_failed": "Failed to load user profile"
+        }
+    },
+    "errors": {
+        "network": {
+            "no_connection": "No Internet Connection.",
+            "timeout": "Request timeout",
+            "cancelled": "Request cancelled"
+        },
+        "server": {
+            "bad_certificate": "Bad SSL certificate",
+            "error": "Server error",
+            "something_wrong": "Something went wrong on our side. Please try again later.",
+            "unhandled": "Unhandled http error: {statusCode}"
+        },
+        "auth": {
+            "unauthorized": "UnAuthorized request.",
+            "session_expired": "Your session has expired. Please login again."
+        },
+        "cache": {
+            "operation_failed": "Cache operation failed.",
+            "load_failed": "Unable to load saved data."
+        },
+        "validation": {
+            "invalid_request": "Invalid request. Please check your input.",
+            "no_permission": "You don't have permission to perform this action.",
+            "not_found": "Requested resource was not found.",
+            "already_exists": "This data already exists.",
+            "invalid_data": "Invalid data provided."
+        },
+        "unknown": {
+            "unexpected": "Unexpected exception occurred.",
+            "error_occurred": "An unexpected error occurred. Please try again."
+        },
+        "general": {
+            "something_wrong": "Something went wrong. Please try again."
+        },
+        "api": {
+            "no_internet": "No Internet Connection",
+            "request_failed": "Request Failed"
+        },
+        "products": {
+            "could_not_load_more": "Could not load more products",
+            "load_failure": "Could not load more products"
+        }
+    },
+    "common": {
+        "navigation": {
+            "home": "Home",
+            "cart": "Cart",
+            "categories": "Categories",
+            "settings": "Settings",
+            "discover": "Discover"
+        },
+        "buttons": {
+            "cancel": "Cancel",
+            "logout": "Logout",
+            "retry": "Retry",
+            "clear_all": "Clear all"
+        },
+        "labels": {
+            "search_products": "Search products...",
+            "all_categories": "All",
+            "price_label": "Price: ",
+            "currency": "$",
+            "loading": "Loading profile...",
+            "guest_user": "Guest User"
+        },
+        "empty_states": {
+            "no_results_found": "No Results Found",
+            "search_empty": "We couldn't find any products matching your search. Try adjusting your search keywords.",
+            "filter_empty": "We couldn't find any products matching your filters. Try adjusting your filters.",
+            "no_suggestions": "No suggestions found"
+        },
+        "errors": {
+            "error_loading_profile": "Error loading profile",
+            "not_authenticated": "Please sign in to access full features"
+        }
+    },
+    "settings": {
+        "screens": {
+            "title": "Settings"
+        },
+        "sections": {
+            "preferences": "Preferences",
+            "more": "More"
+        },
+        "options": {
+            "dark_mode": "Dark Mode",
+            "notifications": "Notifications",
+            "help_support": "Help & Support",
+            "about_app": "About App",
+            "version": "Version 1.0.0"
+        },
+        "buttons": {
+            "logout": "Logout"
+        },
+        "dialogs": {
+            "logout_title": "Logout",
+            "logout_confirmation": "Are you sure you want to log out of your account?"
+        }
+    },
+    "products": {
+        "info": {
+            "category": "Category: {category}",
+            "in_stock": "In Stock ({stock})",
+            "out_of_stock": "Out of Stock",
+            "description_title": "Description"
+        },
+        "actions": {
+            "add_to_cart": "Add to Cart",
+            "update_cart_quantity": "Update Cart Quantity"
+        },
+        "cart": {
+            "display_log": "Displaying cart item: {id}",
+            "badge_max": "99+"
+        }
+    },
+    "home": {
+        "filters": {
+            "title": "Filters",
+            "categories_label": "Categories",
+            "price_range_label": "Price Range",
+            "sort_by_label": "Sort by",
+            "order_by_label": "Order by",
+            "min_price": "Min price",
+            "max_price": "Max price",
+            "separator": "—",
+            "apply_button": "Apply {count} Filter{plural}",
+            "apply_button_default": "Apply Filters",
+            "max_price_validation": "Max price must be greater than Min"
+        }
+    }
+}

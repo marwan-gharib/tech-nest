@@ -1,0 +1,15 @@
+base_locale: en
+fallback_strategy: base_locale
+
+input_directory: lib/core/localization/translations
+input_file_pattern: .i18n.json
+
+output_directory: lib/core/localization/generated
+output_file_name: translations.g.dart
+
+string_interpolation: dart
+translate_var: t
+enum_name: AppLocale
+
+maps:
+  - auth.errors
