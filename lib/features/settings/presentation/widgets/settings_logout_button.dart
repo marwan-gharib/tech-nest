@@ -10,6 +10,7 @@ import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/logout_dialog.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class SettingsLogoutButton extends StatelessWidget {
   SettingsLogoutButton({super.key});
@@ -59,7 +60,7 @@ class SettingsLogoutButton extends StatelessWidget {
       onPressed: () => _handleLogout(context),
       icon: Icon(Icons.logout_rounded, color: theme.colorScheme.error),
       label: Text(
-        'Logout',
+        context.t.auth.logout,
         style: theme.textTheme.labelLarge?.copyWith(
           color: theme.colorScheme.error,
           fontWeight: FontWeight.bold,

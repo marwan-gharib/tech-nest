@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class FilterApplyButton extends StatelessWidget {
   final int activeCount;
@@ -62,9 +63,7 @@ class FilterApplyButton extends StatelessWidget {
                   duration: const Duration(milliseconds: 200),
                   child: Text(
                     key: ValueKey(activeCount),
-                    activeCount > 0
-                        ? 'Apply $activeCount Filter${activeCount == 1 ? '' : 's'}'
-                        : 'Apply Filters',
+                    context.t.home.applyFilters(n: activeCount),
                     style: theme.textTheme.labelLarge!.copyWith(
                       color: enabled
                           ? theme.colorScheme.onPrimary

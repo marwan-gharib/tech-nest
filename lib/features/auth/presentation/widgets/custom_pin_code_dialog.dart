@@ -7,6 +7,8 @@ class CustomPinCodeDialog extends StatelessWidget {
   final TextEditingController pinCodeController;
   final ValueNotifier<bool> isErrNotifire;
   final String label;
+  final String hint;
+  final String errorText;
 
   static const double _pinWidth = 35.0;
   static const double _pinHeight = 40.0;
@@ -16,6 +18,8 @@ class CustomPinCodeDialog extends StatelessWidget {
     required this.pinCodeController,
     required this.isErrNotifire,
     required this.label,
+    required this.hint,
+    required this.errorText,
     super.key,
   });
 
@@ -41,7 +45,7 @@ class CustomPinCodeDialog extends StatelessWidget {
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "Enter code",
+            hint,
             style: theme.textTheme.bodyMedium?.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -72,7 +76,7 @@ class CustomPinCodeDialog extends StatelessWidget {
           builder: (context, value, child) {
             if (!value) return const SizedBox.shrink();
             return Text(
-              "Invalid verification code",
+              errorText,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.error,
               ),

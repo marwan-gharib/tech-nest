@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class ProductDescriptionSection extends StatelessWidget {
   final String description;
@@ -14,7 +15,7 @@ class ProductDescriptionSection extends StatelessWidget {
       spacing: AppSpacing.xs,
       children: [
         Text(
-          "Description",
+          context.t.products.description,
           style: theme.textTheme.titleLarge?.copyWith(
             fontWeight: FontWeight.bold,
           ),

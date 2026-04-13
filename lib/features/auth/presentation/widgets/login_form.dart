@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/shared/utils/validators.dart';
@@ -32,7 +33,7 @@ class LoginForm extends StatelessWidget {
         children: [
           CustomInputField(
             controller: email,
-            label: "E-mail Address",
+            label: context.t.auth.email,
             hint: "example@email.com",
             keyboardType: TextInputType.emailAddress,
             validator: Validators.emailValidator,
@@ -40,7 +41,7 @@ class LoginForm extends StatelessWidget {
           const SizedBox(height: AppSpacing.lg),
           CustomInputField(
             controller: password,
-            label: "Password",
+            label: context.t.auth.password,
             hint: "* " * 8,
             keyboardType: TextInputType.visiblePassword,
             isPassword: true,
@@ -54,7 +55,7 @@ class LoginForm extends StatelessWidget {
               child: BlocListener<ForgetPasswordCubit, ForgetPasswordState>(
                 listener: forgetPasswordListener,
                 child: Text(
-                  "Forget password",
+                  context.t.auth.forgotPassword,
                   style: theme.textTheme.labelMedium!.copyWith(
                     color: theme.colorScheme.primary,
                   ),

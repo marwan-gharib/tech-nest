@@ -5,6 +5,7 @@ class CustomSearchField extends StatelessWidget {
   final ValueChanged<String?> onSubmit;
   final ValueChanged<String?>? onChange;
   final VoidCallback? onClear;
+  final String? hintText;
   final TextEditingController controller;
 
   const CustomSearchField({
@@ -12,6 +13,7 @@ class CustomSearchField extends StatelessWidget {
     required this.onSubmit,
     this.onChange,
     this.onClear,
+    this.hintText,
     super.key,
   });
 
@@ -38,7 +40,7 @@ class CustomSearchField extends StatelessWidget {
         focusedErrorBorder: _border,
         filled: true,
         fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
-        hintText: "Search products...",
+        hintText: hintText ?? "Search products...",
         hintStyle: theme.textTheme.bodyLarge?.copyWith(
           color: colorScheme.outline,
         ),

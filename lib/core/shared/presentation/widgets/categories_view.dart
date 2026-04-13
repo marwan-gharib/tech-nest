@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
@@ -85,7 +86,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                   builder: (_, selectedCategory, _) {
                     if (index == 0) {
                       return CategoryLabelWidget<String>(
-                        category: "All",
+                        category: context.t.common.all,
                         isSelected: selectedCategory == null,
                         onTap: (id) {
                           _selectedCategoryNotifier.value = id;

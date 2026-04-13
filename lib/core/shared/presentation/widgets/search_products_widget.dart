@@ -9,10 +9,13 @@ class SearchProductsWidget extends StatefulWidget {
   final ValueChanged<String?> onSelected;
   final VoidCallback? onClear;
 
+  final String? hintText;
+
   const SearchProductsWidget({
     required this.controller,
     required this.onSelected,
     this.onClear,
+    this.hintText,
     super.key,
   });
 
@@ -103,6 +106,7 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
             },
             child: CustomSearchField(
               controller: widget.controller,
+              hintText: widget.hintText,
               onSubmit: (value) {
                 if (value != null && value.isNotEmpty) {
                   _overlayController.hide();

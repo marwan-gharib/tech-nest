@@ -5,7 +5,6 @@ import 'package:tech_nest/core/shared/presentation/cubits/fetch_categories_cubit
 import 'package:tech_nest/core/shared/domain/enums/order_type.dart';
 import 'package:tech_nest/core/shared/domain/enums/sort_type.dart';
 import 'package:tech_nest/core/shared/presentation/models/filter_data.dart';
-import 'package:tech_nest/core/shared/utils/extensions/string_extension.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/home/presentation/notifires/filter_components_notifier.dart';
@@ -15,6 +14,7 @@ import 'package:tech_nest/features/home/presentation/widgets/filter_header.dart'
 import 'package:tech_nest/features/home/presentation/widgets/filter_price_range_fields.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_section_header.dart';
 import 'package:tech_nest/features/home/presentation/widgets/radio_buttons_group.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class FilterComponents extends StatefulWidget {
   final FilterData filterData;
@@ -96,34 +96,36 @@ class _FilterComponentsState extends State<FilterComponents> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const FilterSectionHeader(label: 'Categories'),
+                            FilterSectionHeader(label: context.t.home.categories),
                             FilterCategorySection(
                               initialCategoryId: _notifier.categoryId,
                               onSelected: (value) =>
                                   _notifier.categoryId = value,
                             ),
-                            const FilterSectionHeader(label: 'Price Range'),
+                            FilterSectionHeader(label: context.t.home.priceRange),
                             FilterPriceRangeFields(
                               minPrice: _notifier.minPrice,
                               maxPrice: _notifier.maxPrice,
                               minPriceError: _notifier.minPriceError,
                               maxPriceError: _notifier.maxPriceError,
                             ),
-                            const FilterSectionHeader(label: 'Sort by'),
+                            FilterSectionHeader(label: context.t.home.sortBy),
                             RadioButtonsGroup<SortType>(
                               initialValue: _notifier.sortType,
                               values: const [SortType.name, SortType.price],
                               onTap: (value) => _notifier.sortType = value,
-                              labelBuilder: (value) =>
-                                  value.name.capitalizeFirst(),
+                              labelBuilder: (value) => value == SortType.name
+                                  ? context.t.home.sortTypes.name
+                                  : context.t.home.sortTypes.price,
                             ),
-                            const FilterSectionHeader(label: 'Order by'),
+                            FilterSectionHeader(label: context.t.home.orderBy),
                             RadioButtonsGroup<OrderType>(
                               initialValue: _notifier.orderType,
                               values: const [OrderType.asc, OrderType.desc],
                               onTap: (value) => _notifier.orderType = value,
-                              labelBuilder: (value) =>
-                                  value.name.capitalizeFirst(),
+                              labelBuilder: (value) => value == OrderType.asc
+                                  ? context.t.home.orderTypes.asc
+                                  : context.t.home.orderTypes.desc,
                             ),
                             const SizedBox(height: AppSpacing.md),
                           ],

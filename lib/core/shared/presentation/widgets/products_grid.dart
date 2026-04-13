@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/no_results_found_view.dart';
@@ -35,23 +36,21 @@ class ProductsGrid extends StatelessWidget {
 
           case FetchProductsLoaded():
             if ((state.isSearchApplied) && state.products.isEmpty) {
-              return const SliverFillRemaining(
+              return SliverFillRemaining(
                 hasScrollBody: false,
                 child: NoResultsFoundView(
-                  title: "No Results Found",
-                  message:
-                      "We couldn't find any products matching your search. Try adjusting your search keywords.",
+                  title: context.t.errors.noResults,
+                  message: context.t.errors.noResultsSearch,
                   icon: Icons.search_off_rounded,
                 ),
               );
             }
             if ((state.isFilterApplied) && state.products.isEmpty) {
-              return const SliverFillRemaining(
+              return SliverFillRemaining(
                 hasScrollBody: false,
                 child: NoResultsFoundView(
-                  title: "No Results Found",
-                  message:
-                      "We couldn't find any products matching your filters. Try adjusting your filters.",
+                  title: context.t.errors.noResults,
+                  message: context.t.errors.noResultsFilter,
                   icon: Icons.filter_alt_off_rounded,
                 ),
               );
@@ -69,7 +68,7 @@ class ProductsGrid extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: RemoteDataFailureView(
                       failure: state.loadMoreFailure!,
-                      titleOverride: "Could not load more products",
+                      titleOverride: context.t.errors.loadMoreFailed,
                       compact: true,
                       onRetry: () =>
                           context.read<FetchProductsCubit>().fetchMore(),

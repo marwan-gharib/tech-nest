@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_details_widget.dart';
 
@@ -32,7 +33,7 @@ class OrderSummary extends StatelessWidget {
         spacing: AppSpacing.md - 2,
         children: [
           Text(
-            "Order Summary",
+            context.t.cart.summary,
             style: theme.textTheme.labelLarge?.copyWith(fontSize: _titleSize),
           ),
           const CartDetailsWidget(),
