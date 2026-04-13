@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class AddToCartAction extends StatelessWidget {
   final CartState state;
@@ -32,7 +33,9 @@ class AddToCartAction extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: isAvailable ? onAdd : null,
-        child: Text(isInCart ? "Update Cart Quantity" : "Add to Cart"),
+        child: Text(isInCart
+            ? context.t.products.updateCart
+            : context.t.products.addToCart),
       ),
     );
   }

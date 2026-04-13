@@ -6,6 +6,7 @@ import 'package:tech_nest/core/shared/presentation/cubits/search_suggestions_cub
 import 'package:tech_nest/core/shared/presentation/widgets/search_products_widget.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/home/presentation/widgets/home_filter_button.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class HomeAppBar extends StatelessWidget {
   final TextEditingController searchController;
@@ -39,7 +40,7 @@ class HomeAppBar extends StatelessWidget {
           right: AppSpacing.md,
         ),
         title: Text(
-          "Discover",
+          context.t.home.discover,
           style: theme.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.w800,
             letterSpacing: -0.5,
@@ -62,6 +63,7 @@ class HomeAppBar extends StatelessWidget {
                   create: (context) => sl<SearchSuggestionsCubit>(),
                   child: SearchProductsWidget(
                     controller: searchController,
+                    hintText: context.t.home.search,
                     onSelected: (value) async {
                       context.read<FetchProductsCubit>().search(value ?? "");
                     },

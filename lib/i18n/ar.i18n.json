@@ -1,0 +1,114 @@
+{
+  "common": {
+    "retry": "إعادة المحاولة",
+    "cancel": "إلغاء",
+    "all": "الكل",
+    "ok": "حسناً",
+    "error": "حدث خطأ ما",
+    "yes": "نعم",
+    "no": "لا"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "signUp": "إنشاء حساب",
+    "fullName": "الاسم الكامل",
+    "enterName": "أدخل اسمك",
+    "email": "البريد الإلكتروني",
+    "emailHint": "example@email.com",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "forgotPassword": "هل نسيت كلمة المرور؟",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "haveAccount": "هل لديك حساب؟",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "resetPasswordPrompt": "يرجى إدخال بريد إلكتروني صالح لإعادة تعيين كلمة المرور",
+    "resetPasswordSuccess": "تم إرسال بريد إعادة تعيين كلمة المرور بنجاح.",
+    "selectProfileImage": "يرجى اختيار صورة الملف الشخصي.",
+    "verifyEmailTitle": "تحقق من بريدك الإلكتروني",
+    "verifyEmail": "التحقق من البريد",
+    "enterCode": "أدخل الرمز",
+    "invalidCode": "رمز التحقق غير صالح",
+    "logout": "تسجيل الخروج",
+    "privacyPolicy": {
+      "accept": "بإنشاء حساب، أوافق على Tech Nest ",
+      "terms": "شروط الاستخدام",
+      "and": " و ",
+      "policy": "سياسة الخصوصية"
+    }
+  },
+  "home": {
+    "discover": "اكتشف",
+    "search": "بحث عن المنتجات...",
+    "filters": "الفلاتر",
+    "categories": "الأقسام",
+    "priceRange": "نطاق السعر",
+    "sortBy": "فرز حسب",
+    "orderBy": "ترتيب حسب",
+    "sortTypes": {
+      "name": "الاسم",
+      "price": "السعر"
+    },
+    "orderTypes": {
+      "asc": "تصاعدي",
+      "desc": "تنازلي"
+    },
+    "applyFilters(cardinal, n)": {
+      "zero": "تطبيق الفلاتر",
+      "one": "تطبيق فلتر 1",
+      "other": "تطبيق $n فلاتر"
+    },
+    "activeFilters": "الفلاتر النشطة",
+    "clearAll": "مسح الكل",
+    "minPrice": "أقل سعر",
+    "maxPrice": "أعلى سعر"
+  },
+  "products": {
+    "category": "القسم: $category",
+    "inStock(cardinal, n)": {
+      "one": "متوفر (1)",
+      "other": "متوفر ($n)"
+    },
+    "outOfStock": "غير متوفر",
+    "addToCart": "أضف إلى السلة",
+    "updateCart": "تحديث كمية السلة",
+    "description": "الوصف"
+  },
+  "cart": {
+    "title": "سلتي",
+    "empty": "سلة التسوق فارغة",
+    "emptyDesc": "يبدو أنك لم تضف أي شيء إلى سلتك بعد. استكشف منتجاتنا واعثر على شيء تحبه!",
+    "startShopping": "ابدأ التسوق",
+    "summary": "ملخص الطلب",
+    "subtotal": "المجموع الفرعي",
+    "total": "المجموع",
+    "items": "المنتجات",
+    "delivery": "رسوم التوصيل",
+    "free": "مجاني",
+    "checkout": "إتمام الشراء"
+  },
+  "settings": {
+    "title": "الإعدادات",
+    "preferences": "التفضيلات",
+    "darkMode": "الوضع الليلي",
+    "notifications": "الإشعارات",
+    "help": "المساعدة والدعم",
+    "about": "عن التطبيق",
+    "logout": "تسجيل الخروج",
+    "logoutConfirm": "أنت متأكد أنك تريد تسجيل الخروج؟",
+    "logoutDesc": "سوف يتم توجيهك إلى شاشة تسجيل الدخول.",
+    "version": "الإصدار $version",
+    "language": "اللغة",
+    "english": "الإنجليزية",
+    "arabic": "العربية",
+    "more": "المزيد"
+  },
+  "errors": {
+    "noInternet": "لا يوجد اتصال بالإنترنت",
+    "requestFailed": "فشل الطلب",
+    "noResults": "لم يتم العثور على نتائج",
+    "noResultsSearch": "لم نتمكن من العثور على أي منتجات مطابقة لبحثك. حاول تعديل كلمات البحث.",
+    "noResultsFilter": "لم نتمكن من العثور على أي منتجات مطابقة للفلاتر الخاصة بك. حاول تعديل الفلاتر.",
+    "loadMoreFailed": "تعذر تحميل المزيد من المنتجات"
+  }
+}

@@ -12,6 +12,8 @@ import 'package:tech_nest/features/settings/presentation/widgets/settings_logout
 import 'package:tech_nest/features/settings/presentation/widgets/settings_profile_header.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/settings_section.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/settings_tile.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -21,7 +23,7 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Settings',
+          context.t.settings.title,
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         centerTitle: true,
@@ -40,7 +42,7 @@ class SettingsScreen extends StatelessWidget {
                 child: const SettingsProfileHeader(),
               ),
               SettingsSection(
-                title: 'Preferences',
+                title: context.t.settings.preferences,
                 children: [
                   BlocBuilder<ThemeCubit, ThemeState>(
                     builder: (context, state) {
@@ -49,7 +51,7 @@ class SettingsScreen extends StatelessWidget {
                         leadingIcon: isDark
                             ? Icons.dark_mode_outlined
                             : Icons.light_mode_outlined,
-                        title: 'Dark Mode',
+                        title: context.t.settings.darkMode,
                         trailing: Switch.adaptive(
                           value: isDark,
                           activeThumbColor: Theme.of(context).primaryColor,
@@ -60,23 +62,50 @@ class SettingsScreen extends StatelessWidget {
                       );
                     },
                   ),
-                  const SettingsTile(
+                  SettingsTile(
+                    leadingIcon: Icons.language_rounded,
+                    title: context.t.settings.language,
+                    trailing: BlocBuilder<LocaleCubit, LocaleState>(
+                      builder: (context, state) {
+                        return DropdownButton<AppLocale>(
+                          value: state.locale,
+                          underline: const SizedBox.shrink(),
+                          items: [
+                            DropdownMenuItem(
+                              value: AppLocale.en,
+                              child: Text(context.t.settings.english),
+                            ),
+                            DropdownMenuItem(
+                              value: AppLocale.ar,
+                              child: Text(context.t.settings.arabic),
+                            ),
+                          ],
+                          onChanged: (locale) {
+                            if (locale != null) {
+                              context.read<LocaleCubit>().setLocale(locale);
+                            }
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  SettingsTile(
                     leadingIcon: Icons.notifications_none_rounded,
-                    title: 'Notifications',
+                    title: context.t.settings.notifications,
                   ),
                 ],
               ),
               SettingsSection(
-                title: 'More',
+                title: context.t.settings.more,
                 children: [
                   SettingsTile(
                     leadingIcon: Icons.help_outline_rounded,
-                    title: 'Help & Support',
+                    title: context.t.settings.help,
                     onTap: () => LanchUrl.launch(Links.helpAndSupport),
                   ),
                   SettingsTile(
                     leadingIcon: Icons.info_outline_rounded,
-                    title: 'About App',
+                    title: context.t.settings.about,
                     onTap: () => LanchUrl.launch(Links.aboutApp),
                   ),
                 ],
@@ -87,7 +116,7 @@ class SettingsScreen extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.xl),
               Text(
-                'Version 1.0.0',
+                context.t.settings.version(version: '1.0.0'),
                 style: Theme.of(context).textTheme.labelSmall!.copyWith(
                   color: Theme.of(context).colorScheme.onSurface,
                 ),

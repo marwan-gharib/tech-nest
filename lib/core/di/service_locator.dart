@@ -13,6 +13,7 @@ import 'package:tech_nest/core/network/interceptors/error_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/logging_interceptor.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/shared/data/datasources/local/user_local_datasource.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/features/auth/di/auth_di.dart';
 import 'package:tech_nest/features/cart/di/cart_di.dart';
@@ -56,6 +57,7 @@ Future<void> initDependencies() async {
 
   // ── Theme ─────────────────────────────────────────────────────────────────
   sl.registerFactory(() => ThemeCubit(sl<CacheService>()));
+  sl.registerLazySingleton(() => LocaleCubit(sl<CacheService>()));
 
   // ── Features ──────────────────────────────────────────────────────────────
   initAuthDI(sl);

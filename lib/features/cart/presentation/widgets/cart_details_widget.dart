@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/build_price.dart';
@@ -8,6 +9,7 @@ class CartDetailsWidget extends StatelessWidget {
   const CartDetailsWidget({super.key});
 
   static const double _priceSize = 16.0;
+  static const double _titleSize = 14.0;
   static const double _labelAlpha = 0.6;
 
   @override
@@ -21,18 +23,18 @@ class CartDetailsWidget extends StatelessWidget {
             children: [
               _dataRow(
                 context,
-                label: 'Items',
+                label: context.t.cart.items,
                 number: state.cart.totalQuantity,
               ),
               _dataRow(
                 context,
-                label: 'Subtotal',
+                label: context.t.cart.subtotal,
                 number: state.cart.totalPrice,
                 isPrice: true,
               ),
               _dataRow(
                 context,
-                label: 'Delivery Charges',
+                label: context.t.cart.delivery,
                 number: state.cart.deliveryCharges,
                 isPrice: true,
                 isFree: state.cart.deliveryCharges == 0,
@@ -40,7 +42,7 @@ class CartDetailsWidget extends StatelessWidget {
               Divider(color: Theme.of(context).hintColor),
               _dataRow(
                 context,
-                label: 'Total',
+                label: context.t.cart.total,
                 number: state.cart.grandTotal,
                 isPrice: true,
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -72,11 +74,11 @@ class CartDetailsWidget extends StatelessWidget {
         children: [
           Text(
             label,
-            style: labelStyle?.copyWith(color: color ?? secondaryColor),
+            style: theme.textTheme.labelLarge?.copyWith(fontSize: _titleSize),
           ),
           isFree
               ? Text(
-                  "Free",
+                  context.t.cart.free,
                   style: labelStyle?.copyWith(
                     fontSize: _priceSize,
                     fontWeight: FontWeight.w500,

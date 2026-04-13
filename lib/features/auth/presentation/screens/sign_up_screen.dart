@@ -14,6 +14,7 @@ import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widg
 import 'package:tech_nest/features/auth/presentation/widgets/pick_profile_image.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/sign_up_form.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/verify_email_dialog.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class SignUpScreen extends ConsumerStatefulWidget {
   const SignUpScreen({super.key});
@@ -64,7 +65,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: const Text("Sign Up")),
+        appBar: AppBar(title: Text(context.t.auth.signUp)),
         body: BlocListener<RegistrationCubit, RegistrationState>(
           listenWhen: (p, c) =>
               c is RegistrationSuccess || c is RegistrationFailed,
@@ -98,8 +99,8 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               ),
               const SizedBox(height: AppSpacing.xl),
               AskNavigationWidget(
-                question: "Have an account?",
-                screenLabel: "Login",
+                question: context.t.auth.haveAccount,
+                screenLabel: context.t.auth.login,
                 onTap: () => context.go(Routes.loginScreenPath),
               ),
               const SizedBox(height: AppSpacing.xxl),
@@ -149,14 +150,14 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               if (ref.read(imageProvider) == null) {
                 CustomSnackBar.show(
                   context,
-                  message: "Please select a profile image.",
+                  message: context.t.auth.selectProfileImage,
                 );
               } else {
                 _onPressedSignUp();
               }
             }
           : null,
-      child: const Text("Sign Up"),
+      child: Text(context.t.auth.signUp),
     );
   }
 

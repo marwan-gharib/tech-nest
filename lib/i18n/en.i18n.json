@@ -1,0 +1,114 @@
+{
+  "common": {
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "all": "All",
+    "ok": "OK",
+    "error": "Something went wrong",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "auth": {
+    "login": "Login",
+    "signUp": "Sign Up",
+    "fullName": "Full Name",
+    "enterName": "Enter your name",
+    "email": "E-mail Address",
+    "emailHint": "example@email.com",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forget password",
+    "dontHaveAccount": "Don't have an account?",
+    "alreadyHaveAccount": "Already have an account?",
+    "haveAccount": "Have an account?",
+    "resetPassword": "Reset Password",
+    "resetPasswordPrompt": "Please enter a valid email to reset password",
+    "resetPasswordSuccess": "Password reset email sent successfully.",
+    "selectProfileImage": "Please select a profile image.",
+    "verifyEmailTitle": "Verify your E-mail address",
+    "verifyEmail": "Verify Email",
+    "enterCode": "Enter code",
+    "invalidCode": "Invalid verification code",
+    "logout": "Logout",
+    "privacyPolicy": {
+      "accept": "By Creating an Account, i accept Tech Nest ",
+      "terms": "Terms of Use",
+      "and": " and ",
+      "policy": "Privacy Policy"
+    }
+  },
+  "home": {
+    "discover": "Discover",
+    "search": "Search products...",
+    "filters": "Filters",
+    "categories": "Categories",
+    "priceRange": "Price Range",
+    "sortBy": "Sort by",
+    "orderBy": "Order by",
+    "sortTypes": {
+      "name": "Name",
+      "price": "Price"
+    },
+    "orderTypes": {
+      "asc": "Ascending",
+      "desc": "Descending"
+    },
+    "applyFilters(cardinal, n)": {
+      "zero": "Apply Filters",
+      "one": "Apply 1 Filter",
+      "other": "Apply $n Filters"
+    },
+    "activeFilters": "Active Filters",
+    "clearAll": "Clear All",
+    "minPrice": "Min Price",
+    "maxPrice": "Max Price"
+  },
+  "products": {
+    "category": "Category: $category",
+    "inStock(cardinal, n)": {
+      "one": "In Stock (1)",
+      "other": "In Stock ($n)"
+    },
+    "outOfStock": "Out of Stock",
+    "addToCart": "Add to Cart",
+    "updateCart": "Update Cart Quantity",
+    "description": "Description"
+  },
+  "cart": {
+    "title": "My Cart",
+    "empty": "Your cart is empty",
+    "emptyDesc": "Looks like you haven't added anything to your cart yet. Explore our products and find something you love!",
+    "startShopping": "Start Shopping",
+    "summary": "Order Summary",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "items": "Items",
+    "delivery": "Delivery Charges",
+    "free": "Free",
+    "checkout": "Checkout"
+  },
+  "settings": {
+    "title": "Settings",
+    "preferences": "Preferences",
+    "darkMode": "Dark Mode",
+    "notifications": "Notifications",
+    "help": "Help & Support",
+    "about": "About App",
+    "logout": "Logout",
+    "logoutConfirm": "Are you sure you want to log out?",
+    "logoutDesc": "You will be redirected to the login screen.",
+    "version": "Version $version",
+    "language": "Language",
+    "english": "English",
+    "arabic": "Arabic",
+    "more": "More"
+  },
+  "errors": {
+    "noInternet": "No Internet Connection",
+    "requestFailed": "Request Failed",
+    "noResults": "No results found",
+    "noResultsSearch": "We couldn't find what you're looking for. Try a different search.",
+    "noResultsFilter": "We couldn't find any products matching your filters. Try adjusting your filters.",
+    "loadMoreFailed": "Could not load more products"
+  }
+}

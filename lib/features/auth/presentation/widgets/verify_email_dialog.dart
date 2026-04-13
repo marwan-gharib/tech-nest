@@ -6,6 +6,7 @@ import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_pin_code_dialog.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class VerifyEmailDialog extends StatefulWidget {
   final String email;
@@ -63,7 +64,9 @@ class _VerifyEmailDialogState extends State<VerifyEmailDialog> {
               CustomPinCodeDialog(
                 pinCodeController: _controller,
                 isErrNotifire: _isErrNotifier,
-                label: "Verify your E-mail address",
+                label: context.t.auth.verifyEmailTitle,
+                hint: context.t.auth.enterCode,
+                errorText: context.t.auth.invalidCode,
               ),
               const SizedBox(height: AppSpacing.xxl),
               BlocConsumer<VerifyEmailCubit, VerifyEmailState>(
@@ -103,7 +106,7 @@ class _VerifyEmailDialogState extends State<VerifyEmailDialog> {
 
     return ElevatedButton(
       onPressed: _controller.text.isEmpty ? null : _onButtonPressed,
-      child: const Text("Verify Email"),
+      child: Text(context.t.auth.verifyEmail),
     );
   }
 

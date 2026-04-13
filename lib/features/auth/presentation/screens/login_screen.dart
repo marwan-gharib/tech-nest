@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
@@ -50,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: const Text("Login")),
+        appBar: AppBar(title: Text(context.t.auth.login)),
         body: ListView(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
@@ -80,8 +81,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: AppSpacing.xl),
             AskNavigationWidget(
-              question: 'Don\'t have an account?',
-              screenLabel: 'Sign Up',
+              question: context.t.auth.dontHaveAccount,
+              screenLabel: context.t.auth.signUp,
               onTap: () => context.go(Routes.signUpScreenPath),
             ),
           ],
@@ -107,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } else {
       CustomSnackBar.show(
         context,
-        message: "Please enter a valid email to reset password",
+        message: context.t.auth.resetPasswordPrompt,
       );
     }
   }
@@ -133,7 +134,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (context.mounted) {
         CustomSnackBar.show(
           context,
-          message: "Password reset email sent successfully.",
+          message: context.t.auth.resetPasswordSuccess,
           isAbove: true,
         );
       }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/home/presentation/widgets/custom_price_field.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class FilterPriceRangeFields extends StatelessWidget {
   final TextEditingController minPrice;
@@ -28,7 +29,7 @@ class FilterPriceRangeFields extends StatelessWidget {
           Expanded(
             child: CustomPriceField(
               controller: minPrice,
-              label: 'Min price',
+              label: context.t.home.minPrice,
               errorText: minPriceError,
             ),
           ),
@@ -51,7 +52,7 @@ class FilterPriceRangeFields extends StatelessWidget {
           Expanded(
             child: CustomPriceField(
               controller: maxPrice,
-              label: 'Max price',
+              label: context.t.home.maxPrice,
               errorText: maxPriceError,
             ),
           ),

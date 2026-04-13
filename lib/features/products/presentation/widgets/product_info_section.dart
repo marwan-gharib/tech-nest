@@ -3,6 +3,7 @@ import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/build_price.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/products/presentation/widgets/custom_counter.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class ProductInfoSection extends StatelessWidget {
   final ProductEntity product;
@@ -35,7 +36,7 @@ class ProductInfoSection extends StatelessWidget {
                 ),
               ),
               Text(
-                "Category: ${product.category.name}",
+                context.t.products.category(category: product.category.name),
                 style: theme.textTheme.labelLarge?.copyWith(
                   color: secondaryColor,
                 ),
@@ -43,8 +44,8 @@ class ProductInfoSection extends StatelessWidget {
               BuildPrice(price: product.price, isLabeled: true),
               Text(
                 product.stock > 0
-                    ? "In Stock (${product.stock})"
-                    : "Out of Stock",
+                    ? context.t.products.inStock(n: product.stock)
+                    : context.t.products.outOfStock,
                 style: theme.textTheme.labelMedium?.copyWith(
                   color: product.stock > 0
                       ? theme.colorScheme.tertiary

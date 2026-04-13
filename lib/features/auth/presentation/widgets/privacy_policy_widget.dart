@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/constants/links.dart';
 import 'package:tech_nest/core/shared/utils/lanch_url.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class PrivacyPolicyWidget extends StatelessWidget {
   final ValueNotifier<bool> _checkBoxNotifier;
@@ -33,18 +34,18 @@ class PrivacyPolicyWidget extends StatelessWidget {
           child: Wrap(
             children: [
               Text(
-                'By Creating an Account, i accept Tech Nest ',
+                context.t.auth.privacyPolicy.accept,
                 style: theme.textTheme.bodySmall,
               ),
               _textLink(
                 context,
-                text: "Terms of Use",
+                text: context.t.auth.privacyPolicy.terms,
                 link: Links.termaAndConditionsLink,
               ),
-              Text(' and ', style: theme.textTheme.bodySmall),
+              Text(context.t.auth.privacyPolicy.and, style: theme.textTheme.bodySmall),
               _textLink(
                 context,
-                text: "Privacy Policy",
+                text: context.t.auth.privacyPolicy.policy,
                 link: Links.privacyPolicyLink,
               ),
             ],

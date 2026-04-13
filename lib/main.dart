@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/local/secure/secure_storage_client.dart';
 import 'package:tech_nest/core/routing/app_router.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
 import 'package:tech_nest/core/theme/app_theme.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,10 +25,13 @@ Future<void> main() async {
   }
 
   runApp(
-    ProviderScope(
+    TranslationProvider(
       child: MultiBlocProvider(
-        providers: [BlocProvider(create: (context) => sl<ThemeCubit>())],
-        child: const MyApp(),
+        providers: [
+          BlocProvider(create: (context) => sl<ThemeCubit>()),
+          BlocProvider(create: (context) => sl<LocaleCubit>()),
+        ],
+        child: const ProviderScope(child: MyApp()),
       ),
     ),
   );
@@ -44,6 +50,9 @@ class MyApp extends StatelessWidget {
       themeAnimationCurve: Curves.easeInOut,
       themeMode: context.watch<ThemeCubit>().state.mode,
       routerConfig: AppRouter.routes,
+      locale: TranslationProvider.of(context).flutterLocale,
+      supportedLocales: AppLocaleUtils.supportedLocales,
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
     );
   }
 }

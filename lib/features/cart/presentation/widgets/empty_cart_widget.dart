@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
@@ -29,7 +30,7 @@ class EmptyCartWidget extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.lg),
           Text(
-            "Your cart is empty",
+            context.t.cart.empty,
             style: theme.textTheme.headlineSmall?.copyWith(
               fontWeight: FontWeight.bold,
               color: colorScheme.onSurface,
@@ -39,7 +40,7 @@ class EmptyCartWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
             child: Text(
-              "Looks like you haven't added anything to your cart yet. Explore our products and find something you love!",
+              context.t.cart.emptyDesc,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.hintColor,
@@ -49,7 +50,7 @@ class EmptyCartWidget extends StatelessWidget {
           const SizedBox(height: AppSpacing.xl),
           ElevatedButton(
             onPressed: () => context.go(Routes.homeScreenPath),
-            child: const Text("Start Shopping"),
+            child: Text(context.t.cart.startShopping),
           ),
         ],
       ),

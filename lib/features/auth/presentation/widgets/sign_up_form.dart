@@ -3,6 +3,7 @@ import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/shared/utils/validators.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/privacy_policy_widget.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class SignUpForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
@@ -32,16 +33,16 @@ class SignUpForm extends StatelessWidget {
         children: [
           CustomInputField(
             controller: fullName,
-            label: "Full Name",
-            hint: "Enter your name",
+            label: context.t.auth.fullName,
+            hint: context.t.auth.enterName,
             keyboardType: TextInputType.name,
             validator: Validators.fullNameValidator,
           ),
           const SizedBox(height: AppSpacing.lg),
           CustomInputField(
             controller: email,
-            label: "E-mail Address",
-            hint: "example@email.com",
+            label: context.t.auth.email,
+            hint: context.t.auth.emailHint,
             keyboardType: TextInputType.emailAddress,
             validator: Validators.emailValidator,
           ),
@@ -53,7 +54,7 @@ class SignUpForm extends StatelessWidget {
                 children: [
                   CustomInputField(
                     controller: password,
-                    label: "Password",
+                    label: context.t.auth.password,
                     hint: "* " * 8,
                     keyboardType: TextInputType.visiblePassword,
                     isPassword: true,
@@ -65,7 +66,7 @@ class SignUpForm extends StatelessWidget {
                   const SizedBox(height: AppSpacing.lg),
                   CustomInputField(
                     controller: confirmPassword,
-                    label: "Confirm Password",
+                    label: context.t.auth.confirmPassword,
                     hint: "* " * 8,
                     keyboardType: TextInputType.visiblePassword,
                     isPassword: true,

@@ -7,6 +7,7 @@ import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_pin_code_dialog.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/reset_password_form_fields.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class ResetPasswordDialog extends StatefulWidget {
   final String email;
@@ -84,7 +85,9 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
                   CustomPinCodeDialog(
                     pinCodeController: _code,
                     isErrNotifire: _isErrNotifire,
-                    label: "Reset Password",
+                    label: context.t.auth.resetPassword,
+                    hint: context.t.auth.enterCode,
+                    errorText: context.t.auth.invalidCode,
                   ),
                   const SizedBox(height: AppSpacing.lg),
                   ResetPasswordFormFields(
@@ -133,7 +136,7 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
       onPressed: _code.text.length < AuthConstants.verificationPinLength
           ? null
           : _onButtonPressed,
-      child: const Text("Reset Password"),
+      child: Text(context.t.auth.resetPassword),
     );
   }
 
