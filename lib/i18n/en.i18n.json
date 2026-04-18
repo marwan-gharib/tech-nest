@@ -8,6 +8,12 @@
     "yes": "Yes",
     "no": "No"
   },
+  "nav": {
+    "home": "Home",
+    "cart": "Cart",
+    "categories": "Categories",
+    "settings": "Settings"
+  },
   "auth": {
     "login": "Login",
     "signUp": "Sign Up",

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
-import 'package:tech_nest/core/shared/utils/logger.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/remote_data_failure_view.dart';
+import 'package:tech_nest/core/shared/utils/logger.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_item_card.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_items_skeleton_list.dart';
@@ -28,42 +29,48 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm + 2),
-          child: Stack(
-            children: [
-              BlocConsumer<CartCubit, CartState>(
-                listenWhen: (p, c) =>
-                    c is CartLoaded &&
-                    c.mutationFailure != null &&
-                    (p is! CartLoaded ||
-                        p.mutationFailure != c.mutationFailure),
-                listener: (context, state) {
-                  if (state is CartLoaded && state.mutationFailure != null) {
-                    CustomSnackBar.showError(
-                      context,
-                      failure: state.mutationFailure!,
+        body: BlocListener<LocaleCubit, LocaleState>(
+          listenWhen: (previous, current) => previous.locale != current.locale,
+          listener: (context, state) {
+            context.read<CartCubit>().fetchCart();
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm + 2),
+            child: Stack(
+              children: [
+                BlocConsumer<CartCubit, CartState>(
+                  listenWhen: (p, c) =>
+                      c is CartLoaded &&
+                      c.mutationFailure != null &&
+                      (p is! CartLoaded ||
+                          p.mutationFailure != c.mutationFailure),
+                  listener: (context, state) {
+                    if (state is CartLoaded && state.mutationFailure != null) {
+                      CustomSnackBar.showError(
+                        context,
+                        failure: state.mutationFailure!,
+                      );
+                      context.read<CartCubit>().clearMutationError();
+                    }
+                  },
+                  buildWhen: (previous, current) => previous != current,
+                  builder: _listBuilder,
+                ),
+                BlocBuilder<CartCubit, CartState>(
+                  buildWhen: (p, c) =>
+                      c is CartLoaded || (p is CartLoaded && c is! CartLoaded),
+                  builder: (context, state) {
+                    if (state is! CartLoaded || state.cart.items.isEmpty) {
+                      return const SizedBox.shrink();
+                    }
+                    return const Align(
+                      alignment: Alignment.bottomCenter,
+                      child: OrderSummary(),
                     );
-                    context.read<CartCubit>().clearMutationError();
-                  }
-                },
-                buildWhen: (previous, current) => previous != current,
-                builder: _listBuilder,
-              ),
-              BlocBuilder<CartCubit, CartState>(
-                buildWhen: (p, c) =>
-                    c is CartLoaded || (p is CartLoaded && c is! CartLoaded),
-                builder: (context, state) {
-                  if (state is! CartLoaded || state.cart.items.isEmpty) {
-                    return const SizedBox.shrink();
-                  }
-                  return const Align(
-                    alignment: Alignment.bottomCenter,
-                    child: OrderSummary(),
-                  );
-                },
-              ),
-            ],
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

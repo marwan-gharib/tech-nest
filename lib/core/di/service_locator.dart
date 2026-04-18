@@ -10,6 +10,7 @@ import 'package:tech_nest/core/network/api_client.dart';
 import 'package:tech_nest/core/network/dio_client.dart';
 import 'package:tech_nest/core/network/interceptors/auth_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/error_interceptor.dart';
+import 'package:tech_nest/core/network/interceptors/locale_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/logging_interceptor.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/shared/data/datasources/local/user_local_datasource.dart';
@@ -39,6 +40,7 @@ Future<void> initDependencies() async {
 
   // ── Interceptors (must be registered BEFORE DioClient) ────────────────────
   sl.registerLazySingleton(() => AuthInterceptor(sl<SecureStorageClient>()));
+  sl.registerLazySingleton(() => LocaleInterceptor());
   sl.registerLazySingleton(
     () => ErrorInterceptor(sl<CacheService>(), sl<AuthNotifier>()),
   );
@@ -50,6 +52,7 @@ Future<void> initDependencies() async {
     () => DioClient(
       dio: sl<Dio>(),
       authInterceptor: sl<AuthInterceptor>(),
+      localeInterceptor: sl<LocaleInterceptor>(),
       errorInterceptor: sl<ErrorInterceptor>(),
       loggingInterceptor: sl<LoggingInterceptor>(),
     ),

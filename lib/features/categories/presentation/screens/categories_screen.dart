@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/widgets/left_category_sidebar.dart';
 import 'package:tech_nest/features/categories/presentation/widgets/right_product_list.dart';
@@ -45,29 +47,33 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: Row(
-        children: [
-          Expanded(
-            flex: 4,
-            child: LeftCategorySidebar(
-              selectedCategoryIndex: _selectedCategoryIndex,
-              onCategorySelected: (index, categoryId) {
-                _scrollController.jumpTo(0);
-                context
-                    .read<CategoryProductsCubit>()
-                    .fetchInitialCategoryProducts(categoryId: categoryId);
-              },
+    return BlocListener<LocaleCubit, LocaleState>(
+      listenWhen: (previous, current) => previous.locale != current.locale,
+      listener: (context, state) {
+        context.read<FetchCategoriesCubit>().fetchCategories();
+      },
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Row(
+          children: [
+            Expanded(
+              flex: 4,
+              child: LeftCategorySidebar(
+                selectedCategoryIndex: _selectedCategoryIndex,
+                onCategorySelected: (index, categoryId) {
+                  _scrollController.jumpTo(0);
+                  context
+                      .read<CategoryProductsCubit>()
+                      .fetchInitialCategoryProducts(categoryId: categoryId);
+                },
+              ),
             ),
-          ),
-          Expanded(
-            flex: 6,
-            child: RightProductList(
-              scrollController: _scrollController,
+            Expanded(
+              flex: 6,
+              child: RightProductList(scrollController: _scrollController),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

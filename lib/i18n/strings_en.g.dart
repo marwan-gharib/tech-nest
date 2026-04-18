@@ -41,6 +41,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 
 	// Translations
 	late final TranslationsCommonEn common = TranslationsCommonEn._(_root);
+	late final TranslationsNavEn nav = TranslationsNavEn._(_root);
 	late final TranslationsAuthEn auth = TranslationsAuthEn._(_root);
 	late final TranslationsHomeEn home = TranslationsHomeEn._(_root);
 	late final TranslationsProductsEn products = TranslationsProductsEn._(_root);
@@ -77,6 +78,27 @@ class TranslationsCommonEn {
 
 	/// en: 'No'
 	String get no => 'No';
+}
+
+// Path: nav
+class TranslationsNavEn {
+	TranslationsNavEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Home'
+	String get home => 'Home';
+
+	/// en: 'Cart'
+	String get cart => 'Cart';
+
+	/// en: 'Categories'
+	String get categories => 'Categories';
+
+	/// en: 'Settings'
+	String get settings => 'Settings';
 }
 
 // Path: auth
@@ -421,6 +443,10 @@ extension on Translations {
 			'common.error' => 'Something went wrong',
 			'common.yes' => 'Yes',
 			'common.no' => 'No',
+			'nav.home' => 'Home',
+			'nav.cart' => 'Cart',
+			'nav.categories' => 'Categories',
+			'nav.settings' => 'Settings',
 			'auth.login' => 'Login',
 			'auth.signUp' => 'Sign Up',
 			'auth.fullName' => 'Full Name',

@@ -67,22 +67,28 @@ class SettingsScreen extends StatelessWidget {
                     title: context.t.settings.language,
                     trailing: BlocBuilder<LocaleCubit, LocaleState>(
                       builder: (context, state) {
-                        return DropdownButton<AppLocale>(
-                          value: state.locale,
-                          underline: const SizedBox.shrink(),
-                          items: [
-                            DropdownMenuItem(
-                              value: AppLocale.en,
-                              child: Text(context.t.settings.english),
+                        return SegmentedButton<AppLocale>(
+                          style: SegmentedButton.styleFrom(
+                            visualDensity: VisualDensity.compact,
+                            textStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
                             ),
-                            DropdownMenuItem(
+                          ),
+                          showSelectedIcon: false,
+                          segments: const [
+                            ButtonSegment(
+                              value: AppLocale.en,
+                              label: Text('EN', textAlign: TextAlign.center),
+                            ),
+                            ButtonSegment(
                               value: AppLocale.ar,
-                              child: Text(context.t.settings.arabic),
+                              label: Text('عربي', textAlign: TextAlign.center),
                             ),
                           ],
-                          onChanged: (locale) {
-                            if (locale != null) {
-                              context.read<LocaleCubit>().setLocale(locale);
+                          selected: {state.locale},
+                          onSelectionChanged: (Set<AppLocale> newSelection) {
+                            if (newSelection.isNotEmpty) {
+                              context.read<LocaleCubit>().setLocale(newSelection.first);
                             }
                           },
                         );
