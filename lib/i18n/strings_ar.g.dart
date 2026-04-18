@@ -38,6 +38,7 @@ class TranslationsAr with BaseTranslations<AppLocale, Translations> implements T
 
 	// Translations
 	@override late final _TranslationsCommonAr common = _TranslationsCommonAr._(_root);
+	@override late final _TranslationsNavAr nav = _TranslationsNavAr._(_root);
 	@override late final _TranslationsAuthAr auth = _TranslationsAuthAr._(_root);
 	@override late final _TranslationsHomeAr home = _TranslationsHomeAr._(_root);
 	@override late final _TranslationsProductsAr products = _TranslationsProductsAr._(_root);
@@ -60,6 +61,19 @@ class _TranslationsCommonAr implements TranslationsCommonEn {
 	@override String get error => 'حدث خطأ ما';
 	@override String get yes => 'نعم';
 	@override String get no => 'لا';
+}
+
+// Path: nav
+class _TranslationsNavAr implements TranslationsNavEn {
+	_TranslationsNavAr._(this._root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get home => 'الرئيسية';
+	@override String get cart => 'السله';
+	@override String get categories => 'الأقسام';
+	@override String get settings => 'الإعدادات';
 }
 
 // Path: auth
@@ -246,6 +260,10 @@ extension on TranslationsAr {
 			'common.error' => 'حدث خطأ ما',
 			'common.yes' => 'نعم',
 			'common.no' => 'لا',
+			'nav.home' => 'الرئيسية',
+			'nav.cart' => 'السله',
+			'nav.categories' => 'الأقسام',
+			'nav.settings' => 'الإعدادات',
 			'auth.login' => 'تسجيل الدخول',
 			'auth.signUp' => 'إنشاء حساب',
 			'auth.fullName' => 'الاسم الكامل',

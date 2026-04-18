@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:tech_nest/core/theme/app_colors.dart';
 import 'package:tech_nest/features/app_shell/presentation/widgets/cart_badge.dart';
 
@@ -31,32 +32,32 @@ class BottomNavBar extends StatelessWidget {
         type: BottomNavigationBarType.shifting,
         currentIndex: navigationShell.currentIndex,
         onTap: onTap,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home_rounded),
-            label: "Home",
+            icon: const Icon(Icons.home_outlined),
+            activeIcon: const Icon(Icons.home_rounded),
+            label: context.t.nav.home,
           ),
           BottomNavigationBarItem(
-            icon: Stack(
+            icon: const Stack(
               clipBehavior: Clip.none,
               children: [Icon(Icons.shopping_cart_outlined), CartBadge()],
             ),
-            activeIcon: Stack(
+            activeIcon: const Stack(
               clipBehavior: Clip.none,
               children: [Icon(Icons.shopping_cart_rounded), CartBadge()],
             ),
-            label: "Cart",
+            label: context.t.nav.cart,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.category_outlined),
-            activeIcon: Icon(Icons.category_rounded),
-            label: "Categories",
+            icon: const Icon(Icons.category_outlined),
+            activeIcon: const Icon(Icons.category_rounded),
+            label: context.t.nav.categories,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined),
-            activeIcon: Icon(Icons.settings_rounded),
-            label: "Settings",
+            icon: const Icon(Icons.settings_outlined),
+            activeIcon: const Icon(Icons.settings_rounded),
+            label: context.t.nav.settings,
           ),
         ],
       ),

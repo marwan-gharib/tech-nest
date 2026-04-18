@@ -10,6 +10,7 @@ class DioClient extends ApiClient {
   DioClient({
     required this.dio,
     required Interceptor authInterceptor,
+    required Interceptor localeInterceptor,
     required Interceptor errorInterceptor,
     required Interceptor loggingInterceptor,
   }) {
@@ -18,6 +19,7 @@ class DioClient extends ApiClient {
     dio.options.receiveTimeout = const Duration(seconds: 30);
     dio.options.sendTimeout = const Duration(seconds: 30);
     dio.interceptors.add(authInterceptor);
+    dio.interceptors.add(localeInterceptor);
     dio.interceptors.add(errorInterceptor);
     dio.interceptors.add(loggingInterceptor);
     dio.interceptors.add(

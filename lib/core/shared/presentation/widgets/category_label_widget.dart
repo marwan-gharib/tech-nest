@@ -27,7 +27,7 @@ class CategoryLabelWidget<T> extends StatelessWidget {
           }
         },
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 800),
+          duration: const Duration(milliseconds: 150),
           curve: Curves.easeInOutCubic,
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
@@ -60,7 +60,7 @@ class CategoryLabelWidget<T> extends StatelessWidget {
                 color: isSelected
                     ? theme.colorScheme.onPrimary
                     : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
-                fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                fontWeight: FontWeight.w700,
                 fontSize: 13,
               ),
               child: Text(

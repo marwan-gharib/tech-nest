@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/models/filter_data.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/move_to_first_scroll_position_widget.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/products_grid.dart';
@@ -74,53 +75,59 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surface,
-      body: Stack(
-        children: [
-          RefreshIndicator(
-            onRefresh: _onRefresh,
-            edgeOffset: 0,
-            displacement: 100,
-            child: CustomScrollView(
-              controller: _scrollController,
-              physics: const AlwaysScrollableScrollPhysics(
-                parent: ClampingScrollPhysics(),
+      body: BlocListener<LocaleCubit, LocaleState>(
+        listenWhen: (previous, current) => previous.locale != current.locale,
+        listener: (context, state) {
+          _onRefresh();
+        },
+        child: Stack(
+          children: [
+            RefreshIndicator(
+              onRefresh: _onRefresh,
+              edgeOffset: 0,
+              displacement: 100,
+              child: CustomScrollView(
+                controller: _scrollController,
+                physics: const AlwaysScrollableScrollPhysics(
+                  parent: ClampingScrollPhysics(),
+                ),
+                slivers: [
+                  HomeAppBar(
+                    searchController: _searchController,
+                    onFilterPressed: _showBottomSheet,
+                  ),
+                  const SliverPadding(
+                    padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                    sliver: ProductsGrid(),
+                  ),
+                  const SliverToBoxAdapter(
+                    child: SizedBox(height: AppSpacing.xxl + AppSpacing.md),
+                  ),
+                ],
               ),
-              slivers: [
-                HomeAppBar(
-                  searchController: _searchController,
-                  onFilterPressed: _showBottomSheet,
-                ),
-                const SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                  sliver: ProductsGrid(),
-                ),
-                const SliverToBoxAdapter(
-                  child: SizedBox(height: AppSpacing.xxl + AppSpacing.md),
-                ),
-              ],
             ),
-          ),
-          Positioned(
-            bottom: AppSpacing.xxl,
-            right: AppSpacing.md,
-            child: BlocSelector<FetchProductsCubit, FetchProductsState, bool>(
-              selector: (state) => state is FetchProductsLoaded,
-              builder: (context, isLoaded) {
-                return ValueListenableBuilder<bool>(
-                  valueListenable: _showScrollToTop,
-                  builder: (context, show, _) {
-                    return Visibility(
-                      visible: isLoaded && show,
-                      child: MoveToFirstScrollPositionWidget(
-                        onTap: _scrollToTop,
-                      ),
-                    );
-                  },
-                );
-              },
+            Positioned(
+              bottom: AppSpacing.xxl,
+              right: AppSpacing.md,
+              child: BlocSelector<FetchProductsCubit, FetchProductsState, bool>(
+                selector: (state) => state is FetchProductsLoaded,
+                builder: (context, isLoaded) {
+                  return ValueListenableBuilder<bool>(
+                    valueListenable: _showScrollToTop,
+                    builder: (context, show, _) {
+                      return Visibility(
+                        visible: isLoaded && show,
+                        child: MoveToFirstScrollPositionWidget(
+                          onTap: _scrollToTop,
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
