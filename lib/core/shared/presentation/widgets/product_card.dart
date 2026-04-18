@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
@@ -47,19 +48,22 @@ class ProductCard extends StatelessWidget {
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(AppRadius.lg),
                 ),
-                child: CachedNetworkImage(
-                  filterQuality: FilterQuality.high,
-                  fit: BoxFit.cover,
-                  memCacheHeight: 300,
-                  memCacheWidth: 300,
-                  imageUrl: "${Endpoints.baseUrl}${product.imgUrl}",
-                  placeholder: (context, url) =>
-                      SpinKitWaveSpinner(color: colorScheme.primary, size: 40),
-                  errorWidget: (context, url, error) => Container(
-                    color: colorScheme.surfaceContainerHighest,
-                    child: Icon(
-                      Icons.broken_image_outlined,
-                      color: colorScheme.outline,
+                child: Hero(
+                  tag: 'product-${product.id}',
+                  child: CachedNetworkImage(
+                    filterQuality: FilterQuality.high,
+                    fit: BoxFit.cover,
+                    memCacheHeight: 300,
+                    memCacheWidth: 300,
+                    imageUrl: "${Endpoints.baseUrl}${product.imgUrl}",
+                    placeholder: (context, url) =>
+                        SpinKitWaveSpinner(color: colorScheme.primary, size: 40),
+                    errorWidget: (context, url, error) => Container(
+                      color: colorScheme.surfaceContainerHighest,
+                      child: Icon(
+                        Icons.broken_image_outlined,
+                        color: colorScheme.outline,
+                      ),
                     ),
                   ),
                 ),
@@ -127,10 +131,13 @@ class ProductCard extends StatelessWidget {
 
     return IconButton(
       onPressed: product.stock > 0
-          ? () => context.read<CartCubit>().add(
-              productId: product.id,
-              quantity: 1,
-            )
+          ? () {
+              HapticFeedback.lightImpact();
+              context.read<CartCubit>().add(
+                    productId: product.id,
+                    quantity: 1,
+                  );
+            }
           : null,
       icon: Container(
         padding: const EdgeInsets.all(AppSpacing.xs),

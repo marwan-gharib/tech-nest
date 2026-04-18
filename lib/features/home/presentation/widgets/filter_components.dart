@@ -7,7 +7,7 @@ import 'package:tech_nest/core/shared/domain/enums/sort_type.dart';
 import 'package:tech_nest/core/shared/presentation/models/filter_data.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/home/presentation/notifires/filter_components_notifier.dart';
+import 'package:tech_nest/features/home/presentation/notifiers/filter_components_notifier.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_apply_button.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_category_section.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_header.dart';

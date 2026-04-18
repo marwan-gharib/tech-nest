@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
@@ -21,7 +22,13 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  int quantityCounter = 1;
+  final _quantityNotifier = ValueNotifier<int>(1);
+
+  @override
+  void dispose() {
+    _quantityNotifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +68,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   children: [
                     ProductInfoSection(
                       product: product,
-                      onQuantityChanged: (value) => quantityCounter = value,
+                      onQuantityChanged: (value) => _quantityNotifier.value = value,
                     ),
                     const Divider(),
                     ProductDescriptionSection(description: product.description),
@@ -69,14 +76,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     BlocListener<CartCubit, CartState>(
                       listenWhen: (previous, current) => current is CartLoaded,
                       listener: _listener,
-                      child: AddToCartAction(
-                        state: context.read<CartCubit>().state,
-                        productId: product.id,
-                        onAdd: () => context.read<CartCubit>().add(
-                          productId: product.id,
-                          quantity: quantityCounter,
-                        ),
-                        isAvailable: product.stock > 0,
+                      child: ValueListenableBuilder<int>(
+                        valueListenable: _quantityNotifier,
+                        builder: (context, quantity, child) {
+                          return AddToCartAction(
+                            state: context.read<CartCubit>().state,
+                            productId: product.id,
+                            onAdd: () {
+                              HapticFeedback.lightImpact();
+                              context.read<CartCubit>().add(
+                                    productId: product.id,
+                                    quantity: quantity,
+                                  );
+                            },
+                            isAvailable: product.stock > 0,
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(height: AppSpacing.xxl),

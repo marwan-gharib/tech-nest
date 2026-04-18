@@ -5,8 +5,8 @@ import 'package:tech_nest/features/settings/presentation/cubits/logout_cubit/log
 import 'package:tech_nest/features/settings/presentation/cubits/user_profile/user_profile_cubit.dart';
 
 void initSettingsDI(GetIt sl) {
-  sl.registerLazySingleton<UserProfileCubit>(
+  sl.registerFactory<UserProfileCubit>(
     () => UserProfileCubit(sl<UserLocalDataSource>()),
   );
-  sl.registerLazySingleton<LogoutCubit>(() => LogoutCubit(sl<LogoutUsecase>()));
+  sl.registerFactory<LogoutCubit>(() => LogoutCubit(sl<LogoutUsecase>()));
 }

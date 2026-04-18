@@ -12,7 +12,6 @@ class DioClient extends ApiClient {
     required Interceptor authInterceptor,
     required Interceptor localeInterceptor,
     required Interceptor errorInterceptor,
-    required Interceptor loggingInterceptor,
   }) {
     dio.options.baseUrl = Endpoints.apiUserBase;
     dio.options.connectTimeout = const Duration(seconds: 30);
@@ -21,7 +20,6 @@ class DioClient extends ApiClient {
     dio.interceptors.add(authInterceptor);
     dio.interceptors.add(localeInterceptor);
     dio.interceptors.add(errorInterceptor);
-    dio.interceptors.add(loggingInterceptor);
     dio.interceptors.add(
       LogInterceptor(requestBody: true, responseBody: true),
     ); // never delete it
@@ -69,6 +67,8 @@ class DioClient extends ApiClient {
       return response.data;
     } on DioException catch (e) {
       DioExceptions.handle(e);
+    } on ServerException {
+      rethrow;
     } catch (e) {
       throw Exception("Something went wrong. Please try again.");
     }
@@ -92,6 +92,8 @@ class DioClient extends ApiClient {
       return response.data;
     } on DioException catch (e) {
       DioExceptions.handle(e);
+    } on ServerException {
+      rethrow;
     } catch (e) {
       throw Exception("Something went wrong. Please try again.");
     }
@@ -114,6 +116,8 @@ class DioClient extends ApiClient {
       return response.data;
     } on DioException catch (e) {
       DioExceptions.handle(e);
+    } on ServerException {
+      rethrow;
     } catch (e) {
       throw Exception("Something went wrong. Please try again.");
     }

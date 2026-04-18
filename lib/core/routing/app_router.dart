@@ -2,6 +2,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/core/local/cache/cache_service.dart';
+import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
@@ -16,6 +18,7 @@ import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/r
 import 'package:tech_nest/features/auth/presentation/screens/login_screen.dart';
 import 'package:tech_nest/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:tech_nest/features/cart/presentation/screens/cart_items_screen.dart';
+import 'package:tech_nest/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/screens/categories_screen.dart';
 import 'package:tech_nest/features/home/presentation/screens/home_screen.dart';
@@ -41,15 +44,27 @@ class AppRouter {
       ),
       _signUpScreenRouter,
       _loginScreenRouter,
+      _onboardingScreenRouter,
     ],
     refreshListenable: _authNotifier,
     redirect: (context, state) {
       AppLogger.log(state.matchedLocation);
+      
+      final bool hasSeenOnboarding = sl<CacheService>().get(AppConstants.onboardingKey) as bool? ?? false;
+      
+      if (!hasSeenOnboarding && state.matchedLocation != Routes.onboardingScreenPath) {
+        return Routes.onboardingScreenPath;
+      }
+      
+      if (hasSeenOnboarding && state.matchedLocation == Routes.onboardingScreenPath) {
+        return Routes.loginScreenPath;
+      }
+
       final bool isAuth = _authNotifier.isAuth;
       final authRoutes = [Routes.loginScreenPath, Routes.signUpScreenPath];
       final bool isAuthRoute = authRoutes.contains(state.matchedLocation);
 
-      if (!isAuth && !isAuthRoute) {
+      if (!isAuth && !isAuthRoute && state.matchedLocation != Routes.onboardingScreenPath) {
         return Routes.loginScreenPath;
       } else if (isAuth && isAuthRoute) {
         return Routes.homeScreenPath;
@@ -65,6 +80,11 @@ class AppRouter {
   ) => BlocProvider(
     create: (context) => sl<CartCubit>()..fetchCart(),
     child: AppShellEntry(navigationShell: navigationShell),
+  );
+
+  static final _onboardingScreenRouter = GoRoute(
+    path: Routes.onboardingScreenPath,
+    builder: (context, state) => const OnboardingScreen(),
   );
 
   static final _signUpScreenRouter = GoRoute(

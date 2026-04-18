@@ -12,7 +12,7 @@ class BuildConfig {
 
   static const String apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://192.168.1.13/tech-nest-backend/',
+    defaultValue: '',
   );
 
   static bool get isDev => _environment == 'dev';

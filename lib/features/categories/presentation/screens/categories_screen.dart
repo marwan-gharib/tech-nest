@@ -53,7 +53,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         context.read<FetchCategoriesCubit>().fetchCategories();
       },
       child: SizedBox(
-        height: MediaQuery.of(context).size.height,
+        height: MediaQuery.sizeOf(context).height,
         child: Row(
           children: [
             Expanded(

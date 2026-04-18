@@ -13,21 +13,24 @@ class ProductHeroImage extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: MediaQuery.sizeOf(context).height * 0.45,
-      child: CachedNetworkImage(
-        filterQuality: FilterQuality.high,
-        memCacheHeight: 300,
-        memCacheWidth: 300,
-        imageUrl: Endpoints.baseUrl + product.imgUrl,
-        fit: BoxFit.cover,
-        placeholder: (context, url) => SpinKitWaveSpinner(
-          color: Theme.of(context).colorScheme.primary,
-          size: 40,
-        ),
-        errorWidget: (context, url, error) => Container(
-          color: Theme.of(context).colorScheme.surfaceContainerHighest,
-          child: Icon(
-            Icons.broken_image_outlined,
-            color: Theme.of(context).colorScheme.outline,
+      child: Hero(
+        tag: 'product-${product.id}',
+        child: CachedNetworkImage(
+          filterQuality: FilterQuality.high,
+          memCacheHeight: 300,
+          memCacheWidth: 300,
+          imageUrl: Endpoints.baseUrl + product.imgUrl,
+          fit: BoxFit.cover,
+          placeholder: (context, url) => SpinKitWaveSpinner(
+            color: Theme.of(context).colorScheme.primary,
+            size: 40,
+          ),
+          errorWidget: (context, url, error) => Container(
+            color: Theme.of(context).colorScheme.surfaceContainerHighest,
+            child: Icon(
+              Icons.broken_image_outlined,
+              color: Theme.of(context).colorScheme.outline,
+            ),
           ),
         ),
       ),

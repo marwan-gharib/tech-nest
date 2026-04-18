@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:tech_nest/core/shared/domain/entities/category_entity.dart';
 
-class ProductEntity {
+class ProductEntity extends Equatable {
   final int id;
   final String name;
   final String description;
@@ -9,7 +10,7 @@ class ProductEntity {
   final CategoryEntity category;
   final String imgUrl;
 
-  ProductEntity({
+  const ProductEntity({
     required this.id,
     required this.name,
     required this.description,
@@ -19,12 +20,15 @@ class ProductEntity {
     required this.imgUrl,
   });
 
-  ProductEntity.empty()
+  const ProductEntity.empty()
     : id = -1,
       name = "",
       description = "",
       price = 0.0,
       stock = 0,
-      category = CategoryEntity.empty(),
+      category = const CategoryEntity.empty(),
       imgUrl = "";
+
+  @override
+  List<Object?> get props => [id, name, description, price, stock, category, imgUrl];
 }

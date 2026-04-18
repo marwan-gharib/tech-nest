@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/local/secure/secure_storage_client.dart';
 import 'package:tech_nest/core/routing/app_router.dart';
@@ -31,7 +30,7 @@ Future<void> main() async {
           BlocProvider(create: (context) => sl<ThemeCubit>()),
           BlocProvider(create: (context) => sl<LocaleCubit>()),
         ],
-        child: const ProviderScope(child: MyApp()),
+        child: const MyApp(),
       ),
     ),
   );

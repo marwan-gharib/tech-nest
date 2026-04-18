@@ -12,7 +12,7 @@ void initProductsDI(GetIt sl) {
   sl.registerLazySingleton(() => ProductsRemoteDatasource(sl<ApiClient>()));
 
   sl.registerLazySingleton<ProductsSharedRepository>(
-    () => ProductsRepositorysitoryImpl(sl<ProductsRemoteDatasource>()),
+    () => ProductsRepositoryImpl(sl<ProductsRemoteDatasource>()),
   );
 
   sl.registerLazySingleton(

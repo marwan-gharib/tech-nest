@@ -11,7 +11,6 @@ import 'package:tech_nest/core/network/dio_client.dart';
 import 'package:tech_nest/core/network/interceptors/auth_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/error_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/locale_interceptor.dart';
-import 'package:tech_nest/core/network/interceptors/logging_interceptor.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/shared/data/datasources/local/user_local_datasource.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
@@ -42,9 +41,8 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => AuthInterceptor(sl<SecureStorageClient>()));
   sl.registerLazySingleton(() => LocaleInterceptor());
   sl.registerLazySingleton(
-    () => ErrorInterceptor(sl<CacheService>(), sl<AuthNotifier>()),
+    () => ErrorInterceptor(sl<CacheService>(), sl<AuthNotifier>(), sl<SecureStorageClient>()),
   );
-  sl.registerLazySingleton(() => LoggingInterceptor());
 
   // ── Network ───────────────────────────────────────────────────────────────
   sl.registerLazySingleton(() => Dio());
@@ -54,12 +52,11 @@ Future<void> initDependencies() async {
       authInterceptor: sl<AuthInterceptor>(),
       localeInterceptor: sl<LocaleInterceptor>(),
       errorInterceptor: sl<ErrorInterceptor>(),
-      loggingInterceptor: sl<LoggingInterceptor>(),
     ),
   );
 
   // ── Theme ─────────────────────────────────────────────────────────────────
-  sl.registerFactory(() => ThemeCubit(sl<CacheService>()));
+  sl.registerLazySingleton(() => ThemeCubit(sl<CacheService>()));
   sl.registerLazySingleton(() => LocaleCubit(sl<CacheService>()));
 
   // ── Features ──────────────────────────────────────────────────────────────

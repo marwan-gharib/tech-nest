@@ -13,6 +13,6 @@ class AuthInterceptor extends Interceptor {
     if (token != null) {
       options.headers[ApiKeys.token] = token;
     }
-    super.onRequest(options, handler);
+    handler.next(options);
   }
 }

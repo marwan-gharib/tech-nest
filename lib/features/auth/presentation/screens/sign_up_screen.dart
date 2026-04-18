@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
@@ -9,21 +8,21 @@ import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
-import 'package:tech_nest/features/auth/presentation/notifiers/image_provider.dart';
+import 'package:tech_nest/features/auth/presentation/notifiers/profile_image_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widget.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/pick_profile_image.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/sign_up_form.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/verify_email_dialog.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
-class SignUpScreen extends ConsumerStatefulWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends ConsumerState<SignUpScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   late final TextEditingController _fullName;
   late final TextEditingController _email;
   late final TextEditingController _password;
@@ -57,20 +56,25 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen<XFile?>(imageProvider, (previous, next) {
-      if (previous != next) {
-        context.read<RegistrationCubit>().profileImg = next;
-      }
-    });
-
     return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(title: Text(context.t.auth.signUp)),
-        body: BlocListener<RegistrationCubit, RegistrationState>(
-          listenWhen: (p, c) =>
-              c is RegistrationSuccess || c is RegistrationFailed,
-          listener: _listener,
-          child: ListView(
+      child: BlocProvider(
+        create: (context) => ProfileImageCubit(),
+        child: Scaffold(
+          appBar: AppBar(title: Text(context.t.auth.signUp)),
+          body: MultiBlocListener(
+            listeners: [
+              BlocListener<RegistrationCubit, RegistrationState>(
+                listenWhen: (p, c) =>
+                    c is RegistrationSuccess || c is RegistrationFailed,
+                listener: _listener,
+              ),
+              BlocListener<ProfileImageCubit, XFile?>(
+                listener: (context, img) {
+                  context.read<RegistrationCubit>().profileImg = img;
+                },
+              ),
+            ],
+            child: ListView(
             padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.md,
               vertical: AppSpacing.lg,
@@ -106,6 +110,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               const SizedBox(height: AppSpacing.xxl),
             ],
           ),
+          ),
         ),
       ),
     );
@@ -140,14 +145,14 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       );
     }
 
-    return _signUpButton();
+    return _signUpButton(context);
   }
 
-  Widget _signUpButton() {
+  Widget _signUpButton(BuildContext context) {
     return ElevatedButton(
       onPressed: _checkBoxNotifier.value
           ? () {
-              if (ref.read(imageProvider) == null) {
+              if (context.read<ProfileImageCubit>().state == null) {
                 CustomSnackBar.show(
                   context,
                   message: context.t.auth.selectProfileImage,
@@ -166,7 +171,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
       await context.read<RegistrationCubit>().signUp(
         name: _fullName.text.trim(),
         email: _email.text.trim(),
-        password: _password.text.trim(),
+        password: _password.text,
       );
     }
   }

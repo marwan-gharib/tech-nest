@@ -8,10 +8,10 @@ import 'package:tech_nest/core/shared/domain/params/products_params.dart';
 import 'package:tech_nest/core/shared/domain/repositories/products_shared_repository.dart';
 import 'package:tech_nest/features/products/data/datasources/remote/products_remote_data_source.dart';
 
-class ProductsRepositorysitoryImpl implements ProductsSharedRepository {
+class ProductsRepositoryImpl implements ProductsSharedRepository {
   final ProductsRemoteDatasource _dataSource;
 
-  ProductsRepositorysitoryImpl(this._dataSource);
+  ProductsRepositoryImpl(this._dataSource);
 
   @override
   Future<Either<Failure, List<ProductEntity>>> getProducts({

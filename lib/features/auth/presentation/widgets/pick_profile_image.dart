@@ -1,10 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tech_nest/core/constants/assets.dart';
-import 'package:tech_nest/features/auth/presentation/notifiers/image_provider.dart';
+import 'package:tech_nest/features/auth/presentation/notifiers/profile_image_cubit.dart';
 
-class PickProfileImage extends ConsumerWidget {
+class PickProfileImage extends StatelessWidget {
   static const double _avatarRadius = 56.0;
   static const double _cameraIconBtnPadding = 3.0;
   static const double _cameraIconSize = 30.0;
@@ -12,14 +13,15 @@ class PickProfileImage extends ConsumerWidget {
   const PickProfileImage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final img = ref.watch(imageProvider);
-    final notifier = ref.read(imageProvider.notifier);
+    final cubit = context.read<ProfileImageCubit>();
 
-    return GestureDetector(
-      onTap: () => notifier.clear(),
+    return BlocBuilder<ProfileImageCubit, XFile?>(
+      builder: (context, img) {
+        return GestureDetector(
+          onTap: () => cubit.clear(),
       child: ClipRRect(
         child: CircleAvatar(
           backgroundColor: colorScheme.surface,
@@ -31,7 +33,7 @@ class PickProfileImage extends ConsumerWidget {
               ? Align(
                   alignment: Alignment.bottomRight,
                   child: GestureDetector(
-                    onTap: () => notifier.pickImage(),
+                    onTap: () => cubit.pickImage(),
                     child: Container(
                       padding: const EdgeInsets.all(_cameraIconBtnPadding),
                       decoration: BoxDecoration(
@@ -45,6 +47,8 @@ class PickProfileImage extends ConsumerWidget {
               : const SizedBox.shrink(),
         ),
       ),
+    );
+      },
     );
   }
 }

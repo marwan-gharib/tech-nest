@@ -4,7 +4,6 @@ import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/remote_data_failure_view.dart';
-import 'package:tech_nest/core/shared/utils/logger.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_item_card.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_items_skeleton_list.dart';
@@ -22,7 +21,9 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<CartCubit>().fetchCart();
+    if (context.read<CartCubit>().state is! CartLoaded) {
+      context.read<CartCubit>().fetchCart();
+    }
   }
 
   @override
@@ -95,7 +96,6 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
                 ),
                 itemBuilder: (context, index) {
                   final item = cart.items[index];
-                  AppLogger.log("Displaying cart item: ${item.id}");
                   return CartItemCard(cartItem: item);
                 },
               ),

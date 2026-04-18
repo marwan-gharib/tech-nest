@@ -6,7 +6,7 @@ import 'package:tech_nest/core/theme/modes/light.dart';
 class AppTheme {
   const AppTheme._();
 
-  static ThemeData get lightTheme => ThemeData(
+  static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     primaryColor: LightTheme.colorScheme.primary,
     scaffoldBackgroundColor: LightTheme.colorScheme.surface,
@@ -23,7 +23,7 @@ class AppTheme {
     bottomNavigationBarTheme: LightTheme.bottomNavigationBarTheme,
   );
 
-  static ThemeData get darkTheme => ThemeData(
+  static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     primaryColor: DarkTheme.colorScheme.primary,
     scaffoldBackgroundColor: DarkTheme.colorScheme.surface,

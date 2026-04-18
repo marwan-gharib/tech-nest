@@ -1,14 +1,12 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ImageNotifier extends AutoDisposeNotifier<XFile?> {
-  late final ImagePicker _picker;
+class ProfileImageCubit extends Cubit<XFile?> {
+  final ImagePicker _picker;
 
-  @override
-  XFile? build() {
-    _picker = ImagePicker();
-    return null;
-  }
+  ProfileImageCubit()
+      : _picker = ImagePicker(),
+        super(null);
 
   Future<void> pickImage() async {
     final img = await _picker.pickImage(
@@ -19,11 +17,12 @@ class ImageNotifier extends AutoDisposeNotifier<XFile?> {
     );
 
     if (img != null) {
-      state = img;
+      emit(img);
     }
   }
 
   void clear() {
-    state = null;
+    emit(null);
   }
 }
+
