@@ -56,8 +56,10 @@ class ProductCard extends StatelessWidget {
                     memCacheHeight: 300,
                     memCacheWidth: 300,
                     imageUrl: "${Endpoints.baseUrl}${product.imgUrl}",
-                    placeholder: (context, url) =>
-                        SpinKitWaveSpinner(color: colorScheme.primary, size: 40),
+                    placeholder: (context, url) => SpinKitWaveSpinner(
+                      color: colorScheme.primary,
+                      size: 40,
+                    ),
                     errorWidget: (context, url, error) => Container(
                       color: colorScheme.surfaceContainerHighest,
                       child: Icon(
@@ -133,10 +135,7 @@ class ProductCard extends StatelessWidget {
       onPressed: product.stock > 0
           ? () {
               HapticFeedback.lightImpact();
-              context.read<CartCubit>().add(
-                    productId: product.id,
-                    quantity: 1,
-                  );
+              context.read<CartCubit>().add(productId: product.id, quantity: 1);
             }
           : null,
       icon: Container(

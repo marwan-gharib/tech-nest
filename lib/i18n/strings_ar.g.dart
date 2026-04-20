@@ -45,6 +45,7 @@ class TranslationsAr with BaseTranslations<AppLocale, Translations> implements T
 	@override late final _TranslationsCartAr cart = _TranslationsCartAr._(_root);
 	@override late final _TranslationsSettingsAr settings = _TranslationsSettingsAr._(_root);
 	@override late final _TranslationsErrorsAr errors = _TranslationsErrorsAr._(_root);
+	@override late final _TranslationsOrdersAr orders = _TranslationsOrdersAr._(_root);
 }
 
 // Path: common
@@ -74,6 +75,7 @@ class _TranslationsNavAr implements TranslationsNavEn {
 	@override String get cart => 'السله';
 	@override String get categories => 'الأقسام';
 	@override String get settings => 'الإعدادات';
+	@override String get orders => 'طلباتي';
 }
 
 // Path: auth
@@ -210,6 +212,28 @@ class _TranslationsErrorsAr implements TranslationsErrorsEn {
 	@override String get loadMoreFailed => 'تعذر تحميل المزيد من المنتجات';
 }
 
+// Path: orders
+class _TranslationsOrdersAr implements TranslationsOrdersEn {
+	_TranslationsOrdersAr._(this._root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'طلباتي';
+	@override String get details => 'تفاصيل الطلب';
+	@override String get cancelOrder => 'إلغاء الطلب';
+	@override String get cancelSuccess => 'تم إلغاء الطلب بنجاح';
+	@override String get cancelConfirm => 'هل أنت متأكد أنك تريد إلغاء هذا الطلب؟';
+	@override String get cancelYes => 'نعم، إلغاء';
+	@override String get cancelNo => 'لا، احتفاظ';
+	@override String get emptyState => 'ليس لديك أي طلبات بعد';
+	@override String date({required Object date}) => 'تم الطلب في: ${date}';
+	@override String get shippingAddress => 'عنوان الشحن';
+	@override String get billingAddress => 'عنوان الدفع';
+	@override String get orderItems => 'عناصر الطلب';
+	@override late final _TranslationsOrdersStatusAr status = _TranslationsOrdersStatusAr._(_root);
+}
+
 // Path: auth.privacyPolicy
 class _TranslationsAuthPrivacyPolicyAr implements TranslationsAuthPrivacyPolicyEn {
 	_TranslationsAuthPrivacyPolicyAr._(this._root);
@@ -245,6 +269,20 @@ class _TranslationsHomeOrderTypesAr implements TranslationsHomeOrderTypesEn {
 	@override String get desc => 'تنازلي';
 }
 
+// Path: orders.status
+class _TranslationsOrdersStatusAr implements TranslationsOrdersStatusEn {
+	_TranslationsOrdersStatusAr._(this._root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get pending => 'قيد الانتظار';
+	@override String get confirmed => 'مؤكد';
+	@override String get shipped => 'تم الشحن';
+	@override String get delivered => 'تم التوصيل';
+	@override String get cancelled => 'ملغى';
+}
+
 /// The flat map containing all translations for locale <ar>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -264,6 +302,7 @@ extension on TranslationsAr {
 			'nav.cart' => 'السله',
 			'nav.categories' => 'الأقسام',
 			'nav.settings' => 'الإعدادات',
+			'nav.orders' => 'طلباتي',
 			'auth.login' => 'تسجيل الدخول',
 			'auth.signUp' => 'إنشاء حساب',
 			'auth.fullName' => 'الاسم الكامل',
@@ -342,6 +381,23 @@ extension on TranslationsAr {
 			'errors.noResultsSearch' => 'لم نتمكن من العثور على أي منتجات مطابقة لبحثك. حاول تعديل كلمات البحث.',
 			'errors.noResultsFilter' => 'لم نتمكن من العثور على أي منتجات مطابقة للفلاتر الخاصة بك. حاول تعديل الفلاتر.',
 			'errors.loadMoreFailed' => 'تعذر تحميل المزيد من المنتجات',
+			'orders.title' => 'طلباتي',
+			'orders.details' => 'تفاصيل الطلب',
+			'orders.cancelOrder' => 'إلغاء الطلب',
+			'orders.cancelSuccess' => 'تم إلغاء الطلب بنجاح',
+			'orders.cancelConfirm' => 'هل أنت متأكد أنك تريد إلغاء هذا الطلب؟',
+			'orders.cancelYes' => 'نعم، إلغاء',
+			'orders.cancelNo' => 'لا، احتفاظ',
+			'orders.emptyState' => 'ليس لديك أي طلبات بعد',
+			'orders.date' => ({required Object date}) => 'تم الطلب في: ${date}',
+			'orders.shippingAddress' => 'عنوان الشحن',
+			'orders.billingAddress' => 'عنوان الدفع',
+			'orders.orderItems' => 'عناصر الطلب',
+			'orders.status.pending' => 'قيد الانتظار',
+			'orders.status.confirmed' => 'مؤكد',
+			'orders.status.shipped' => 'تم الشحن',
+			'orders.status.delivered' => 'تم التوصيل',
+			'orders.status.cancelled' => 'ملغى',
 			_ => null,
 		};
 	}

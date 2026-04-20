@@ -10,16 +10,11 @@ class AppRadius {
   static const double xxl = 24.0;
   static const double full = 999.0;
 
-  static const BorderRadius cardSm =
-      BorderRadius.all(Radius.circular(sm));
-  static const BorderRadius cardMd =
-      BorderRadius.all(Radius.circular(md));
-  static const BorderRadius cardLg =
-      BorderRadius.all(Radius.circular(lg));
-  static const BorderRadius button =
-      BorderRadius.all(Radius.circular(xl));
-  static const BorderRadius input =
-      BorderRadius.all(Radius.circular(md));
+  static const BorderRadius cardSm = BorderRadius.all(Radius.circular(sm));
+  static const BorderRadius cardMd = BorderRadius.all(Radius.circular(md));
+  static const BorderRadius cardLg = BorderRadius.all(Radius.circular(lg));
+  static const BorderRadius button = BorderRadius.all(Radius.circular(xl));
+  static const BorderRadius input = BorderRadius.all(Radius.circular(md));
   static const BorderRadius sheet = BorderRadius.vertical(
     top: Radius.circular(xxl),
   );

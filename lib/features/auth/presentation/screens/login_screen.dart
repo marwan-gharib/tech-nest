@@ -106,10 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _email.text,
       );
     } else {
-      CustomSnackBar.show(
-        context,
-        message: context.t.auth.resetPasswordPrompt,
-      );
+      CustomSnackBar.show(context, message: context.t.auth.resetPasswordPrompt);
     }
   }
 

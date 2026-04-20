@@ -96,13 +96,17 @@ class _FilterComponentsState extends State<FilterComponents> {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            FilterSectionHeader(label: context.t.home.categories),
+                            FilterSectionHeader(
+                              label: context.t.home.categories,
+                            ),
                             FilterCategorySection(
                               initialCategoryId: _notifier.categoryId,
                               onSelected: (value) =>
                                   _notifier.categoryId = value,
                             ),
-                            FilterSectionHeader(label: context.t.home.priceRange),
+                            FilterSectionHeader(
+                              label: context.t.home.priceRange,
+                            ),
                             FilterPriceRangeFields(
                               minPrice: _notifier.minPrice,
                               maxPrice: _notifier.maxPrice,

@@ -52,7 +52,9 @@ class RadioTile extends StatelessWidget {
                   size: 18,
                   color: isSelected
                       ? theme.colorScheme.primary
-                      : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+                      : theme.colorScheme.onSurfaceVariant.withValues(
+                          alpha: 0.6,
+                        ),
                 ),
                 const SizedBox(width: AppSpacing.sm),
               ],
@@ -83,11 +85,7 @@ class RadioTile extends StatelessWidget {
                   ),
                 ),
                 child: isSelected
-                    ? const Icon(
-                        Icons.check,
-                        size: 13,
-                        color: Colors.white,
-                      )
+                    ? const Icon(Icons.check, size: 13, color: Colors.white)
                     : null,
               ),
             ],

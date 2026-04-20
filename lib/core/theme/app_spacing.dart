@@ -1,6 +1,3 @@
-
-
-
 class AppSpacing {
   AppSpacing._();
 
@@ -18,4 +15,3 @@ class AppSpacing {
 
   static const double homeFilterButtonWidth = 50.0;
 }
-

@@ -42,7 +42,10 @@ class PrivacyPolicyWidget extends StatelessWidget {
                 text: context.t.auth.privacyPolicy.terms,
                 link: Links.termaAndConditionsLink,
               ),
-              Text(context.t.auth.privacyPolicy.and, style: theme.textTheme.bodySmall),
+              Text(
+                context.t.auth.privacyPolicy.and,
+                style: theme.textTheme.bodySmall,
+              ),
               _textLink(
                 context,
                 text: context.t.auth.privacyPolicy.policy,

@@ -48,6 +48,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsCartEn cart = TranslationsCartEn._(_root);
 	late final TranslationsSettingsEn settings = TranslationsSettingsEn._(_root);
 	late final TranslationsErrorsEn errors = TranslationsErrorsEn._(_root);
+	late final TranslationsOrdersEn orders = TranslationsOrdersEn._(_root);
 }
 
 // Path: common
@@ -99,6 +100,9 @@ class TranslationsNavEn {
 
 	/// en: 'Settings'
 	String get settings => 'Settings';
+
+	/// en: 'Orders'
+	String get orders => 'Orders';
 }
 
 // Path: auth
@@ -377,6 +381,53 @@ class TranslationsErrorsEn {
 	String get loadMoreFailed => 'Could not load more products';
 }
 
+// Path: orders
+class TranslationsOrdersEn {
+	TranslationsOrdersEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'My Orders'
+	String get title => 'My Orders';
+
+	/// en: 'Order Details'
+	String get details => 'Order Details';
+
+	/// en: 'Cancel Order'
+	String get cancelOrder => 'Cancel Order';
+
+	/// en: 'Order cancelled successfully'
+	String get cancelSuccess => 'Order cancelled successfully';
+
+	/// en: 'Are you sure you want to cancel this order?'
+	String get cancelConfirm => 'Are you sure you want to cancel this order?';
+
+	/// en: 'Yes, Cancel'
+	String get cancelYes => 'Yes, Cancel';
+
+	/// en: 'No, Keep'
+	String get cancelNo => 'No, Keep';
+
+	/// en: 'You don't have any orders yet'
+	String get emptyState => 'You don\'t have any orders yet';
+
+	/// en: 'Ordered on: $date'
+	String date({required Object date}) => 'Ordered on: ${date}';
+
+	/// en: 'Shipping Address'
+	String get shippingAddress => 'Shipping Address';
+
+	/// en: 'Billing Address'
+	String get billingAddress => 'Billing Address';
+
+	/// en: 'Order Items'
+	String get orderItems => 'Order Items';
+
+	late final TranslationsOrdersStatusEn status = TranslationsOrdersStatusEn._(_root);
+}
+
 // Path: auth.privacyPolicy
 class TranslationsAuthPrivacyPolicyEn {
 	TranslationsAuthPrivacyPolicyEn._(this._root);
@@ -428,6 +479,30 @@ class TranslationsHomeOrderTypesEn {
 	String get desc => 'Descending';
 }
 
+// Path: orders.status
+class TranslationsOrdersStatusEn {
+	TranslationsOrdersStatusEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Pending'
+	String get pending => 'Pending';
+
+	/// en: 'Confirmed'
+	String get confirmed => 'Confirmed';
+
+	/// en: 'Shipped'
+	String get shipped => 'Shipped';
+
+	/// en: 'Delivered'
+	String get delivered => 'Delivered';
+
+	/// en: 'Cancelled'
+	String get cancelled => 'Cancelled';
+}
+
 /// The flat map containing all translations for locale <en>.
 /// Only for edge cases! For simple maps, use the map function of this library.
 ///
@@ -447,6 +522,7 @@ extension on Translations {
 			'nav.cart' => 'Cart',
 			'nav.categories' => 'Categories',
 			'nav.settings' => 'Settings',
+			'nav.orders' => 'Orders',
 			'auth.login' => 'Login',
 			'auth.signUp' => 'Sign Up',
 			'auth.fullName' => 'Full Name',
@@ -525,6 +601,23 @@ extension on Translations {
 			'errors.noResultsSearch' => 'We couldn\'t find what you\'re looking for. Try a different search.',
 			'errors.noResultsFilter' => 'We couldn\'t find any products matching your filters. Try adjusting your filters.',
 			'errors.loadMoreFailed' => 'Could not load more products',
+			'orders.title' => 'My Orders',
+			'orders.details' => 'Order Details',
+			'orders.cancelOrder' => 'Cancel Order',
+			'orders.cancelSuccess' => 'Order cancelled successfully',
+			'orders.cancelConfirm' => 'Are you sure you want to cancel this order?',
+			'orders.cancelYes' => 'Yes, Cancel',
+			'orders.cancelNo' => 'No, Keep',
+			'orders.emptyState' => 'You don\'t have any orders yet',
+			'orders.date' => ({required Object date}) => 'Ordered on: ${date}',
+			'orders.shippingAddress' => 'Shipping Address',
+			'orders.billingAddress' => 'Billing Address',
+			'orders.orderItems' => 'Order Items',
+			'orders.status.pending' => 'Pending',
+			'orders.status.confirmed' => 'Confirmed',
+			'orders.status.shipped' => 'Shipped',
+			'orders.status.delivered' => 'Delivered',
+			'orders.status.cancelled' => 'Cancelled',
 			_ => null,
 		};
 	}

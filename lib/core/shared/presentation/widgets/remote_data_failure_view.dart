@@ -22,7 +22,8 @@ class RemoteDataFailureView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isNetworkFailure = failure is NetworkFailure;
-    final title = titleOverride ??
+    final title =
+        titleOverride ??
         (isNetworkFailure
             ? context.t.errors.noInternet
             : context.t.errors.requestFailed);

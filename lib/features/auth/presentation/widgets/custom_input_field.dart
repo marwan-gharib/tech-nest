@@ -52,9 +52,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
           color: colorScheme.onSurfaceVariant,
         ),
         hintText: widget.hint,
-        hintStyle: theme.textTheme.bodyMedium?.copyWith(
-          color: theme.hintColor,
-        ),
+        hintStyle: theme.textTheme.bodyMedium?.copyWith(color: theme.hintColor),
         suffixIcon: widget.isPassword ? _buildVisibilityIcon() : null,
       ),
       validator: widget.validator,
@@ -67,7 +65,9 @@ class _CustomInputFieldState extends State<CustomInputField> {
       return IconButton(
         onPressed: widget.onVisibilityToggle,
         icon: Icon(
-          _isObscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+          _isObscure
+              ? Icons.visibility_off_outlined
+              : Icons.visibility_outlined,
           color: Theme.of(context).colorScheme.onSurfaceVariant,
         ),
       );

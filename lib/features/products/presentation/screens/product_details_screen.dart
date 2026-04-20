@@ -68,7 +68,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   children: [
                     ProductInfoSection(
                       product: product,
-                      onQuantityChanged: (value) => _quantityNotifier.value = value,
+                      onQuantityChanged: (value) =>
+                          _quantityNotifier.value = value,
                     ),
                     const Divider(),
                     ProductDescriptionSection(description: product.description),
@@ -85,9 +86,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             onAdd: () {
                               HapticFeedback.lightImpact();
                               context.read<CartCubit>().add(
-                                    productId: product.id,
-                                    quantity: quantity,
-                                  );
+                                productId: product.id,
+                                quantity: quantity,
+                              );
                             },
                             isAvailable: product.stock > 0,
                           );

@@ -1,12 +1,9 @@
-import 'package:tech_nest/core/constants/build_config.dart';
-
 class Endpoints {
   const Endpoints._();
 
-  static String get baseUrl => BuildConfig.apiBaseUrl;
+  static String get baseUrl => "http://192.168.1.13/";
 
-  /// Base path for all authenticated user API calls.
-  static String get apiUserBase => '${BuildConfig.apiBaseUrl}api/user/';
+  static String get apiUserBase => '${baseUrl}api/user/';
 
   static String get signUp => "auth/register.php";
   static String get login => "auth/login.php";
@@ -25,4 +22,9 @@ class Endpoints {
   static String get cartList => "cart/list.php";
   static String get removeFromCart => "cart/remove.php";
   static String get updateItemQuantityFromCart => "cart/update_quantity.php";
+
+  static String get createOrder => "orders/create.php";
+  static String get listOrders => "orders/list.php";
+  static String get orderDetails => "orders/details.php";
+  static String get cancelOrder => "orders/cancel.php";
 }

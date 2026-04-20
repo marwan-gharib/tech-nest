@@ -24,6 +24,10 @@ import 'package:tech_nest/features/categories/presentation/screens/categories_sc
 import 'package:tech_nest/features/home/presentation/screens/home_screen.dart';
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';
 import 'package:tech_nest/features/settings/presentation/screens/settings_screen.dart';
+import 'package:tech_nest/features/orders/presentation/screens/orders_list_screen.dart';
+import 'package:tech_nest/features/orders/presentation/screens/order_details_screen.dart';
+import 'package:tech_nest/features/orders/presentation/cubits/orders_list/orders_list_cubit.dart';
+import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_cubit.dart';
 
 class AppRouter {
   static final AuthNotifier _authNotifier = sl<AuthNotifier>();
@@ -39,6 +43,7 @@ class AppRouter {
           StatefulShellBranch(routes: [_homeScreenRouter]),
           StatefulShellBranch(routes: [_cartScreenRouter]),
           StatefulShellBranch(routes: [_categoriesScreenRouter]),
+          StatefulShellBranch(routes: [_ordersScreenRouter]),
           StatefulShellBranch(routes: [_settingsScreenRouter]),
         ],
       ),
@@ -49,14 +54,17 @@ class AppRouter {
     refreshListenable: _authNotifier,
     redirect: (context, state) {
       AppLogger.log(state.matchedLocation);
-      
-      final bool hasSeenOnboarding = sl<CacheService>().get(AppConstants.onboardingKey) as bool? ?? false;
-      
-      if (!hasSeenOnboarding && state.matchedLocation != Routes.onboardingScreenPath) {
+
+      final bool hasSeenOnboarding =
+          sl<CacheService>().get(AppConstants.onboardingKey) as bool? ?? false;
+
+      if (!hasSeenOnboarding &&
+          state.matchedLocation != Routes.onboardingScreenPath) {
         return Routes.onboardingScreenPath;
       }
-      
-      if (hasSeenOnboarding && state.matchedLocation == Routes.onboardingScreenPath) {
+
+      if (hasSeenOnboarding &&
+          state.matchedLocation == Routes.onboardingScreenPath) {
         return Routes.loginScreenPath;
       }
 
@@ -64,7 +72,9 @@ class AppRouter {
       final authRoutes = [Routes.loginScreenPath, Routes.signUpScreenPath];
       final bool isAuthRoute = authRoutes.contains(state.matchedLocation);
 
-      if (!isAuth && !isAuthRoute && state.matchedLocation != Routes.onboardingScreenPath) {
+      if (!isAuth &&
+          !isAuthRoute &&
+          state.matchedLocation != Routes.onboardingScreenPath) {
         return Routes.loginScreenPath;
       } else if (isAuth && isAuthRoute) {
         return Routes.homeScreenPath;
@@ -143,5 +153,26 @@ class AppRouter {
   static final _settingsScreenRouter = GoRoute(
     path: Routes.settingsScreenPath,
     builder: (context, state) => const SettingsScreen(),
+  );
+
+  static final _orderDetailsRouter = GoRoute(
+    path: Routes.orderDetailsScreenPath,
+    builder: (context, state) {
+      final orderId = state.extra as int;
+      return BlocProvider(
+        create: (context) =>
+            sl<OrderDetailsCubit>()..fetchOrderDetails(orderId),
+        child: const OrderDetailsScreen(),
+      );
+    },
+  );
+
+  static final _ordersScreenRouter = GoRoute(
+    path: Routes.ordersScreenPath,
+    builder: (context, state) => BlocProvider(
+      create: (context) => sl<OrdersListCubit>()..fetchOrders(),
+      child: const OrdersListScreen(),
+    ),
+    routes: [_orderDetailsRouter],
   );
 }

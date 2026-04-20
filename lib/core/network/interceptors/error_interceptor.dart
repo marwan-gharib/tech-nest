@@ -9,7 +9,11 @@ class ErrorInterceptor extends Interceptor {
   final AuthNotifier _authNotifier;
   final SecureStorageClient _secureStorageClient;
 
-  ErrorInterceptor(this._cacheService, this._authNotifier, this._secureStorageClient);
+  ErrorInterceptor(
+    this._cacheService,
+    this._authNotifier,
+    this._secureStorageClient,
+  );
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
