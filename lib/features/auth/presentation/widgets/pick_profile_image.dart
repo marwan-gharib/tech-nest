@@ -22,32 +22,35 @@ class PickProfileImage extends StatelessWidget {
       builder: (context, img) {
         return GestureDetector(
           onTap: () => cubit.clear(),
-      child: ClipRRect(
-        child: CircleAvatar(
-          backgroundColor: colorScheme.surface,
-          backgroundImage: img != null
-              ? FileImage(File(img.path))
-              : AssetImage(Assets.profileAvatar) as ImageProvider,
-          radius: _avatarRadius,
-          child: img == null
-              ? Align(
-                  alignment: Alignment.bottomRight,
-                  child: GestureDetector(
-                    onTap: () => cubit.pickImage(),
-                    child: Container(
-                      padding: const EdgeInsets.all(_cameraIconBtnPadding),
-                      decoration: BoxDecoration(
-                        color: colorScheme.secondary,
-                        shape: BoxShape.circle,
+          child: ClipRRect(
+            child: CircleAvatar(
+              backgroundColor: colorScheme.surface,
+              backgroundImage: img != null
+                  ? FileImage(File(img.path))
+                  : AssetImage(Assets.profileAvatar) as ImageProvider,
+              radius: _avatarRadius,
+              child: img == null
+                  ? Align(
+                      alignment: Alignment.bottomRight,
+                      child: GestureDetector(
+                        onTap: () => cubit.pickImage(),
+                        child: Container(
+                          padding: const EdgeInsets.all(_cameraIconBtnPadding),
+                          decoration: BoxDecoration(
+                            color: colorScheme.secondary,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(
+                            Icons.camera,
+                            size: _cameraIconSize,
+                          ),
+                        ),
                       ),
-                      child: const Icon(Icons.camera, size: _cameraIconSize),
-                    ),
-                  ),
-                )
-              : const SizedBox.shrink(),
-        ),
-      ),
-    );
+                    )
+                  : const SizedBox.shrink(),
+            ),
+          ),
+        );
       },
     );
   }

@@ -5,7 +5,11 @@ class CategoryEntity extends Equatable {
   final String name;
   final String imgUrl;
 
-  const CategoryEntity({required this.id, required this.name, required this.imgUrl});
+  const CategoryEntity({
+    required this.id,
+    required this.name,
+    required this.imgUrl,
+  });
 
   const CategoryEntity.empty() : id = -1, name = "", imgUrl = "";
 

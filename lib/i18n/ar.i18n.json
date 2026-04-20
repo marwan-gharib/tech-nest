@@ -12,7 +12,8 @@
     "home": "الرئيسية",
     "cart": "السله",
     "categories": "الأقسام",
-    "settings": "الإعدادات"
+    "settings": "الإعدادات",
+    "orders": "طلباتي"
   },
   "auth": {
     "login": "تسجيل الدخول",
@@ -116,5 +117,26 @@
     "noResultsSearch": "لم نتمكن من العثور على أي منتجات مطابقة لبحثك. حاول تعديل كلمات البحث.",
     "noResultsFilter": "لم نتمكن من العثور على أي منتجات مطابقة للفلاتر الخاصة بك. حاول تعديل الفلاتر.",
     "loadMoreFailed": "تعذر تحميل المزيد من المنتجات"
+  },
+  "orders": {
+    "title": "طلباتي",
+    "details": "تفاصيل الطلب",
+    "cancelOrder": "إلغاء الطلب",
+    "cancelSuccess": "تم إلغاء الطلب بنجاح",
+    "cancelConfirm": "هل أنت متأكد أنك تريد إلغاء هذا الطلب؟",
+    "cancelYes": "نعم، إلغاء",
+    "cancelNo": "لا، احتفاظ",
+    "emptyState": "ليس لديك أي طلبات بعد",
+    "date": "تم الطلب في: $date",
+    "shippingAddress": "عنوان الشحن",
+    "billingAddress": "عنوان الدفع",
+    "orderItems": "عناصر الطلب",
+    "status": {
+      "pending": "قيد الانتظار",
+      "confirmed": "مؤكد",
+      "shipped": "تم الشحن",
+      "delivered": "تم التوصيل",
+      "cancelled": "ملغى"
+    }
   }
 }

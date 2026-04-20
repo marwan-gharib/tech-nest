@@ -33,9 +33,11 @@ class AddToCartAction extends StatelessWidget {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: isAvailable ? onAdd : null,
-        child: Text(isInCart
-            ? context.t.products.updateCart
-            : context.t.products.addToCart),
+        child: Text(
+          isInCart
+              ? context.t.products.updateCart
+              : context.t.products.addToCart,
+        ),
       ),
     );
   }

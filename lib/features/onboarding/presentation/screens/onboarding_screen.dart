@@ -21,13 +21,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final List<_OnboardingPageData> _pages = [
     _OnboardingPageData(
       title: 'Discover Tech',
-      description: 'Find the latest and greatest in consumer electronics and tech gadgets.',
+      description:
+          'Find the latest and greatest in consumer electronics and tech gadgets.',
       icon: Icons.devices,
       color: const Color(0xff1443C3), // Primary
     ),
     _OnboardingPageData(
       title: 'Secure Payments',
-      description: 'Pay safely with our secure payment gateways and trusted providers.',
+      description:
+          'Pay safely with our secure payment gateways and trusted providers.',
       icon: Icons.payment,
       color: const Color(0xff59CDBE), // Teal
     ),
@@ -46,7 +48,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   Future<void> _completeOnboarding() async {
-    await sl<CacheService>().setData(key: AppConstants.onboardingKey, value: true);
+    await sl<CacheService>().setData(
+      key: AppConstants.onboardingKey,
+      value: true,
+    );
     if (!mounted) return;
     context.go(Routes.loginScreenPath);
   }
@@ -189,11 +194,7 @@ class _OnboardingPageView extends StatelessWidget {
               color: pageData.color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              pageData.icon,
-              size: 100,
-              color: pageData.color,
-            ),
+            child: Icon(pageData.icon, size: 100, color: pageData.color),
           ),
           const SizedBox(height: AppSpacing.xxl * 2),
           Text(

@@ -22,10 +22,10 @@ class SettingsSection extends StatelessWidget {
             child: Text(
               title!.toUpperCase(),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    letterSpacing: 1.2,
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.bold,
-                  ),
+                letterSpacing: 1.2,
+                color: Theme.of(context).primaryColor,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],

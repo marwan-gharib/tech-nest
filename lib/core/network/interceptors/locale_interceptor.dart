@@ -6,7 +6,8 @@ import 'package:tech_nest/i18n/strings.g.dart';
 class LocaleInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    options.headers['Accept-Language'] = LocaleSettings.currentLocale.languageCode;
+    options.headers['Accept-Language'] =
+        LocaleSettings.currentLocale.languageCode;
     super.onRequest(options, handler);
   }
 }

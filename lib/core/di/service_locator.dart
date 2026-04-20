@@ -20,6 +20,7 @@ import 'package:tech_nest/features/cart/di/cart_di.dart';
 import 'package:tech_nest/features/categories/di/categories_di.dart';
 import 'package:tech_nest/features/products/di/products_di.dart';
 import 'package:tech_nest/features/settings/di/settings_di.dart';
+import 'package:tech_nest/features/orders/di/orders_di.dart';
 
 final GetIt sl = GetIt.instance;
 
@@ -41,7 +42,11 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => AuthInterceptor(sl<SecureStorageClient>()));
   sl.registerLazySingleton(() => LocaleInterceptor());
   sl.registerLazySingleton(
-    () => ErrorInterceptor(sl<CacheService>(), sl<AuthNotifier>(), sl<SecureStorageClient>()),
+    () => ErrorInterceptor(
+      sl<CacheService>(),
+      sl<AuthNotifier>(),
+      sl<SecureStorageClient>(),
+    ),
   );
 
   // ── Network ───────────────────────────────────────────────────────────────
@@ -65,4 +70,5 @@ Future<void> initDependencies() async {
   initCategoriesDI(sl);
   initCartDI(sl);
   initSettingsDI(sl);
+  initOrdersDI(sl);
 }

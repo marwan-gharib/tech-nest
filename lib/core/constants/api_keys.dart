@@ -34,6 +34,8 @@ class ApiKeys {
   static const String sort = "sort";
   static const String order = "order";
   static const String searchQuery = "search_query";
+  static const String orderId = "order_id";
+  static const String orders = "orders";
   static const String productId = "product_id";
   static const String product = "product";
   static const String items = "items";

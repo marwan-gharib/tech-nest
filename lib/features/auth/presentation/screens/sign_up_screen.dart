@@ -75,41 +75,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ],
             child: ListView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: AppSpacing.md,
-              vertical: AppSpacing.lg,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.md,
+                vertical: AppSpacing.lg,
+              ),
+              children: [
+                const Center(child: PickProfileImage()),
+                const SizedBox(height: AppSpacing.xxl),
+                SignUpForm(
+                  formKey: _formKey,
+                  fullName: _fullName,
+                  email: _email,
+                  password: _password,
+                  confirmPassword: _confirmPassword,
+                  checkBoxNotifier: _checkBoxNotifier,
+                  isPasswordObscure: _isPasswordObscure,
+                ),
+                const SizedBox(height: AppSpacing.md),
+                ValueListenableBuilder<bool>(
+                  valueListenable: _checkBoxNotifier,
+                  builder: (_, value, _) {
+                    return BlocBuilder<RegistrationCubit, RegistrationState>(
+                      buildWhen: (p, c) => p != c,
+                      builder: _builder,
+                    );
+                  },
+                ),
+                const SizedBox(height: AppSpacing.xl),
+                AskNavigationWidget(
+                  question: context.t.auth.haveAccount,
+                  screenLabel: context.t.auth.login,
+                  onTap: () => context.go(Routes.loginScreenPath),
+                ),
+                const SizedBox(height: AppSpacing.xxl),
+              ],
             ),
-            children: [
-              const Center(child: PickProfileImage()),
-              const SizedBox(height: AppSpacing.xxl),
-              SignUpForm(
-                formKey: _formKey,
-                fullName: _fullName,
-                email: _email,
-                password: _password,
-                confirmPassword: _confirmPassword,
-                checkBoxNotifier: _checkBoxNotifier,
-                isPasswordObscure: _isPasswordObscure,
-              ),
-              const SizedBox(height: AppSpacing.md),
-              ValueListenableBuilder<bool>(
-                valueListenable: _checkBoxNotifier,
-                builder: (_, value, _) {
-                  return BlocBuilder<RegistrationCubit, RegistrationState>(
-                    buildWhen: (p, c) => p != c,
-                    builder: _builder,
-                  );
-                },
-              ),
-              const SizedBox(height: AppSpacing.xl),
-              AskNavigationWidget(
-                question: context.t.auth.haveAccount,
-                screenLabel: context.t.auth.login,
-                onTap: () => context.go(Routes.loginScreenPath),
-              ),
-              const SizedBox(height: AppSpacing.xxl),
-            ],
-          ),
           ),
         ),
       ),

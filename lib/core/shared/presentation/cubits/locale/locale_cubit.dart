@@ -10,7 +10,7 @@ class LocaleCubit extends Cubit<LocaleState> {
   static const String _localeKey = 'app_locale';
 
   LocaleCubit(this._cacheService)
-      : super(LocaleState(LocaleSettings.currentLocale)) {
+    : super(LocaleState(LocaleSettings.currentLocale)) {
     _loadSavedLocale();
   }
 
@@ -32,7 +32,9 @@ class LocaleCubit extends Cubit<LocaleState> {
   }
 
   void toggleLocale() {
-    final newLocale = state.locale == AppLocale.en ? AppLocale.ar : AppLocale.en;
+    final newLocale = state.locale == AppLocale.en
+        ? AppLocale.ar
+        : AppLocale.en;
     setLocale(newLocale);
   }
 }

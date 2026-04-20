@@ -12,7 +12,8 @@
     "home": "Home",
     "cart": "Cart",
     "categories": "Categories",
-    "settings": "Settings"
+    "settings": "Settings",
+    "orders": "Orders"
   },
   "auth": {
     "login": "Login",
@@ -116,5 +117,26 @@
     "noResultsSearch": "We couldn't find what you're looking for. Try a different search.",
     "noResultsFilter": "We couldn't find any products matching your filters. Try adjusting your filters.",
     "loadMoreFailed": "Could not load more products"
+  },
+  "orders": {
+    "title": "My Orders",
+    "details": "Order Details",
+    "cancelOrder": "Cancel Order",
+    "cancelSuccess": "Order cancelled successfully",
+    "cancelConfirm": "Are you sure you want to cancel this order?",
+    "cancelYes": "Yes, Cancel",
+    "cancelNo": "No, Keep",
+    "emptyState": "You don't have any orders yet",
+    "date": "Ordered on: $date",
+    "shippingAddress": "Shipping Address",
+    "billingAddress": "Billing Address",
+    "orderItems": "Order Items",
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    }
   }
 }

@@ -70,9 +70,8 @@ class SettingsScreen extends StatelessWidget {
                         return SegmentedButton<AppLocale>(
                           style: SegmentedButton.styleFrom(
                             visualDensity: VisualDensity.compact,
-                            textStyle: Theme.of(context).textTheme.labelMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                            ),
+                            textStyle: Theme.of(context).textTheme.labelMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           showSelectedIcon: false,
                           segments: const [
@@ -88,7 +87,9 @@ class SettingsScreen extends StatelessWidget {
                           selected: {state.locale},
                           onSelectionChanged: (Set<AppLocale> newSelection) {
                             if (newSelection.isNotEmpty) {
-                              context.read<LocaleCubit>().setLocale(newSelection.first);
+                              context.read<LocaleCubit>().setLocale(
+                                newSelection.first,
+                              );
                             }
                           },
                         );
