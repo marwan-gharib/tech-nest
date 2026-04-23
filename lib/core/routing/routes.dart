@@ -14,4 +14,5 @@ class Routes {
   static String get settingsScreenPath => "/settings";
   static String get ordersScreenPath => "/orders";
   static String get orderDetailsScreenPath => "orderDetails";
+  static String get checkoutScreenPath => "/checkout";
 }

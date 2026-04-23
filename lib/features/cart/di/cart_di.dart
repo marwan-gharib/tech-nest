@@ -37,7 +37,7 @@ void initCartDI(GetIt sl) {
     () => UpdateItemQuantityCubit(sl<UpdateItemQuantityUsecase>()),
   );
   sl.registerFactory(() => DeleteCartItemCubit(sl<RemoveFromCartUsecase>()));
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => CartCubit(sl<GetCartItemsUsecase>(), sl<AddToCartUsecase>()),
   );
 }

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/orders/presentation/cubits/orders_list/orders_list_cubit.dart';
-import 'package:tech_nest/features/orders/presentation/cubits/orders_list/orders_list_state.dart';
-import 'package:tech_nest/features/orders/presentation/widgets/empty_orders_widget.dart';
-import 'package:tech_nest/features/orders/presentation/widgets/order_list_item.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/orders_list/orders_list_cubit.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/orders_list/orders_list_state.dart';
+import 'package:tech_nest/features/orders/presentation/widgets/orders_list_error_view.dart';
+import 'package:tech_nest/features/orders/presentation/widgets/orders_list_loaded_view.dart';
 import 'package:tech_nest/features/orders/presentation/widgets/orders_skeleton_list.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
@@ -22,45 +21,14 @@ class OrdersListScreen extends StatelessWidget {
       body: BlocBuilder<OrdersListCubit, OrdersListState>(
         buildWhen: (previous, current) => previous != current,
         builder: (context, state) {
-          if (state is OrdersListLoading || state is OrdersListInitial) {
-            return const OrdersSkeletonList();
-          }
-
-          if (state is OrdersListFailed) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(state.failure.message),
-                  const SizedBox(height: AppSpacing.md),
-                  ElevatedButton(
-                    onPressed: () =>
-                        context.read<OrdersListCubit>().fetchOrders(),
-                    child: Text(context.t.common.retry),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          if (state is OrdersListLoaded) {
-            if (state.orders.isEmpty) {
-              return const EmptyOrdersWidget();
-            }
-
-            return RefreshIndicator(
-              onRefresh: () => context.read<OrdersListCubit>().fetchOrders(),
-              child: ListView.builder(
-                padding: const EdgeInsets.all(AppSpacing.md),
-                itemCount: state.orders.length,
-                itemBuilder: (context, index) {
-                  return OrderListItem(order: state.orders[index]);
-                },
-              ),
-            );
-          }
-
-          return const SizedBox.shrink();
+          return switch (state) {
+            OrdersListLoading() || OrdersListInitial() =>
+              const OrdersSkeletonList(),
+            OrdersListFailed(failure: final failure) =>
+              OrdersListErrorView(message: failure.message),
+            OrdersListLoaded(orders: final orders) =>
+              OrdersListLoadedView(orders: orders),
+          };
         },
       ),
     );

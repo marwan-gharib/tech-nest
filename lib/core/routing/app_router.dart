@@ -26,8 +26,10 @@ import 'package:tech_nest/features/products/presentation/screens/product_details
 import 'package:tech_nest/features/settings/presentation/screens/settings_screen.dart';
 import 'package:tech_nest/features/orders/presentation/screens/orders_list_screen.dart';
 import 'package:tech_nest/features/orders/presentation/screens/order_details_screen.dart';
-import 'package:tech_nest/features/orders/presentation/cubits/orders_list/orders_list_cubit.dart';
+import 'package:tech_nest/core/shared/presentation/cubits/orders_list/orders_list_cubit.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_cubit.dart';
+import 'package:tech_nest/features/orders/presentation/cubits/create_order/create_order_cubit.dart';
+import 'package:tech_nest/features/orders/presentation/screens/checkout_screen.dart';
 
 class AppRouter {
   static final AuthNotifier _authNotifier = sl<AuthNotifier>();
@@ -50,6 +52,7 @@ class AppRouter {
       _signUpScreenRouter,
       _loginScreenRouter,
       _onboardingScreenRouter,
+      _checkoutScreenRouter,
     ],
     refreshListenable: _authNotifier,
     redirect: (context, state) {
@@ -87,8 +90,11 @@ class AppRouter {
     BuildContext context,
     GoRouterState state,
     StatefulNavigationShell navigationShell,
-  ) => BlocProvider(
-    create: (context) => sl<CartCubit>()..fetchCart(),
+  ) => MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (context) => sl<CartCubit>()..fetchCart()),
+      BlocProvider(create: (context) => sl<OrdersListCubit>()..fetchOrders()),
+    ],
     child: AppShellEntry(navigationShell: navigationShell),
   );
 
@@ -169,10 +175,15 @@ class AppRouter {
 
   static final _ordersScreenRouter = GoRoute(
     path: Routes.ordersScreenPath,
-    builder: (context, state) => BlocProvider(
-      create: (context) => sl<OrdersListCubit>()..fetchOrders(),
-      child: const OrdersListScreen(),
-    ),
+    builder: (context, state) => const OrdersListScreen(),
     routes: [_orderDetailsRouter],
+  );
+
+  static final _checkoutScreenRouter = GoRoute(
+    path: Routes.checkoutScreenPath,
+    builder: (context, state) => BlocProvider(
+      create: (context) => sl<CreateOrderCubit>(),
+      child: const CheckoutScreen(),
+    ),
   );
 }

@@ -1,7 +1,7 @@
 class Endpoints {
   const Endpoints._();
 
-  static String get baseUrl => "http://192.168.1.13/";
+  static String get baseUrl => "http://192.168.1.13/tech-nest-backend/";
 
   static String get apiUserBase => '${baseUrl}api/user/';
 

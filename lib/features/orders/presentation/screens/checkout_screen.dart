@@ -1,0 +1,78 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/routing/routes.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/features/orders/domain/params/create_order_params.dart';
+import 'package:tech_nest/features/orders/presentation/cubits/create_order/create_order_cubit.dart';
+import 'package:tech_nest/features/orders/presentation/cubits/create_order/create_order_state.dart';
+import 'package:tech_nest/features/orders/presentation/widgets/checkout_address_card.dart';
+import 'package:tech_nest/features/orders/presentation/widgets/checkout_section_title.dart';
+import 'package:tech_nest/features/orders/presentation/widgets/checkout_summary_card.dart';
+import 'package:tech_nest/features/orders/presentation/widgets/confirm_order_button.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
+
+class CheckoutScreen extends StatelessWidget {
+  const CheckoutScreen({super.key});
+
+  static const _placeholderAddress =
+      "123 Tech Street, Silicon Valley, CA 94043";
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<CreateOrderCubit, CreateOrderState>(
+      listener: (context, state) {
+        if (state is CreateOrderSuccess) {
+          CustomSnackBar.showSuccess(
+            context,
+            message: "Order placed successfully!",
+          );
+          context.pushReplacement(
+            '${Routes.ordersScreenPath}/${Routes.orderDetailsScreenPath}',
+            extra: state.orderId,
+          );
+        } else if (state is CreateOrderFailed) {
+          CustomSnackBar.showError(
+            context,
+            failure: state.failure,
+          );
+        }
+      },
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar.large(
+              title: Text(context.t.cart.checkout),
+              leading: IconButton(
+                onPressed: () => context.pop(),
+                icon: const Icon(Icons.arrow_back_ios_new_rounded),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate([
+                  CheckoutSectionTitle(title: context.t.cart.summary),
+                  const SizedBox(height: AppSpacing.md),
+                  const CheckoutSummaryCard(),
+                  const SizedBox(height: AppSpacing.xl),
+                  CheckoutSectionTitle(title: context.t.orders.shippingAddress),
+                  const SizedBox(height: AppSpacing.md),
+                  const CheckoutAddressCard(address: _placeholderAddress),
+                  const SizedBox(height: AppSpacing.xl),
+                ]),
+              ),
+            ),
+          ],
+        ),
+        bottomNavigationBar: const ConfirmOrderButton(
+          params: CreateOrderParams(
+            shippingAddress: _placeholderAddress,
+            billingAddress: _placeholderAddress,
+          ),
+        ),
+      ),
+    );
+  }
+}

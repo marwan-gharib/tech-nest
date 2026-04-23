@@ -54,4 +54,12 @@ class CustomSnackBar {
   }) {
     show(context, message: failure.message, isAbove: isAbove);
   }
+
+  static void showSuccess(
+    BuildContext context, {
+    required String message,
+    bool isAbove = false,
+  }) {
+    show(context, message: message, isAbove: isAbove);
+  }
 }
