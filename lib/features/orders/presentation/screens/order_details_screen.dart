@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/date_formatter.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_cubit.dart';
@@ -10,8 +11,12 @@ import 'package:tech_nest/features/orders/presentation/widgets/order_details_ite
 import 'package:tech_nest/features/orders/presentation/widgets/order_details_summary.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
+import '../../../../core/shared/presentation/widgets/remote_data_failure_view.dart';
+
 class OrderDetailsScreen extends StatelessWidget {
-  const OrderDetailsScreen({super.key});
+  final int orderId;
+
+  const OrderDetailsScreen({required this.orderId, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,13 +32,12 @@ class OrderDetailsScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is OrderDetailsLoaded) {
           if (state.cancelFailure != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.cancelFailure!.message)),
-            );
+            CustomSnackBar.showError(context, failure: state.cancelFailure!);
           }
           if (state.isCancelledSuccessfully) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(context.t.orders.cancelSuccess)),
+            CustomSnackBar.showSuccess(
+              context,
+              message: context.t.orders.cancelSuccess,
             );
           }
         }
@@ -48,7 +52,12 @@ class OrderDetailsScreen extends StatelessWidget {
             }
 
             if (state is OrderDetailsFailed) {
-              return Center(child: Text(state.failure.message));
+              return RemoteDataFailureView(
+                failure: state.failure,
+                onRetry: () => context
+                    .read<OrderDetailsCubit>()
+                    .fetchOrderDetails(orderId),
+              );
             }
 
             if (state is OrderDetailsLoaded) {
@@ -65,11 +74,11 @@ class OrderDetailsScreen extends StatelessWidget {
                           context.t.orders.date(
                             date: DateFormatter.format(order.createdAt),
                           ),
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .onSurface
-                                    .withValues(alpha: 0.6),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.6),
                               ),
                         ),
                         const Divider(height: AppSpacing.xl),
@@ -77,9 +86,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         const Divider(height: AppSpacing.xl),
                         Text(
                           context.t.orders.orderItems,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
+                          style: Theme.of(context).textTheme.titleMedium
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: AppSpacing.sm),
@@ -92,9 +99,8 @@ class OrderDetailsScreen extends StatelessWidget {
                     ),
                     sliver: SliverList(
                       delegate: SliverChildBuilderDelegate(
-                        (context, index) => OrderDetailsItemCard(
-                          item: order.items[index],
-                        ),
+                        (context, index) =>
+                            OrderDetailsItemCard(item: order.items[index]),
                         childCount: order.items.length,
                       ),
                     ),

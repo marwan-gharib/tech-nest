@@ -3,7 +3,7 @@ import 'package:tech_nest/features/orders/domain/usecases/cancel_order_usecase.d
 import 'package:tech_nest/features/orders/domain/usecases/get_order_details_usecase.dart';
 import 'package:tech_nest/features/orders/domain/enums/order_status.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_state.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/orders_list/orders_list_cubit.dart';
+import 'package:tech_nest/features/orders/presentation/cubits/orders_list/orders_list_cubit.dart';
 
 class OrderDetailsCubit extends Cubit<OrderDetailsState> {
   final GetOrderDetailsUseCase _getOrderDetailsUseCase;

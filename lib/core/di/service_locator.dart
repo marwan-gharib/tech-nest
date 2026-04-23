@@ -18,9 +18,9 @@ import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/features/auth/di/auth_di.dart';
 import 'package:tech_nest/features/cart/di/cart_di.dart';
 import 'package:tech_nest/features/categories/di/categories_di.dart';
+import 'package:tech_nest/features/orders/di/orders_di.dart';
 import 'package:tech_nest/features/products/di/products_di.dart';
 import 'package:tech_nest/features/settings/di/settings_di.dart';
-import 'package:tech_nest/features/orders/di/orders_di.dart';
 
 final GetIt sl = GetIt.instance;
 

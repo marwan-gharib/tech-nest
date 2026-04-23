@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
+import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
+import 'package:tech_nest/features/products/presentation/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/search_products_widget.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/home/presentation/widgets/home_filter_button.dart';
@@ -61,18 +61,26 @@ class HomeAppBar extends StatelessWidget {
               Expanded(
                 child: BlocProvider(
                   create: (context) => sl<SearchSuggestionsCubit>(),
-                  child: SearchProductsWidget(
-                    controller: searchController,
-                    hintText: context.t.home.search,
-                    onSelected: (value) async {
-                      context.read<FetchProductsCubit>().search(value ?? "");
-                    },
-                    onClear: () {
-                      final state = context.read<FetchProductsCubit>().state;
-                      if (state is FetchProductsLoaded &&
-                          state.isSearchApplied) {
-                        context.read<FetchProductsCubit>().refresh();
-                      }
+                  child: BlocBuilder<SearchSuggestionsCubit, SearchSuggestionsState>(
+                    builder: (context, state) {
+                      return SearchProductsWidget(
+                        controller: searchController,
+                        hintText: context.t.home.search,
+                        suggestions: state is SearchSuggestionsLoaded ? state.suggestions : [],
+                        isLoading: state is SearchSuggestionsLoading,
+                        onTextChanged: (query) => context.read<SearchSuggestionsCubit>().getSuggestions(searchLabel: query),
+                        onClearSuggestions: () => context.read<SearchSuggestionsCubit>().clearCache(),
+                        onSelected: (value) async {
+                          context.read<FetchProductsCubit>().search(value ?? "");
+                        },
+                        onClear: () {
+                          final fetchState = context.read<FetchProductsCubit>().state;
+                          if (fetchState is FetchProductsLoaded &&
+                              fetchState.isSearchApplied) {
+                            context.read<FetchProductsCubit>().refresh();
+                          }
+                        },
+                      );
                     },
                   ),
                 ),

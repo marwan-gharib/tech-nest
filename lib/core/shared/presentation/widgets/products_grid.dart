@@ -1,90 +1,105 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
+import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/no_results_found_view.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/product_card.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/skeleton_card.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/error/failures/failure.dart';
 
 class ProductsGrid extends StatelessWidget {
-  const ProductsGrid({super.key});
+  final List<ProductEntity> products;
+  final bool isLoading;
+  final bool isLoadingMore;
+  final Failure? error;
+  final Failure? loadMoreError;
+  final VoidCallback onRetry;
+  final VoidCallback onFetchMore;
+  final VoidCallback? onAddToCart;
+  final Function(ProductEntity)? onProductAddToCart;
+  final bool isSearchApplied;
+  final bool isFilterApplied;
+  final String noResultsTitle;
+  final String noResultsMessage;
+
+  const ProductsGrid({
+    required this.products,
+    required this.isLoading,
+    required this.onRetry,
+    required this.onFetchMore,
+    required this.noResultsTitle,
+    required this.noResultsMessage,
+    this.isLoadingMore = false,
+    this.error,
+    this.loadMoreError,
+    this.onAddToCart,
+    this.onProductAddToCart,
+    this.isSearchApplied = false,
+    this.isFilterApplied = false,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FetchProductsCubit, FetchProductsState>(
-      buildWhen: (previous, current) => previous != current,
-      builder: (context, state) {
-        switch (state) {
-          case FetchProductsInitial():
-          case FetchProductsLoading():
-            return SliverGrid.builder(
-              itemCount: 6,
-              gridDelegate: _gridDelegate,
-              itemBuilder: (context, index) => const SkeletonCard(),
-            );
+    if (isLoading) {
+      return SliverGrid.builder(
+        itemCount: 6,
+        gridDelegate: _gridDelegate,
+        itemBuilder: (context, index) => const SkeletonCard(),
+      );
+    }
 
-          case FetchProductsError():
-            return SliverFillRemaining(
-              child: RemoteDataFailureView(
-                failure: state.failure,
-                onRetry: () =>
-                    context.read<FetchProductsCubit>().initialFetching(),
-              ),
-            );
+    if (error != null) {
+      return SliverFillRemaining(
+        child: RemoteDataFailureView(
+          failure: error!,
+          onRetry: onRetry,
+        ),
+      );
+    }
 
-          case FetchProductsLoaded():
-            if ((state.isSearchApplied) && state.products.isEmpty) {
-              return SliverFillRemaining(
-                hasScrollBody: false,
-                child: NoResultsFoundView(
-                  title: context.t.errors.noResults,
-                  message: context.t.errors.noResultsSearch,
-                  icon: Icons.search_off_rounded,
-                ),
-              );
-            }
-            if ((state.isFilterApplied) && state.products.isEmpty) {
-              return SliverFillRemaining(
-                hasScrollBody: false,
-                child: NoResultsFoundView(
-                  title: context.t.errors.noResults,
-                  message: context.t.errors.noResultsFilter,
-                  icon: Icons.filter_alt_off_rounded,
-                ),
-              );
-            }
-            return SliverMainAxisGroup(
-              slivers: [
-                SliverGrid.builder(
-                  itemCount: state.products.length,
-                  gridDelegate: _gridDelegate,
-                  itemBuilder: (context, index) {
-                    return ProductCard(product: state.products[index]);
-                  },
-                ),
-                if (state.loadMoreFailure != null)
-                  SliverToBoxAdapter(
-                    child: RemoteDataFailureView(
-                      failure: state.loadMoreFailure!,
-                      titleOverride: context.t.errors.loadMoreFailed,
-                      compact: true,
-                      onRetry: () =>
-                          context.read<FetchProductsCubit>().fetchMore(),
-                    ),
-                  ),
-                if (state.isLoadingMore)
-                  const SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
-                      child: Center(child: CircularProgressIndicator()),
-                    ),
-                  ),
-              ],
+    if ((isSearchApplied || isFilterApplied) && products.isEmpty) {
+      return SliverFillRemaining(
+        hasScrollBody: false,
+        child: NoResultsFoundView(
+          title: noResultsTitle,
+          message: noResultsMessage,
+          icon: isSearchApplied
+              ? Icons.search_off_rounded
+              : Icons.filter_alt_off_rounded,
+        ),
+      );
+    }
+
+    return SliverMainAxisGroup(
+      slivers: [
+        SliverGrid.builder(
+          itemCount: products.length,
+          gridDelegate: _gridDelegate,
+          itemBuilder: (context, index) {
+            final product = products[index];
+            return ProductCard(
+              product: product,
+              onAddToCart: () => onProductAddToCart?.call(product),
             );
-        }
-      },
+          },
+        ),
+        if (loadMoreError != null)
+          SliverToBoxAdapter(
+            child: RemoteDataFailureView(
+              failure: loadMoreError!,
+              compact: true,
+              onRetry: onFetchMore,
+            ),
+          ),
+        if (isLoadingMore)
+          const SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
+              child: Center(child: CircularProgressIndicator()),
+            ),
+          ),
+      ],
     );
   }
 

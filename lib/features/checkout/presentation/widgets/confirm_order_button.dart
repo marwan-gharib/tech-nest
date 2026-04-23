@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/orders/domain/params/create_order_params.dart';
-import 'package:tech_nest/features/orders/presentation/cubits/create_order/create_order_cubit.dart';
-import 'package:tech_nest/features/orders/presentation/cubits/create_order/create_order_state.dart';
+import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_cubit.dart';
+import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_state.dart';
 
 class ConfirmOrderButton extends StatelessWidget {
   final CreateOrderParams params;
 
-  const ConfirmOrderButton({
-    required this.params,
-    super.key,
-  });
+  const ConfirmOrderButton({required this.params, super.key});
 
   @override
   Widget build(BuildContext context) {

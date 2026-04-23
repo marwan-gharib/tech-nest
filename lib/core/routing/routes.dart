@@ -10,9 +10,8 @@ class Routes {
 
   static String get productDetailsScreen => "productDetails";
 
-  static String get profileScreenPath => "/profile";
   static String get settingsScreenPath => "/settings";
   static String get ordersScreenPath => "/orders";
   static String get orderDetailsScreenPath => "orderDetails";
-  static String get checkoutScreenPath => "/checkout";
+  static String get checkoutScreenPath => "checkout";
 }

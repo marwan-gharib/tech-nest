@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class AddToCartAction extends StatelessWidget {

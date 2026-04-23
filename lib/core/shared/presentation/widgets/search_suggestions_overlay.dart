@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/custom_skeleton_list.dart';
-import 'package:tech_nest/core/shared/presentation/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/search_suggestions_overlay_list.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
@@ -11,11 +8,17 @@ class SearchSuggestionsOverlay extends StatelessWidget {
   final LayerLink layerLink;
   final ValueChanged<String> onSelected;
   final Object groupId;
+  final List<String> suggestions;
+  final bool isLoading;
+  final String? emptyQuery;
 
   const SearchSuggestionsOverlay({
     required this.layerLink,
     required this.onSelected,
     required this.groupId,
+    required this.suggestions,
+    required this.isLoading,
+    this.emptyQuery,
     super.key,
   });
 
@@ -35,85 +38,44 @@ class SearchSuggestionsOverlay extends StatelessWidget {
         AppSpacing.homeFilterButtonWidth -
         AppSpacing.sm;
 
-    return BlocBuilder<SearchSuggestionsCubit, SearchSuggestionsState>(
-      buildWhen: (previous, current) =>
-          previous.runtimeType != current.runtimeType ||
-          (previous is SearchSuggestionsLoaded &&
-              current is SearchSuggestionsLoaded &&
-              previous.suggestions != current.suggestions),
-      builder: (context, state) {
-        // Determine if overlay should be visible
-        final shouldShowOverlay = switch (state) {
-          SearchSuggestionsInitial() => false,
-          SearchSuggestionsLoading() => true,
-          SearchSuggestionsLoaded(:final suggestions) => suggestions.isNotEmpty,
-          SearchSuggestionsEmpty() => true,
-          SearchSuggestionsFailed() => true,
-        };
+    if (!isLoading && suggestions.isEmpty && emptyQuery == null) {
+      return const SizedBox.shrink();
+    }
 
-        if (!shouldShowOverlay) {
-          return const SizedBox.shrink();
-        }
-
-        return Positioned(
-          width: overlayWidth,
-          child: CompositedTransformFollower(
-            link: layerLink,
-            showWhenUnlinked: false,
-            offset: const Offset(0, _overlayOffset),
-            child: TapRegion(
-              groupId: groupId,
-              child: Material(
-                elevation: _overlayElevation,
-                shadowColor: theme.shadowColor.withValues(alpha: _shadowAlpha),
-                borderRadius: AppRadius.cardLg,
-                color: theme.colorScheme.surface,
-                clipBehavior: Clip.antiAlias,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {},
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxHeight: _overlayHeight,
-                    ),
-                    child: switch (state) {
-                      SearchSuggestionsInitial() => const SizedBox.shrink(),
-
-                      SearchSuggestionsLoading() => const CustomSkeletonList(),
-
-                      SearchSuggestionsLoaded(:final suggestions)
-                          when suggestions.isNotEmpty =>
-                        SearchSuggestionsOverlayList(
-                          suggestions: suggestions,
-                          onSelected: onSelected,
-                        ),
-
-                      SearchSuggestionsLoaded() => _buildEmptyState(
-                        context,
-                        '',
-                      ),
-
-                      SearchSuggestionsEmpty(:final query) => _buildEmptyState(
-                        context,
-                        query,
-                      ),
-
-                      SearchSuggestionsFailed(:final failure) =>
-                        RemoteDataFailureView(
-                          failure: failure,
-                          compact: true,
-                          onRetry: () => context
-                              .read<SearchSuggestionsCubit>()
-                              .retryLastQuery(),
-                        ),
-                    },
-                  ),
+    return Positioned(
+      width: overlayWidth,
+      child: CompositedTransformFollower(
+        link: layerLink,
+        showWhenUnlinked: false,
+        offset: const Offset(0, _overlayOffset),
+        child: TapRegion(
+          groupId: groupId,
+          child: Material(
+            elevation: _overlayElevation,
+            shadowColor: theme.shadowColor.withValues(alpha: _shadowAlpha),
+            borderRadius: AppRadius.cardLg,
+            color: theme.colorScheme.surface,
+            clipBehavior: Clip.antiAlias,
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {},
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxHeight: _overlayHeight,
                 ),
+                child: isLoading
+                    ? const CustomSkeletonList()
+                    : suggestions.isNotEmpty
+                        ? SearchSuggestionsOverlayList(
+                            suggestions: suggestions,
+                            onSelected: onSelected,
+                          )
+                        : _buildEmptyState(context, emptyQuery ?? ''),
               ),
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
@@ -137,14 +99,16 @@ class SearchSuggestionsOverlay extends StatelessWidget {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              'for "$query"',
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: Theme.of(context).colorScheme.outlineVariant,
+            if (query.isNotEmpty) ...[
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                'for "$query"',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                ),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-            ),
+            ],
           ],
         ),
       ),

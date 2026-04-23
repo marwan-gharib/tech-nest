@@ -1,14 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/di/service_locator.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
-import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/shared/utils/logger.dart';
 import 'package:tech_nest/features/app_shell/presentation/app_shell_entry.dart';
@@ -17,26 +14,31 @@ import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cu
 import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/screens/login_screen.dart';
 import 'package:tech_nest/features/auth/presentation/screens/sign_up_screen.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/screens/cart_items_screen.dart';
-import 'package:tech_nest/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
+import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/screens/categories_screen.dart';
+import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_cubit.dart';
+import 'package:tech_nest/features/checkout/presentation/screens/checkout_screen.dart';
 import 'package:tech_nest/features/home/presentation/screens/home_screen.dart';
+import 'package:tech_nest/features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_cubit.dart';
+import 'package:tech_nest/features/orders/presentation/cubits/orders_list/orders_list_cubit.dart';
+import 'package:tech_nest/features/orders/presentation/screens/order_details_screen.dart';
+import 'package:tech_nest/features/orders/presentation/screens/orders_list_screen.dart';
+import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';
 import 'package:tech_nest/features/settings/presentation/screens/settings_screen.dart';
-import 'package:tech_nest/features/orders/presentation/screens/orders_list_screen.dart';
-import 'package:tech_nest/features/orders/presentation/screens/order_details_screen.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/orders_list/orders_list_cubit.dart';
-import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_cubit.dart';
-import 'package:tech_nest/features/orders/presentation/cubits/create_order/create_order_cubit.dart';
-import 'package:tech_nest/features/orders/presentation/screens/checkout_screen.dart';
 
 class AppRouter {
   static final AuthNotifier _authNotifier = sl<AuthNotifier>();
+  static final _shellNavigatorKey = GlobalKey<NavigatorState>();
 
   const AppRouter._();
 
   static final GoRouter routes = GoRouter(
+    navigatorKey: _shellNavigatorKey,
     initialLocation: Routes.homeScreenPath,
     routes: [
       StatefulShellRoute.indexedStack(
@@ -52,7 +54,6 @@ class AppRouter {
       _signUpScreenRouter,
       _loginScreenRouter,
       _onboardingScreenRouter,
-      _checkoutScreenRouter,
     ],
     refreshListenable: _authNotifier,
     redirect: (context, state) {
@@ -140,6 +141,7 @@ class AppRouter {
   static final _cartScreenRouter = GoRoute(
     path: Routes.cartScreenPath,
     builder: (context, state) => const CartItemsScreen(),
+    routes: [_checkoutScreenRouter],
   );
 
   static final _categoriesScreenRouter = GoRoute(
@@ -164,11 +166,11 @@ class AppRouter {
   static final _orderDetailsRouter = GoRoute(
     path: Routes.orderDetailsScreenPath,
     builder: (context, state) {
-      final orderId = state.extra as int;
+      final orderId = int.parse(state.extra.toString());
       return BlocProvider(
         create: (context) =>
             sl<OrderDetailsCubit>()..fetchOrderDetails(orderId),
-        child: const OrderDetailsScreen(),
+        child: OrderDetailsScreen(orderId: orderId),
       );
     },
   );

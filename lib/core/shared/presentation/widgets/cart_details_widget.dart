@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/shared/domain/entities/cart_entity.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/build_price.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 
 class CartDetailsWidget extends StatelessWidget {
-  const CartDetailsWidget({super.key});
+  final Cart cart;
+  const CartDetailsWidget({required this.cart, super.key});
 
   static const double _priceSize = 16.0;
   static const double _titleSize = 14.0;
@@ -14,44 +14,37 @@ class CartDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CartCubit, CartState>(
-      builder: (context, state) {
-        if (state is CartLoaded) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: AppSpacing.sm + 2,
-            children: [
-              _dataRow(
-                context,
-                label: context.t.cart.items,
-                number: state.cart.totalQuantity,
-              ),
-              _dataRow(
-                context,
-                label: context.t.cart.subtotal,
-                number: state.cart.totalPrice,
-                isPrice: true,
-              ),
-              _dataRow(
-                context,
-                label: context.t.cart.delivery,
-                number: state.cart.deliveryCharges,
-                isPrice: true,
-                isFree: state.cart.deliveryCharges == 0,
-              ),
-              Divider(color: Theme.of(context).hintColor),
-              _dataRow(
-                context,
-                label: context.t.cart.total,
-                number: state.cart.grandTotal,
-                isPrice: true,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
-            ],
-          );
-        }
-        return const SizedBox.shrink();
-      },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: AppSpacing.sm + 2,
+      children: [
+        _dataRow(
+          context,
+          label: context.t.cart.items,
+          number: cart.totalQuantity,
+        ),
+        _dataRow(
+          context,
+          label: context.t.cart.subtotal,
+          number: cart.totalPrice,
+          isPrice: true,
+        ),
+        _dataRow(
+          context,
+          label: context.t.cart.delivery,
+          number: cart.deliveryCharges,
+          isPrice: true,
+          isFree: cart.deliveryCharges == 0,
+        ),
+        Divider(color: Theme.of(context).hintColor),
+        _dataRow(
+          context,
+          label: context.t.cart.total,
+          number: cart.grandTotal,
+          isPrice: true,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
+      ],
     );
   }
 

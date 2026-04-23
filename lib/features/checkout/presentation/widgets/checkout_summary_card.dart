@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/cart/presentation/widgets/cart_details_widget.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/cart_details_widget.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 
 class CheckoutSummaryCard extends StatelessWidget {
   const CheckoutSummaryCard({super.key});
@@ -18,7 +20,14 @@ class CheckoutSummaryCard extends StatelessWidget {
           color: colorScheme.outlineVariant.withValues(alpha: 0.5),
         ),
       ),
-      child: const CartDetailsWidget(),
+      child: BlocBuilder<CartCubit, CartState>(
+        builder: (context, state) {
+          if (state is CartLoaded) {
+            return CartDetailsWidget(cart: state.cart);
+          }
+          return const SizedBox.shrink();
+        },
+      ),
     );
   }
 }

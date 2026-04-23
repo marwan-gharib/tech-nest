@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/remote_data_failure_view.dart';
@@ -70,7 +70,9 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
                       alignment: Alignment.bottomCenter,
                       child: CheckoutButton(
                         totalPrice: state.cart.grandTotal.toDouble(),
-                        onPressed: () => context.push(Routes.checkoutScreenPath),
+                        onPressed: () => context.push(
+                          '${Routes.cartScreenPath}/${Routes.checkoutScreenPath}',
+                        ),
                       ),
                     );
                   },
