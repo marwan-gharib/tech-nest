@@ -4,7 +4,7 @@ import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 import 'package:tech_nest/features/products/domain/params/products_params.dart';
 import 'package:tech_nest/features/products/domain/usecases/get_products_usecase.dart';
-import 'package:tech_nest/core/shared/presentation/models/filter_data.dart';
+import 'package:tech_nest/features/products/presentation/models/filter_data.dart';
 
 part 'fetch_products_state.dart';
 

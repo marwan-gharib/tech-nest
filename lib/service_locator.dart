@@ -12,7 +12,6 @@ import 'package:tech_nest/core/network/interceptors/auth_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/error_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/locale_interceptor.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
-import 'package:tech_nest/core/shared/data/datasources/local/user_local_datasource.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/features/auth/di/auth_di.dart';
@@ -33,9 +32,6 @@ Future<void> initDependencies() async {
     () => SecureStorageClientImpl(const FlutterSecureStorage()),
   );
   sl.registerLazySingleton<CacheService>(() => SharedPreferencesService(pref));
-  sl.registerLazySingleton<UserLocalDataSource>(
-    () => UserLocalDataSourceImpl(sl<CacheService>()),
-  );
 
   sl.registerLazySingleton(() => AuthNotifier());
 

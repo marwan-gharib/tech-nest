@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/shared/data/datasources/local/user_local_datasource.dart';
+import 'package:tech_nest/features/auth/data/datasources/local/user_local_datasource.dart';
 
 import 'user_profile_state.dart';
 
