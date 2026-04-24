@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
-import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/service_locator.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';

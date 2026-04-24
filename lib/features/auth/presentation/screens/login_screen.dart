@@ -4,7 +4,7 @@ import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';

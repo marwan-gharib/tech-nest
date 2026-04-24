@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/service_locator.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/core/shared/domain/enums/order_type.dart';
 import 'package:tech_nest/core/shared/domain/enums/sort_type.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
-import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/service_locator.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';

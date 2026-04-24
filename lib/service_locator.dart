@@ -18,6 +18,7 @@ import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/features/auth/di/auth_di.dart';
 import 'package:tech_nest/features/cart/di/cart_di.dart';
 import 'package:tech_nest/features/categories/di/categories_di.dart';
+import 'package:tech_nest/features/checkout/di/checkout_di.dart';
 import 'package:tech_nest/features/orders/di/orders_di.dart';
 import 'package:tech_nest/features/products/di/products_di.dart';
 import 'package:tech_nest/features/settings/di/settings_di.dart';
@@ -60,7 +61,7 @@ Future<void> initDependencies() async {
     ),
   );
 
-  // ── Theme ─────────────────────────────────────────────────────────────────
+  // ── Global Cubits ──────────────────────────────────────────────────────────
   sl.registerLazySingleton(() => ThemeCubit(sl<CacheService>()));
   sl.registerLazySingleton(() => LocaleCubit(sl<CacheService>()));
 
@@ -71,4 +72,5 @@ Future<void> initDependencies() async {
   initCartDI(sl);
   initSettingsDI(sl);
   initOrdersDI(sl);
+  initCheckoutDI(sl);
 }

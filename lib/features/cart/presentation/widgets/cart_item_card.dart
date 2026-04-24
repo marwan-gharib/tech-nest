@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/di/service_locator.dart';
+import 'package:tech_nest/service_locator.dart';
 import 'package:tech_nest/core/shared/domain/entities/cart_item_entity.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/build_price.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
