@@ -9,7 +9,7 @@ import 'package:tech_nest/features/home/presentation/widgets/filter_components.d
 import 'package:tech_nest/features/home/presentation/widgets/home_app_bar.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/features/products/presentation/models/filter_data.dart';
-import 'package:tech_nest/features/products/presentation/widgets/products_grid.dart';
+import 'package:tech_nest/features/products/presentation/widgets/shared/products_grid.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

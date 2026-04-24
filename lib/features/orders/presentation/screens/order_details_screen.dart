@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/date_formatter.dart';
+import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_cubit.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_state.dart';
 import 'package:tech_nest/features/orders/presentation/widgets/order_details_addresses.dart';
@@ -10,8 +11,6 @@ import 'package:tech_nest/features/orders/presentation/widgets/order_details_hea
 import 'package:tech_nest/features/orders/presentation/widgets/order_details_item_card.dart';
 import 'package:tech_nest/features/orders/presentation/widgets/order_details_summary.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-
-import '../../../../core/shared/presentation/widgets/remote_data_failure_view.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
   final int orderId;
