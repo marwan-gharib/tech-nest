@@ -1,6 +1,6 @@
 import 'package:tech_nest/core/constants/api_keys.dart';
-import 'package:tech_nest/core/shared/domain/enums/order_type.dart';
-import 'package:tech_nest/core/shared/domain/enums/sort_type.dart';
+import 'package:tech_nest/core/shared/enums/order_type.dart';
+import 'package:tech_nest/core/shared/enums/sort_type.dart';
 
 class ProductsParams {
   final int? categoryId;

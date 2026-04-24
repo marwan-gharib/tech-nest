@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
-import 'package:tech_nest/core/shared/presentation/widgets/build_price.dart';
+import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 

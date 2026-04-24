@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
-import 'package:tech_nest/core/shared/presentation/widgets/build_price.dart';
+import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/products/presentation/widgets/custom_counter.dart';
 import 'package:tech_nest/i18n/strings.g.dart';

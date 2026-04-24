@@ -3,7 +3,7 @@ import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tech_nest/features/categories/domain/entities/category_entity.dart';
 import 'package:tech_nest/features/categories/presentation/widgets/category_label_widget.dart';
-import 'package:tech_nest/core/shared/presentation/widgets/remote_data_failure_view.dart';
+import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
 
