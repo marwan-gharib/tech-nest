@@ -48,7 +48,9 @@ class OrderListItem extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.sm),
               Text(
-                context.t.orders.date(date: DateFormatter.format(order.createdAt)),
+                context.t.orders.date(
+                  date: DateFormatter.format(order.createdAt),
+                ),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(
                     context,

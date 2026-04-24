@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
+import 'package:tech_nest/core/cubits/locale/locale_cubit.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';

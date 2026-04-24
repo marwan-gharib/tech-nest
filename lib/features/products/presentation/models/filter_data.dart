@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:tech_nest/core/shared/enums/order_type.dart';
-import 'package:tech_nest/core/shared/enums/sort_type.dart';
+import 'package:tech_nest/core/enums/order_type.dart';
+import 'package:tech_nest/core/enums/sort_type.dart';
 import 'package:tech_nest/features/products/domain/params/products_params.dart';
 
 class FilterData extends Equatable {

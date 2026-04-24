@@ -5,7 +5,7 @@ import 'package:tech_nest/core/error/exceptions/exceptions.dart';
 import 'package:tech_nest/core/network/api_client.dart';
 import 'package:tech_nest/core/network/utils/file_upload_utils.dart';
 import 'package:tech_nest/features/auth/data/models/user_model.dart';
-import 'package:tech_nest/core/shared/utils/logger.dart';
+import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/auth/data/models/auth_model.dart';
 import 'package:tech_nest/features/auth/domain/params/login_params.dart';
 import 'package:tech_nest/features/auth/domain/params/reset_password_params.dart';

@@ -12,7 +12,7 @@ import 'package:tech_nest/core/network/interceptors/auth_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/error_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/locale_interceptor.dart';
 import 'package:tech_nest/core/services/auth/auth_notifier.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
+import 'package:tech_nest/core/cubits/locale/locale_cubit.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/features/auth/di/auth_di.dart';
 import 'package:tech_nest/features/cart/di/cart_di.dart';

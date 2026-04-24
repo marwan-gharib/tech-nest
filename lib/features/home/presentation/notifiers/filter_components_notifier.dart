@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/core/shared/enums/order_type.dart';
-import 'package:tech_nest/core/shared/enums/sort_type.dart';
+import 'package:tech_nest/core/enums/order_type.dart';
+import 'package:tech_nest/core/enums/sort_type.dart';
 import 'package:tech_nest/features/products/presentation/models/filter_data.dart';
 
 class FilterComponentsNotifier extends ChangeNotifier {

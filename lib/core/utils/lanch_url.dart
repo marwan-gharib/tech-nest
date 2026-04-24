@@ -1,4 +1,4 @@
-import 'package:tech_nest/core/shared/utils/logger.dart';
+import 'package:tech_nest/core/utils/logger.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LanchUrl {
