@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/core/shared/presentation/widgets/custom_search_field.dart';
-import 'package:tech_nest/core/shared/presentation/widgets/search_suggestions_overlay.dart';
+import 'package:tech_nest/features/products/presentation/widgets/custom_search_field.dart';
+import 'package:tech_nest/features/products/presentation/widgets/search_suggestions_overlay.dart';
 
 class SearchProductsWidget extends StatefulWidget {
   final TextEditingController controller;

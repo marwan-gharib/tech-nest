@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/custom_skeleton_list.dart';
-import 'package:tech_nest/core/shared/presentation/widgets/search_suggestions_overlay_list.dart';
+import 'package:tech_nest/features/products/presentation/widgets/search_suggestions_overlay_list.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 

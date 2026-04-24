@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/models/filter_data.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/move_to_first_scroll_position_widget.dart';
-import 'package:tech_nest/core/shared/presentation/widgets/products_grid.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_components.dart';
 import 'package:tech_nest/features/home/presentation/widgets/home_app_bar.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
-import 'package:tech_nest/i18n/strings.g.dart';
+import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
+import 'package:tech_nest/features/products/presentation/widgets/products_grid.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -86,30 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     searchController: _searchController,
                     onFilterPressed: _showBottomSheet,
                   ),
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-                    sliver: BlocBuilder<FetchProductsCubit, FetchProductsState>(
-                      builder: (context, state) {
-                        return ProductsGrid(
-                          products: state is FetchProductsLoaded ? state.products : [],
-                          isLoading: state is FetchProductsLoading || state is FetchProductsInitial,
-                          isLoadingMore: state is FetchProductsLoaded ? state.isLoadingMore : false,
-                          error: state is FetchProductsError ? state.failure : null,
-                          loadMoreError: state is FetchProductsLoaded ? state.loadMoreFailure : null,
-                          onRetry: () => context.read<FetchProductsCubit>().initialFetching(),
-                          onFetchMore: () => context.read<FetchProductsCubit>().fetchMore(),
-                          isSearchApplied: state is FetchProductsLoaded ? state.isSearchApplied : false,
-                          isFilterApplied: state is FetchProductsLoaded ? state.isFilterApplied : false,
-                          noResultsTitle: context.t.errors.noResults,
-                          noResultsMessage: state is FetchProductsLoaded && state.isSearchApplied 
-                              ? context.t.errors.noResultsSearch 
-                              : context.t.errors.noResultsFilter,
-                          onProductAddToCart: (product) {
-                            context.read<CartCubit>().add(productId: product.id, quantity: 1);
-                          },
-                        );
-                      },
-                    ),
+                  const SliverPadding(
+                    padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                    sliver: ProductsGrid(),
                   ),
                   const SliverToBoxAdapter(
                     child: SizedBox(height: AppSpacing.xxl + AppSpacing.md),
