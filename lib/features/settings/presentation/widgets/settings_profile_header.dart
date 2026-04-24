@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/shared/domain/entities/user_entity.dart';
+import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/settings/presentation/cubits/user_profile/user_profile_cubit.dart';

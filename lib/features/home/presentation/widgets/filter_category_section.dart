@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/shared/presentation/widgets/categories_view.dart';
+import 'package:tech_nest/features/categories/presentation/widgets/shared/categories_view.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 
 class FilterCategorySection extends StatelessWidget {

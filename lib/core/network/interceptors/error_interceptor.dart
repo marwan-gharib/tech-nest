@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/local/secure/secure_storage_client.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
-import 'package:tech_nest/core/services/auth/auth_notifier.dart';
+import 'package:tech_nest/features/auth/presentation/notifiers/auth_notifier.dart';
 
 class ErrorInterceptor extends Interceptor {
   final CacheService _cacheService;

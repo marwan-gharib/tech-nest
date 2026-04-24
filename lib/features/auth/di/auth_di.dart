@@ -1,9 +1,10 @@
 import 'package:get_it/get_it.dart';
+import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/local/secure/secure_storage_client.dart';
 import 'package:tech_nest/core/network/api_client.dart';
-import 'package:tech_nest/core/shared/data/datasources/local/user_local_datasource.dart';
-import 'package:tech_nest/core/shared/domain/repositories/auth_session_repository.dart';
-import 'package:tech_nest/core/shared/domain/usecases/logout_usecase.dart';
+import 'package:tech_nest/features/auth/data/datasources/local/user_local_datasource.dart';
+import 'package:tech_nest/features/auth/domain/usecases/get_cached_user_usecase.dart';
+import 'package:tech_nest/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:tech_nest/features/auth/data/datasources/local/auth_local_data_source.dart';
 import 'package:tech_nest/features/auth/data/datasources/remote/auth_remote_data_source.dart';
 import 'package:tech_nest/features/auth/data/repositories/auth_repository_impl.dart';
@@ -24,8 +25,11 @@ void initAuthDI(GetIt sl) {
   sl.registerLazySingleton(
     () => AuthLocalDatasource(sl<SecureStorageClient>()),
   );
+  sl.registerLazySingleton<UserLocalDataSource>(
+    () => UserLocalDataSourceImpl(sl<CacheService>()),
+  );
 
-  sl.registerLazySingleton<AuthRepositoryImpl>(
+  sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
       sl<AuthRemoteDatasource>(),
       sl<AuthLocalDatasource>(),
@@ -33,19 +37,14 @@ void initAuthDI(GetIt sl) {
     ),
   );
 
-  sl.registerLazySingleton<AuthSessionRepository>(
-    () => sl<AuthRepositoryImpl>(),
-  );
-
-  sl.registerLazySingleton<AuthRepository>(() => sl<AuthRepositoryImpl>());
-
   /***************usecases*************/
   sl.registerLazySingleton(() => LoginUsecase(sl<AuthRepository>()));
   sl.registerLazySingleton(() => SignUpUsecase(sl<AuthRepository>()));
   sl.registerLazySingleton(() => VerifyEmailUsecase(sl<AuthRepository>()));
   sl.registerLazySingleton(() => ResetPasswordUsecase(sl<AuthRepository>()));
   sl.registerLazySingleton(() => ForgetPasswordUsecase(sl<AuthRepository>()));
-  sl.registerLazySingleton(() => LogoutUsecase(sl<AuthSessionRepository>()));
+  sl.registerLazySingleton(() => LogoutUsecase(sl<AuthRepository>()));
+  sl.registerLazySingleton(() => GetCachedUserUseCase(sl<AuthRepository>()));
 
   /***************cubits*************/
   sl.registerFactory(() => LoginCubit(sl<LoginUsecase>()));

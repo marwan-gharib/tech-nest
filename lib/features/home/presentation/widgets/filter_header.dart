@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/home/presentation/widgets/active_filter_badge.dart';
+import 'package:tech_nest/core/widgets/active_filter_badge.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class FilterHeader extends StatelessWidget {

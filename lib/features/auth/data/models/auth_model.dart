@@ -1,5 +1,5 @@
 import 'package:tech_nest/core/constants/api_keys.dart';
-import 'package:tech_nest/core/shared/data/models/user_model.dart';
+import 'package:tech_nest/features/auth/data/models/user_model.dart';
 
 class AuthModel {
   final String token;

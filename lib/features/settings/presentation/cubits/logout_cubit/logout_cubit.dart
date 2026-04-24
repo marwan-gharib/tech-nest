@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
-import 'package:tech_nest/core/shared/domain/usecases/logout_usecase.dart';
+import 'package:tech_nest/features/auth/domain/usecases/logout_usecase.dart';
 
 part 'logout_state.dart';
 

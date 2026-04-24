@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_cubit.dart';
 import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_state.dart';
-import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/checkout/presentation/widgets/checkout_address_card.dart';
 import 'package:tech_nest/features/checkout/presentation/widgets/checkout_section_title.dart';

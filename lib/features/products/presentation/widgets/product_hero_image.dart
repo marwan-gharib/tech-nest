@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
+import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 
 class ProductHeroImage extends StatelessWidget {
   final ProductEntity product;

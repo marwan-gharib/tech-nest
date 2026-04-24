@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/constants/links.dart';
-import 'package:tech_nest/core/shared/utils/lanch_url.dart';
+import 'package:tech_nest/core/utils/lanch_url.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class PrivacyPolicyWidget extends StatelessWidget {

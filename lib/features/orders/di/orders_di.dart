@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:tech_nest/core/network/api_client.dart';
-import 'package:tech_nest/core/shared/domain/usecases/get_user_orders_usecase.dart';
+import 'package:tech_nest/features/orders/domain/usecases/get_user_orders_usecase.dart';
 import 'package:tech_nest/features/orders/data/datasources/remote/orders_remote_datasource.dart';
 import 'package:tech_nest/features/orders/data/repositories/orders_repository_impl.dart';
 import 'package:tech_nest/features/orders/domain/repositories/orders_repository.dart';

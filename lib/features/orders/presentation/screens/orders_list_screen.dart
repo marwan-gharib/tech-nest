@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/orders_list/orders_list_cubit.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/orders_list/orders_list_state.dart';
-import 'package:tech_nest/core/shared/presentation/widgets/remote_data_failure_view.dart';
+import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/orders/presentation/widgets/orders_list_loaded_view.dart';
 import 'package:tech_nest/features/orders/presentation/widgets/orders_skeleton_list.dart';
 import 'package:tech_nest/i18n/strings.g.dart';

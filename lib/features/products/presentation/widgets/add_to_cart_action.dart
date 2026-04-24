@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class AddToCartAction extends StatelessWidget {
-  final CartState state;
-  final int productId;
+  final bool isLoading;
+  final bool isInCart;
   final VoidCallback onAdd;
   final bool isAvailable;
 
   const AddToCartAction({
-    required this.state,
-    required this.productId,
+    required this.isLoading,
+    required this.isInCart,
     required this.onAdd,
     required this.isAvailable,
     super.key,
@@ -18,16 +17,9 @@ class AddToCartAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (state is CartLoading ||
-        (state is CartLoaded && (state as CartLoaded).isMutating)) {
+    if (isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-
-    final bool isInCart =
-        state is CartLoaded &&
-        (state as CartLoaded).cart.items.any(
-          (item) => item.product.id == productId,
-        );
 
     return SizedBox(
       width: double.infinity,
