@@ -1,6 +1,5 @@
 import 'package:get_it/get_it.dart';
 import 'package:tech_nest/core/network/api_client.dart';
-import 'package:tech_nest/core/shared/domain/repositories/cart_shared_repository.dart';
 import 'package:tech_nest/features/cart/domain/usecases/add_to_cart_usecase.dart';
 import 'package:tech_nest/features/cart/domain/usecases/get_cart_items_usecase.dart';
 import 'package:tech_nest/features/cart/data/datasources/remote/cart_remote_data_source.dart';
@@ -16,19 +15,12 @@ import 'package:tech_nest/features/cart/presentation/cubits/update_item_quantity
 void initCartDI(GetIt sl) {
   sl.registerLazySingleton(() => CartRemoteDatasource(sl<ApiClient>()));
 
-  sl.registerLazySingleton<CartRepositoryImpl>(
+  sl.registerLazySingleton<CartRepository>(
     () => CartRepositoryImpl(sl<CartRemoteDatasource>()),
   );
 
-  sl.registerLazySingleton<CartRepository>(() => sl<CartRepositoryImpl>());
-  sl.registerLazySingleton<CartSharedRepository>(
-    () => sl<CartRepositoryImpl>(),
-  );
-
-  sl.registerLazySingleton(() => AddToCartUsecase(sl<CartSharedRepository>()));
-  sl.registerLazySingleton(
-    () => GetCartItemsUsecase(sl<CartSharedRepository>()),
-  );
+  sl.registerLazySingleton(() => AddToCartUsecase(sl<CartRepository>()));
+  sl.registerLazySingleton(() => GetCartItemsUsecase(sl<CartRepository>()));
   sl.registerLazySingleton(() => RemoveFromCartUsecase(sl<CartRepository>()));
   sl.registerLazySingleton(
     () => UpdateItemQuantityUsecase(sl<CartRepository>()),

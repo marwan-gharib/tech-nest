@@ -4,7 +4,7 @@ import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/core/error/mappers/error_mapper.dart';
 import 'package:tech_nest/features/categories/domain/entities/category_entity.dart';
-import 'package:tech_nest/core/shared/domain/repositories/categories_repository.dart';
+import 'package:tech_nest/features/categories/domain/repositories/categories_repository.dart';
 import 'package:tech_nest/features/categories/data/datasources/remote/categories_remote_data_source.dart';
 
 class CategoriesRepositoryImpl implements CategoriesRepository {

@@ -3,7 +3,7 @@ import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 import 'package:tech_nest/features/products/domain/params/products_params.dart';
 
-abstract class ProductsSharedRepository {
+abstract class ProductsRepository {
   Future<Either<Failure, List<ProductEntity>>> getProducts({
     required ProductsParams params,
   });

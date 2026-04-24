@@ -5,7 +5,6 @@ import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/core/error/mappers/error_mapper.dart';
 import 'package:tech_nest/core/shared/data/datasources/local/user_local_datasource.dart';
 import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
-import 'package:tech_nest/core/shared/domain/repositories/auth_session_repository.dart';
 import 'package:tech_nest/features/auth/data/datasources/local/auth_local_data_source.dart';
 import 'package:tech_nest/features/auth/data/datasources/remote/auth_remote_data_source.dart';
 import 'package:tech_nest/features/auth/domain/params/login_params.dart';
@@ -14,7 +13,7 @@ import 'package:tech_nest/features/auth/domain/params/sign_up_params.dart';
 import 'package:tech_nest/features/auth/domain/params/verification_email_params.dart';
 import 'package:tech_nest/features/auth/domain/repositories/auth_repository.dart';
 
-class AuthRepositoryImpl implements AuthRepository, AuthSessionRepository {
+class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDatasource _remoteDataSource;
   final AuthLocalDatasource _localDataSource;
   final UserLocalDataSource _userLocalDataSource;
