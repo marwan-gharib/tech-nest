@@ -1,4 +1,4 @@
-import 'package:tech_nest/core/shared/domain/entities/cart_item_entity.dart';
+import 'package:tech_nest/features/cart/domain/entities/cart_item_entity.dart';
 
 class Cart {
   static const int _defaultDeliveryCharges = 50;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
+import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/no_results_found_view.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/product_card.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/remote_data_failure_view.dart';

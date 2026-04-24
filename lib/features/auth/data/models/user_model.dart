@@ -1,5 +1,5 @@
 import 'package:tech_nest/core/constants/api_keys.dart';
-import 'package:tech_nest/core/shared/domain/entities/user_entity.dart';
+import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
   UserModel({

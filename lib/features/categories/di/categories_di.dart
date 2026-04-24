@@ -1,8 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:tech_nest/core/network/api_client.dart';
 import 'package:tech_nest/core/shared/domain/repositories/categories_repository.dart';
-import 'package:tech_nest/core/shared/domain/usecases/fetch_categories_usecase.dart';
-import 'package:tech_nest/core/shared/domain/usecases/get_products_usecase.dart';
+import 'package:tech_nest/features/categories/domain/usecases/fetch_categories_usecase.dart';
+import 'package:tech_nest/features/products/domain/usecases/get_products_usecase.dart';
 import 'package:tech_nest/features/categories/data/datasources/remote/categories_remote_data_source.dart';
 import 'package:tech_nest/features/categories/data/repositories/categories_repository_impl.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';

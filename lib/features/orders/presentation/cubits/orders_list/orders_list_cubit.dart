@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/shared/domain/usecases/get_user_orders_usecase.dart';
+import 'package:tech_nest/features/orders/domain/usecases/get_user_orders_usecase.dart';
 import 'package:tech_nest/features/orders/domain/enums/order_status.dart';
 import 'orders_list_state.dart';
 

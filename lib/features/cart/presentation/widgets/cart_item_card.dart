@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/service_locator.dart';
-import 'package:tech_nest/core/shared/domain/entities/cart_item_entity.dart';
+import 'package:tech_nest/features/cart/domain/entities/cart_item_entity.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/build_price.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/delete_cart_item_cubit/delete_cart_item_cubit.dart';

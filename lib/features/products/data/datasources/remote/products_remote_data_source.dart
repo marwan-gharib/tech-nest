@@ -1,7 +1,7 @@
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
-import 'package:tech_nest/core/shared/domain/params/products_params.dart';
+import 'package:tech_nest/features/products/domain/params/products_params.dart';
 import 'package:tech_nest/core/network/api_client.dart';
 import 'package:tech_nest/core/shared/utils/logger.dart';
 import 'package:tech_nest/features/products/data/models/product_model.dart';

@@ -6,7 +6,7 @@ import 'package:tech_nest/core/error/exceptions/exceptions.dart';
 import 'package:tech_nest/core/error/failures/cache_failure.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
-import 'package:tech_nest/core/shared/data/models/user_model.dart';
+import 'package:tech_nest/features/auth/data/models/user_model.dart';
 
 abstract class UserLocalDataSource {
   Future<void> saveUser(UserModel user);

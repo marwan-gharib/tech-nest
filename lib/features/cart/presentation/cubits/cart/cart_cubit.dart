@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
-import 'package:tech_nest/core/shared/domain/entities/cart_entity.dart';
-import 'package:tech_nest/core/shared/domain/params/add_to_cart_params.dart';
-import 'package:tech_nest/core/shared/domain/usecases/add_to_cart_usecase.dart';
-import 'package:tech_nest/core/shared/domain/usecases/get_cart_items_usecase.dart';
+import 'package:tech_nest/features/cart/domain/entities/cart_entity.dart';
+import 'package:tech_nest/features/cart/domain/params/add_to_cart_params.dart';
+import 'package:tech_nest/features/cart/domain/usecases/add_to_cart_usecase.dart';
+import 'package:tech_nest/features/cart/domain/usecases/get_cart_items_usecase.dart';
 
 part 'cart_state.dart';
 
