@@ -1,14 +1,14 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
+import 'package:tech_nest/core/shared/domain/repositories/orders_shared_repository.dart';
 import 'package:tech_nest/features/orders/domain/entities/order_entity.dart';
-import 'package:tech_nest/features/orders/domain/repositories/orders_repository.dart';
 
 class GetUserOrdersUseCase {
-  final OrdersRepository repository;
+  final OrdersSharedRepository _repository;
 
-  GetUserOrdersUseCase(this.repository);
+  GetUserOrdersUseCase(this._repository);
 
   Future<Either<Failure, List<OrderEntity>>> call() {
-    return repository.getUserOrders();
+    return _repository.getUserOrders();
   }
 }

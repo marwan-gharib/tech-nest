@@ -8,4 +8,5 @@ abstract class CartRepository {
   Future<Either<Failure, int>> updateItemQuantity({
     required UpdateItemQuantityParams params,
   });
+  Future<Either<Failure, Unit>> clearCart();
 }

@@ -14,10 +14,10 @@ class DioExceptions {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
       case DioExceptionType.receiveTimeout:
-        throw ServerException("Request timeout");
+        throw ServerException("Proccess timeout");
 
       case DioExceptionType.cancel:
-        throw ServerException("Request cancelled");
+        throw ServerException("Proccess cancelled");
 
       case DioExceptionType.badCertificate:
         throw ServerException("Bad SSL certificate");

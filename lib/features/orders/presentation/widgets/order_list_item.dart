@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/date_formatter.dart';
 import 'package:tech_nest/features/orders/domain/entities/order_entity.dart';
 import 'package:tech_nest/features/orders/presentation/widgets/order_status_chip.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
@@ -47,7 +48,7 @@ class OrderListItem extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.sm),
               Text(
-                context.t.orders.date(date: _formatDate(order.createdAt)),
+                context.t.orders.date(date: DateFormatter.format(order.createdAt)),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                   color: Theme.of(
                     context,
@@ -76,14 +77,5 @@ class OrderListItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _formatDate(String dateString) {
-    try {
-      final date = DateTime.parse(dateString);
-      return '${date.day}/${date.month}/${date.year}';
-    } catch (_) {
-      return dateString;
-    }
   }
 }

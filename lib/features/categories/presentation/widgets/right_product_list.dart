@@ -6,6 +6,7 @@ import 'package:tech_nest/core/shared/presentation/widgets/skeleton_card.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/widgets/loading_more_indicator.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 
 class RightProductList extends StatelessWidget {
   final ScrollController scrollController;
@@ -48,9 +49,18 @@ class RightProductList extends StatelessWidget {
                 (state.isLoadingMore ? 1 : 0),
             itemBuilder: (context, index) {
               if (index < state.products.length) {
+                final product = state.products[index];
                 return Padding(
                   padding: const EdgeInsets.only(bottom: AppSpacing.md),
-                  child: ProductCard(product: state.products[index]),
+                  child: ProductCard(
+                    product: product,
+                    onAddToCart: () {
+                      context.read<CartCubit>().add(
+                            productId: product.id,
+                            quantity: 1,
+                          );
+                    },
+                  ),
                 );
               }
               final afterProducts = index - state.products.length;

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/cart/presentation/widgets/cart_details_widget.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/cart_details_widget.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 
 class OrderSummary extends StatelessWidget {
   const OrderSummary({super.key});
@@ -36,7 +38,14 @@ class OrderSummary extends StatelessWidget {
             context.t.cart.summary,
             style: theme.textTheme.labelLarge?.copyWith(fontSize: _titleSize),
           ),
-          const CartDetailsWidget(),
+          BlocBuilder<CartCubit, CartState>(
+            builder: (context, state) {
+              if (state is CartLoaded) {
+                return CartDetailsWidget(cart: state.cart);
+              }
+              return const SizedBox.shrink();
+            },
+          ),
         ],
       ),
     );

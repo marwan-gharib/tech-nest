@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/orders/domain/enums/order_status.dart';
+import 'package:tech_nest/core/utils/date_formatter.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_cubit.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_state.dart';
-import 'package:tech_nest/features/orders/presentation/widgets/order_status_chip.dart';
+import 'package:tech_nest/features/orders/presentation/widgets/order_details_addresses.dart';
+import 'package:tech_nest/features/orders/presentation/widgets/order_details_header.dart';
+import 'package:tech_nest/features/orders/presentation/widgets/order_details_item_card.dart';
+import 'package:tech_nest/features/orders/presentation/widgets/order_details_summary.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
+import '../../../../core/shared/presentation/widgets/remote_data_failure_view.dart';
+
 class OrderDetailsScreen extends StatelessWidget {
-  const OrderDetailsScreen({super.key});
+  final int orderId;
+
+  const OrderDetailsScreen({required this.orderId, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +32,12 @@ class OrderDetailsScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is OrderDetailsLoaded) {
           if (state.cancelFailure != null) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.cancelFailure!.message)),
-            );
+            CustomSnackBar.showError(context, failure: state.cancelFailure!);
           }
           if (state.isCancelledSuccessfully) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(context.t.orders.cancelSuccess)),
+            CustomSnackBar.showSuccess(
+              context,
+              message: context.t.orders.cancelSuccess,
             );
           }
         }
@@ -45,7 +52,12 @@ class OrderDetailsScreen extends StatelessWidget {
             }
 
             if (state is OrderDetailsFailed) {
-              return Center(child: Text(state.failure.message));
+              return RemoteDataFailureView(
+                failure: state.failure,
+                onRetry: () => context
+                    .read<OrderDetailsCubit>()
+                    .fetchOrderDetails(orderId),
+              );
             }
 
             if (state is OrderDetailsLoaded) {
@@ -56,22 +68,11 @@ class OrderDetailsScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(AppSpacing.md),
                     sliver: SliverList(
                       delegate: SliverChildListDelegate([
-                        // Header
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '#${order.id}',
-                              style: Theme.of(context).textTheme.headlineSmall
-                                  ?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            OrderStatusChip(status: order.status),
-                          ],
-                        ),
+                        OrderDetailsHeader(order: order),
                         const SizedBox(height: AppSpacing.sm),
                         Text(
                           context.t.orders.date(
-                            date: _formatDate(order.createdAt),
+                            date: DateFormatter.format(order.createdAt),
                           ),
                           style: Theme.of(context).textTheme.bodyMedium
                               ?.copyWith(
@@ -81,27 +82,8 @@ class OrderDetailsScreen extends StatelessWidget {
                               ),
                         ),
                         const Divider(height: AppSpacing.xl),
-
-                        // Addresses
-                        Text(
-                          context.t.orders.shippingAddress,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: AppSpacing.xs),
-                        Text(order.shippingAddress),
-                        const SizedBox(height: AppSpacing.md),
-
-                        Text(
-                          context.t.orders.billingAddress,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: AppSpacing.xs),
-                        Text(order.billingAddress),
+                        OrderDetailsAddresses(order: order),
                         const Divider(height: AppSpacing.xl),
-
-                        // Items
                         Text(
                           context.t.orders.orderItems,
                           style: Theme.of(context).textTheme.titleMedium
@@ -111,121 +93,27 @@ class OrderDetailsScreen extends StatelessWidget {
                       ]),
                     ),
                   ),
-
-                  // Items List
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: AppSpacing.md,
                     ),
                     sliver: SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        final item = order.items[index];
-                        return Card(
-                          margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            side: BorderSide(
-                              color: Theme.of(
-                                context,
-                              ).dividerColor.withValues(alpha: 0.1),
-                            ),
-                          ),
-                          child: ListTile(
-                            leading: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                item.imageUrl,
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Container(
-                                      width: 50,
-                                      height: 50,
-                                      color: Colors.grey.withValues(alpha: 0.2),
-                                      child: const Icon(
-                                        Icons.image_not_supported,
-                                      ),
-                                    ),
-                              ),
-                            ),
-                            title: Text(item.name),
-                            subtitle: Text(
-                              '${context.t.cart.items}: ${item.quantity}',
-                            ),
-                            trailing: Text(
-                              '\$${item.price.toStringAsFixed(2)}',
-                              style: Theme.of(context).textTheme.titleMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                  ),
-                            ),
-                          ),
-                        );
-                      }, childCount: order.items.length),
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) =>
+                            OrderDetailsItemCard(item: order.items[index]),
+                        childCount: order.items.length,
+                      ),
                     ),
                   ),
-
-                  // Total & Cancel Button
                   SliverPadding(
                     padding: const EdgeInsets.all(AppSpacing.md),
                     sliver: SliverList(
                       delegate: SliverChildListDelegate([
-                        const Divider(height: AppSpacing.xl),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              context.t.cart.total,
-                              style: Theme.of(context).textTheme.titleLarge,
-                            ),
-                            Text(
-                              '\$${order.totalPrice.toStringAsFixed(2)}',
-                              style: Theme.of(context).textTheme.headlineSmall
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                  ),
-                            ),
-                          ],
+                        OrderDetailsSummary(
+                          order: order,
+                          isCancelling: state.isCancelling,
                         ),
                         const SizedBox(height: AppSpacing.xl),
-                        if (order.status == OrderStatus.pending) ...[
-                          SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red.withValues(
-                                  alpha: 0.1,
-                                ),
-                                foregroundColor: Colors.red,
-                                elevation: 0,
-                              ),
-                              onPressed: state.isCancelling
-                                  ? null
-                                  : () => _showCancelConfirmation(
-                                      context,
-                                      order.id,
-                                    ),
-                              child: state.isCancelling
-                                  ? const SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                      ),
-                                    )
-                                  : Text(context.t.orders.cancelOrder),
-                            ),
-                          ),
-                          const SizedBox(height: AppSpacing.xl),
-                        ],
                       ]),
                     ),
                   ),
@@ -236,42 +124,6 @@ class OrderDetailsScreen extends StatelessWidget {
             return const SizedBox.shrink();
           },
         ),
-      ),
-    );
-  }
-
-  String _formatDate(String dateString) {
-    try {
-      final date = DateTime.parse(dateString);
-      return '${date.day}/${date.month}/${date.year}';
-    } catch (_) {
-      return dateString;
-    }
-  }
-
-  void _showCancelConfirmation(BuildContext context, int orderId) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(context.t.orders.cancelOrder),
-        content: Text(context.t.orders.cancelConfirm),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: Text(context.t.orders.cancelNo),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red,
-              foregroundColor: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.of(dialogContext).pop();
-              context.read<OrderDetailsCubit>().cancelOrder(orderId);
-            },
-            child: Text(context.t.orders.cancelYes),
-          ),
-        ],
       ),
     );
   }

@@ -67,4 +67,10 @@ class CartRepositoryImpl implements CartRepository, CartSharedRepository {
       return Left(UnknownFailure());
     }
   }
+  @override
+  Future<Either<Failure, Unit>> clearCart() async {
+    // Backend clears the cart automatically upon successful order creation.
+    // This usecase serves to signify the operation is done at the domain level.
+    return const Right(unit);
+  }
 }

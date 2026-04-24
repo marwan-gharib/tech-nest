@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/cubits/locale/locale_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_item_card.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_items_skeleton_list.dart';
+import 'package:tech_nest/features/cart/presentation/widgets/checkout_button.dart';
+import 'package:tech_nest/core/routing/routes.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/empty_cart_widget.dart';
-import 'package:tech_nest/features/cart/presentation/widgets/order_summary.dart';
 
 class CartItemsScreen extends StatefulWidget {
   const CartItemsScreen({super.key});
@@ -64,9 +66,14 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
                     if (state is! CartLoaded || state.cart.items.isEmpty) {
                       return const SizedBox.shrink();
                     }
-                    return const Align(
+                    return Align(
                       alignment: Alignment.bottomCenter,
-                      child: OrderSummary(),
+                      child: CheckoutButton(
+                        totalPrice: state.cart.grandTotal.toDouble(),
+                        onPressed: () => context.push(
+                          '${Routes.cartScreenPath}/${Routes.checkoutScreenPath}',
+                        ),
+                      ),
                     );
                   },
                 ),

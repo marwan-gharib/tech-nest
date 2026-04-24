@@ -22,6 +22,14 @@ class OrdersListLoaded extends OrdersListState {
 
   const OrdersListLoaded(this.orders);
 
+  OrdersListLoaded copyWith({
+    List<OrderEntity>? orders,
+  }) {
+    return OrdersListLoaded(
+      orders ?? this.orders,
+    );
+  }
+
   @override
   List<Object?> get props => [orders];
 }

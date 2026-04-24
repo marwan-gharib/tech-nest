@@ -14,4 +14,20 @@ class OrderEntity {
     required this.createdAt,
     required this.updatedAt,
   });
+
+  OrderEntity copyWith({
+    int? id,
+    double? totalPrice,
+    OrderStatus? status,
+    String? createdAt,
+    String? updatedAt,
+  }) {
+    return OrderEntity(
+      id: id ?? this.id,
+      totalPrice: totalPrice ?? this.totalPrice,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
 }

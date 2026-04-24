@@ -21,4 +21,26 @@ class OrderDetailsEntity {
     required this.updatedAt,
     required this.items,
   });
+
+  OrderDetailsEntity copyWith({
+    int? id,
+    double? totalPrice,
+    OrderStatus? status,
+    String? shippingAddress,
+    String? billingAddress,
+    String? createdAt,
+    String? updatedAt,
+    List<OrderItemEntity>? items,
+  }) {
+    return OrderDetailsEntity(
+      id: id ?? this.id,
+      totalPrice: totalPrice ?? this.totalPrice,
+      status: status ?? this.status,
+      shippingAddress: shippingAddress ?? this.shippingAddress,
+      billingAddress: billingAddress ?? this.billingAddress,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      items: items ?? this.items,
+    );
+  }
 }

@@ -1,24 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/routing/routes.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/shared/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/build_price.dart';
-import 'package:tech_nest/core/shared/presentation/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductEntity product;
+  final VoidCallback? onAddToCart;
 
   static const double _cardHeight = 200.0;
 
-  const ProductCard({required this.product, super.key});
+  const ProductCard({
+    required this.product,
+    this.onAddToCart,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -93,15 +95,7 @@ class ProductCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                BlocListener<CartCubit, CartState>(
-                  listenWhen: (previous, current) =>
-                      current is CartLoaded &&
-                      current.mutationFailure != null &&
-                      (previous is! CartLoaded ||
-                          previous.mutationFailure != current.mutationFailure),
-                  listener: _listener,
-                  child: _addToCartButton(context),
-                ),
+                _addToCartButton(context),
               ],
             ),
           ),
@@ -112,20 +106,12 @@ class ProductCard extends StatelessWidget {
 
   void _onCardTap(BuildContext context) {
     final currentLocation = GoRouterState.of(context).uri.path;
-    // Ensure we don't double up on locations if already in details
     if (currentLocation.contains(Routes.productDetailsScreen)) return;
 
     context.push(
       '$currentLocation/${Routes.productDetailsScreen}',
       extra: product,
     );
-  }
-
-  void _listener(BuildContext context, CartState state) {
-    if (state is CartLoaded && state.mutationFailure != null) {
-      CustomSnackBar.showError(context, failure: state.mutationFailure!);
-      context.read<CartCubit>().clearMutationError();
-    }
   }
 
   Widget _addToCartButton(BuildContext context) {
@@ -135,7 +121,7 @@ class ProductCard extends StatelessWidget {
       onPressed: product.stock > 0
           ? () {
               HapticFeedback.lightImpact();
-              context.read<CartCubit>().add(productId: product.id, quantity: 1);
+              onAddToCart?.call();
             }
           : null,
       icon: Container(

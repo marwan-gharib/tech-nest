@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/shared/presentation/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/custom_search_field.dart';
 import 'package:tech_nest/core/shared/presentation/widgets/search_suggestions_overlay.dart';
 
@@ -8,12 +6,19 @@ class SearchProductsWidget extends StatefulWidget {
   final TextEditingController controller;
   final ValueChanged<String?> onSelected;
   final VoidCallback? onClear;
-
   final String? hintText;
+  final void Function(String query) onTextChanged;
+  final List<String> suggestions;
+  final bool isLoading;
+  final VoidCallback onClearSuggestions;
 
   const SearchProductsWidget({
     required this.controller,
     required this.onSelected,
+    required this.onTextChanged,
+    required this.suggestions,
+    required this.isLoading,
+    required this.onClearSuggestions,
     this.onClear,
     this.hintText,
     super.key,
@@ -27,7 +32,6 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
   late final OverlayPortalController _overlayController;
   final LayerLink _layerLink = LayerLink();
   final Object _groupId = Object();
-  SearchSuggestionsCubit? _searchSuggestionsCubit;
 
   static const double _searchFieldHeight = 50.0;
   static const int _minSearchChars = 2;
@@ -39,12 +43,6 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
     _overlayController = OverlayPortalController();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _searchSuggestionsCubit ??= context.read<SearchSuggestionsCubit>();
-  }
-
   void _textChanged() {
     final text = widget.controller.text;
     final show = text.length >= _minSearchChars;
@@ -52,37 +50,28 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
     if (_overlayController.isShowing != show) {
       if (show) {
         _overlayController.show();
-        context.read<SearchSuggestionsCubit>().getSuggestions(
-          searchLabel: text,
-        );
+        widget.onTextChanged(text);
       } else {
         _overlayController.hide();
-        context.read<SearchSuggestionsCubit>().clearCache();
+        widget.onClearSuggestions();
       }
     } else if (show) {
-      context.read<SearchSuggestionsCubit>().getSuggestions(searchLabel: text);
+      widget.onTextChanged(text);
     }
   }
 
   void _onSuggestionSelected(String suggestion) {
     widget.controller.removeListener(_textChanged);
-
     widget.controller.text = suggestion;
-
     widget.controller.addListener(_textChanged);
-
     _overlayController.hide();
-
-    context.read<SearchSuggestionsCubit>().clearCache();
-
+    widget.onClearSuggestions();
     widget.onSelected(suggestion);
   }
 
   @override
   void dispose() {
     widget.controller.removeListener(_textChanged);
-    // Cancel ongoing requests when widget is disposed
-    _searchSuggestionsCubit?.cancelRequest();
     super.dispose();
   }
 
@@ -102,6 +91,8 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
                 layerLink: _layerLink,
                 onSelected: _onSuggestionSelected,
                 groupId: _groupId,
+                suggestions: widget.suggestions,
+                isLoading: widget.isLoading,
               );
             },
             child: CustomSearchField(
@@ -116,7 +107,7 @@ class _SearchProductsWidgetState extends State<SearchProductsWidget> {
               onClear: () {
                 widget.onClear?.call();
                 _overlayController.hide();
-                context.read<SearchSuggestionsCubit>().clearCache();
+                widget.onClearSuggestions();
               },
             ),
           ),
