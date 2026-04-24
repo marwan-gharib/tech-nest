@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
-import 'package:tech_nest/core/services/auth/auth_notifier.dart';
+import 'package:tech_nest/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';

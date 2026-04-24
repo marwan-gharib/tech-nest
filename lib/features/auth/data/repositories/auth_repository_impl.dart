@@ -110,4 +110,14 @@ class AuthRepositoryImpl implements AuthRepository {
       return Left(UnknownFailure());
     }
   }
+
+  @override
+  Either<Failure, UserEntity?> getCachedUser() {
+    try {
+      final result = _userLocalDataSource.getUser();
+      return result.map((model) => model?.toEntity());
+    } catch (e) {
+      return Left(UnknownFailure());
+    }
+  }
 }

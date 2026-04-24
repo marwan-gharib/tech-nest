@@ -17,4 +17,5 @@ abstract class AuthRepository {
   });
   Future<Either<Failure, void>> forgetPassword({required String email});
   Future<Either<Failure, void>> logout();
+  Either<Failure, UserEntity?> getCachedUser();
 }

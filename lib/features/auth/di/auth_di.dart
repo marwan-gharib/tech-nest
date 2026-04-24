@@ -3,6 +3,7 @@ import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/local/secure/secure_storage_client.dart';
 import 'package:tech_nest/core/network/api_client.dart';
 import 'package:tech_nest/features/auth/data/datasources/local/user_local_datasource.dart';
+import 'package:tech_nest/features/auth/domain/usecases/get_cached_user_usecase.dart';
 import 'package:tech_nest/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:tech_nest/features/auth/data/datasources/local/auth_local_data_source.dart';
 import 'package:tech_nest/features/auth/data/datasources/remote/auth_remote_data_source.dart';
@@ -43,6 +44,7 @@ void initAuthDI(GetIt sl) {
   sl.registerLazySingleton(() => ResetPasswordUsecase(sl<AuthRepository>()));
   sl.registerLazySingleton(() => ForgetPasswordUsecase(sl<AuthRepository>()));
   sl.registerLazySingleton(() => LogoutUsecase(sl<AuthRepository>()));
+  sl.registerLazySingleton(() => GetCachedUserUseCase(sl<AuthRepository>()));
 
   /***************cubits*************/
   sl.registerFactory(() => LoginCubit(sl<LoginUsecase>()));

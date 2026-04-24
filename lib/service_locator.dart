@@ -11,7 +11,7 @@ import 'package:tech_nest/core/network/dio_client.dart';
 import 'package:tech_nest/core/network/interceptors/auth_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/error_interceptor.dart';
 import 'package:tech_nest/core/network/interceptors/locale_interceptor.dart';
-import 'package:tech_nest/core/services/auth/auth_notifier.dart';
+import 'package:tech_nest/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:tech_nest/core/cubits/locale/locale_cubit.dart';
 import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
 import 'package:tech_nest/features/auth/di/auth_di.dart';

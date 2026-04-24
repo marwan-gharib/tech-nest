@@ -80,17 +80,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       child: ValueListenableBuilder<int>(
                         valueListenable: _quantityNotifier,
                         builder: (context, quantity, child) {
-                          return AddToCartAction(
-                            state: context.read<CartCubit>().state,
-                            productId: product.id,
-                            onAdd: () {
-                              HapticFeedback.lightImpact();
-                              context.read<CartCubit>().add(
-                                productId: product.id,
-                                quantity: quantity,
+                          return BlocBuilder<CartCubit, CartState>(
+                            builder: (context, state) {
+                              final bool isLoading = state is CartLoading || (state is CartLoaded && state.isMutating);
+                              final bool isInCart = state is CartLoaded && state.cart.items.any((item) => item.product.id == product.id);
+
+                              return AddToCartAction(
+                                isLoading: isLoading,
+                                isInCart: isInCart,
+                                isAvailable: product.stock > 0,
+                                onAdd: () {
+                                  HapticFeedback.lightImpact();
+                                  context.read<CartCubit>().add(
+                                    productId: product.id,
+                                    quantity: quantity,
+                                  );
+                                },
                               );
                             },
-                            isAvailable: product.stock > 0,
                           );
                         },
                       ),
