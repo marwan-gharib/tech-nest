@@ -19,7 +19,7 @@ class AppButton extends StatelessWidget {
     return ScaleTap(
       onTap: isEnabled ? onTap : null,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 14),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
         decoration: BoxDecoration(
           color: isEnabled
               ? Theme.of(context).colorScheme.primary
