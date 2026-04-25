@@ -4,6 +4,8 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/routing/routes.dart';
+import 'package:tech_nest/core/animations/fade_in_slide.dart';
+import 'package:tech_nest/core/animations/scale_tap.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:tech_nest/service_locator.dart';
@@ -119,34 +121,40 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
                     child: _isLastPage
-                        ? ElevatedButton(
-                            key: const ValueKey('get_started'),
-                            onPressed: _completeOnboarding,
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: AppSpacing.xl,
-                                vertical: AppSpacing.md,
+                        ? ScaleTap(
+                            onTap: _completeOnboarding,
+                            child: ElevatedButton(
+                              key: const ValueKey('get_started'),
+                              onPressed: null, // Tap handled by ScaleTap
+                              style: ElevatedButton.styleFrom(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: AppSpacing.xl,
+                                  vertical: AppSpacing.md,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
                               ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
+                              child: Text(t.onboarding.getStarted),
                             ),
-                            child: Text(t.onboarding.getStarted),
                           )
-                        : IconButton(
-                            key: const ValueKey('next'),
-                            onPressed: () {
+                        : ScaleTap(
+                            onTap: () {
                               _pageController.nextPage(
                                 duration: const Duration(milliseconds: 300),
                                 curve: Curves.easeInOut,
                               );
                             },
-                            style: IconButton.styleFrom(
-                              backgroundColor: colorScheme.primaryContainer,
-                              foregroundColor: colorScheme.onPrimaryContainer,
-                              padding: const EdgeInsets.all(AppSpacing.md),
+                            child: IconButton(
+                              key: const ValueKey('next'),
+                              onPressed: null, // Tap handled by ScaleTap
+                              style: IconButton.styleFrom(
+                                backgroundColor: colorScheme.primaryContainer,
+                                foregroundColor: colorScheme.onPrimaryContainer,
+                                padding: const EdgeInsets.all(AppSpacing.md),
+                              ),
+                              icon: const Icon(Icons.arrow_forward_rounded),
                             ),
-                            icon: const Icon(Icons.arrow_forward_rounded),
                           ),
                   ),
                 ],
@@ -188,31 +196,41 @@ class _OnboardingPageView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            padding: const EdgeInsets.all(AppSpacing.xxl * 1.5),
-            decoration: BoxDecoration(
-              color: pageData.color.withValues(alpha: 0.1),
-              shape: BoxShape.circle,
+          FadeInSlide(
+            duration: const Duration(milliseconds: 600),
+            direction: FadeInSlideDirection.ttb,
+            child: Container(
+              padding: const EdgeInsets.all(AppSpacing.xxl * 1.5),
+              decoration: BoxDecoration(
+                color: pageData.color.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(pageData.icon, size: 100, color: pageData.color),
             ),
-            child: Icon(pageData.icon, size: 100, color: pageData.color),
           ),
           const SizedBox(height: AppSpacing.xxl * 2),
-          Text(
-            pageData.title,
-            style: theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: colorScheme.onSurface,
+          FadeInSlide(
+            delay: const Duration(milliseconds: 200),
+            child: Text(
+              pageData.title,
+              style: theme.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: colorScheme.onSurface,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
           const SizedBox(height: AppSpacing.md),
-          Text(
-            pageData.description,
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: colorScheme.onSurface.withValues(alpha: 0.7),
-              height: 1.5,
+          FadeInSlide(
+            delay: const Duration(milliseconds: 400),
+            child: Text(
+              pageData.description,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: colorScheme.onSurface.withValues(alpha: 0.7),
+                height: 1.5,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
           ),
           const SizedBox(height: AppSpacing.xxl * 2),
         ],
