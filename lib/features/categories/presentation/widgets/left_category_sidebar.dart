@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
+import 'package:tech_nest/core/animations/fade_in_slide.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/custom_skeleton_list.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
+import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/categories/presentation/widgets/category_card.dart';
 
 class LeftCategorySidebar extends StatelessWidget {
@@ -55,19 +56,23 @@ class LeftCategorySidebar extends StatelessWidget {
                 vertical: AppSpacing.sm,
               ),
               itemBuilder: (context, index) {
-                return ValueListenableBuilder<int>(
-                  valueListenable: selectedCategoryIndex,
-                  builder: (context, selectedIndex, _) {
-                    return CategoryCard(
-                      isSelected: selectedIndex == index,
-                      category: categories[index],
-                      onTap: () {
-                        if (selectedIndex == index) return;
-                        selectedCategoryIndex.value = index;
-                        onCategorySelected(index, categories[index].id);
-                      },
-                    );
-                  },
+                return FadeInSlide(
+                  duration: const Duration(milliseconds: 400),
+                  delay: Duration(milliseconds: index * 50),
+                  child: ValueListenableBuilder<int>(
+                    valueListenable: selectedCategoryIndex,
+                    builder: (context, selectedIndex, _) {
+                      return CategoryCard(
+                        isSelected: selectedIndex == index,
+                        category: categories[index],
+                        onTap: () {
+                          if (selectedIndex == index) return;
+                          selectedCategoryIndex.value = index;
+                          onCategorySelected(index, categories[index].id);
+                        },
+                      );
+                    },
+                  ),
                 );
               },
             ),
