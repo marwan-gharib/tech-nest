@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
+import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/cubits/locale_cubit/locale_cubit.dart';
+import 'package:tech_nest/core/routing/routes.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_item_card.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_items_skeleton_list.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/checkout_button.dart';
-import 'package:tech_nest/core/routing/routes.dart';
-import 'package:go_router/go_router.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/empty_cart_widget.dart';
 
 class CartItemsScreen extends StatefulWidget {
@@ -103,7 +104,11 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
                 ),
                 itemBuilder: (context, index) {
                   final item = cart.items[index];
-                  return CartItemCard(cartItem: item);
+                  return FadeInSlide(
+                    duration: const Duration(milliseconds: 400),
+                    delay: Duration(milliseconds: index * 100),
+                    child: CartItemCard(cartItem: item),
+                  );
                 },
               ),
     };

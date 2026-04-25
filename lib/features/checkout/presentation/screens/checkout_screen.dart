@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
@@ -53,14 +54,28 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               padding: const EdgeInsets.all(AppSpacing.lg),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
-                  CheckoutSectionTitle(title: context.t.cart.summary),
+                  FadeInSlide(
+                    delay: const Duration(milliseconds: 100),
+                    child: CheckoutSectionTitle(title: context.t.cart.summary),
+                  ),
                   const SizedBox(height: AppSpacing.md),
-                  const CheckoutSummaryCard(),
+                  const FadeInSlide(
+                    delay: Duration(milliseconds: 200),
+                    child: CheckoutSummaryCard(),
+                  ),
                   const SizedBox(height: AppSpacing.xl),
-                  CheckoutSectionTitle(title: context.t.orders.shippingAddress),
+                  FadeInSlide(
+                    delay: const Duration(milliseconds: 300),
+                    child: CheckoutSectionTitle(
+                      title: context.t.orders.shippingAddress,
+                    ),
+                  ),
                   const SizedBox(height: AppSpacing.md),
-                  CheckoutAddressCard(
-                    onLocationSelected: (location) => _address = location ?? '',
+                  FadeInSlide(
+                    delay: const Duration(milliseconds: 400),
+                    child: CheckoutAddressCard(
+                      onLocationSelected: (location) => _address = location ?? '',
+                    ),
                   ),
                   const SizedBox(height: AppSpacing.xl),
                 ]),
