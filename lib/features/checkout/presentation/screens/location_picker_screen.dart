@@ -28,7 +28,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
     super.initState();
     _isLoadingNotifier = ValueNotifier<bool>(false);
     _selectedAddressNotifier = ValueNotifier<String>(
-      context.t.checkout.detectingLocation,
+      t.checkout.detectingLocation,
     );
     _getCurrentLocation();
   }

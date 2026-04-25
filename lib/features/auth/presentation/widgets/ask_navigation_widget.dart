@@ -17,7 +17,7 @@ class AskNavigationWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(question),
+        Text('$question  '),
         InkWell(
           onTap: onTap,
           child: Text(

@@ -36,10 +36,7 @@ class PageTransitions {
       child: child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SlideTransition(
-          position: Tween<Offset>(
-            begin: begin,
-            end: Offset.zero,
-          ).animate(
+          position: Tween<Offset>(begin: begin, end: Offset.zero).animate(
             CurvedAnimation(
               parent: animation,
               curve: AppAnimations.standardCurve,
