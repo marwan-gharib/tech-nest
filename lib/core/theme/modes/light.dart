@@ -45,6 +45,7 @@ class LightTheme {
           disabledForegroundColor: colorScheme.onPrimary.withValues(alpha: 0.5),
           elevation: 4,
           fixedSize: const Size(double.infinity, 50),
+          overlayColor: Colors.transparent,
         ),
       );
 

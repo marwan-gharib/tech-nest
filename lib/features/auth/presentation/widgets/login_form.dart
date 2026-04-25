@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/validators.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
@@ -31,33 +32,42 @@ class LoginForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          CustomInputField(
-            controller: email,
-            label: context.t.auth.email,
-            hint: "example@email.com",
-            keyboardType: TextInputType.emailAddress,
-            validator: Validators.emailValidator,
+          FadeInSlide(
+            delay: const Duration(milliseconds: 100),
+            child: CustomInputField(
+              controller: email,
+              label: context.t.auth.email,
+              hint: "example@email.com",
+              keyboardType: TextInputType.emailAddress,
+              validator: Validators.emailValidator,
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
-          CustomInputField(
-            controller: password,
-            label: context.t.auth.password,
-            hint: "* " * 8,
-            keyboardType: TextInputType.visiblePassword,
-            isPassword: true,
-            validator: Validators.passwordValidator,
+          FadeInSlide(
+            delay: const Duration(milliseconds: 200),
+            child: CustomInputField(
+              controller: password,
+              label: context.t.auth.password,
+              hint: "* " * 8,
+              keyboardType: TextInputType.visiblePassword,
+              isPassword: true,
+              validator: Validators.passwordValidator,
+            ),
           ),
-          Align(
-            alignment: AlignmentGeometry.centerEnd,
-            heightFactor: 1.5,
-            child: GestureDetector(
-              onTap: onForgetPass,
-              child: BlocListener<ForgetPasswordCubit, ForgetPasswordState>(
-                listener: forgetPasswordListener,
-                child: Text(
-                  context.t.auth.forgotPassword,
-                  style: theme.textTheme.labelMedium!.copyWith(
-                    color: theme.colorScheme.primary,
+          FadeInSlide(
+            delay: const Duration(milliseconds: 300),
+            child: Align(
+              alignment: AlignmentGeometry.centerEnd,
+              heightFactor: 1.5,
+              child: GestureDetector(
+                onTap: onForgetPass,
+                child: BlocListener<ForgetPasswordCubit, ForgetPasswordState>(
+                  listener: forgetPasswordListener,
+                  child: Text(
+                    context.t.auth.forgotPassword,
+                    style: theme.textTheme.labelMedium!.copyWith(
+                      color: theme.colorScheme.primary,
+                    ),
                   ),
                 ),
               ),
