@@ -45,6 +45,8 @@ class TranslationsAr with BaseTranslations<AppLocale, Translations> implements T
 	@override late final _TranslationsCartAr cart = _TranslationsCartAr._(_root);
 	@override late final _TranslationsSettingsAr settings = _TranslationsSettingsAr._(_root);
 	@override late final _TranslationsErrorsAr errors = _TranslationsErrorsAr._(_root);
+	@override late final _TranslationsOnboardingAr onboarding = _TranslationsOnboardingAr._(_root);
+	@override late final _TranslationsCheckoutAr checkout = _TranslationsCheckoutAr._(_root);
 	@override late final _TranslationsOrdersAr orders = _TranslationsOrdersAr._(_root);
 }
 
@@ -183,7 +185,10 @@ class _TranslationsSettingsAr implements TranslationsSettingsEn {
 	// Translations
 	@override String get title => 'الإعدادات';
 	@override String get preferences => 'التفضيلات';
+	@override String get theme => 'سمة التطبيق';
 	@override String get darkMode => 'الوضع الليلي';
+	@override String get lightMode => 'الوضع الفاتح';
+	@override String get systemMode => 'حسب النظام';
 	@override String get notifications => 'الإشعارات';
 	@override String get help => 'المساعدة والدعم';
 	@override String get about => 'عن التطبيق';
@@ -210,6 +215,40 @@ class _TranslationsErrorsAr implements TranslationsErrorsEn {
 	@override String get noResultsSearch => 'لم نتمكن من العثور على أي منتجات مطابقة لبحثك. حاول تعديل كلمات البحث.';
 	@override String get noResultsFilter => 'لم نتمكن من العثور على أي منتجات مطابقة للفلاتر الخاصة بك. حاول تعديل الفلاتر.';
 	@override String get loadMoreFailed => 'تعذر تحميل المزيد من المنتجات';
+	@override String get cacheError => 'تعذر تحميل البيانات المحفوظة.';
+	@override String get unknownError => 'حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.';
+}
+
+// Path: onboarding
+class _TranslationsOnboardingAr implements TranslationsOnboardingEn {
+	_TranslationsOnboardingAr._(this._root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get skip => 'تخطي';
+	@override String get getStarted => 'ابدأ الآن';
+	@override List<dynamic> get pages => [
+		_TranslationsOnboarding$pages$0i0$Ar._(_root),
+		_TranslationsOnboarding$pages$0i1$Ar._(_root),
+		_TranslationsOnboarding$pages$0i2$Ar._(_root),
+	];
+}
+
+// Path: checkout
+class _TranslationsCheckoutAr implements TranslationsCheckoutEn {
+	_TranslationsCheckoutAr._(this._root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'إتمام الشراء';
+	@override String get selectLocation => 'حدد موقع التوصيل';
+	@override String get confirmLocation => 'تأكيد الموقع';
+	@override String get selectAddressError => 'يرجى اختيار العنوان';
+	@override String get addressLabel => 'العنوان المحدد';
+	@override String get detectingLocation => 'جاري تحديد الموقع...';
+	@override String get locationError => 'تعذر تحديد الموقع';
 }
 
 // Path: orders
@@ -267,6 +306,39 @@ class _TranslationsHomeOrderTypesAr implements TranslationsHomeOrderTypesEn {
 	// Translations
 	@override String get asc => 'تصاعدي';
 	@override String get desc => 'تنازلي';
+}
+
+// Path: onboarding.pages.0
+class _TranslationsOnboarding$pages$0i0$Ar implements TranslationsOnboarding$pages$0i0$En {
+	_TranslationsOnboarding$pages$0i0$Ar._(this._root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'اكتشف التكنولوجيا';
+	@override String get description => 'ابحث عن أحدث وأفضل الإلكترونيات الاستهلاكية والأدوات التقنية.';
+}
+
+// Path: onboarding.pages.1
+class _TranslationsOnboarding$pages$0i1$Ar implements TranslationsOnboarding$pages$0i1$En {
+	_TranslationsOnboarding$pages$0i1$Ar._(this._root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'مدفوعات آمنة';
+	@override String get description => 'ادفع بأمان من خلال بوابات الدفع الآمنة والمزودين الموثوقين.';
+}
+
+// Path: onboarding.pages.2
+class _TranslationsOnboarding$pages$0i2$Ar implements TranslationsOnboarding$pages$0i2$En {
+	_TranslationsOnboarding$pages$0i2$Ar._(this._root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'توصيل سريع';
+	@override String get description => 'احصل على طلباتك حتى باب منزلك في وقت قياسي.';
 }
 
 // Path: orders.status
@@ -363,7 +435,10 @@ extension on TranslationsAr {
 			'cart.checkout' => 'إتمام الشراء',
 			'settings.title' => 'الإعدادات',
 			'settings.preferences' => 'التفضيلات',
+			'settings.theme' => 'سمة التطبيق',
 			'settings.darkMode' => 'الوضع الليلي',
+			'settings.lightMode' => 'الوضع الفاتح',
+			'settings.systemMode' => 'حسب النظام',
 			'settings.notifications' => 'الإشعارات',
 			'settings.help' => 'المساعدة والدعم',
 			'settings.about' => 'عن التطبيق',
@@ -381,6 +456,23 @@ extension on TranslationsAr {
 			'errors.noResultsSearch' => 'لم نتمكن من العثور على أي منتجات مطابقة لبحثك. حاول تعديل كلمات البحث.',
 			'errors.noResultsFilter' => 'لم نتمكن من العثور على أي منتجات مطابقة للفلاتر الخاصة بك. حاول تعديل الفلاتر.',
 			'errors.loadMoreFailed' => 'تعذر تحميل المزيد من المنتجات',
+			'errors.cacheError' => 'تعذر تحميل البيانات المحفوظة.',
+			'errors.unknownError' => 'حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.',
+			'onboarding.skip' => 'تخطي',
+			'onboarding.getStarted' => 'ابدأ الآن',
+			'onboarding.pages.0.title' => 'اكتشف التكنولوجيا',
+			'onboarding.pages.0.description' => 'ابحث عن أحدث وأفضل الإلكترونيات الاستهلاكية والأدوات التقنية.',
+			'onboarding.pages.1.title' => 'مدفوعات آمنة',
+			'onboarding.pages.1.description' => 'ادفع بأمان من خلال بوابات الدفع الآمنة والمزودين الموثوقين.',
+			'onboarding.pages.2.title' => 'توصيل سريع',
+			'onboarding.pages.2.description' => 'احصل على طلباتك حتى باب منزلك في وقت قياسي.',
+			'checkout.title' => 'إتمام الشراء',
+			'checkout.selectLocation' => 'حدد موقع التوصيل',
+			'checkout.confirmLocation' => 'تأكيد الموقع',
+			'checkout.selectAddressError' => 'يرجى اختيار العنوان',
+			'checkout.addressLabel' => 'العنوان المحدد',
+			'checkout.detectingLocation' => 'جاري تحديد الموقع...',
+			'checkout.locationError' => 'تعذر تحديد الموقع',
 			'orders.title' => 'طلباتي',
 			'orders.details' => 'تفاصيل الطلب',
 			'orders.cancelOrder' => 'إلغاء الطلب',

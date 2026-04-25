@@ -4,16 +4,33 @@ import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart_entity.dart';
 import 'package:tech_nest/features/cart/domain/params/add_to_cart_params.dart';
 import 'package:tech_nest/features/cart/domain/usecases/add_to_cart_usecase.dart';
+import 'package:tech_nest/features/cart/domain/usecases/clear_cart_usecase.dart';
 import 'package:tech_nest/features/cart/domain/usecases/get_cart_items_usecase.dart';
 
 part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
-  CartCubit(this._getCartItemsUsecase, this._addToCartUsecase)
-    : super(const CartInitial());
+  CartCubit(
+    this._getCartItemsUsecase,
+    this._addToCartUsecase,
+    this._clearCartUseCase,
+  ) : super(const CartInitial());
 
   final GetCartItemsUsecase _getCartItemsUsecase;
   final AddToCartUsecase _addToCartUsecase;
+  final ClearCartUseCase _clearCartUseCase;
+
+  Future<void> clearCart() async {
+    final currentState = state;
+    if (currentState is! CartLoaded) return;
+    if (currentState.isMutating) return;
+    emit(currentState.copyWith(isMutating: true, clearMutationError: true));
+    final res = await _clearCartUseCase.call();
+    res.fold(
+      (failure) => emit(CartFailed(failure: failure)),
+      (emptyCart) => emit(CartLoaded(cart: emptyCart)),
+    );
+  }
 
   Future<void> fetchCart() async {
     emit(const CartLoading());

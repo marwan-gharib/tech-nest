@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
-import 'package:tech_nest/core/theme/cubit/theme_state.dart';
+import 'package:tech_nest/core/cubits/theme_cubit/theme_state.dart';
 
 class ThemeCubit extends Cubit<ThemeState> {
   final CacheService _cacheService;
@@ -16,6 +16,10 @@ class ThemeCubit extends Cubit<ThemeState> {
     _changeTheme(
       state.mode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark,
     );
+  }
+
+  void updateThemeMode(ThemeMode mode) {
+    _changeTheme(mode);
   }
 
   Future<void> _changeTheme(ThemeMode mode) async {

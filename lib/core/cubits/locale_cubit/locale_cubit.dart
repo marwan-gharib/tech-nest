@@ -30,11 +30,4 @@ class LocaleCubit extends Cubit<LocaleState> {
     await _cacheService.setData(key: _localeKey, value: locale.languageCode);
     emit(LocaleState(locale));
   }
-
-  void toggleLocale() {
-    final newLocale = state.locale == AppLocale.en
-        ? AppLocale.ar
-        : AppLocale.en;
-    setLocale(newLocale);
-  }
 }

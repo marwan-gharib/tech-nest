@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
-import 'package:tech_nest/service_locator.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
+import 'package:tech_nest/service_locator.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -17,29 +18,6 @@ class OnboardingScreen extends StatefulWidget {
 class _OnboardingScreenState extends State<OnboardingScreen> {
   final PageController _pageController = PageController();
   bool _isLastPage = false;
-
-  final List<_OnboardingPageData> _pages = [
-    _OnboardingPageData(
-      title: 'Discover Tech',
-      description:
-          'Find the latest and greatest in consumer electronics and tech gadgets.',
-      icon: Icons.devices,
-      color: const Color(0xff1443C3), // Primary
-    ),
-    _OnboardingPageData(
-      title: 'Secure Payments',
-      description:
-          'Pay safely with our secure payment gateways and trusted providers.',
-      icon: Icons.payment,
-      color: const Color(0xff59CDBE), // Teal
-    ),
-    _OnboardingPageData(
-      title: 'Fast Delivery',
-      description: 'Get your orders delivered to your doorstep in record time.',
-      icon: Icons.local_shipping,
-      color: const Color(0xffF35D2F), // Orange
-    ),
-  ];
 
   @override
   void dispose() {
@@ -60,6 +38,28 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final t = context.t;
+
+    final List<_OnboardingPageData> pages = [
+      _OnboardingPageData(
+        title: t.onboarding.pages[0].title,
+        description: t.onboarding.pages[0].description,
+        icon: Icons.devices,
+        color: const Color(0xff1443C3), // Primary
+      ),
+      _OnboardingPageData(
+        title: t.onboarding.pages[1].title,
+        description: t.onboarding.pages[1].description,
+        icon: Icons.payment,
+        color: const Color(0xff59CDBE), // Teal
+      ),
+      _OnboardingPageData(
+        title: t.onboarding.pages[2].title,
+        description: t.onboarding.pages[2].description,
+        icon: Icons.local_shipping,
+        color: const Color(0xffF35D2F), // Orange
+      ),
+    ];
 
     return Scaffold(
       body: SafeArea(
@@ -68,14 +68,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           children: [
             PageView.builder(
               controller: _pageController,
-              itemCount: _pages.length,
+              itemCount: pages.length,
               onPageChanged: (index) {
                 setState(() {
-                  _isLastPage = index == _pages.length - 1;
+                  _isLastPage = index == pages.length - 1;
                 });
               },
               itemBuilder: (context, index) {
-                return _OnboardingPageView(pageData: _pages[index]);
+                return _OnboardingPageView(pageData: pages[index]);
               },
             ),
 
@@ -87,7 +87,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: TextButton(
                   onPressed: _completeOnboarding,
                   child: Text(
-                    'Skip',
+                    t.onboarding.skip,
                     style: TextStyle(
                       color: colorScheme.onSurface.withValues(alpha: 0.6),
                       fontSize: 16,
@@ -107,7 +107,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 children: [
                   SmoothPageIndicator(
                     controller: _pageController,
-                    count: _pages.length,
+                    count: pages.length,
                     effect: ExpandingDotsEffect(
                       activeDotColor: colorScheme.primary,
                       dotColor: colorScheme.primary.withValues(alpha: 0.2),
@@ -131,7 +131,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                             ),
-                            child: const Text('Get Started'),
+                            child: Text(t.onboarding.getStarted),
                           )
                         : IconButton(
                             key: const ValueKey('next'),

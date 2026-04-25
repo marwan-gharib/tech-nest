@@ -97,7 +97,10 @@
   "settings": {
     "title": "Settings",
     "preferences": "Preferences",
+    "theme": "App Theme",
     "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "systemMode": "System Mode",
     "notifications": "Notifications",
     "help": "Help & Support",
     "about": "About App",
@@ -116,7 +119,36 @@
     "noResults": "No results found",
     "noResultsSearch": "We couldn't find what you're looking for. Try a different search.",
     "noResultsFilter": "We couldn't find any products matching your filters. Try adjusting your filters.",
-    "loadMoreFailed": "Could not load more products"
+    "loadMoreFailed": "Could not load more products",
+    "cacheError": "Unable to load saved data.",
+    "unknownError": "An unexpected error occurred. Please try again."
+  },
+  "onboarding": {
+    "skip": "Skip",
+    "getStarted": "Get Started",
+    "pages": [
+      {
+        "title": "Discover Tech",
+        "description": "Find the latest and greatest in consumer electronics and tech gadgets."
+      },
+      {
+        "title": "Secure Payments",
+        "description": "Pay safely with our secure payment gateways and trusted providers."
+      },
+      {
+        "title": "Fast Delivery",
+        "description": "Get your orders delivered to your doorstep in record time."
+      }
+    ]
+  },
+  "checkout": {
+    "title": "Checkout",
+    "selectLocation": "Select Delivery Location",
+    "confirmLocation": "Confirm Location",
+    "selectAddressError": "Please select an address",
+    "addressLabel": "Selected Address",
+    "detectingLocation": "Detecting location...",
+    "locationError": "Unable to determine location"
   },
   "orders": {
     "title": "My Orders",

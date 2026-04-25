@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/features/products/presentation/models/filter_data.dart';
-import 'package:tech_nest/service_locator.dart';
-import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/core/enums/order_type.dart';
 import 'package:tech_nest/core/enums/sort_type.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/home/presentation/notifiers/filter_components_notifier.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_apply_button.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_category_section.dart';
@@ -14,7 +12,9 @@ import 'package:tech_nest/features/home/presentation/widgets/filter_header.dart'
 import 'package:tech_nest/features/home/presentation/widgets/filter_price_range_fields.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_section_header.dart';
 import 'package:tech_nest/features/home/presentation/widgets/radio_buttons_group.dart';
+import 'package:tech_nest/features/products/presentation/models/filter_data.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
+import 'package:tech_nest/service_locator.dart';
 
 class FilterComponents extends StatefulWidget {
   final FilterData filterData;
@@ -81,7 +81,10 @@ class _FilterComponentsState extends State<FilterComponents> {
                     listenable: _notifier,
                     builder: (context, _) => FilterHeader(
                       activeFilterCount: _notifier.activeFilterCount,
-                      onReset: _notifier.reset,
+                      onReset: () {
+                        _notifier.reset();
+                        widget.onApply(const FilterData());
+                      },
                     ),
                   ),
                   const SizedBox(height: AppSpacing.sm),

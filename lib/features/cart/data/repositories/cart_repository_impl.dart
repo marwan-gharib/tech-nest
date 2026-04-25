@@ -3,10 +3,10 @@ import 'package:tech_nest/core/error/exceptions/exceptions.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/core/error/mappers/error_mapper.dart';
+import 'package:tech_nest/features/cart/data/datasources/remote/cart_remote_data_source.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart_entity.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart_item_entity.dart';
 import 'package:tech_nest/features/cart/domain/params/add_to_cart_params.dart';
-import 'package:tech_nest/features/cart/data/datasources/remote/cart_remote_data_source.dart';
 import 'package:tech_nest/features/cart/domain/params/update_item_quantity_params.dart';
 import 'package:tech_nest/features/cart/domain/repositories/cart_repository.dart';
 
@@ -66,10 +66,21 @@ class CartRepositoryImpl implements CartRepository {
       return Left(UnknownFailure());
     }
   }
+
   @override
-  Future<Either<Failure, Unit>> clearCart() async {
-    // Backend clears the cart automatically upon successful order creation.
-    // This usecase serves to signify the operation is done at the domain level.
-    return const Right(unit);
+  Future<Either<Failure, Cart>> clearCart() async {
+    try {
+      return Right(
+        Cart(
+          items: [],
+          totalQuantity: 0,
+          totalPrice: 0,
+          deliveryCharges: 0,
+          grandTotal: 0,
+        ),
+      );
+    } catch (e) {
+      return Left(UnknownFailure());
+    }
   }
 }

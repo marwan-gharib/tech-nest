@@ -32,6 +32,10 @@ void initCartDI(GetIt sl) {
   );
   sl.registerFactory(() => DeleteCartItemCubit(sl<RemoveFromCartUsecase>()));
   sl.registerLazySingleton(
-    () => CartCubit(sl<GetCartItemsUsecase>(), sl<AddToCartUsecase>()),
+    () => CartCubit(
+      sl<GetCartItemsUsecase>(),
+      sl<AddToCartUsecase>(),
+      sl<ClearCartUseCase>(),
+    ),
   );
 }

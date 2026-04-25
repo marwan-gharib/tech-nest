@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tech_nest/app_router.dart';
 import 'package:tech_nest/core/theme/app_theme.dart';
-import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
+import 'package:tech_nest/core/cubits/theme_cubit/theme_cubit.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class TechNestApp extends StatelessWidget {

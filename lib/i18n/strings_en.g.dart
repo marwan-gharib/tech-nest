@@ -48,6 +48,8 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsCartEn cart = TranslationsCartEn._(_root);
 	late final TranslationsSettingsEn settings = TranslationsSettingsEn._(_root);
 	late final TranslationsErrorsEn errors = TranslationsErrorsEn._(_root);
+	late final TranslationsOnboardingEn onboarding = TranslationsOnboardingEn._(_root);
+	late final TranslationsCheckoutEn checkout = TranslationsCheckoutEn._(_root);
 	late final TranslationsOrdersEn orders = TranslationsOrdersEn._(_root);
 }
 
@@ -317,8 +319,17 @@ class TranslationsSettingsEn {
 	/// en: 'Preferences'
 	String get preferences => 'Preferences';
 
+	/// en: 'App Theme'
+	String get theme => 'App Theme';
+
 	/// en: 'Dark Mode'
 	String get darkMode => 'Dark Mode';
+
+	/// en: 'Light Mode'
+	String get lightMode => 'Light Mode';
+
+	/// en: 'System Mode'
+	String get systemMode => 'System Mode';
 
 	/// en: 'Notifications'
 	String get notifications => 'Notifications';
@@ -379,6 +390,63 @@ class TranslationsErrorsEn {
 
 	/// en: 'Could not load more products'
 	String get loadMoreFailed => 'Could not load more products';
+
+	/// en: 'Unable to load saved data.'
+	String get cacheError => 'Unable to load saved data.';
+
+	/// en: 'An unexpected error occurred. Please try again.'
+	String get unknownError => 'An unexpected error occurred. Please try again.';
+}
+
+// Path: onboarding
+class TranslationsOnboardingEn {
+	TranslationsOnboardingEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Skip'
+	String get skip => 'Skip';
+
+	/// en: 'Get Started'
+	String get getStarted => 'Get Started';
+
+	List<dynamic> get pages => [
+		TranslationsOnboarding$pages$0i0$En._(_root),
+		TranslationsOnboarding$pages$0i1$En._(_root),
+		TranslationsOnboarding$pages$0i2$En._(_root),
+	];
+}
+
+// Path: checkout
+class TranslationsCheckoutEn {
+	TranslationsCheckoutEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Checkout'
+	String get title => 'Checkout';
+
+	/// en: 'Select Delivery Location'
+	String get selectLocation => 'Select Delivery Location';
+
+	/// en: 'Confirm Location'
+	String get confirmLocation => 'Confirm Location';
+
+	/// en: 'Please select an address'
+	String get selectAddressError => 'Please select an address';
+
+	/// en: 'Selected Address'
+	String get addressLabel => 'Selected Address';
+
+	/// en: 'Detecting location...'
+	String get detectingLocation => 'Detecting location...';
+
+	/// en: 'Unable to determine location'
+	String get locationError => 'Unable to determine location';
 }
 
 // Path: orders
@@ -477,6 +545,51 @@ class TranslationsHomeOrderTypesEn {
 
 	/// en: 'Descending'
 	String get desc => 'Descending';
+}
+
+// Path: onboarding.pages.0
+class TranslationsOnboarding$pages$0i0$En {
+	TranslationsOnboarding$pages$0i0$En._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Discover Tech'
+	String get title => 'Discover Tech';
+
+	/// en: 'Find the latest and greatest in consumer electronics and tech gadgets.'
+	String get description => 'Find the latest and greatest in consumer electronics and tech gadgets.';
+}
+
+// Path: onboarding.pages.1
+class TranslationsOnboarding$pages$0i1$En {
+	TranslationsOnboarding$pages$0i1$En._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Secure Payments'
+	String get title => 'Secure Payments';
+
+	/// en: 'Pay safely with our secure payment gateways and trusted providers.'
+	String get description => 'Pay safely with our secure payment gateways and trusted providers.';
+}
+
+// Path: onboarding.pages.2
+class TranslationsOnboarding$pages$0i2$En {
+	TranslationsOnboarding$pages$0i2$En._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Fast Delivery'
+	String get title => 'Fast Delivery';
+
+	/// en: 'Get your orders delivered to your doorstep in record time.'
+	String get description => 'Get your orders delivered to your doorstep in record time.';
 }
 
 // Path: orders.status
@@ -583,7 +696,10 @@ extension on Translations {
 			'cart.checkout' => 'Checkout',
 			'settings.title' => 'Settings',
 			'settings.preferences' => 'Preferences',
+			'settings.theme' => 'App Theme',
 			'settings.darkMode' => 'Dark Mode',
+			'settings.lightMode' => 'Light Mode',
+			'settings.systemMode' => 'System Mode',
 			'settings.notifications' => 'Notifications',
 			'settings.help' => 'Help & Support',
 			'settings.about' => 'About App',
@@ -601,6 +717,23 @@ extension on Translations {
 			'errors.noResultsSearch' => 'We couldn\'t find what you\'re looking for. Try a different search.',
 			'errors.noResultsFilter' => 'We couldn\'t find any products matching your filters. Try adjusting your filters.',
 			'errors.loadMoreFailed' => 'Could not load more products',
+			'errors.cacheError' => 'Unable to load saved data.',
+			'errors.unknownError' => 'An unexpected error occurred. Please try again.',
+			'onboarding.skip' => 'Skip',
+			'onboarding.getStarted' => 'Get Started',
+			'onboarding.pages.0.title' => 'Discover Tech',
+			'onboarding.pages.0.description' => 'Find the latest and greatest in consumer electronics and tech gadgets.',
+			'onboarding.pages.1.title' => 'Secure Payments',
+			'onboarding.pages.1.description' => 'Pay safely with our secure payment gateways and trusted providers.',
+			'onboarding.pages.2.title' => 'Fast Delivery',
+			'onboarding.pages.2.description' => 'Get your orders delivered to your doorstep in record time.',
+			'checkout.title' => 'Checkout',
+			'checkout.selectLocation' => 'Select Delivery Location',
+			'checkout.confirmLocation' => 'Confirm Location',
+			'checkout.selectAddressError' => 'Please select an address',
+			'checkout.addressLabel' => 'Selected Address',
+			'checkout.detectingLocation' => 'Detecting location...',
+			'checkout.locationError' => 'Unable to determine location',
 			'orders.title' => 'My Orders',
 			'orders.details' => 'Order Details',
 			'orders.cancelOrder' => 'Cancel Order',

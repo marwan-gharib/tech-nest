@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/orders/domain/params/create_order_params.dart';
 import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_cubit.dart';
 import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_state.dart';
 
 class ConfirmOrderButton extends StatelessWidget {
-  final CreateOrderParams params;
+  final VoidCallback onPressed;
 
-  const ConfirmOrderButton({required this.params, super.key});
+  const ConfirmOrderButton({required this.onPressed, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -37,18 +36,7 @@ class ConfirmOrderButton extends StatelessWidget {
             ],
           ),
           child: ElevatedButton(
-            onPressed: isLoading
-                ? null
-                : () => context.read<CreateOrderCubit>().createOrder(params),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: colorScheme.primary,
-              foregroundColor: colorScheme.onPrimary,
-              minimumSize: const Size(double.infinity, 56),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              elevation: 0,
-            ),
+            onPressed: isLoading ? null : onPressed,
             child: isLoading
                 ? const SizedBox(
                     height: 24,

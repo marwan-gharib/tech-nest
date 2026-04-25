@@ -5,12 +5,14 @@ import 'package:tech_nest/core/theme/app_colors.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class LogoutDialog extends StatelessWidget {
   const LogoutDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = context.t;
     return Dialog(
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(AppRadius.xxl)),
@@ -27,13 +29,13 @@ class LogoutDialog extends StatelessWidget {
             _logoutIcon(context),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              'Logout',
+              t.settings.logout,
               style: Theme.of(
                 context,
               ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
-              'Are you sure you want to log out of your account?',
+              t.settings.logoutConfirm,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -95,7 +97,7 @@ class LogoutDialog extends StatelessWidget {
           ),
         ),
         child: Text(
-          'Cancel',
+          context.t.common.cancel,
           style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
         ),
       ),
@@ -118,7 +120,7 @@ class LogoutDialog extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(AppRadius.xl)),
           ),
         ),
-        child: const Text('Logout'),
+        child: Text(context.t.settings.logout),
       ),
     );
   }

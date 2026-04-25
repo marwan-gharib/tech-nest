@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
+import 'package:tech_nest/core/error/failures/cache_failure.dart';
 import 'package:tech_nest/core/error/failures/network_failure.dart';
+import 'package:tech_nest/core/error/failures/server_failure.dart';
+import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 
 class RemoteDataFailureView extends StatelessWidget {
@@ -22,11 +25,29 @@ class RemoteDataFailureView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isNetworkFailure = failure is NetworkFailure;
+    final t = context.t;
+    
     final title =
         titleOverride ??
         (isNetworkFailure
-            ? context.t.errors.noInternet
-            : context.t.errors.requestFailed);
+            ? t.errors.noInternet
+            : t.errors.requestFailed);
+
+    String? displayMessage;
+    if (!isNetworkFailure) {
+      if (failure is CacheFailure) {
+        displayMessage = t.errors.cacheError;
+      } else if (failure is ServerFailure || failure is UnknownFailure) {
+        if (failure.message.isEmpty ||
+            failure.message == "An unexpected error occurred. Please try again.") {
+          displayMessage = t.errors.unknownError;
+        } else {
+          displayMessage = failure.message;
+        }
+      } else {
+        displayMessage = failure.message.isNotEmpty ? failure.message : null;
+      }
+    }
     final iconSize = compact ? AppSpacing.iconMd : AppSpacing.iconXl;
 
     return Center(
@@ -48,10 +69,10 @@ class RemoteDataFailureView extends StatelessWidget {
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyLarge,
             ),
-            if (!isNetworkFailure && failure.message.isNotEmpty) ...[
+            if (displayMessage != null) ...[
               SizedBox(height: compact ? AppSpacing.xs : AppSpacing.sm),
               Text(
-                failure.message,
+                displayMessage,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodySmall,
               ),

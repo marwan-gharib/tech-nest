@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/features/auth/presentation/notifiers/auth_notifier.dart';
-import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
+import 'package:tech_nest/features/auth/presentation/notifiers/auth_notifier.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class LoginButtonConsumer extends StatelessWidget {
   final AuthNotifier authNotifier;
@@ -43,7 +44,10 @@ class LoginButtonConsumer extends StatelessWidget {
             ),
           );
         }
-        return ElevatedButton(onPressed: onPressed, child: const Text("Login"));
+        return ElevatedButton(
+          onPressed: onPressed,
+          child: Text(context.t.auth.login),
+        );
       },
     );
   }

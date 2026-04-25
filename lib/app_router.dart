@@ -2,16 +2,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
-import 'package:tech_nest/service_locator.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/routing/routes.dart';
-import 'package:tech_nest/features/auth/presentation/notifiers/auth_notifier.dart';
-import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/app_shell/presentation/app_shell_entry.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
+import 'package:tech_nest/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:tech_nest/features/auth/presentation/screens/login_screen.dart';
 import 'package:tech_nest/features/auth/presentation/screens/sign_up_screen.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
@@ -21,15 +19,18 @@ import 'package:tech_nest/features/categories/presentation/cubits/fetch_categori
 import 'package:tech_nest/features/categories/presentation/screens/categories_screen.dart';
 import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_cubit.dart';
 import 'package:tech_nest/features/checkout/presentation/screens/checkout_screen.dart';
+import 'package:tech_nest/features/checkout/presentation/screens/location_picker_screen.dart';
 import 'package:tech_nest/features/home/presentation/screens/home_screen.dart';
 import 'package:tech_nest/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_cubit.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/orders_list/orders_list_cubit.dart';
 import 'package:tech_nest/features/orders/presentation/screens/order_details_screen.dart';
 import 'package:tech_nest/features/orders/presentation/screens/orders_list_screen.dart';
+import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';
 import 'package:tech_nest/features/settings/presentation/screens/settings_screen.dart';
+import 'package:tech_nest/service_locator.dart';
 
 class AppRouter {
   static final AuthNotifier _authNotifier = sl<AuthNotifier>();
@@ -187,5 +188,11 @@ class AppRouter {
       create: (context) => sl<CreateOrderCubit>(),
       child: const CheckoutScreen(),
     ),
+    routes: [_locationPickerRouter],
+  );
+
+  static final _locationPickerRouter = GoRoute(
+    path: Routes.locationPickerScreenPath,
+    builder: (context, state) => const LocationPickerScreen(),
   );
 }

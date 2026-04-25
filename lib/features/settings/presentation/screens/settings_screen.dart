@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/constants/links.dart';
-import 'package:tech_nest/service_locator.dart';
-import 'package:tech_nest/core/utils/lanch_url.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/theme/cubit/theme_cubit.dart';
-import 'package:tech_nest/core/theme/cubit/theme_state.dart';
+import 'package:tech_nest/core/utils/lanch_url.dart';
 import 'package:tech_nest/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
 import 'package:tech_nest/features/settings/presentation/cubits/user_profile/user_profile_cubit.dart';
+import 'package:tech_nest/features/settings/presentation/widgets/app_version_text.dart';
+import 'package:tech_nest/features/settings/presentation/widgets/language_selector_tile.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/settings_logout_button.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/settings_profile_header.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/settings_section.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/settings_tile.dart';
-import 'package:tech_nest/core/cubits/locale/locale_cubit.dart';
+import 'package:tech_nest/features/settings/presentation/widgets/theme_selector.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
+import 'package:tech_nest/service_locator.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -44,58 +44,8 @@ class SettingsScreen extends StatelessWidget {
               SettingsSection(
                 title: context.t.settings.preferences,
                 children: [
-                  BlocBuilder<ThemeCubit, ThemeState>(
-                    builder: (context, state) {
-                      final isDark = state.mode == ThemeMode.dark;
-                      return SettingsTile(
-                        leadingIcon: isDark
-                            ? Icons.dark_mode_outlined
-                            : Icons.light_mode_outlined,
-                        title: context.t.settings.darkMode,
-                        trailing: Switch.adaptive(
-                          value: isDark,
-                          activeThumbColor: Theme.of(context).primaryColor,
-                          onChanged: (value) {
-                            context.read<ThemeCubit>().toggleTheme();
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  SettingsTile(
-                    leadingIcon: Icons.language_rounded,
-                    title: context.t.settings.language,
-                    trailing: BlocBuilder<LocaleCubit, LocaleState>(
-                      builder: (context, state) {
-                        return SegmentedButton<AppLocale>(
-                          style: SegmentedButton.styleFrom(
-                            visualDensity: VisualDensity.compact,
-                            textStyle: Theme.of(context).textTheme.labelMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          showSelectedIcon: false,
-                          segments: const [
-                            ButtonSegment(
-                              value: AppLocale.en,
-                              label: Text('EN', textAlign: TextAlign.center),
-                            ),
-                            ButtonSegment(
-                              value: AppLocale.ar,
-                              label: Text('عربي', textAlign: TextAlign.center),
-                            ),
-                          ],
-                          selected: {state.locale},
-                          onSelectionChanged: (Set<AppLocale> newSelection) {
-                            if (newSelection.isNotEmpty) {
-                              context.read<LocaleCubit>().setLocale(
-                                newSelection.first,
-                              );
-                            }
-                          },
-                        );
-                      },
-                    ),
-                  ),
+                  const ThemeSelector(),
+                  const LanguageSelectorTile(),
                   SettingsTile(
                     leadingIcon: Icons.notifications_none_rounded,
                     title: context.t.settings.notifications,
@@ -121,13 +71,7 @@ class SettingsScreen extends StatelessWidget {
                 create: (context) => sl<LogoutCubit>(),
                 child: SettingsLogoutButton(),
               ),
-              const SizedBox(height: AppSpacing.xl),
-              Text(
-                context.t.settings.version(version: '1.0.0'),
-                style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-              ),
+              const AppVersionText(),
               const SizedBox(height: AppSpacing.xxl),
             ],
           ),

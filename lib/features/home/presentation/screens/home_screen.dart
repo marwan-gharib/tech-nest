@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/cubits/locale/locale_cubit.dart';
+import 'package:tech_nest/core/cubits/locale_cubit/locale_cubit.dart';
 import 'package:tech_nest/core/widgets/move_to_first_scroll_position_widget.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';

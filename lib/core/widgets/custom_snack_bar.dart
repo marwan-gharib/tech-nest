@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/error/failures/cache_failure.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
+import 'package:tech_nest/core/error/failures/network_failure.dart';
+import 'package:tech_nest/core/error/failures/server_failure.dart';
+import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class CustomSnackBar {
   const CustomSnackBar._();
@@ -52,7 +57,21 @@ class CustomSnackBar {
     required Failure failure,
     bool isAbove = false,
   }) {
-    show(context, message: failure.message, isAbove: isAbove);
+    final t = context.t;
+    String message = failure.message;
+
+    if (failure is NetworkFailure) {
+      message = t.errors.noInternet;
+    } else if (failure is CacheFailure) {
+      message = t.errors.cacheError;
+    } else if (failure is ServerFailure || failure is UnknownFailure) {
+      if (failure.message.isEmpty ||
+          failure.message == "An unexpected error occurred. Please try again.") {
+        message = t.errors.unknownError;
+      }
+    }
+
+    show(context, message: message, isAbove: isAbove);
   }
 
   static void showSuccess(
