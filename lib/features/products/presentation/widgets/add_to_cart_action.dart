@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/widgets/app_button.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class AddToCartAction extends StatelessWidget {
@@ -23,13 +24,11 @@ class AddToCartAction extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      child: ElevatedButton(
-        onPressed: isAvailable ? onAdd : null,
-        child: Text(
-          isInCart
-              ? context.t.products.updateCart
-              : context.t.products.addToCart,
-        ),
+      child: AppButton(
+        onTap: isAvailable ? onAdd : null,
+        text: isInCart
+            ? context.t.products.updateCart
+            : context.t.products.addToCart,
       ),
     );
   }

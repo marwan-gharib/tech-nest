@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
-import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
-import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 import 'package:tech_nest/features/products/presentation/widgets/add_to_cart_action.dart';
 import 'package:tech_nest/features/products/presentation/widgets/product_description_section.dart';
 import 'package:tech_nest/features/products/presentation/widgets/product_details_back_button.dart';
@@ -66,13 +67,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: AppSpacing.md,
                   children: [
-                    ProductInfoSection(
-                      product: product,
-                      onQuantityChanged: (value) =>
-                          _quantityNotifier.value = value,
+                    FadeInSlide(
+                      delay: const Duration(milliseconds: 100),
+                      child: ProductInfoSection(
+                        product: product,
+                        onQuantityChanged: (value) =>
+                            _quantityNotifier.value = value,
+                      ),
                     ),
-                    const Divider(),
-                    ProductDescriptionSection(description: product.description),
+                    const FadeInSlide(
+                      delay: Duration(milliseconds: 200),
+                      child: Divider(),
+                    ),
+                    FadeInSlide(
+                      delay: const Duration(milliseconds: 300),
+                      child: ProductDescriptionSection(
+                        description: product.description,
+                      ),
+                    ),
                     const SizedBox(height: AppSpacing.xl),
                     BlocListener<CartCubit, CartState>(
                       listenWhen: (previous, current) => current is CartLoaded,
@@ -82,20 +94,29 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         builder: (context, quantity, child) {
                           return BlocBuilder<CartCubit, CartState>(
                             builder: (context, state) {
-                              final bool isLoading = state is CartLoading || (state is CartLoaded && state.isMutating);
-                              final bool isInCart = state is CartLoaded && state.cart.items.any((item) => item.product.id == product.id);
-
-                              return AddToCartAction(
-                                isLoading: isLoading,
-                                isInCart: isInCart,
-                                isAvailable: product.stock > 0,
-                                onAdd: () {
-                                  HapticFeedback.lightImpact();
-                                  context.read<CartCubit>().add(
-                                    productId: product.id,
-                                    quantity: quantity,
+                              final bool isLoading =
+                                  state is CartLoading ||
+                                  (state is CartLoaded && state.isMutating);
+                              final bool isInCart =
+                                  state is CartLoaded &&
+                                  state.cart.items.any(
+                                    (item) => item.product.id == product.id,
                                   );
-                                },
+
+                              return FadeInSlide(
+                                delay: const Duration(milliseconds: 400),
+                                child: AddToCartAction(
+                                  isLoading: isLoading,
+                                  isInCart: isInCart,
+                                  isAvailable: product.stock > 0,
+                                  onAdd: () {
+                                    HapticFeedback.heavyImpact();
+                                    context.read<CartCubit>().add(
+                                      productId: product.id,
+                                      quantity: quantity,
+                                    );
+                                  },
+                                ),
                               );
                             },
                           );

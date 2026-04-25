@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/date_formatter.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
@@ -67,26 +68,37 @@ class OrderDetailsScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(AppSpacing.md),
                     sliver: SliverList(
                       delegate: SliverChildListDelegate([
-                        OrderDetailsHeader(order: order),
+                        FadeInSlide(
+                          delay: const Duration(milliseconds: 100),
+                          child: OrderDetailsHeader(order: order),
+                        ),
                         const SizedBox(height: AppSpacing.sm),
-                        Text(
-                          context.t.orders.date(
-                            date: DateFormatter.format(order.createdAt),
+                        FadeInSlide(
+                          delay: const Duration(milliseconds: 150),
+                          child: Text(
+                            context.t.orders.date(
+                              date: DateFormatter.format(order.createdAt),
+                            ),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface.withValues(alpha: 0.6),
+                                ),
                           ),
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurface.withValues(alpha: 0.6),
-                              ),
                         ),
                         const Divider(height: AppSpacing.xl),
-                        OrderDetailsAddresses(order: order),
+                        FadeInSlide(
+                          delay: const Duration(milliseconds: 200),
+                          child: OrderDetailsAddresses(order: order),
+                        ),
                         const Divider(height: AppSpacing.xl),
-                        Text(
-                          context.t.orders.orderItems,
-                          style: Theme.of(context).textTheme.titleMedium
-                              ?.copyWith(fontWeight: FontWeight.bold),
+                        FadeInSlide(
+                          delay: const Duration(milliseconds: 250),
+                          child: Text(
+                            context.t.orders.orderItems,
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
                         ),
                         const SizedBox(height: AppSpacing.sm),
                       ]),
@@ -96,21 +108,30 @@ class OrderDetailsScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                       horizontal: AppSpacing.md,
                     ),
-                    sliver: SliverList(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) =>
-                            OrderDetailsItemCard(item: order.items[index]),
-                        childCount: order.items.length,
-                      ),
+                    sliver: SliverMainAxisGroup(
+                      slivers: [
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) => FadeInSlide(
+                              delay: Duration(milliseconds: 300 + (index * 50)),
+                              child: OrderDetailsItemCard(item: order.items[index]),
+                            ),
+                            childCount: order.items.length,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SliverPadding(
                     padding: const EdgeInsets.all(AppSpacing.md),
                     sliver: SliverList(
                       delegate: SliverChildListDelegate([
-                        OrderDetailsSummary(
-                          order: order,
-                          isCancelling: state.isCancelling,
+                        FadeInSlide(
+                          delay: const Duration(milliseconds: 400),
+                          child: OrderDetailsSummary(
+                            order: order,
+                            isCancelling: state.isCancelling,
+                          ),
                         ),
                         const SizedBox(height: AppSpacing.xl),
                       ]),

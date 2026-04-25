@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/validators.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
@@ -31,20 +32,26 @@ class SignUpForm extends StatelessWidget {
       key: formKey,
       child: Column(
         children: [
-          CustomInputField(
-            controller: fullName,
-            label: context.t.auth.fullName,
-            hint: context.t.auth.enterName,
-            keyboardType: TextInputType.name,
-            validator: Validators.fullNameValidator,
+          FadeInSlide(
+            delay: const Duration(milliseconds: 100),
+            child: CustomInputField(
+              controller: fullName,
+              label: context.t.auth.fullName,
+              hint: context.t.auth.enterName,
+              keyboardType: TextInputType.name,
+              validator: Validators.fullNameValidator,
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
-          CustomInputField(
-            controller: email,
-            label: context.t.auth.email,
-            hint: context.t.auth.emailHint,
-            keyboardType: TextInputType.emailAddress,
-            validator: Validators.emailValidator,
+          FadeInSlide(
+            delay: const Duration(milliseconds: 200),
+            child: CustomInputField(
+              controller: email,
+              label: context.t.auth.email,
+              hint: context.t.auth.emailHint,
+              keyboardType: TextInputType.emailAddress,
+              validator: Validators.emailValidator,
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
           ValueListenableBuilder(
@@ -52,28 +59,34 @@ class SignUpForm extends StatelessWidget {
             builder: (context, obscure, child) {
               return Column(
                 children: [
-                  CustomInputField(
-                    controller: password,
-                    label: context.t.auth.password,
-                    hint: "* " * 8,
-                    keyboardType: TextInputType.visiblePassword,
-                    isPassword: true,
-                    isObscure: obscure,
-                    onVisibilityToggle: () =>
-                        isPasswordObscure.value = !isPasswordObscure.value,
-                    validator: Validators.passwordValidator,
+                  FadeInSlide(
+                    delay: const Duration(milliseconds: 300),
+                    child: CustomInputField(
+                      controller: password,
+                      label: context.t.auth.password,
+                      hint: "* " * 8,
+                      keyboardType: TextInputType.visiblePassword,
+                      isPassword: true,
+                      isObscure: obscure,
+                      onVisibilityToggle: () =>
+                          isPasswordObscure.value = !isPasswordObscure.value,
+                      validator: Validators.passwordValidator,
+                    ),
                   ),
                   const SizedBox(height: AppSpacing.lg),
-                  CustomInputField(
-                    controller: confirmPassword,
-                    label: context.t.auth.confirmPassword,
-                    hint: "* " * 8,
-                    keyboardType: TextInputType.visiblePassword,
-                    isPassword: true,
-                    isObscure: obscure,
-                    validator: (value) => Validators.confirmPasswordValidator(
-                      value,
-                      password: password.text,
+                  FadeInSlide(
+                    delay: const Duration(milliseconds: 400),
+                    child: CustomInputField(
+                      controller: confirmPassword,
+                      label: context.t.auth.confirmPassword,
+                      hint: "* " * 8,
+                      keyboardType: TextInputType.visiblePassword,
+                      isPassword: true,
+                      isObscure: obscure,
+                      validator: (value) => Validators.confirmPasswordValidator(
+                        value,
+                        password: password.text,
+                      ),
                     ),
                   ),
                 ],
@@ -81,7 +94,10 @@ class SignUpForm extends StatelessWidget {
             },
           ),
           const SizedBox(height: AppSpacing.xl),
-          PrivacyPolicyWidget(checkBoxNotifier),
+          FadeInSlide(
+            delay: const Duration(milliseconds: 500),
+            child: PrivacyPolicyWidget(checkBoxNotifier),
+          ),
         ],
       ),
     );

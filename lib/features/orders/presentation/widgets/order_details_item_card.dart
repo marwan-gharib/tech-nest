@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:tech_nest/core/animations/skeleton_shimmer.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/orders/domain/entities/order_item_entity.dart';
@@ -33,8 +33,10 @@ class OrderDetailsItemCard extends StatelessWidget {
             memCacheHeight: 300,
             memCacheWidth: 300,
             imageUrl: "${Endpoints.baseUrl}${item.imageUrl}",
-            placeholder: (context, url) =>
-                SpinKitWaveSpinner(color: theme.colorScheme.primary, size: 30),
+            placeholder: (context, url) => const SkeletonShimmer(
+              width: 50,
+              height: 50,
+            ),
             errorWidget: (context, url, error) => Container(
               color: theme.colorScheme.surfaceContainerHighest,
               child: Icon(

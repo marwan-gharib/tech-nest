@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 
 class CartBadge extends StatelessWidget {
   const CartBadge({super.key});
@@ -22,33 +22,44 @@ class CartBadge extends StatelessWidget {
           final int count = state is CartLoaded ? state.cart.items.length : 0;
           if (count == 0) return const SizedBox.shrink();
 
-          return Container(
-            decoration: BoxDecoration(
-              color: colorScheme.tertiaryFixed,
-              borderRadius: const BorderRadius.all(Radius.circular(50)),
-              boxShadow: [
-                BoxShadow(
-                  color: colorScheme.primary.withValues(alpha: 0.3),
-                  blurRadius: 4,
-                  offset: const Offset(0, 2),
+          return TweenAnimationBuilder<double>(
+            duration: const Duration(milliseconds: 1000),
+            curve: Curves.elasticOut,
+            tween: Tween<double>(begin: 0.0, end: 1.0),
+            key: ValueKey(count),
+            builder: (context, value, child) {
+              return Transform.scale(
+                scale: value,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: colorScheme.tertiaryFixed,
+                    borderRadius: const BorderRadius.all(Radius.circular(50)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: colorScheme.primary.withValues(alpha: 0.3),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: _minBadgeSize,
+                    minHeight: _minBadgeSize,
+                  ),
+                  child: Center(
+                    child: Text(
+                      count > 99 ? "99+" : count.toString(),
+                      style: theme.textTheme.labelSmall?.copyWith(
+                        color: colorScheme.onPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
                 ),
-              ],
-            ),
-            constraints: const BoxConstraints(
-              minWidth: _minBadgeSize,
-              minHeight: _minBadgeSize,
-            ),
-            child: Center(
-              child: Text(
-                count > 99 ? "99+" : count.toString(),
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: colorScheme.onPrimary,
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
+              );
+            },
           );
         },
       ),

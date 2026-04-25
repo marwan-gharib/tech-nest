@@ -1,16 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:tech_nest/core/animations/skeleton_shimmer.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/service_locator.dart';
-import 'package:tech_nest/features/cart/domain/entities/cart_item_entity.dart';
-import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/widgets/build_price.dart';
+import 'package:tech_nest/features/cart/domain/entities/cart_item_entity.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/delete_cart_item_cubit/delete_cart_item_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/update_item_quantity_cubit/update_item_quantity_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/change_cart_item_count.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/remove_cart_item_button.dart';
+import 'package:tech_nest/service_locator.dart';
 
 class CartItemCard extends StatelessWidget {
   final CartItem cartItem;
@@ -47,9 +47,9 @@ class CartItemCard extends StatelessWidget {
               height: _cardHeight,
               width: _imageWidth,
               fit: BoxFit.fill,
-              placeholder: (context, url) => SpinKitWaveSpinner(
-                color: Theme.of(context).colorScheme.primary,
-                size: 40,
+              placeholder: (context, url) => const SkeletonShimmer(
+                width: double.infinity,
+                height: double.infinity,
               ),
               errorWidget: (context, url, error) => Container(
                 color: Theme.of(context).colorScheme.surfaceContainerHighest,
