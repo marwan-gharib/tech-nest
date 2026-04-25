@@ -24,10 +24,12 @@ class ProductsGrid extends StatelessWidget {
             return SliverGrid.builder(
               itemCount: 6,
               gridDelegate: _gridDelegate,
-              itemBuilder: (context, index) => FadeInSlide(
-                duration: const Duration(milliseconds: 400),
-                delay: Duration(milliseconds: index * 50),
-                child: const SkeletonCard(),
+              itemBuilder: (context, index) => RepaintBoundary(
+                child: FadeInSlide(
+                  duration: const Duration(milliseconds: 400),
+                  delay: Duration(milliseconds: index * 50),
+                  child: const SkeletonCard(),
+                ),
               ),
             );
 

@@ -42,23 +42,26 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm + 2),
             child: Stack(
               children: [
-                BlocConsumer<CartCubit, CartState>(
-                  listenWhen: (p, c) =>
-                      c is CartLoaded &&
-                      c.mutationFailure != null &&
-                      (p is! CartLoaded ||
-                          p.mutationFailure != c.mutationFailure),
-                  listener: (context, state) {
-                    if (state is CartLoaded && state.mutationFailure != null) {
-                      CustomSnackBar.showError(
-                        context,
-                        failure: state.mutationFailure!,
-                      );
-                      context.read<CartCubit>().clearMutationError();
-                    }
-                  },
-                  buildWhen: (previous, current) => previous != current,
-                  builder: _listBuilder,
+                RepaintBoundary(
+                  child: BlocConsumer<CartCubit, CartState>(
+                    listenWhen: (p, c) =>
+                        c is CartLoaded &&
+                        c.mutationFailure != null &&
+                        (p is! CartLoaded ||
+                            p.mutationFailure != c.mutationFailure),
+                    listener: (context, state) {
+                      if (state is CartLoaded &&
+                          state.mutationFailure != null) {
+                        CustomSnackBar.showError(
+                          context,
+                          failure: state.mutationFailure!,
+                        );
+                        context.read<CartCubit>().clearMutationError();
+                      }
+                    },
+                    buildWhen: (previous, current) => previous != current,
+                    builder: _listBuilder,
+                  ),
                 ),
                 BlocBuilder<CartCubit, CartState>(
                   buildWhen: (p, c) =>
