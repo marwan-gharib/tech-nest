@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/constants/links.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/lanch_url.dart';
@@ -37,41 +38,56 @@ class SettingsScreen extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: AppSpacing.md),
-              BlocProvider(
-                create: (context) => sl<UserProfileCubit>()..loadUser(),
-                child: const SettingsProfileHeader(),
+              FadeInSlide(
+                duration: const Duration(milliseconds: 600),
+                child: BlocProvider(
+                  create: (context) => sl<UserProfileCubit>()..loadUser(),
+                  child: const SettingsProfileHeader(),
+                ),
               ),
-              SettingsSection(
-                title: context.t.settings.preferences,
-                children: [
-                  const ThemeSelector(),
-                  const LanguageSelectorTile(),
-                  SettingsTile(
-                    leadingIcon: Icons.notifications_none_rounded,
-                    title: context.t.settings.notifications,
-                  ),
-                ],
+              FadeInSlide(
+                delay: const Duration(milliseconds: 150),
+                child: SettingsSection(
+                  title: context.t.settings.preferences,
+                  children: [
+                    const ThemeSelector(),
+                    const LanguageSelectorTile(),
+                    SettingsTile(
+                      leadingIcon: Icons.notifications_none_rounded,
+                      title: context.t.settings.notifications,
+                    ),
+                  ],
+                ),
               ),
-              SettingsSection(
-                title: context.t.settings.more,
-                children: [
-                  SettingsTile(
-                    leadingIcon: Icons.help_outline_rounded,
-                    title: context.t.settings.help,
-                    onTap: () => LanchUrl.launch(Links.helpAndSupport),
-                  ),
-                  SettingsTile(
-                    leadingIcon: Icons.info_outline_rounded,
-                    title: context.t.settings.about,
-                    onTap: () => LanchUrl.launch(Links.aboutApp),
-                  ),
-                ],
+              FadeInSlide(
+                delay: const Duration(milliseconds: 300),
+                child: SettingsSection(
+                  title: context.t.settings.more,
+                  children: [
+                    SettingsTile(
+                      leadingIcon: Icons.help_outline_rounded,
+                      title: context.t.settings.help,
+                      onTap: () => LanchUrl.launch(Links.helpAndSupport),
+                    ),
+                    SettingsTile(
+                      leadingIcon: Icons.info_outline_rounded,
+                      title: context.t.settings.about,
+                      onTap: () => LanchUrl.launch(Links.aboutApp),
+                    ),
+                  ],
+                ),
               ),
-              BlocProvider(
-                create: (context) => sl<LogoutCubit>(),
-                child: SettingsLogoutButton(),
+              FadeInSlide(
+                delay: const Duration(milliseconds: 450),
+                child: BlocProvider(
+                  create: (context) => sl<LogoutCubit>(),
+                  child: SettingsLogoutButton(),
+                ),
               ),
-              const AppVersionText(),
+              const FadeInSlide(
+                delay: Duration(milliseconds: 600),
+                child: AppVersionText(),
+              ),
               const SizedBox(height: AppSpacing.xxl),
             ],
           ),

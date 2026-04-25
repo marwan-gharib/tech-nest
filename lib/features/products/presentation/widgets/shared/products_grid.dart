@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
-import 'package:tech_nest/core/widgets/no_results_found_view.dart';
-import 'package:tech_nest/features/products/presentation/widgets/shared/product_card.dart';
-import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
-import 'package:tech_nest/core/widgets/skeleton_card.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/widgets/no_results_found_view.dart';
+import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
+import 'package:tech_nest/core/widgets/skeleton_card.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
+import 'package:tech_nest/features/products/presentation/widgets/shared/product_card.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class ProductsGrid extends StatelessWidget {
   const ProductsGrid({super.key});
@@ -70,14 +70,14 @@ class ProductsGrid extends StatelessWidget {
                     final product = state.products[index];
                     return FadeInSlide(
                       duration: const Duration(milliseconds: 400),
-                      delay: Duration(milliseconds: (index % 10) * 50),
+                      delay: Duration(milliseconds: (index % 10) * 100),
                       child: ProductCard(
                         product: product,
                         onAddToCart: () {
                           context.read<CartCubit>().add(
-                                productId: product.id,
-                                quantity: 1,
-                              );
+                            productId: product.id,
+                            quantity: 1,
+                          );
                         },
                       ),
                     );
