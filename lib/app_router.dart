@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/animations/page_transitions.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/routing/routes.dart';
@@ -102,32 +103,47 @@ class AppRouter {
 
   static final _onboardingScreenRouter = GoRoute(
     path: Routes.onboardingScreenPath,
-    builder: (context, state) => const OnboardingScreen(),
+    pageBuilder: (context, state) => PageTransitions.fadeTransition(
+      context: context,
+      state: state,
+      child: const OnboardingScreen(),
+    ),
   );
 
   static final _signUpScreenRouter = GoRoute(
     path: Routes.signUpScreenPath,
-    builder: (context, state) => BlocProvider(
-      create: (context) => sl<RegistrationCubit>(),
-      child: const SignUpScreen(),
+    pageBuilder: (context, state) => PageTransitions.slideTransition(
+      context: context,
+      state: state,
+      child: BlocProvider(
+        create: (context) => sl<RegistrationCubit>(),
+        child: const SignUpScreen(),
+      ),
     ),
   );
 
   static final _loginScreenRouter = GoRoute(
     path: Routes.loginScreenPath,
-    builder: (context, state) => MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => sl<LoginCubit>()),
-        BlocProvider(create: (context) => sl<ForgetPasswordCubit>()),
-      ],
-      child: const LoginScreen(),
+    pageBuilder: (context, state) => PageTransitions.fadeTransition(
+      context: context,
+      state: state,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => sl<LoginCubit>()),
+          BlocProvider(create: (context) => sl<ForgetPasswordCubit>()),
+        ],
+        child: const LoginScreen(),
+      ),
     ),
   );
 
   static final _productdetailsRouter = GoRoute(
     path: Routes.productDetailsScreen,
-    builder: (context, state) =>
-        ProductDetailsScreen(product: state.extra as ProductEntity),
+    pageBuilder: (context, state) => PageTransitions.slideTransition(
+      context: context,
+      state: state,
+      child: ProductDetailsScreen(product: state.extra as ProductEntity),
+    ),
   );
 
   static final _homeScreenRouter = GoRoute(
@@ -166,12 +182,16 @@ class AppRouter {
 
   static final _orderDetailsRouter = GoRoute(
     path: Routes.orderDetailsScreenPath,
-    builder: (context, state) {
+    pageBuilder: (context, state) {
       final orderId = int.parse(state.extra.toString());
-      return BlocProvider(
-        create: (context) =>
-            sl<OrderDetailsCubit>()..fetchOrderDetails(orderId),
-        child: OrderDetailsScreen(orderId: orderId),
+      return PageTransitions.slideTransition(
+        context: context,
+        state: state,
+        child: BlocProvider(
+          create: (context) =>
+              sl<OrderDetailsCubit>()..fetchOrderDetails(orderId),
+          child: OrderDetailsScreen(orderId: orderId),
+        ),
       );
     },
   );
@@ -184,15 +204,23 @@ class AppRouter {
 
   static final _checkoutScreenRouter = GoRoute(
     path: Routes.checkoutScreenPath,
-    builder: (context, state) => BlocProvider(
-      create: (context) => sl<CreateOrderCubit>(),
-      child: const CheckoutScreen(),
+    pageBuilder: (context, state) => PageTransitions.slideTransition(
+      context: context,
+      state: state,
+      child: BlocProvider(
+        create: (context) => sl<CreateOrderCubit>(),
+        child: const CheckoutScreen(),
+      ),
     ),
     routes: [_locationPickerRouter],
   );
 
   static final _locationPickerRouter = GoRoute(
     path: Routes.locationPickerScreenPath,
-    builder: (context, state) => const LocationPickerScreen(),
+    pageBuilder: (context, state) => PageTransitions.slideUpTransition(
+      context: context,
+      state: state,
+      child: const LocationPickerScreen(),
+    ),
   );
 }
