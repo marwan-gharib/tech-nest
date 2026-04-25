@@ -6,6 +6,7 @@ import 'package:tech_nest/core/widgets/no_results_found_view.dart';
 import 'package:tech_nest/features/products/presentation/widgets/shared/product_card.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/core/widgets/skeleton_card.dart';
+import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 
@@ -23,7 +24,11 @@ class ProductsGrid extends StatelessWidget {
             return SliverGrid.builder(
               itemCount: 6,
               gridDelegate: _gridDelegate,
-              itemBuilder: (context, index) => const SkeletonCard(),
+              itemBuilder: (context, index) => FadeInSlide(
+                duration: const Duration(milliseconds: 400),
+                delay: Duration(milliseconds: index * 50),
+                child: const SkeletonCard(),
+              ),
             );
 
           case FetchProductsError():
@@ -63,14 +68,18 @@ class ProductsGrid extends StatelessWidget {
                   gridDelegate: _gridDelegate,
                   itemBuilder: (context, index) {
                     final product = state.products[index];
-                    return ProductCard(
-                      product: product,
-                      onAddToCart: () {
-                        context.read<CartCubit>().add(
-                              productId: product.id,
-                              quantity: 1,
-                            );
-                      },
+                    return FadeInSlide(
+                      duration: const Duration(milliseconds: 400),
+                      delay: Duration(milliseconds: (index % 10) * 50),
+                      child: ProductCard(
+                        product: product,
+                        onAddToCart: () {
+                          context.read<CartCubit>().add(
+                                productId: product.id,
+                                quantity: 1,
+                              );
+                        },
+                      ),
                     );
                   },
                 ),

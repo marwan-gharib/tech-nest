@@ -1,14 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/animations/scale_tap.dart';
+import 'package:tech_nest/core/animations/skeleton_shimmer.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/routing/routes.dart';
-import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
-import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/widgets/build_price.dart';
+import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductEntity product;
@@ -16,11 +17,7 @@ class ProductCard extends StatelessWidget {
 
   static const double _cardHeight = 200.0;
 
-  const ProductCard({
-    required this.product,
-    this.onAddToCart,
-    super.key,
-  });
+  const ProductCard({required this.product, this.onAddToCart, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +41,7 @@ class ProductCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
-            child: GestureDetector(
+            child: ScaleTap(
               onTap: () => _onCardTap(context),
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(
@@ -58,9 +55,9 @@ class ProductCard extends StatelessWidget {
                     memCacheHeight: 300,
                     memCacheWidth: 300,
                     imageUrl: "${Endpoints.baseUrl}${product.imgUrl}",
-                    placeholder: (context, url) => SpinKitWaveSpinner(
-                      color: colorScheme.primary,
-                      size: 40,
+                    placeholder: (context, url) => const SkeletonShimmer(
+                      width: double.infinity,
+                      height: double.infinity,
                     ),
                     errorWidget: (context, url, error) => Container(
                       color: colorScheme.surfaceContainerHighest,
@@ -117,14 +114,14 @@ class ProductCard extends StatelessWidget {
   Widget _addToCartButton(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return IconButton(
-      onPressed: product.stock > 0
+    return ScaleTap(
+      onTap: product.stock > 0
           ? () {
               HapticFeedback.lightImpact();
               onAddToCart?.call();
             }
           : null,
-      icon: Container(
+      child: Container(
         padding: const EdgeInsets.all(AppSpacing.xs),
         decoration: BoxDecoration(
           color: product.stock > 0
