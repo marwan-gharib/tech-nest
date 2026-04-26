@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_colors.dart';
+import 'package:tech_nest/core/theme/extentions/app_colors_extension.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_text_styles.dart';
 
@@ -8,32 +9,33 @@ class LightTheme {
 
   static const ColorScheme colorScheme = ColorScheme(
     brightness: Brightness.light,
-
-    primary: AppColors.blue600,
+    primary: AppColors.primary,
     onPrimary: AppColors.white,
-
-    secondary: AppColors.gray700,
+    secondary: AppColors.slate600,
     onSecondary: AppColors.white,
-
-    tertiary: AppColors.teal500,
+    tertiary: AppColors.info,
     onTertiary: AppColors.white,
-
-    surface: AppColors.gray50,
-    onSurface: AppColors.gray900,
-
-    surfaceContainerHighest: AppColors.white,
-    onSurfaceVariant: AppColors.gray800,
-
-    error: AppColors.red500,
+    surface: AppColors.slate50,
+    onSurface: AppColors.slate900,
+    error: AppColors.error,
     onError: AppColors.white,
+    outline: AppColors.slate200,
+    outlineVariant: AppColors.slate300,
+  );
 
-    outline: AppColors.gray300,
-    outlineVariant: AppColors.gray400,
-
-    inverseSurface: AppColors.gray900,
-    onInverseSurface: AppColors.white,
-
-    tertiaryFixed: AppColors.orange500,
+  static const AppColorsExtension appColorsExtension = AppColorsExtension(
+    success: AppColors.success,
+    warning: AppColors.warning,
+    error: AppColors.error,
+    background: AppColors.slate50,
+    surface: AppColors.white,
+    card: AppColors.white,
+    textPrimary: AppColors.slate900,
+    textSecondary: AppColors.slate500,
+    border: AppColors.slate200,
+    divider: AppColors.slate100,
+    shimmerBase: AppColors.slate100,
+    shimmerHighlight: AppColors.slate50,
   );
 
   static final ElevatedButtonThemeData elevatedButtonTheme =
@@ -41,99 +43,92 @@ class LightTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: colorScheme.primary,
           foregroundColor: colorScheme.onPrimary,
-          disabledBackgroundColor: colorScheme.primary.withValues(alpha: 0.5),
-          disabledForegroundColor: colorScheme.onPrimary.withValues(alpha: 0.5),
-          elevation: 4,
-          fixedSize: const Size(double.infinity, 50),
-          overlayColor: Colors.transparent,
+          elevation: 0,
+          fixedSize: const Size(double.infinity, 52),
+          shape: const RoundedRectangleBorder(borderRadius: AppRadius.button),
+          textStyle: AppTextStyles.labelLarge.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
         ),
       );
 
-  static final OutlineInputBorder _enabledBorder = OutlineInputBorder(
-    borderRadius: AppRadius.input,
-    borderSide: BorderSide(color: colorScheme.outline, width: 1),
-  );
-
-  static final OutlineInputBorder _focusedBorder = OutlineInputBorder(
-    borderRadius: AppRadius.input,
-    borderSide: BorderSide(color: colorScheme.primary, width: 2),
-  );
-
-  static final OutlineInputBorder _errorBorder = OutlineInputBorder(
-    borderRadius: AppRadius.input,
-    borderSide: BorderSide(color: colorScheme.error, width: 1.5),
-  );
-
   static final InputDecorationTheme inputDecorationTheme = InputDecorationTheme(
-    hintStyle: textTheme.bodyMedium!.copyWith(
-      color: colorScheme.onSurfaceVariant,
+    filled: true,
+    fillColor: AppColors.white,
+    hintStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.slate400),
+    errorStyle: AppTextStyles.labelSmall.copyWith(color: AppColors.error),
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+    border: const OutlineInputBorder(
+      borderRadius: AppRadius.input,
+      borderSide: BorderSide(color: AppColors.slate200),
     ),
-    errorStyle: textTheme.bodyMedium!.copyWith(color: colorScheme.error),
-    enabledBorder: _enabledBorder,
-    focusedBorder: _focusedBorder,
-    errorBorder: _errorBorder,
-    focusedErrorBorder: _errorBorder,
+    enabledBorder: const OutlineInputBorder(
+      borderRadius: AppRadius.input,
+      borderSide: BorderSide(color: AppColors.slate200),
+    ),
+    focusedBorder: const OutlineInputBorder(
+      borderRadius: AppRadius.input,
+      borderSide: BorderSide(color: AppColors.primary, width: 1.5),
+    ),
+    errorBorder: const OutlineInputBorder(
+      borderRadius: AppRadius.input,
+      borderSide: BorderSide(color: AppColors.error),
+    ),
   );
 
   static final FloatingActionButtonThemeData floatingActionButtonTheme =
-      FloatingActionButtonThemeData(
-        backgroundColor: colorScheme.primary,
-        foregroundColor: colorScheme.onPrimary,
-        shape: const CircleBorder(),
-        iconSize: 26,
+      const FloatingActionButtonThemeData(
+        backgroundColor: AppColors.primary,
+        foregroundColor: AppColors.white,
+        elevation: 4,
+        shape: CircleBorder(),
       );
 
-  static final TextTheme textTheme =
-      const TextTheme(
-        headlineLarge: AppTextStyles.headlineLarge,
-        headlineMedium: AppTextStyles.headlineMedium,
-        bodyLarge: AppTextStyles.bodyLarge,
-        bodyMedium: AppTextStyles.bodyMedium,
-        labelLarge: AppTextStyles.labelLarge,
-        labelMedium: AppTextStyles.labelMedium,
-        labelSmall: AppTextStyles.labelSmall,
-      ).apply(
-        bodyColor: colorScheme.onSurface,
-        displayColor: colorScheme.onSurface,
-      );
+  static final TextTheme textTheme = TextTheme(
+    headlineLarge: AppTextStyles.headlineLarge.copyWith(
+      color: AppColors.slate900,
+    ),
+    headlineMedium: AppTextStyles.headlineMedium.copyWith(
+      color: AppColors.slate900,
+    ),
+    bodyLarge: AppTextStyles.bodyLarge.copyWith(color: AppColors.slate900),
+    bodyMedium: AppTextStyles.bodyMedium.copyWith(color: AppColors.slate700),
+    labelLarge: AppTextStyles.labelLarge.copyWith(color: AppColors.slate900),
+    labelMedium: AppTextStyles.labelMedium.copyWith(color: AppColors.slate600),
+    labelSmall: AppTextStyles.labelSmall.copyWith(color: AppColors.slate500),
+  );
 
   static final AppBarTheme appBarTheme = AppBarTheme(
-    backgroundColor: colorScheme.surface,
-    centerTitle: true,
+    backgroundColor: AppColors.slate50,
+    foregroundColor: AppColors.slate900,
     elevation: 0,
+    centerTitle: true,
     titleTextStyle: AppTextStyles.headlineMedium.copyWith(
-      color: colorScheme.onSurface,
+      color: AppColors.slate900,
+      fontWeight: FontWeight.bold,
     ),
-    iconTheme: IconThemeData(color: colorScheme.onSurface),
+    iconTheme: const IconThemeData(color: AppColors.slate900),
   );
 
-  static final CardThemeData cardTheme = CardThemeData(
-    color: colorScheme.surfaceContainerHighest,
-    shadowColor: colorScheme.onSurfaceVariant,
-    elevation: 1.5,
-    shape: const RoundedRectangleBorder(borderRadius: AppRadius.cardLg),
+  static final CardThemeData cardTheme = const CardThemeData(
+    color: AppColors.white,
+    elevation: 0,
+    shape: RoundedRectangleBorder(
+      borderRadius: AppRadius.cardLg,
+      side: BorderSide(color: AppColors.slate100),
+    ),
   );
-
-  static final IconThemeData iconTheme = const IconThemeData();
 
   static final BottomNavigationBarThemeData bottomNavigationBarTheme =
       BottomNavigationBarThemeData(
-        backgroundColor: colorScheme.surface,
-        selectedIconTheme: IconThemeData(color: colorScheme.primary, size: 28),
-        unselectedIconTheme: IconThemeData(color: colorScheme.onSurfaceVariant),
-        selectedLabelStyle: textTheme.labelSmall?.copyWith(
-          color: colorScheme.primary,
+        backgroundColor: AppColors.white,
+        selectedItemColor: AppColors.primary,
+        unselectedItemColor: AppColors.slate400,
+        selectedLabelStyle: AppTextStyles.labelSmall.copyWith(
+          fontWeight: FontWeight.w600,
         ),
-        unselectedLabelStyle: textTheme.labelSmall?.copyWith(
-          color: colorScheme.onSurfaceVariant,
-        ),
-        selectedItemColor: colorScheme.primary,
-        unselectedItemColor: colorScheme.onSurfaceVariant.withValues(
-          alpha: 0.5,
-        ),
-        type: BottomNavigationBarType.shifting,
-        landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
-        elevation: 10,
-        showSelectedLabels: true,
+        unselectedLabelStyle: AppTextStyles.labelSmall,
+        type: BottomNavigationBarType.fixed,
+        elevation: 8,
       );
 }
