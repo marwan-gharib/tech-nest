@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class SettingsSection extends StatelessWidget {
   final String? title;
@@ -21,9 +22,9 @@ class SettingsSection extends StatelessWidget {
             ),
             child: Text(
               title!.toUpperCase(),
-              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+              style: context.labelSmall.copyWith(
                 letterSpacing: 1.2,
-                color: Theme.of(context).primaryColor,
+                color: context.colorScheme.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -34,3 +35,4 @@ class SettingsSection extends StatelessWidget {
     );
   }
 }
+

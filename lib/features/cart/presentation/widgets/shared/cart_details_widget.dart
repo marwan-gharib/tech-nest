@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
+import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart_entity.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/core/widgets/build_price.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
 
 class CartDetailsWidget extends StatelessWidget {
   final Cart cart;
@@ -36,13 +37,13 @@ class CartDetailsWidget extends StatelessWidget {
           isPrice: true,
           isFree: cart.deliveryCharges == 0,
         ),
-        Divider(color: Theme.of(context).hintColor),
+        Divider(color: context.colors.divider),
         _dataRow(
           context,
           label: context.t.cart.total,
           number: cart.grandTotal,
           isPrice: true,
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          color: context.colors.textPrimary,
         ),
       ],
     );
@@ -56,9 +57,8 @@ class CartDetailsWidget extends StatelessWidget {
     bool isFree = false,
     Color? color,
   }) {
-    final theme = Theme.of(context);
-    final labelStyle = theme.textTheme.labelLarge;
-    final secondaryColor = theme.shadowColor.withValues(alpha: _labelAlpha);
+    final labelStyle = context.labelLarge;
+    final secondaryColor = context.colors.textSecondary.withValues(alpha: _labelAlpha);
 
     return Padding(
       padding: const EdgeInsets.only(left: AppSpacing.sm + 2),
@@ -67,12 +67,12 @@ class CartDetailsWidget extends StatelessWidget {
         children: [
           Text(
             label,
-            style: theme.textTheme.labelLarge?.copyWith(fontSize: _titleSize),
+            style: context.labelLarge.copyWith(fontSize: _titleSize),
           ),
           isFree
               ? Text(
                   context.t.cart.free,
-                  style: labelStyle?.copyWith(
+                  style: labelStyle.copyWith(
                     fontSize: _priceSize,
                     fontWeight: FontWeight.w500,
                     color: color ?? secondaryColor,
@@ -86,7 +86,7 @@ class CartDetailsWidget extends StatelessWidget {
                 )
               : Text(
                   number.toString(),
-                  style: labelStyle?.copyWith(
+                  style: labelStyle.copyWith(
                     fontSize: _priceSize,
                     fontWeight: FontWeight.w500,
                     color: color ?? secondaryColor,
@@ -97,3 +97,4 @@ class CartDetailsWidget extends StatelessWidget {
     );
   }
 }
+

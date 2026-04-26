@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/delete_cart_item_cubit/delete_cart_item_cubit.dart';
 
 class RemoveCartItemButton extends StatelessWidget {
@@ -32,8 +33,9 @@ class RemoveCartItemButton extends StatelessWidget {
           context.read<DeleteCartItemCubit>().removeItem(cartId: cartId),
       child: Icon(
         CupertinoIcons.delete,
-        color: Theme.of(context).colorScheme.error,
+        color: context.colors.error,
       ),
     );
   }
 }
+

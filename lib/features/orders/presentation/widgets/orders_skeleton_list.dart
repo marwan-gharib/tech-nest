@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class OrdersSkeletonList extends StatelessWidget {
   const OrdersSkeletonList({super.key});
@@ -15,6 +16,7 @@ class OrdersSkeletonList extends StatelessWidget {
         itemBuilder: (context, index) {
           return Card(
             elevation: 0,
+            color: context.colors.card,
             margin: const EdgeInsets.only(bottom: AppSpacing.md),
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.md),
@@ -25,7 +27,11 @@ class OrdersSkeletonList extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Order #1234', style: TextStyle(fontSize: 16)),
-                      Container(width: 80, height: 24, color: Colors.grey),
+                      Container(
+                        width: 80,
+                        height: 24,
+                        color: context.colors.shimmerBase,
+                      ),
                     ],
                   ),
                   const SizedBox(height: AppSpacing.sm),
@@ -44,3 +50,4 @@ class OrdersSkeletonList extends StatelessWidget {
     );
   }
 }
+

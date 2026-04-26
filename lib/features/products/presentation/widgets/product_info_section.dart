@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/products/presentation/widgets/custom_counter.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
@@ -17,9 +18,6 @@ class ProductInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final secondaryColor = theme.shadowColor.withValues(alpha: 0.6);
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -30,15 +28,15 @@ class ProductInfoSection extends StatelessWidget {
             children: [
               Text(
                 product.name,
-                style: theme.textTheme.headlineSmall?.copyWith(
+                style: context.headlineSmall.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: theme.colorScheme.primary,
+                  color: context.colorScheme.primary,
                 ),
               ),
               Text(
                 context.t.products.category(category: product.category.name),
-                style: theme.textTheme.labelLarge?.copyWith(
-                  color: secondaryColor,
+                style: context.labelLarge.copyWith(
+                  color: context.colors.textSecondary,
                 ),
               ),
               BuildPrice(price: product.price, isLabeled: true),
@@ -46,10 +44,10 @@ class ProductInfoSection extends StatelessWidget {
                 product.stock > 0
                     ? context.t.products.inStock(n: product.stock)
                     : context.t.products.outOfStock,
-                style: theme.textTheme.labelMedium?.copyWith(
+                style: context.labelMedium.copyWith(
                   color: product.stock > 0
-                      ? theme.colorScheme.tertiary
-                      : theme.colorScheme.error,
+                      ? context.colors.success
+                      : context.colors.error,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -61,3 +59,4 @@ class ProductInfoSection extends StatelessWidget {
     );
   }
 }
+

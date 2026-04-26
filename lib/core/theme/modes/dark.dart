@@ -27,6 +27,7 @@ class DarkTheme {
     success: AppColors.success,
     warning: AppColors.warning,
     error: AppColors.error,
+    info: AppColors.info,
     background: AppColors.slate950,
     surface: AppColors.slate900,
     card: AppColors.slate900,

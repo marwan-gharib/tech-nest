@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
@@ -28,22 +29,21 @@ class SettingsProfileHeader extends StatelessWidget {
           subtitle = 'Please sign in to access full features';
         }
 
-        final theme = Theme.of(context);
-        final colorScheme = theme.colorScheme;
+        final colorScheme = context.colorScheme;
 
         return Container(
           width: double.infinity,
           padding: const EdgeInsets.all(AppSpacing.xl),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [theme.primaryColor, colorScheme.secondary],
+              colors: [colorScheme.primary, colorScheme.secondary],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(AppRadius.xxl),
             boxShadow: [
               BoxShadow(
-                color: theme.primaryColor.withValues(alpha: 0.3),
+                color: colorScheme.primary.withValues(alpha: 0.3),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -51,19 +51,20 @@ class SettingsProfileHeader extends StatelessWidget {
           ),
           child: Column(
             children: [
-              _avatarSection(user?.image, theme),
+              _avatarSection(context, user?.image),
               const SizedBox(height: AppSpacing.md),
               Text(
                 user?.name ?? 'Guest User',
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  color: theme.colorScheme.onPrimary,
+                style: context.headlineMedium.copyWith(
+                  color: colorScheme.onPrimary,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: AppSpacing.xs),
               Text(
                 subtitle,
-                style: theme.textTheme.bodyMedium?.copyWith(
-                  color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
+                style: context.bodyMedium.copyWith(
+                  color: colorScheme.onPrimary.withValues(alpha: 0.8),
                 ),
               ),
             ],
@@ -73,23 +74,28 @@ class SettingsProfileHeader extends StatelessWidget {
     );
   }
 
-  Widget _avatarSection(String? image, ThemeData theme) {
+  Widget _avatarSection(BuildContext context, String? image) {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: theme.colorScheme.outline.withValues(alpha: 0.3),
+        color: context.colorScheme.onPrimary.withValues(alpha: 0.2),
         shape: BoxShape.circle,
       ),
       child: CircleAvatar(
         radius: 55,
-        backgroundColor: Colors.white,
+        backgroundColor: context.colors.background,
         backgroundImage: image != null
             ? NetworkImage(Endpoints.baseUrl + image)
             : null,
         child: image == null
-            ? Icon(Icons.person_rounded, size: 45, color: theme.primaryColor)
+            ? Icon(
+                Icons.person_rounded,
+                size: 45,
+                color: context.colorScheme.primary,
+              )
             : null,
       ),
     );
   }
 }
+

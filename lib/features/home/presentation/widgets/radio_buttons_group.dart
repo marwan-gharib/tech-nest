@@ -41,8 +41,6 @@ class _RadioButtonsGroupState<T> extends State<RadioButtonsGroup<T>> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Column(
       children: widget.values.map((value) {
         final isSelected = _selected == value;
@@ -61,10 +59,10 @@ class _RadioButtonsGroupState<T> extends State<RadioButtonsGroup<T>> {
               setState(() => _selected = value);
               widget.onTap(value);
             },
-            theme: theme,
           ),
         );
       }).toList(),
     );
   }
 }
+

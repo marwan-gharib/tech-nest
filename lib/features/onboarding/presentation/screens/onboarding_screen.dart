@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/routing/routes.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:tech_nest/service_locator.dart';
 import 'package:tech_nest/features/onboarding/presentation/widgets/onboarding_controls.dart';
@@ -45,23 +46,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         title: t.onboarding.pages[0].title,
         description: t.onboarding.pages[0].description,
         icon: Icons.devices,
-        color: const Color(0xff1443C3),
+        color: context.colorScheme.primary,
       ),
       OnboardingPageData(
         title: t.onboarding.pages[1].title,
         description: t.onboarding.pages[1].description,
         icon: Icons.payment,
-        color: const Color(0xff59CDBE),
+        color: context.colors.success,
       ),
       OnboardingPageData(
         title: t.onboarding.pages[2].title,
         description: t.onboarding.pages[2].description,
         icon: Icons.local_shipping,
-        color: const Color(0xffF35D2F),
+        color: context.colors.warning,
       ),
     ];
 
     return Scaffold(
+      backgroundColor: context.colors.background,
       body: SafeArea(
         child: Stack(
           alignment: Alignment.center,
@@ -94,3 +96,4 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 }
+

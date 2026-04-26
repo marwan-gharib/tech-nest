@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class CustomSkeletonList extends StatelessWidget {
   const CustomSkeletonList({super.key});
@@ -18,10 +19,14 @@ class CustomSkeletonList extends StatelessWidget {
             ),
             height: 40,
             width: double.infinity,
-            color: Theme.of(context).colorScheme.outline,
+            decoration: BoxDecoration(
+              color: context.colors.shimmerBase,
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
         );
       },
     );
   }
 }
+

@@ -27,6 +27,7 @@ class LightTheme {
     success: AppColors.success,
     warning: AppColors.warning,
     error: AppColors.error,
+    info: AppColors.info,
     background: AppColors.slate50,
     surface: AppColors.white,
     card: AppColors.white,

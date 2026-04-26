@@ -3,6 +3,7 @@ import 'package:tech_nest/core/widgets/custom_skeleton_list.dart';
 import 'package:tech_nest/features/products/presentation/widgets/search_suggestions_overlay_list.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class SearchSuggestionsOverlay extends StatelessWidget {
   final LayerLink layerLink;
@@ -29,7 +30,6 @@ class SearchSuggestionsOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final size = MediaQuery.sizeOf(context);
 
     final double overlayWidth =
@@ -52,9 +52,9 @@ class SearchSuggestionsOverlay extends StatelessWidget {
           groupId: groupId,
           child: Material(
             elevation: _overlayElevation,
-            shadowColor: theme.shadowColor.withValues(alpha: _shadowAlpha),
+            shadowColor: context.colors.textPrimary.withValues(alpha: _shadowAlpha),
             borderRadius: AppRadius.cardLg,
-            color: theme.colorScheme.surface,
+            color: context.colors.card,
             clipBehavior: Clip.antiAlias,
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
@@ -89,13 +89,13 @@ class SearchSuggestionsOverlay extends StatelessWidget {
             Icon(
               Icons.search_off_rounded,
               size: 48,
-              color: Theme.of(context).colorScheme.outline,
+              color: context.colors.textSecondary,
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
               'No suggestions found',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.outline,
+              style: context.bodyMedium.copyWith(
+                color: context.colors.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -103,8 +103,8 @@ class SearchSuggestionsOverlay extends StatelessWidget {
               const SizedBox(height: AppSpacing.sm),
               Text(
                 'for "$query"',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.outlineVariant,
+                style: context.bodySmall.copyWith(
+                  color: context.colors.textSecondary.withValues(alpha: 0.7),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -115,3 +115,4 @@ class SearchSuggestionsOverlay extends StatelessWidget {
     );
   }
 }
+

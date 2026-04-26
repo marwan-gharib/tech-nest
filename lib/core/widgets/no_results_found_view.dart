@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class NoResultsFoundView extends StatelessWidget {
   final String title;
@@ -15,8 +16,6 @@ class NoResultsFoundView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.xl),
@@ -26,30 +25,28 @@ class NoResultsFoundView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(AppSpacing.xl),
               decoration: BoxDecoration(
-                color: theme.colorScheme.primaryContainer.withValues(
+                color: context.colorScheme.primaryContainer.withValues(
                   alpha: 0.2,
                 ),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 80, color: theme.colorScheme.primary),
+              child: Icon(icon, size: 80, color: context.colorScheme.primary),
             ),
             const SizedBox(height: AppSpacing.xl),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: theme.textTheme.headlineMedium!.copyWith(
+              style: context.headlineMedium.copyWith(
                 fontWeight: FontWeight.w800,
-                color: theme.colorScheme.onSurface,
+                color: context.colors.textPrimary,
               ),
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium!.copyWith(
-                color: theme.colorScheme.onSurfaceVariant.withValues(
-                  alpha: 0.7,
-                ),
+              style: context.bodyMedium.copyWith(
+                color: context.colors.textSecondary,
               ),
             ),
           ],
@@ -58,3 +55,4 @@ class NoResultsFoundView extends StatelessWidget {
     );
   }
 }
+

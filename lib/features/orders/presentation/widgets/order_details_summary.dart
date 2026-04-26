@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/orders/domain/entities/order_details_entity.dart';
 import 'package:tech_nest/features/orders/domain/enums/order_status.dart';
 import 'package:tech_nest/features/orders/presentation/widgets/cancel_order_dialog.dart';
@@ -17,8 +18,6 @@ class OrderDetailsSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Column(
       children: [
         const Divider(height: AppSpacing.xl),
@@ -27,14 +26,14 @@ class OrderDetailsSummary extends StatelessWidget {
           children: [
             Text(
               context.t.cart.total,
-              style: theme.textTheme.titleLarge,
+              style: context.titleLarge,
             ),
             Text(
               '\$${order.totalPrice.toStringAsFixed(2)}',
-              style: theme.textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.primary,
-                  ),
+              style: context.headlineSmall.copyWith(
+                fontWeight: FontWeight.bold,
+                color: context.colorScheme.primary,
+              ),
             ),
           ],
         ),
@@ -44,18 +43,21 @@ class OrderDetailsSummary extends StatelessWidget {
             width: double.infinity,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red.withValues(alpha: 0.1),
-                foregroundColor: Colors.red,
+                backgroundColor: context.colors.error.withValues(alpha: 0.1),
+                foregroundColor: context.colors.error,
                 elevation: 0,
               ),
               onPressed: isCancelling
                   ? null
                   : () => CancelOrderDialog.show(context, order.id),
               child: isCancelling
-                  ? const SizedBox(
+                  ? SizedBox(
                       height: 20,
                       width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2),
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: context.colors.error,
+                      ),
                     )
                   : Text(context.t.orders.cancelOrder),
             ),
@@ -64,3 +66,4 @@ class OrderDetailsSummary extends StatelessWidget {
     );
   }
 }
+

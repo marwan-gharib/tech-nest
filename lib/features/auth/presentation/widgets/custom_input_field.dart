@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class CustomInputField extends StatefulWidget {
   const CustomInputField({
@@ -34,25 +35,25 @@ class _CustomInputFieldState extends State<CustomInputField> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = context.colorScheme;
 
     return TextFormField(
       errorBuilder: _errorBuilder,
       onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       controller: widget.controller,
       cursorColor: colorScheme.primary,
-      cursorErrorColor: colorScheme.primary,
+      cursorErrorColor: context.colors.error,
       keyboardType: widget.keyboardType,
       maxLines: widget.isPassword ? 1 : null,
       obscureText: widget.isPassword ? _isObscure : false,
+      style: context.bodyLarge.copyWith(color: context.colors.textPrimary),
       decoration: InputDecoration(
         labelText: widget.label,
-        labelStyle: theme.textTheme.bodyLarge?.copyWith(
-          color: colorScheme.onSurfaceVariant,
+        labelStyle: context.bodyLarge.copyWith(
+          color: context.colors.textSecondary,
         ),
         hintText: widget.hint,
-        hintStyle: theme.textTheme.bodyMedium?.copyWith(color: theme.hintColor),
+        hintStyle: context.bodyMedium.copyWith(color: context.colors.textSecondary.withValues(alpha: 0.6)),
         suffixIcon: widget.isPassword ? _buildVisibilityIcon() : null,
       ),
       validator: widget.validator,
@@ -68,7 +69,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
           _isObscure
               ? Icons.visibility_off_outlined
               : Icons.visibility_outlined,
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          color: context.colors.textSecondary,
         ),
       );
     }
@@ -84,7 +85,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
           _internalIsObscure
               ? Icons.visibility_off_outlined
               : Icons.visibility_outlined,
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          color: context.colors.textSecondary,
         ),
       );
     }
@@ -93,23 +94,20 @@ class _CustomInputFieldState extends State<CustomInputField> {
   }
 
   Widget _errorBuilder(BuildContext context, String errorText) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Icon(
           Icons.error_outline,
           size: AppSpacing.md,
-          color: colorScheme.error,
+          color: context.colors.error,
         ),
         const SizedBox(width: AppSpacing.sm),
         Expanded(
           child: Text(
             errorText,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: colorScheme.error,
+            style: context.bodyMedium.copyWith(
+              color: context.colors.error,
             ),
           ),
         ),
@@ -117,3 +115,4 @@ class _CustomInputFieldState extends State<CustomInputField> {
     );
   }
 }
+

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/core/theme/app_colors.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/app_shell/presentation/widgets/cart_badge.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class BottomNavBar extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
@@ -16,22 +16,28 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = context.colorScheme;
+
     return Container(
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
-            color: Theme.of(context).colorScheme.primary,
-            width: 2.5,
+            color: colorScheme.primary.withValues(alpha: 0.1),
+            width: 1,
           ),
         ),
-        color: Theme.of(context).colorScheme.surface,
+        color: context.colors.surface,
       ),
       child: BottomNavigationBar(
         elevation: 0,
-        backgroundColor: AppColors.transparent,
-        type: BottomNavigationBarType.shifting,
+        backgroundColor: Colors.transparent,
+        type: BottomNavigationBarType.fixed,
         currentIndex: navigationShell.currentIndex,
         onTap: onTap,
+        selectedItemColor: colorScheme.primary,
+        unselectedItemColor: context.colors.textSecondary,
+        selectedLabelStyle: context.labelSmall.copyWith(fontWeight: FontWeight.bold),
+        unselectedLabelStyle: context.labelSmall,
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.home_outlined),
@@ -69,3 +75,4 @@ class BottomNavBar extends StatelessWidget {
     );
   }
 }
+

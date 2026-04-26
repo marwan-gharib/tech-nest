@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_pin_code_dialog.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
@@ -37,8 +38,6 @@ class _VerifyEmailDialogState extends State<VerifyEmailDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Dialog(
       insetAnimationDuration: const Duration(milliseconds: 400),
       alignment: Alignment.center,
@@ -54,9 +53,15 @@ class _VerifyEmailDialogState extends State<VerifyEmailDialog> {
           padding: const EdgeInsets.all(AppSpacing.lg),
           width: MediaQuery.of(context).size.width * 0.9,
           decoration: BoxDecoration(
-            color: theme.colorScheme.surface,
+            color: context.colors.surface,
             borderRadius: BorderRadius.circular(AppRadius.xl),
-            boxShadow: [BoxShadow(blurRadius: 20, color: theme.shadowColor)],
+            boxShadow: [
+              BoxShadow(
+                blurRadius: 20,
+                color: Colors.black.withValues(alpha: 0.1),
+                offset: const Offset(0, 10),
+              ),
+            ],
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -98,7 +103,7 @@ class _VerifyEmailDialogState extends State<VerifyEmailDialog> {
         height: AppSpacing.xxl + AppSpacing.lg,
         child: Center(
           child: CircularProgressIndicator(
-            color: Theme.of(context).colorScheme.primary,
+            color: context.colorScheme.primary,
           ),
         ),
       );
@@ -121,3 +126,4 @@ class _VerifyEmailDialogState extends State<VerifyEmailDialog> {
     }
   }
 }
+

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class LoadingMoreIndicator extends StatelessWidget {
   const LoadingMoreIndicator({super.key});
@@ -10,9 +11,10 @@ class LoadingMoreIndicator extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
         child: CircularProgressIndicator(
-          color: Theme.of(context).colorScheme.primary,
+          color: context.colorScheme.primary,
         ),
       ),
     );
   }
 }
+

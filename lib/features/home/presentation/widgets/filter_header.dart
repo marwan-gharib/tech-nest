@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/active_filter_badge.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
@@ -16,8 +17,6 @@ class FilterHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -26,7 +25,7 @@ class FilterHeader extends StatelessWidget {
           children: [
             Text(
               context.t.home.filters,
-              style: theme.textTheme.headlineSmall?.copyWith(
+              style: context.headlineSmall.copyWith(
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -36,14 +35,14 @@ class FilterHeader extends StatelessWidget {
         TextButton(
           onPressed: onReset,
           style: TextButton.styleFrom(
-            foregroundColor: theme.colorScheme.primary,
+            foregroundColor: context.colorScheme.primary,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppRadius.full),
             ),
           ),
           child: Text(
             context.t.home.clearAll,
-            style: theme.textTheme.labelLarge?.copyWith(
+            style: context.labelLarge.copyWith(
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -52,3 +51,4 @@ class FilterHeader extends StatelessWidget {
     );
   }
 }
+

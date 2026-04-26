@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tech_nest/core/animations/scale_tap.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/app_button.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
@@ -21,7 +22,7 @@ class OnboardingControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = context.colorScheme;
     final t = context.t;
 
     return Positioned(
@@ -71,3 +72,4 @@ class OnboardingControls extends StatelessWidget {
     );
   }
 }
+

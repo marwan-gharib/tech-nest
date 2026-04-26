@@ -5,6 +5,7 @@ import 'package:tech_nest/features/products/presentation/cubits/fetch_products_c
 import 'package:tech_nest/features/products/presentation/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
 import 'package:tech_nest/features/products/presentation/widgets/shared/search_products_widget.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/home/presentation/widgets/home_filter_button.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
@@ -23,14 +24,11 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return SliverAppBar(
       pinned: true,
       floating: true,
       elevation: 0,
-      backgroundColor: colorScheme.surface.withValues(alpha: 0.95),
+      backgroundColor: context.colors.background.withValues(alpha: 0.95),
       surfaceTintColor: Colors.transparent,
       expandedHeight: _expandedHeight,
       flexibleSpace: FlexibleSpaceBar(
@@ -41,7 +39,7 @@ class HomeAppBar extends StatelessWidget {
         ),
         title: Text(
           context.t.home.discover,
-          style: theme.textTheme.headlineMedium?.copyWith(
+          style: context.headlineMedium.copyWith(
             fontWeight: FontWeight.w800,
             letterSpacing: -0.5,
           ),
@@ -94,3 +92,4 @@ class HomeAppBar extends StatelessWidget {
     );
   }
 }
+

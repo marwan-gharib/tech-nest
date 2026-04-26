@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 
 class CartBadge extends StatelessWidget {
@@ -11,9 +12,6 @@ class CartBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Positioned(
       right: _badgeOffset,
       top: _badgeOffset,
@@ -32,11 +30,11 @@ class CartBadge extends StatelessWidget {
                 scale: value,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: colorScheme.tertiaryFixed,
+                    color: context.colorScheme.primary,
                     borderRadius: const BorderRadius.all(Radius.circular(50)),
                     boxShadow: [
                       BoxShadow(
-                        color: colorScheme.primary.withValues(alpha: 0.3),
+                        color: context.colorScheme.primary.withValues(alpha: 0.3),
                         blurRadius: 4,
                         offset: const Offset(0, 2),
                       ),
@@ -46,12 +44,13 @@ class CartBadge extends StatelessWidget {
                     minWidth: _minBadgeSize,
                     minHeight: _minBadgeSize,
                   ),
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Center(
                     child: Text(
                       count > 99 ? "99+" : count.toString(),
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        color: colorScheme.onPrimary,
-                        fontSize: 12,
+                      style: context.labelSmall.copyWith(
+                        color: context.colorScheme.onPrimary,
+                        fontSize: 10,
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.center,
@@ -66,3 +65,4 @@ class CartBadge extends StatelessWidget {
     );
   }
 }
+

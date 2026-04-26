@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class CheckoutAddressCard extends StatefulWidget {
   final ValueChanged<String?>? onLocationSelected;
@@ -28,18 +29,17 @@ class _CheckoutAddressCardState extends State<CheckoutAddressCard> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = context.colorScheme;
 
     return GestureDetector(
       onTap: _openLocationPicker,
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.md),
         decoration: BoxDecoration(
-          color: colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+          color: context.colors.card,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+            color: context.colors.border.withValues(alpha: 0.5),
           ),
         ),
         child: Row(
@@ -49,13 +49,14 @@ class _CheckoutAddressCardState extends State<CheckoutAddressCard> {
             Expanded(
               child: Text(
                 _deliveryLocation ?? "pick the delivery location",
-                style: theme.textTheme.bodyMedium,
+                style: context.bodyMedium,
               ),
             ),
-            const Icon(Icons.arrow_forward_ios),
+            Icon(Icons.arrow_forward_ios, size: 16, color: context.colors.textSecondary),
           ],
         ),
       ),
     );
   }
 }
+

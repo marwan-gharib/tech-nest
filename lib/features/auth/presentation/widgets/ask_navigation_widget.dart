@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class AskNavigationWidget extends StatelessWidget {
   final String question;
@@ -17,13 +18,17 @@ class AskNavigationWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('$question  '),
+        Text(
+          '$question  ',
+          style: context.bodyMedium.copyWith(color: context.colors.textSecondary),
+        ),
         InkWell(
           onTap: onTap,
           child: Text(
             screenLabel,
-            style: Theme.of(context).textTheme.labelMedium!.copyWith(
-              color: Theme.of(context).colorScheme.primary,
+            style: context.labelMedium.copyWith(
+              color: context.colorScheme.primary,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -31,3 +36,4 @@ class AskNavigationWidget extends StatelessWidget {
     );
   }
 }
+

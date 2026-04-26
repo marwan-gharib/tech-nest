@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class EmptyOrdersWidget extends StatelessWidget {
@@ -14,16 +15,14 @@ class EmptyOrdersWidget extends StatelessWidget {
           Icon(
             Icons.receipt_long_rounded,
             size: 80,
-            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
+            color: context.colorScheme.primary.withValues(alpha: 0.5),
           ),
           const SizedBox(height: AppSpacing.lg),
           Text(
             context.t.orders.emptyState,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            style: context.titleMedium.copyWith(
               fontWeight: FontWeight.bold,
-              color: Theme.of(
-                context,
-              ).colorScheme.onSurface.withValues(alpha: 0.7),
+              color: context.colors.textSecondary,
             ),
             textAlign: TextAlign.center,
           ),
@@ -32,3 +31,4 @@ class EmptyOrdersWidget extends StatelessWidget {
     );
   }
 }
+

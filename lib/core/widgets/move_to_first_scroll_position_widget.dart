@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class MoveToFirstScrollPositionWidget extends StatelessWidget {
   final VoidCallback onTap;
@@ -8,13 +9,12 @@ class MoveToFirstScrollPositionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = context.colorScheme;
 
     return FloatingActionButton.small(
       onPressed: onTap,
-      backgroundColor: colorScheme.primaryContainer,
-      foregroundColor: colorScheme.onPrimaryContainer,
+      backgroundColor: colorScheme.primary,
+      foregroundColor: colorScheme.onPrimary,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadius.md),
       ),
@@ -22,3 +22,4 @@ class MoveToFirstScrollPositionWidget extends StatelessWidget {
     );
   }
 }
+

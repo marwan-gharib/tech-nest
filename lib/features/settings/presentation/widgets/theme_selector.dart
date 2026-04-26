@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/cubits/theme_cubit/theme_cubit.dart';
 import 'package:tech_nest/core/cubits/theme_cubit/theme_state.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/theme_option.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
@@ -20,9 +21,9 @@ class ThemeSelector extends StatelessWidget {
             children: [
               Text(
                 context.t.settings.theme,
-                style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                style: context.titleSmall.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: context.colorScheme.primary,
                 ),
               ),
               const SizedBox(height: AppSpacing.md),
@@ -63,3 +64,4 @@ class ThemeSelector extends StatelessWidget {
     );
   }
 }
+

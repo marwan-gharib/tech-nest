@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/animations/app_animations.dart';
 import 'package:tech_nest/core/animations/shimmer_effect.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class SkeletonShimmer extends StatelessWidget {
   final double width;
@@ -16,9 +17,9 @@ class SkeletonShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final baseColor = isDark ? Colors.grey[800]! : Colors.grey[300]!;
-    final highlightColor = isDark ? Colors.grey[700]! : Colors.grey[100]!;
+    final colors = context.colors;
+    final baseColor = colors.shimmerBase;
+    final highlightColor = colors.shimmerHighlight;
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(borderRadius),
@@ -29,8 +30,6 @@ class SkeletonShimmer extends StatelessWidget {
         child: TweenAnimationBuilder<double>(
           tween: Tween<double>(begin: -1.0, end: 2.0),
           duration: AppAnimations.extraSlow,
-          onEnd:
-              () {}, // Handled by repeating logic below if we were using a controller
           builder: (context, value, child) {
             return ShimmerEffect(
               value: value,
@@ -44,3 +43,4 @@ class SkeletonShimmer extends StatelessWidget {
     );
   }
 }
+

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/orders/domain/enums/order_status.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
 
 class OrderStatusChip extends StatelessWidget {
   final OrderStatus status;
@@ -15,23 +16,23 @@ class OrderStatusChip extends StatelessWidget {
 
     switch (status) {
       case OrderStatus.pending:
-        color = Colors.orange;
+        color = context.colors.warning;
         label = context.t.orders.status.pending;
         break;
       case OrderStatus.confirmed:
-        color = Colors.blue;
+        color = context.colors.info;
         label = context.t.orders.status.confirmed;
         break;
       case OrderStatus.shipped:
-        color = Colors.purple;
+        color = context.colorScheme.secondary;
         label = context.t.orders.status.shipped;
         break;
       case OrderStatus.delivered:
-        color = Colors.green;
+        color = context.colors.success;
         label = context.t.orders.status.delivered;
         break;
       case OrderStatus.cancelled:
-        color = Colors.red;
+        color = context.colors.error;
         label = context.t.orders.status.cancelled;
         break;
     }
@@ -44,11 +45,11 @@ class OrderStatusChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: color.withValues(alpha: 0.5)),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: Text(
         label,
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+        style: context.labelSmall.copyWith(
           color: color,
           fontWeight: FontWeight.bold,
         ),
@@ -56,3 +57,4 @@ class OrderStatusChip extends StatelessWidget {
     );
   }
 }
+
