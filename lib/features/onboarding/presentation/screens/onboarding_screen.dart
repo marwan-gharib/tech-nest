@@ -4,12 +4,12 @@ import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
-import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/service_locator.dart';
-import 'package:tech_nest/features/onboarding/presentation/widgets/onboarding_controls.dart';
 import 'package:tech_nest/features/onboarding/presentation/models/onboarding_page_data.dart';
+import 'package:tech_nest/features/onboarding/presentation/widgets/onboarding_controls.dart';
 import 'package:tech_nest/features/onboarding/presentation/widgets/onboarding_page_view.dart';
 import 'package:tech_nest/features/onboarding/presentation/widgets/onboarding_skip_button.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
+import 'package:tech_nest/app/service_locator.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -96,4 +96,3 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 }
-

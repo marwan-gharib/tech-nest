@@ -13,7 +13,7 @@ import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit
 import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/reset_password_dialog.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/service_locator.dart';
+import 'package:tech_nest/app/service_locator.dart';
 
 class LoginForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
@@ -125,4 +125,3 @@ class LoginForm extends StatelessWidget {
     ).show();
   }
 }
-

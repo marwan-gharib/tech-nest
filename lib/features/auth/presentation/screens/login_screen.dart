@@ -12,7 +12,7 @@ import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widg
 import 'package:tech_nest/features/auth/presentation/widgets/login_button_consumer.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/login_form.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/service_locator.dart';
+import 'package:tech_nest/app/service_locator.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -31,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     _email = TextEditingController();
-    _password = TextEditingController();
+    _password = TextEditingController(text: '12345678');
     _formKey = GlobalKey<FormState>();
     _authNotifier = sl<AuthNotifier>();
   }

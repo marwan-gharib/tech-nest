@@ -12,7 +12,7 @@ import 'package:tech_nest/features/cart/presentation/cubits/delete_cart_item_cub
 import 'package:tech_nest/features/cart/presentation/cubits/update_item_quantity_cubit/update_item_quantity_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/change_cart_item_count.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/remove_cart_item_button.dart';
-import 'package:tech_nest/service_locator.dart';
+import 'package:tech_nest/app/service_locator.dart';
 
 class CartItemCard extends StatefulWidget {
   final CartItem cartItem;
@@ -23,7 +23,8 @@ class CartItemCard extends StatefulWidget {
   State<CartItemCard> createState() => _CartItemCardState();
 }
 
-class _CartItemCardState extends State<CartItemCard> with SingleTickerProviderStateMixin {
+class _CartItemCardState extends State<CartItemCard>
+    with SingleTickerProviderStateMixin {
   static const double _cardHeight = 100.0;
   static const double _imageWidth = 125.0;
   static const double _borderRadius = 10.0;
@@ -150,4 +151,3 @@ class _CartItemCardState extends State<CartItemCard> with SingleTickerProviderSt
     );
   }
 }
-

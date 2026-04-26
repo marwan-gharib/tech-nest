@@ -15,7 +15,7 @@ import 'package:tech_nest/features/auth/presentation/widgets/pick_profile_image.
 import 'package:tech_nest/features/auth/presentation/widgets/sign_up_form.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/verify_email_dialog.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/service_locator.dart';
+import 'package:tech_nest/app/service_locator.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -105,7 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(height: AppSpacing.xl),
                 AskNavigationWidget(
-                  question: context.t.auth.haveAccount,
+                  question: context.t.auth.alreadyHaveAccount,
                   screenLabel: context.t.auth.login,
                   onTap: () => context.go(Routes.loginScreenPath),
                 ),
@@ -140,9 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       return SizedBox(
         height: AppSpacing.xxl + AppSpacing.lg,
         child: Center(
-          child: CircularProgressIndicator(
-            color: context.colorScheme.primary,
-          ),
+          child: CircularProgressIndicator(color: context.colorScheme.primary),
         ),
       );
     }
@@ -177,4 +175,3 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 }
-

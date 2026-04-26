@@ -8,7 +8,7 @@ class ThemeCubit extends Cubit<ThemeState> {
   final CacheService _cacheService;
 
   ThemeCubit(this._cacheService)
-    : super(const ThemeState(mode: ThemeMode.light)) {
+    : super(const ThemeState(mode: ThemeMode.system)) {
     _loadTheme();
   }
 

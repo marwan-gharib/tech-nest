@@ -15,7 +15,7 @@ import 'package:tech_nest/features/home/presentation/widgets/filter_section_head
 import 'package:tech_nest/features/home/presentation/widgets/radio_buttons_group.dart';
 import 'package:tech_nest/features/products/presentation/models/filter_data.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/service_locator.dart';
+import 'package:tech_nest/app/service_locator.dart';
 
 class FilterComponents extends StatefulWidget {
   final FilterData filterData;

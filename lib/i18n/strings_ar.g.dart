@@ -98,7 +98,6 @@ class _TranslationsAuthAr implements TranslationsAuthEn {
 	@override String get forgotPassword => 'هل نسيت كلمة المرور؟';
 	@override String get dontHaveAccount => 'مستخدم جديد؟';
 	@override String get alreadyHaveAccount => 'لديك حساب بالفعل؟';
-	@override String get haveAccount => 'لديك حساب؟';
 	@override String get resetPassword => 'إعادة تعيين كلمة المرور';
 	@override String get resetPasswordPrompt => 'أدخل بريدك الإلكتروني لتلقي رابط إعادة تعيين كلمة المرور.';
 	@override String get resetPasswordSuccess => 'أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.';
@@ -400,7 +399,6 @@ extension on TranslationsAr {
 			'auth.forgotPassword' => 'هل نسيت كلمة المرور؟',
 			'auth.dontHaveAccount' => 'مستخدم جديد؟',
 			'auth.alreadyHaveAccount' => 'لديك حساب بالفعل؟',
-			'auth.haveAccount' => 'لديك حساب؟',
 			'auth.resetPassword' => 'إعادة تعيين كلمة المرور',
 			'auth.resetPasswordPrompt' => 'أدخل بريدك الإلكتروني لتلقي رابط إعادة تعيين كلمة المرور.',
 			'auth.resetPasswordSuccess' => 'أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.',

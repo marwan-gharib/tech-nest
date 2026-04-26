@@ -5,7 +5,6 @@ import 'package:tech_nest/core/animations/page_transitions.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/routing/routes.dart';
-import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/app_shell/presentation/app_shell_entry.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
@@ -31,7 +30,7 @@ import 'package:tech_nest/features/products/domain/entities/product_entity.dart'
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';
 import 'package:tech_nest/features/settings/presentation/screens/settings_screen.dart';
-import 'package:tech_nest/service_locator.dart';
+import 'package:tech_nest/app/service_locator.dart';
 
 class AppRouter {
   static final AuthNotifier _authNotifier = sl<AuthNotifier>();
@@ -59,32 +58,28 @@ class AppRouter {
     ],
     refreshListenable: _authNotifier,
     redirect: (context, state) {
-      AppLogger.log(state.matchedLocation);
-
       final bool hasSeenOnboarding =
           sl<CacheService>().get(AppConstants.onboardingKey) as bool? ?? false;
 
-      if (!hasSeenOnboarding &&
-          state.matchedLocation != Routes.onboardingScreenPath) {
-        return Routes.onboardingScreenPath;
-      }
-
-      if (hasSeenOnboarding &&
-          state.matchedLocation == Routes.onboardingScreenPath) {
-        return Routes.loginScreenPath;
-      }
-
       final bool isAuth = _authNotifier.isAuth;
+
       final authRoutes = [Routes.loginScreenPath, Routes.signUpScreenPath];
       final bool isAuthRoute = authRoutes.contains(state.matchedLocation);
 
-      if (!isAuth &&
-          !isAuthRoute &&
-          state.matchedLocation != Routes.onboardingScreenPath) {
-        return Routes.loginScreenPath;
-      } else if (isAuth && isAuthRoute) {
+      if (!hasSeenOnboarding) {
+        return state.matchedLocation == Routes.onboardingScreenPath
+            ? null
+            : Routes.onboardingScreenPath;
+      }
+
+      if (!isAuth) {
+        return isAuthRoute ? null : Routes.loginScreenPath;
+      }
+
+      if (isAuth && isAuthRoute) {
         return Routes.homeScreenPath;
       }
+
       return null;
     },
   );

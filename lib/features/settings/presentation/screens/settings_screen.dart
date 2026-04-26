@@ -15,7 +15,7 @@ import 'package:tech_nest/features/settings/presentation/widgets/settings_sectio
 import 'package:tech_nest/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/theme_selector.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/service_locator.dart';
+import 'package:tech_nest/app/service_locator.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -24,10 +24,7 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          context.t.settings.title,
-          style: context.headlineMedium,
-        ),
+        title: Text(context.t.settings.title, style: context.headlineMedium),
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -97,4 +94,3 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 }
-

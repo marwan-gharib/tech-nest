@@ -142,14 +142,11 @@ class TranslationsAuthEn {
 	/// en: 'Forgot Password?'
 	String get forgotPassword => 'Forgot Password?';
 
-	/// en: 'New here?'
-	String get dontHaveAccount => 'New here?';
+	/// en: 'Don't have an account?'
+	String get dontHaveAccount => 'Don\'t have an account?';
 
 	/// en: 'Already have an account?'
 	String get alreadyHaveAccount => 'Already have an account?';
-
-	/// en: 'Have an account?'
-	String get haveAccount => 'Have an account?';
 
 	/// en: 'Reset Password'
 	String get resetPassword => 'Reset Password';
@@ -666,9 +663,8 @@ extension on Translations {
 			'auth.password' => 'Password',
 			'auth.confirmPassword' => 'Confirm Password',
 			'auth.forgotPassword' => 'Forgot Password?',
-			'auth.dontHaveAccount' => 'New here?',
+			'auth.dontHaveAccount' => 'Don\'t have an account?',
 			'auth.alreadyHaveAccount' => 'Already have an account?',
-			'auth.haveAccount' => 'Have an account?',
 			'auth.resetPassword' => 'Reset Password',
 			'auth.resetPasswordPrompt' => 'Enter your email to receive a password reset link.',
 			'auth.resetPasswordSuccess' => 'We\'ve sent a password reset link to your email.',
