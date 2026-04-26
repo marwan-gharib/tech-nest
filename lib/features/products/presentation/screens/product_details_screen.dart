@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
@@ -33,7 +34,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final product = widget.product;
 
     return Scaffold(
@@ -51,11 +51,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               width: double.infinity,
               height: MediaQuery.sizeOf(context).height * 0.45,
               decoration: BoxDecoration(
-                color: theme.scaffoldBackgroundColor,
+                color: context.colors.background,
                 borderRadius: AppRadius.sheet,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
+                    color: context.colors.textPrimary.withValues(alpha: 0.05),
                     blurRadius: AppRadius.sm,
                     offset: const Offset(0, -5),
                   ),
@@ -146,3 +146,4 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }
   }
 }
+

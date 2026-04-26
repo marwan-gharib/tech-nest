@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class CustomPriceField extends StatefulWidget {
   final TextEditingController controller;
@@ -42,7 +43,6 @@ class _CustomPriceFieldState extends State<CustomPriceField> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final isError = widget.errorText != null;
 
     return Column(
@@ -55,21 +55,21 @@ class _CustomPriceFieldState extends State<CustomPriceField> {
             borderRadius: BorderRadius.circular(AppRadius.lg),
             border: Border.all(
               color: isError
-                  ? theme.colorScheme.error
+                  ? context.colorScheme.error
                   : _isFocused
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.outlineVariant.withValues(alpha: 0.4),
+                  ? context.colorScheme.primary
+                  : context.colors.border,
               width: _isFocused || isError ? 1.5 : 1.0,
             ),
             color: isError
-                ? theme.colorScheme.error.withValues(alpha: 0.04)
+                ? context.colorScheme.error.withValues(alpha: 0.04)
                 : _isFocused
-                ? theme.colorScheme.primary.withValues(alpha: 0.04)
-                : theme.colorScheme.surfaceContainerLow.withValues(alpha: 0.5),
+                ? context.colorScheme.primary.withValues(alpha: 0.04)
+                : context.colors.surface,
             boxShadow: _isFocused && !isError
                 ? [
                     BoxShadow(
-                      color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                      color: context.colorScheme.primary.withValues(alpha: 0.1),
                       blurRadius: 8,
                       offset: const Offset(0, 3),
                     ),
@@ -81,11 +81,11 @@ class _CustomPriceFieldState extends State<CustomPriceField> {
             focusNode: _focusNode,
             onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
             cursorColor: isError
-                ? theme.colorScheme.error
-                : theme.colorScheme.primary,
+                ? context.colorScheme.error
+                : context.colorScheme.primary,
             keyboardType: const TextInputType.numberWithOptions(decimal: false),
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            style: theme.textTheme.bodyLarge?.copyWith(
+            style: context.bodyLarge.copyWith(
               fontWeight: FontWeight.w500,
             ),
             decoration: InputDecoration(
@@ -99,14 +99,12 @@ class _CustomPriceFieldState extends State<CustomPriceField> {
                 ),
                 child: Text(
                   '\$',
-                  style: theme.textTheme.bodyLarge!.copyWith(
+                  style: context.bodyLarge.copyWith(
                     color: isError
-                        ? theme.colorScheme.error
+                        ? context.colorScheme.error
                         : _isFocused
-                        ? theme.colorScheme.primary
-                        : theme.colorScheme.onSurfaceVariant.withValues(
-                            alpha: 0.6,
-                          ),
+                        ? context.colorScheme.primary
+                        : context.colors.textSecondary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -116,10 +114,8 @@ class _CustomPriceFieldState extends State<CustomPriceField> {
                 minHeight: 0,
               ),
               hintText: widget.label,
-              hintStyle: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant.withValues(
-                  alpha: 0.4,
-                ),
+              hintStyle: context.bodyMedium.copyWith(
+                color: context.colors.textSecondary.withValues(alpha: 0.5),
               ),
               contentPadding: const EdgeInsets.symmetric(
                 vertical: AppSpacing.md,
@@ -136,8 +132,8 @@ class _CustomPriceFieldState extends State<CustomPriceField> {
             ),
             child: Text(
               widget.errorText!,
-              style: theme.textTheme.labelSmall?.copyWith(
-                color: theme.colorScheme.error,
+              style: context.labelSmall.copyWith(
+                color: context.colorScheme.error,
               ),
             ),
           ),
@@ -145,3 +141,4 @@ class _CustomPriceFieldState extends State<CustomPriceField> {
     );
   }
 }
+

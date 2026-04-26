@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class SkeletonCard extends StatelessWidget {
   static const double _cardHeight = 200.0;
@@ -10,14 +11,11 @@ class SkeletonCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return SkeletonizerConfig(
       data: SkeletonizerConfigData(
         effect: ShimmerEffect(
-          baseColor: colorScheme.surfaceContainerHighest,
-          highlightColor: colorScheme.surface,
+          baseColor: context.colors.shimmerBase,
+          highlightColor: context.colors.shimmerHighlight,
           duration: const Duration(milliseconds: 1500),
         ),
       ),
@@ -26,11 +24,11 @@ class SkeletonCard extends StatelessWidget {
         child: Container(
           height: _cardHeight,
           decoration: BoxDecoration(
-            color: colorScheme.surface,
+            color: context.colors.card,
             borderRadius: AppRadius.cardLg,
             boxShadow: [
               BoxShadow(
-                color: theme.shadowColor.withValues(alpha: 0.05),
+                color: context.colors.textPrimary.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -78,3 +76,4 @@ class SkeletonCard extends StatelessWidget {
     );
   }
 }
+

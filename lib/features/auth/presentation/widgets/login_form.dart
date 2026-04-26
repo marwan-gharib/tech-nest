@@ -5,6 +5,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/utils/validators.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
@@ -30,8 +31,6 @@ class LoginForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Form(
       key: formKey,
       child: Column(
@@ -70,8 +69,8 @@ class LoginForm extends StatelessWidget {
                   listener: _forgetPasswordListener,
                   child: Text(
                     context.t.auth.forgotPassword,
-                    style: theme.textTheme.labelMedium!.copyWith(
-                      color: theme.colorScheme.primary,
+                    style: context.labelMedium.copyWith(
+                      color: context.colorScheme.primary,
                     ),
                   ),
                 ),
@@ -121,8 +120,9 @@ class LoginForm extends StatelessWidget {
       dismissOnTouchOutside: false,
       dialogType: DialogType.noHeader,
       body: Center(
-        child: SpinKitWaveSpinner(color: Theme.of(context).colorScheme.primary),
+        child: SpinKitWaveSpinner(color: context.colorScheme.primary),
       ),
     ).show();
   }
 }
+

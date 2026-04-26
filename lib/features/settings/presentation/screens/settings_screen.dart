@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/constants/links.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/utils/lanch_url.dart';
 import 'package:tech_nest/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
 import 'package:tech_nest/features/settings/presentation/cubits/user_profile/user_profile_cubit.dart';
@@ -25,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           context.t.settings.title,
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: context.headlineMedium,
         ),
         centerTitle: true,
         elevation: 0,
@@ -96,3 +97,4 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 }
+

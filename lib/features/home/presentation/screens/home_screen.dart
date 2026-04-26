@@ -10,6 +10,7 @@ import 'package:tech_nest/features/home/presentation/widgets/home_app_bar.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/features/products/presentation/models/filter_data.dart';
 import 'package:tech_nest/features/products/presentation/widgets/shared/products_grid.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -59,10 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
+      backgroundColor: context.colorScheme.surface,
       body: BlocListener<LocaleCubit, LocaleState>(
         listenWhen: (previous, current) => previous.locale != current.locale,
         listener: (context, state) {
@@ -122,9 +121,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _scrollToTop() {
     final double currentOffset = _scrollController.offset;
-    final int durationMs = (500 + (currentOffset * 0.4))
-        .clamp(500, 3000)
-        .toInt();
+    final int durationMs =
+        (500 + (currentOffset * 0.4)).clamp(500, 3000).toInt();
 
     _scrollController.animateTo(
       0,
@@ -138,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     await showModalBottomSheet(
       context: context,
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
+      backgroundColor: context.colors.surface,
       isDismissible: true,
       enableDrag: true,
       showDragHandle: true,
@@ -161,3 +159,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+

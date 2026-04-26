@@ -8,6 +8,7 @@ import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 
@@ -21,17 +22,14 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Container(
       height: _cardHeight,
       decoration: BoxDecoration(
-        color: colorScheme.surface,
+        color: context.colors.card,
         borderRadius: AppRadius.cardLg,
         boxShadow: [
           BoxShadow(
-            color: theme.shadowColor.withValues(alpha: 0.05),
+            color: context.colors.textPrimary.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -60,10 +58,10 @@ class ProductCard extends StatelessWidget {
                       height: double.infinity,
                     ),
                     errorWidget: (context, url, error) => Container(
-                      color: colorScheme.surfaceContainerHighest,
+                      color: context.colors.shimmerBase,
                       child: Icon(
                         Icons.broken_image_outlined,
-                        color: colorScheme.outline,
+                        color: context.colors.textSecondary,
                       ),
                     ),
                   ),
@@ -84,7 +82,7 @@ class ProductCard extends StatelessWidget {
                         product.name,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.titleSmall?.copyWith(
+                        style: context.labelLarge.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -112,8 +110,6 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget _addToCartButton(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return ScaleTap(
       onTap: product.stock > 0
           ? () {
@@ -125,18 +121,19 @@ class ProductCard extends StatelessWidget {
         padding: const EdgeInsets.all(AppSpacing.xs),
         decoration: BoxDecoration(
           color: product.stock > 0
-              ? colorScheme.primaryContainer
-              : colorScheme.surfaceContainerHighest,
+              ? context.colorScheme.primary
+              : context.colors.shimmerBase,
           shape: BoxShape.circle,
         ),
         child: Icon(
           Icons.add_rounded,
           size: 18,
           color: product.stock > 0
-              ? colorScheme.onPrimaryContainer
-              : colorScheme.outline,
+              ? context.colorScheme.onPrimary
+              : context.colors.textSecondary,
         ),
       ),
     );
   }
 }
+

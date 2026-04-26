@@ -6,6 +6,7 @@ import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class CustomSnackBar {
@@ -25,19 +26,17 @@ class CustomSnackBar {
           content: Text(
             message,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onSurface,
+            style: context.bodyMedium.copyWith(
+              color: context.colors.textPrimary,
             ),
           ),
           dismissDirection: DismissDirection.horizontal,
-          backgroundColor: Theme.of(
-            context,
-          ).colorScheme.surfaceContainerHighest,
+          backgroundColor: context.colors.surface,
           padding: const EdgeInsets.all(AppSpacing.md),
           behavior: SnackBarBehavior.floating,
           margin: EdgeInsets.only(
             bottom: isAbove
-                ? MediaQuery.of(context).size.height * 0.86
+                ? MediaQuery.sizeOf(context).height * 0.86
                 : AppSpacing.xxl,
             left: AppSpacing.xl,
             right: AppSpacing.xl,
@@ -82,3 +81,4 @@ class CustomSnackBar {
     show(context, message: message, isAbove: isAbove);
   }
 }
+

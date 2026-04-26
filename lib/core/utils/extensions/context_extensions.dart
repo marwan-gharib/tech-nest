@@ -8,5 +8,17 @@ extension ThemeContextExtensions on BuildContext {
 
   ColorScheme get colorScheme => theme.colorScheme;
 
-  AppColorsExtension get colors => theme.extension<AppColorsExtension>()!;
+  AppColorsExtension get colors =>
+      theme.extension<AppColorsExtension>() ??
+      (throw Exception('AppColorsExtension not found in theme'));
+
+  // Common Text Styles (Non-nullable for better DX)
+  TextStyle get headlineLarge => textTheme.headlineLarge!;
+  TextStyle get headlineMedium => textTheme.headlineMedium!;
+  TextStyle get bodyLarge => textTheme.bodyLarge!;
+  TextStyle get bodyMedium => textTheme.bodyMedium!;
+  TextStyle get labelLarge => textTheme.labelLarge!;
+  TextStyle get labelMedium => textTheme.labelMedium!;
+  TextStyle get labelSmall => textTheme.labelSmall!;
 }
+

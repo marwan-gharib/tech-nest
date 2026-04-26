@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/custom_skeleton_list.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
@@ -20,11 +21,9 @@ class LeftCategorySidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
       decoration: BoxDecoration(
-        border: Border(right: BorderSide(color: theme.colorScheme.outline)),
+        border: Border(right: BorderSide(color: context.colors.border)),
       ),
       child: BlocConsumer<FetchCategoriesCubit, FetchCategoriesState>(
         listenWhen: (previous, current) =>
@@ -82,3 +81,4 @@ class LeftCategorySidebar extends StatelessWidget {
     );
   }
 }
+

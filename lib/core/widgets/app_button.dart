@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/animations/scale_tap.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class AppButton extends StatelessWidget {
   final VoidCallback? onTap;
@@ -22,15 +23,15 @@ class AppButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
         decoration: BoxDecoration(
           color: isEnabled
-              ? Theme.of(context).colorScheme.primary
-              : Theme.of(context).colorScheme.primary.withValues(alpha: 0.5),
+              ? context.colorScheme.primary
+              : context.colorScheme.primary.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(AppRadius.full),
         ),
         child: Center(
           child: Text(
             text,
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: Theme.of(context).colorScheme.onPrimary,
+            style: context.labelLarge.copyWith(
+              color: context.colorScheme.onPrimary,
             ),
           ),
         ),
@@ -38,3 +39,4 @@ class AppButton extends StatelessWidget {
     );
   }
 }
+

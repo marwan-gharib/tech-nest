@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/error/failures/cache_failure.dart';
+import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/error/failures/network_failure.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class RemoteDataFailureView extends StatelessWidget {
   const RemoteDataFailureView({
@@ -23,15 +24,12 @@ class RemoteDataFailureView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final isNetworkFailure = failure is NetworkFailure;
     final t = context.t;
-    
+
     final title =
         titleOverride ??
-        (isNetworkFailure
-            ? t.errors.noInternet
-            : t.errors.requestFailed);
+        (isNetworkFailure ? t.errors.noInternet : t.errors.requestFailed);
 
     String? displayMessage;
     if (!isNetworkFailure) {
@@ -39,7 +37,8 @@ class RemoteDataFailureView extends StatelessWidget {
         displayMessage = t.errors.cacheError;
       } else if (failure is ServerFailure || failure is UnknownFailure) {
         if (failure.message.isEmpty ||
-            failure.message == "An unexpected error occurred. Please try again.") {
+            failure.message ==
+                "An unexpected error occurred. Please try again.") {
           displayMessage = t.errors.unknownError;
         } else {
           displayMessage = failure.message;
@@ -61,20 +60,20 @@ class RemoteDataFailureView extends StatelessWidget {
                   ? Icons.wifi_off_rounded
                   : Icons.error_outline_rounded,
               size: iconSize,
-              color: theme.colorScheme.error,
+              color: context.colorScheme.error,
             ),
             SizedBox(height: compact ? AppSpacing.sm : AppSpacing.md),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodyLarge,
+              style: context.bodyLarge,
             ),
             if (displayMessage != null) ...[
               SizedBox(height: compact ? AppSpacing.xs : AppSpacing.sm),
               Text(
                 displayMessage,
                 textAlign: TextAlign.center,
-                style: theme.textTheme.bodySmall,
+                style: context.textTheme.bodySmall!,
               ),
             ],
             SizedBox(height: compact ? AppSpacing.sm : AppSpacing.md),
@@ -93,3 +92,4 @@ class RemoteDataFailureView extends StatelessWidget {
     );
   }
 }
+
