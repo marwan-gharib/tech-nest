@@ -1,10 +1,10 @@
 {
   "common": {
-    "retry": "Retry",
+    "retry": "Try Again",
     "cancel": "Cancel",
     "all": "All",
     "ok": "OK",
-    "error": "Something went wrong",
+    "error": "Something went wrong. Please try again.",
     "yes": "Yes",
     "no": "No"
   },
@@ -16,29 +16,29 @@
     "orders": "Orders"
   },
   "auth": {
-    "login": "Login",
+    "login": "Log In",
     "signUp": "Sign Up",
     "fullName": "Full Name",
-    "enterName": "Enter your name",
-    "email": "E-mail Address",
-    "emailHint": "example@email.com",
+    "enterName": "Enter your full name",
+    "email": "Email Address",
+    "emailHint": "name@example.com",
     "password": "Password",
     "confirmPassword": "Confirm Password",
-    "forgotPassword": "Forget password",
-    "dontHaveAccount": "Don't have an account?",
+    "forgotPassword": "Forgot Password?",
+    "dontHaveAccount": "New here?",
     "alreadyHaveAccount": "Already have an account?",
     "haveAccount": "Have an account?",
     "resetPassword": "Reset Password",
-    "resetPasswordPrompt": "Please enter a valid email to reset password",
-    "resetPasswordSuccess": "Password reset email sent successfully.",
-    "selectProfileImage": "Please select a profile image.",
-    "verifyEmailTitle": "Verify your E-mail address",
+    "resetPasswordPrompt": "Enter your email to receive a password reset link.",
+    "resetPasswordSuccess": "We've sent a password reset link to your email.",
+    "selectProfileImage": "Please select a profile picture.",
+    "verifyEmailTitle": "Verify Your Email",
     "verifyEmail": "Verify Email",
-    "enterCode": "Enter code",
-    "invalidCode": "Invalid verification code",
-    "logout": "Logout",
+    "enterCode": "Enter verification code",
+    "invalidCode": "The code you entered is invalid. Please check and try again.",
+    "logout": "Log Out",
     "privacyPolicy": {
-      "accept": "By Creating an Account, i accept Tech Nest ",
+      "accept": "By creating an account, you agree to Tech Nest's ",
       "terms": "Terms of Use",
       "and": " and ",
       "policy": "Privacy Policy"
@@ -46,7 +46,7 @@
   },
   "home": {
     "discover": "Discover",
-    "search": "Search products...",
+    "search": "Search for products...",
     "filters": "Filters",
     "categories": "Categories",
     "priceRange": "Price Range",
@@ -57,8 +57,8 @@
       "price": "Price"
     },
     "orderTypes": {
-      "asc": "Ascending",
-      "desc": "Descending"
+      "asc": "Low to High",
+      "desc": "High to Low"
     },
     "applyFilters(cardinal, n)": {
       "zero": "Apply Filters",
@@ -71,57 +71,62 @@
     "maxPrice": "Max Price"
   },
   "products": {
-    "category": "Category: $category",
+    "category": "$category Products",
     "inStock(cardinal, n)": {
-      "one": "In Stock (1)",
-      "other": "In Stock ($n)"
+      "one": "Only 1 left in stock!",
+      "other": "$n in stock"
     },
     "outOfStock": "Out of Stock",
     "addToCart": "Add to Cart",
-    "updateCart": "Update Cart Quantity",
-    "description": "Description"
+    "updateCart": "Update Quantity",
+    "description": "Product Description",
+    "loadMoreFailed": "We couldn't load more products. Tap to retry."
   },
   "cart": {
     "title": "My Cart",
     "empty": "Your cart is empty",
-    "emptyDesc": "Looks like you haven't added anything to your cart yet. Explore our products and find something you love!",
+    "emptyDesc": "Looks like you haven't added anything yet. Explore our products and find something you love!",
     "startShopping": "Start Shopping",
     "summary": "Order Summary",
     "subtotal": "Subtotal",
     "total": "Total",
     "items": "Items",
-    "delivery": "Delivery Charges",
+    "delivery": "Delivery",
     "free": "Free",
-    "checkout": "Checkout"
+    "checkout": "Proceed to Checkout",
+    "clearCartTitle": "Clear Cart",
+    "clearCartConfirm": "Are you sure you want to remove all items from your cart?",
+    "clearCartYes": "Yes, clear it",
+    "clearCartNo": "No, keep items"
   },
   "settings": {
     "title": "Settings",
-    "preferences": "Preferences",
-    "theme": "App Theme",
-    "darkMode": "Dark Mode",
-    "lightMode": "Light Mode",
-    "systemMode": "System Mode",
+    "preferences": "App Preferences",
+    "theme": "Appearance",
+    "darkMode": "Dark Theme",
+    "lightMode": "Light Theme",
+    "systemMode": "System Default",
     "notifications": "Notifications",
     "help": "Help & Support",
-    "about": "About App",
-    "logout": "Logout",
+    "about": "About Tech Nest",
+    "logout": "Log Out",
     "logoutConfirm": "Are you sure you want to log out?",
-    "logoutDesc": "You will be redirected to the login screen.",
+    "logoutDesc": "You will need to enter your credentials to access your account again.",
     "version": "Version $version",
     "language": "Language",
     "english": "English",
     "arabic": "Arabic",
-    "more": "More"
+    "more": "More Options"
   },
   "errors": {
-    "noInternet": "No Internet Connection",
-    "requestFailed": "Request Failed",
+    "noInternet": "No internet connection. Please check your network.",
+    "requestFailed": "Request failed. Please try again later.",
     "noResults": "No results found",
-    "noResultsSearch": "We couldn't find what you're looking for. Try a different search.",
-    "noResultsFilter": "We couldn't find any products matching your filters. Try adjusting your filters.",
-    "loadMoreFailed": "Could not load more products",
+    "noResultsSearch": "We couldn't find anything matching your search. Try different keywords.",
+    "noResultsFilter": "We couldn't find any products matching your filters. Try adjusting them.",
+    "loadMoreFailed": "Could not load more items.",
     "cacheError": "Unable to load saved data.",
-    "unknownError": "An unexpected error occurred. Please try again."
+    "unknownError": "Oops! Something went wrong. Please try again."
   },
   "onboarding": {
     "skip": "Skip",
@@ -129,11 +134,11 @@
     "pages": [
       {
         "title": "Discover Tech",
-        "description": "Find the latest and greatest in consumer electronics and tech gadgets."
+        "description": "Find the latest and greatest in consumer electronics and smart gadgets."
       },
       {
         "title": "Secure Payments",
-        "description": "Pay safely with our secure payment gateways and trusted providers."
+        "description": "Shop with confidence using our secure payment gateways."
       },
       {
         "title": "Fast Delivery",
@@ -145,24 +150,26 @@
     "title": "Checkout",
     "selectLocation": "Select Delivery Location",
     "confirmLocation": "Confirm Location",
-    "selectAddressError": "Please select an address",
-    "addressLabel": "Selected Address",
-    "detectingLocation": "Detecting location...",
-    "locationError": "Unable to determine location"
+    "selectAddressError": "Please select a delivery address to continue.",
+    "addressLabel": "Delivering to",
+    "detectingLocation": "Detecting your location...",
+    "locationError": "We couldn't determine your location. Please select it manually."
   },
   "orders": {
     "title": "My Orders",
     "details": "Order Details",
     "cancelOrder": "Cancel Order",
-    "cancelSuccess": "Order cancelled successfully",
+    "cancelSuccess": "Your order has been cancelled successfully.",
     "cancelConfirm": "Are you sure you want to cancel this order?",
-    "cancelYes": "Yes, Cancel",
-    "cancelNo": "No, Keep",
-    "emptyState": "You don't have any orders yet",
-    "date": "Ordered on: $date",
+    "cancelYes": "Yes, Cancel Order",
+    "cancelNo": "No, Keep It",
+    "emptyState": "You haven't placed any orders yet.",
+    "date": "Ordered on $date",
     "shippingAddress": "Shipping Address",
     "billingAddress": "Billing Address",
     "orderItems": "Order Items",
+    "pickLocation": "Pick the Delivery Location",
+    "confirmOrder": "Confirm Order",
     "status": {
       "pending": "Pending",
       "confirmed": "Confirmed",

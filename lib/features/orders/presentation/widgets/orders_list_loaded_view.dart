@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/animations/animate_once_wrapper.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/features/orders/domain/entities/order_entity.dart';
@@ -25,10 +26,16 @@ class OrdersListLoadedView extends StatelessWidget {
           padding: const EdgeInsets.all(AppSpacing.md),
           itemCount: orders.length,
           itemBuilder: (context, index) {
-            return FadeInSlide(
-              duration: const Duration(milliseconds: 400),
-              delay: Duration(milliseconds: index * 50),
-              child: OrderListItem(order: orders[index]),
+            final order = orders[index];
+            return AnimateOnceWrapper(
+              namespace: 'orders_list',
+              id: 'order_item_${order.id}',
+              child: OrderListItem(order: order),
+              animationBuilder: (context, child) => FadeInSlide(
+                duration: const Duration(milliseconds: 400),
+                delay: Duration(milliseconds: index * 50),
+                child: child,
+              ),
             );
           },
         ),
@@ -36,3 +43,4 @@ class OrdersListLoadedView extends StatelessWidget {
     );
   }
 }
+

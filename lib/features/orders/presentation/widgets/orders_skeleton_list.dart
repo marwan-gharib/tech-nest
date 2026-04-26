@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class OrdersSkeletonList extends StatelessWidget {
   const OrdersSkeletonList({super.key});
@@ -26,7 +27,7 @@ class OrdersSkeletonList extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Order #1234', style: context.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
+                      Text(context.t.orders.details, style: context.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
                       Container(
                         width: 80,
                         height: 24,
@@ -35,12 +36,12 @@ class OrdersSkeletonList extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: AppSpacing.sm),
-                  Text('Ordered on: 12/12/2026', style: context.bodyMedium),
+                  Text(context.t.orders.date(date: '12/12/2026'), style: context.bodyMedium),
                   const SizedBox(height: AppSpacing.md),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Total', style: context.bodyMedium),
+                      Text(context.t.cart.total, style: context.bodyMedium),
                       Text('\$150.00', style: context.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
                     ],
                   ),

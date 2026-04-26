@@ -1,44 +1,44 @@
 {
   "common": {
-    "retry": "إعادة المحاولة",
+    "retry": "حاول مرة أخرى",
     "cancel": "إلغاء",
     "all": "الكل",
-    "ok": "حسناً",
-    "error": "حدث خطأ ما",
+    "ok": "موافق",
+    "error": "حدث خطأ ما. يرجى المحاولة لاحقاً.",
     "yes": "نعم",
     "no": "لا"
   },
   "nav": {
     "home": "الرئيسية",
-    "cart": "السله",
-    "categories": "الأقسام",
+    "cart": "السلة",
+    "categories": "التصنيفات",
     "settings": "الإعدادات",
-    "orders": "طلباتي"
+    "orders": "الطلبات"
   },
   "auth": {
     "login": "تسجيل الدخول",
     "signUp": "إنشاء حساب",
     "fullName": "الاسم الكامل",
-    "enterName": "أدخل اسمك",
+    "enterName": "أدخل اسمك الكامل",
     "email": "البريد الإلكتروني",
-    "emailHint": "example@email.com",
+    "emailHint": "name@example.com",
     "password": "كلمة المرور",
     "confirmPassword": "تأكيد كلمة المرور",
     "forgotPassword": "هل نسيت كلمة المرور؟",
-    "dontHaveAccount": "ليس لديك حساب؟",
+    "dontHaveAccount": "مستخدم جديد؟",
     "alreadyHaveAccount": "لديك حساب بالفعل؟",
-    "haveAccount": "هل لديك حساب؟",
+    "haveAccount": "لديك حساب؟",
     "resetPassword": "إعادة تعيين كلمة المرور",
-    "resetPasswordPrompt": "يرجى إدخال بريد إلكتروني صالح لإعادة تعيين كلمة المرور",
-    "resetPasswordSuccess": "تم إرسال بريد إعادة تعيين كلمة المرور بنجاح.",
-    "selectProfileImage": "يرجى اختيار صورة الملف الشخصي.",
-    "verifyEmailTitle": "تحقق من بريدك الإلكتروني",
-    "verifyEmail": "التحقق من البريد",
-    "enterCode": "أدخل الرمز",
-    "invalidCode": "رمز التحقق غير صالح",
+    "resetPasswordPrompt": "أدخل بريدك الإلكتروني لتلقي رابط إعادة تعيين كلمة المرور.",
+    "resetPasswordSuccess": "أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.",
+    "selectProfileImage": "يرجى اختيار صورة شخصية.",
+    "verifyEmailTitle": "تأكيد البريد الإلكتروني",
+    "verifyEmail": "تأكيد",
+    "enterCode": "أدخل رمز التحقق",
+    "invalidCode": "الرمز الذي أدخلته غير صالح. يرجى التحقق والمحاولة مرة أخرى.",
     "logout": "تسجيل الخروج",
     "privacyPolicy": {
-      "accept": "بإنشاء حساب، أوافق على Tech Nest ",
+      "accept": "بإنشاء حساب، أنت توافق على ",
       "terms": "شروط الاستخدام",
       "and": " و ",
       "policy": "سياسة الخصوصية"
@@ -46,94 +46,106 @@
   },
   "home": {
     "discover": "اكتشف",
-    "search": "بحث عن المنتجات...",
-    "filters": "الفلاتر",
-    "categories": "الأقسام",
+    "search": "ابحث عن المنتجات...",
+    "filters": "تصفية",
+    "categories": "التصنيفات",
     "priceRange": "نطاق السعر",
-    "sortBy": "فرز حسب",
-    "orderBy": "ترتيب حسب",
+    "sortBy": "ترتيب حسب",
+    "orderBy": "الترتيب",
     "sortTypes": {
       "name": "الاسم",
       "price": "السعر"
     },
     "orderTypes": {
-      "asc": "تصاعدي",
-      "desc": "تنازلي"
+      "asc": "من الأقل للأعلى",
+      "desc": "من الأعلى للأقل"
     },
     "applyFilters(cardinal, n)": {
-      "zero": "تطبيق الفلاتر",
-      "one": "تطبيق فلتر 1",
-      "other": "تطبيق $n فلاتر"
+      "zero": "تطبيق التصفية",
+      "one": "تطبيق تصفية واحدة",
+      "two": "تطبيق تصفيتين",
+      "few": "تطبيق $n تصفيات",
+      "many": "تطبيق $n تصفية",
+      "other": "تطبيق $n تصفية"
     },
-    "activeFilters": "الفلاتر النشطة",
+    "activeFilters": "التصفيات النشطة",
     "clearAll": "مسح الكل",
-    "minPrice": "أقل سعر",
-    "maxPrice": "أعلى سعر"
+    "minPrice": "الحد الأدنى للسعر",
+    "maxPrice": "الحد الأقصى للسعر"
   },
   "products": {
-    "category": "القسم: $category",
+    "category": "منتجات $category",
     "inStock(cardinal, n)": {
-      "one": "متوفر (1)",
-      "other": "متوفر ($n)"
+      "zero": "نفذت الكمية",
+      "one": "تبقى قطعة واحدة فقط!",
+      "two": "تبقى قطعتان",
+      "few": "متوفر $n قطع",
+      "many": "متوفر $n قطعة",
+      "other": "متوفر $n"
     },
-    "outOfStock": "غير متوفر",
+    "outOfStock": "نفذت الكمية",
     "addToCart": "أضف إلى السلة",
-    "updateCart": "تحديث كمية السلة",
-    "description": "الوصف"
+    "updateCart": "تحديث الكمية",
+    "description": "وصف المنتج",
+    "loadMoreFailed": "لم نتمكن من تحميل المزيد من المنتجات. اضغط للمحاولة مرة أخرى."
   },
   "cart": {
     "title": "سلتي",
-    "empty": "سلة التسوق فارغة",
-    "emptyDesc": "يبدو أنك لم تضف أي شيء إلى سلتك بعد. استكشف منتجاتنا واعثر على شيء تحبه!",
+    "empty": "سلتك فارغة",
+    "emptyDesc": "يبدو أنك لم تضف أي شيء إلى سلتك بعد. استكشف منتجاتنا وابحث عن شيء يعجبك!",
     "startShopping": "ابدأ التسوق",
     "summary": "ملخص الطلب",
     "subtotal": "المجموع الفرعي",
-    "total": "المجموع",
-    "items": "المنتجات",
-    "delivery": "رسوم التوصيل",
+    "total": "الإجمالي",
+    "items": "العناصر",
+    "delivery": "التوصيل",
     "free": "مجاني",
-    "checkout": "إتمام الشراء"
+    "checkout": "متابعة الدفع",
+    "clearCartTitle": "إفراغ السلة",
+    "clearCartConfirm": "هل أنت متأكد أنك تريد إزالة جميع العناصر من سلتك؟",
+    "clearCartYes": "نعم، أفرغها",
+    "clearCartNo": "لا، أبقِ العناصر"
   },
   "settings": {
     "title": "الإعدادات",
-    "preferences": "التفضيلات",
-    "theme": "سمة التطبيق",
-    "darkMode": "الوضع الليلي",
+    "preferences": "تفضيلات التطبيق",
+    "theme": "المظهر",
+    "darkMode": "الوضع الداكن",
     "lightMode": "الوضع الفاتح",
-    "systemMode": "حسب النظام",
+    "systemMode": "الوضع الافتراضي للنظام",
     "notifications": "الإشعارات",
     "help": "المساعدة والدعم",
-    "about": "عن التطبيق",
+    "about": "حول التطبيق",
     "logout": "تسجيل الخروج",
-    "logoutConfirm": "أنت متأكد أنك تريد تسجيل الخروج؟",
-    "logoutDesc": "سوف يتم توجيهك إلى شاشة تسجيل الدخول.",
+    "logoutConfirm": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+    "logoutDesc": "ستحتاج إلى إدخال بياناتك مرة أخرى للوصول إلى حسابك.",
     "version": "الإصدار $version",
     "language": "اللغة",
-    "english": "الإنجليزية",
+    "english": "English",
     "arabic": "العربية",
-    "more": "المزيد"
+    "more": "خيارات إضافية"
   },
   "errors": {
-    "noInternet": "لا يوجد اتصال بالإنترنت",
-    "requestFailed": "فشل الطلب",
+    "noInternet": "لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة.",
+    "requestFailed": "فشل الطلب. يرجى المحاولة لاحقاً.",
     "noResults": "لم يتم العثور على نتائج",
-    "noResultsSearch": "لم نتمكن من العثور على أي منتجات مطابقة لبحثك. حاول تعديل كلمات البحث.",
-    "noResultsFilter": "لم نتمكن من العثور على أي منتجات مطابقة للفلاتر الخاصة بك. حاول تعديل الفلاتر.",
-    "loadMoreFailed": "تعذر تحميل المزيد من المنتجات",
+    "noResultsSearch": "لم نتمكن من العثور على ما يطابق بحثك. جرب كلمات مختلفة.",
+    "noResultsFilter": "لم نتمكن من العثور على منتجات تطابق التصفية التي قمت بها. حاول تعديلها.",
+    "loadMoreFailed": "تعذر تحميل المزيد من العناصر.",
     "cacheError": "تعذر تحميل البيانات المحفوظة.",
-    "unknownError": "حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى."
+    "unknownError": "عفواً! حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى."
   },
   "onboarding": {
     "skip": "تخطي",
     "getStarted": "ابدأ الآن",
     "pages": [
       {
-        "title": "اكتشف التكنولوجيا",
-        "description": "ابحث عن أحدث وأفضل الإلكترونيات الاستهلاكية والأدوات التقنية."
+        "title": "اكتشف أحدث التقنيات",
+        "description": "ابحث عن أحدث وأفضل الإلكترونيات والأجهزة الذكية."
       },
       {
-        "title": "مدفوعات آمنة",
-        "description": "ادفع بأمان من خلال بوابات الدفع الآمنة والمزودين الموثوقين."
+        "title": "دفع آمن",
+        "description": "تسوق بثقة باستخدام بوابات الدفع الآمنة الخاصة بنا."
       },
       {
         "title": "توصيل سريع",
@@ -142,27 +154,29 @@
     ]
   },
   "checkout": {
-    "title": "إتمام الشراء",
-    "selectLocation": "حدد موقع التوصيل",
+    "title": "الدفع",
+    "selectLocation": "اختر موقع التوصيل",
     "confirmLocation": "تأكيد الموقع",
-    "selectAddressError": "يرجى اختيار العنوان",
-    "addressLabel": "العنوان المحدد",
-    "detectingLocation": "جاري تحديد الموقع...",
-    "locationError": "تعذر تحديد الموقع"
+    "selectAddressError": "يرجى اختيار عنوان التوصيل للمتابعة.",
+    "addressLabel": "التوصيل إلى",
+    "detectingLocation": "جاري تحديد موقعك...",
+    "locationError": "لم نتمكن من تحديد موقعك. يرجى اختياره يدوياً."
   },
   "orders": {
     "title": "طلباتي",
     "details": "تفاصيل الطلب",
     "cancelOrder": "إلغاء الطلب",
-    "cancelSuccess": "تم إلغاء الطلب بنجاح",
+    "cancelSuccess": "تم إلغاء طلبك بنجاح.",
     "cancelConfirm": "هل أنت متأكد أنك تريد إلغاء هذا الطلب؟",
-    "cancelYes": "نعم، إلغاء",
-    "cancelNo": "لا، احتفاظ",
-    "emptyState": "ليس لديك أي طلبات بعد",
-    "date": "تم الطلب في: $date",
+    "cancelYes": "نعم، ألغِ الطلب",
+    "cancelNo": "لا، أبقِ الطلب",
+    "emptyState": "لم تقم بأي طلبات بعد.",
+    "date": "تاريخ الطلب: $date",
     "shippingAddress": "عنوان الشحن",
-    "billingAddress": "عنوان الدفع",
+    "billingAddress": "عنوان الفواتير",
     "orderItems": "عناصر الطلب",
+    "pickLocation": "اختر موقع التوصيل",
+    "confirmOrder": "تأكيد الطلب",
     "status": {
       "pending": "قيد الانتظار",
       "confirmed": "مؤكد",

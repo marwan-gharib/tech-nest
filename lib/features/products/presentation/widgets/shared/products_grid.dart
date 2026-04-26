@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/animations/animate_once_wrapper.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/no_results_found_view.dart';
@@ -70,9 +71,9 @@ class ProductsGrid extends StatelessWidget {
                   gridDelegate: _gridDelegate,
                   itemBuilder: (context, index) {
                     final product = state.products[index];
-                    return FadeInSlide(
-                      duration: const Duration(milliseconds: 400),
-                      delay: Duration(milliseconds: (index % 10) * 100),
+                    return AnimateOnceWrapper(
+                      namespace: 'products_grid',
+                      id: 'product_card_${product.id}',
                       child: ProductCard(
                         product: product,
                         onAddToCart: () {
@@ -81,6 +82,11 @@ class ProductsGrid extends StatelessWidget {
                             quantity: 1,
                           );
                         },
+                      ),
+                      animationBuilder: (context, child) => FadeInSlide(
+                        duration: const Duration(milliseconds: 400),
+                        delay: Duration(milliseconds: (index % 10) * 100),
+                        child: child,
                       ),
                     );
                   },

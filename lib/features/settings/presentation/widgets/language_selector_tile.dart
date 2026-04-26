@@ -21,14 +21,14 @@ class LanguageSelectorTile extends StatelessWidget {
               textStyle: context.labelMedium.copyWith(fontWeight: FontWeight.bold),
             ),
             showSelectedIcon: false,
-            segments: const [
+            segments: [
               ButtonSegment(
                 value: AppLocale.en,
-                label: Text('EN', textAlign: TextAlign.center),
+                label: Text(context.t.settings.english, textAlign: TextAlign.center),
               ),
               ButtonSegment(
                 value: AppLocale.ar,
-                label: Text('عربي', textAlign: TextAlign.center),
+                label: Text(context.t.settings.arabic, textAlign: TextAlign.center),
               ),
             ],
             selected: {state.locale},

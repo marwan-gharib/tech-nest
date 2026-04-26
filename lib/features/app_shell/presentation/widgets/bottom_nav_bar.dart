@@ -31,12 +31,14 @@ class BottomNavBar extends StatelessWidget {
       child: BottomNavigationBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        type: BottomNavigationBarType.fixed,
+        type: BottomNavigationBarType.shifting,
         currentIndex: navigationShell.currentIndex,
         onTap: onTap,
         selectedItemColor: colorScheme.primary,
         unselectedItemColor: context.colors.textSecondary,
-        selectedLabelStyle: context.labelSmall.copyWith(fontWeight: FontWeight.bold),
+        selectedLabelStyle: context.labelSmall.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
         unselectedLabelStyle: context.labelSmall,
         items: [
           BottomNavigationBarItem(
@@ -75,4 +77,3 @@ class BottomNavBar extends StatelessWidget {
     );
   }
 }
-

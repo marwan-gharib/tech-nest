@@ -30,11 +30,13 @@ class CartBadge extends StatelessWidget {
                 scale: value,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: context.colorScheme.primary,
+                    color: context.colors.warning,
                     borderRadius: const BorderRadius.all(Radius.circular(50)),
                     boxShadow: [
                       BoxShadow(
-                        color: context.colorScheme.primary.withValues(alpha: 0.3),
+                        color: context.colorScheme.primary.withValues(
+                          alpha: 0.3,
+                        ),
                         blurRadius: 4,
                         offset: const Offset(0, 2),
                       ),
@@ -65,4 +67,3 @@ class CartBadge extends StatelessWidget {
     );
   }
 }
-

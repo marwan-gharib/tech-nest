@@ -61,8 +61,8 @@ class TranslationsCommonEn {
 
 	// Translations
 
-	/// en: 'Retry'
-	String get retry => 'Retry';
+	/// en: 'Try Again'
+	String get retry => 'Try Again';
 
 	/// en: 'Cancel'
 	String get cancel => 'Cancel';
@@ -73,8 +73,8 @@ class TranslationsCommonEn {
 	/// en: 'OK'
 	String get ok => 'OK';
 
-	/// en: 'Something went wrong'
-	String get error => 'Something went wrong';
+	/// en: 'Something went wrong. Please try again.'
+	String get error => 'Something went wrong. Please try again.';
 
 	/// en: 'Yes'
 	String get yes => 'Yes';
@@ -115,8 +115,8 @@ class TranslationsAuthEn {
 
 	// Translations
 
-	/// en: 'Login'
-	String get login => 'Login';
+	/// en: 'Log In'
+	String get login => 'Log In';
 
 	/// en: 'Sign Up'
 	String get signUp => 'Sign Up';
@@ -124,14 +124,14 @@ class TranslationsAuthEn {
 	/// en: 'Full Name'
 	String get fullName => 'Full Name';
 
-	/// en: 'Enter your name'
-	String get enterName => 'Enter your name';
+	/// en: 'Enter your full name'
+	String get enterName => 'Enter your full name';
 
-	/// en: 'E-mail Address'
-	String get email => 'E-mail Address';
+	/// en: 'Email Address'
+	String get email => 'Email Address';
 
-	/// en: 'example@email.com'
-	String get emailHint => 'example@email.com';
+	/// en: 'name@example.com'
+	String get emailHint => 'name@example.com';
 
 	/// en: 'Password'
 	String get password => 'Password';
@@ -139,11 +139,11 @@ class TranslationsAuthEn {
 	/// en: 'Confirm Password'
 	String get confirmPassword => 'Confirm Password';
 
-	/// en: 'Forget password'
-	String get forgotPassword => 'Forget password';
+	/// en: 'Forgot Password?'
+	String get forgotPassword => 'Forgot Password?';
 
-	/// en: 'Don't have an account?'
-	String get dontHaveAccount => 'Don\'t have an account?';
+	/// en: 'New here?'
+	String get dontHaveAccount => 'New here?';
 
 	/// en: 'Already have an account?'
 	String get alreadyHaveAccount => 'Already have an account?';
@@ -154,29 +154,29 @@ class TranslationsAuthEn {
 	/// en: 'Reset Password'
 	String get resetPassword => 'Reset Password';
 
-	/// en: 'Please enter a valid email to reset password'
-	String get resetPasswordPrompt => 'Please enter a valid email to reset password';
+	/// en: 'Enter your email to receive a password reset link.'
+	String get resetPasswordPrompt => 'Enter your email to receive a password reset link.';
 
-	/// en: 'Password reset email sent successfully.'
-	String get resetPasswordSuccess => 'Password reset email sent successfully.';
+	/// en: 'We've sent a password reset link to your email.'
+	String get resetPasswordSuccess => 'We\'ve sent a password reset link to your email.';
 
-	/// en: 'Please select a profile image.'
-	String get selectProfileImage => 'Please select a profile image.';
+	/// en: 'Please select a profile picture.'
+	String get selectProfileImage => 'Please select a profile picture.';
 
-	/// en: 'Verify your E-mail address'
-	String get verifyEmailTitle => 'Verify your E-mail address';
+	/// en: 'Verify Your Email'
+	String get verifyEmailTitle => 'Verify Your Email';
 
 	/// en: 'Verify Email'
 	String get verifyEmail => 'Verify Email';
 
-	/// en: 'Enter code'
-	String get enterCode => 'Enter code';
+	/// en: 'Enter verification code'
+	String get enterCode => 'Enter verification code';
 
-	/// en: 'Invalid verification code'
-	String get invalidCode => 'Invalid verification code';
+	/// en: 'The code you entered is invalid. Please check and try again.'
+	String get invalidCode => 'The code you entered is invalid. Please check and try again.';
 
-	/// en: 'Logout'
-	String get logout => 'Logout';
+	/// en: 'Log Out'
+	String get logout => 'Log Out';
 
 	late final TranslationsAuthPrivacyPolicyEn privacyPolicy = TranslationsAuthPrivacyPolicyEn._(_root);
 }
@@ -192,8 +192,8 @@ class TranslationsHomeEn {
 	/// en: 'Discover'
 	String get discover => 'Discover';
 
-	/// en: 'Search products...'
-	String get search => 'Search products...';
+	/// en: 'Search for products...'
+	String get search => 'Search for products...';
 
 	/// en: 'Filters'
 	String get filters => 'Filters';
@@ -241,13 +241,13 @@ class TranslationsProductsEn {
 
 	// Translations
 
-	/// en: 'Category: $category'
-	String category({required Object category}) => 'Category: ${category}';
+	/// en: '$category Products'
+	String category({required Object category}) => '${category} Products';
 
-	/// en: '(one) {In Stock (1)} (other) {In Stock ($n)}'
+	/// en: '(one) {Only 1 left in stock!} (other) {$n in stock}'
 	String inStock({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n,
-		one: 'In Stock (1)',
-		other: 'In Stock (${n})',
+		one: 'Only 1 left in stock!',
+		other: '${n} in stock',
 	);
 
 	/// en: 'Out of Stock'
@@ -256,11 +256,14 @@ class TranslationsProductsEn {
 	/// en: 'Add to Cart'
 	String get addToCart => 'Add to Cart';
 
-	/// en: 'Update Cart Quantity'
-	String get updateCart => 'Update Cart Quantity';
+	/// en: 'Update Quantity'
+	String get updateCart => 'Update Quantity';
 
-	/// en: 'Description'
-	String get description => 'Description';
+	/// en: 'Product Description'
+	String get description => 'Product Description';
+
+	/// en: 'We couldn't load more products. Tap to retry.'
+	String get loadMoreFailed => 'We couldn\'t load more products. Tap to retry.';
 }
 
 // Path: cart
@@ -277,8 +280,8 @@ class TranslationsCartEn {
 	/// en: 'Your cart is empty'
 	String get empty => 'Your cart is empty';
 
-	/// en: 'Looks like you haven't added anything to your cart yet. Explore our products and find something you love!'
-	String get emptyDesc => 'Looks like you haven\'t added anything to your cart yet. Explore our products and find something you love!';
+	/// en: 'Looks like you haven't added anything yet. Explore our products and find something you love!'
+	String get emptyDesc => 'Looks like you haven\'t added anything yet. Explore our products and find something you love!';
 
 	/// en: 'Start Shopping'
 	String get startShopping => 'Start Shopping';
@@ -295,14 +298,26 @@ class TranslationsCartEn {
 	/// en: 'Items'
 	String get items => 'Items';
 
-	/// en: 'Delivery Charges'
-	String get delivery => 'Delivery Charges';
+	/// en: 'Delivery'
+	String get delivery => 'Delivery';
 
 	/// en: 'Free'
 	String get free => 'Free';
 
-	/// en: 'Checkout'
-	String get checkout => 'Checkout';
+	/// en: 'Proceed to Checkout'
+	String get checkout => 'Proceed to Checkout';
+
+	/// en: 'Clear Cart'
+	String get clearCartTitle => 'Clear Cart';
+
+	/// en: 'Are you sure you want to remove all items from your cart?'
+	String get clearCartConfirm => 'Are you sure you want to remove all items from your cart?';
+
+	/// en: 'Yes, clear it'
+	String get clearCartYes => 'Yes, clear it';
+
+	/// en: 'No, keep items'
+	String get clearCartNo => 'No, keep items';
 }
 
 // Path: settings
@@ -316,20 +331,20 @@ class TranslationsSettingsEn {
 	/// en: 'Settings'
 	String get title => 'Settings';
 
-	/// en: 'Preferences'
-	String get preferences => 'Preferences';
+	/// en: 'App Preferences'
+	String get preferences => 'App Preferences';
 
-	/// en: 'App Theme'
-	String get theme => 'App Theme';
+	/// en: 'Appearance'
+	String get theme => 'Appearance';
 
-	/// en: 'Dark Mode'
-	String get darkMode => 'Dark Mode';
+	/// en: 'Dark Theme'
+	String get darkMode => 'Dark Theme';
 
-	/// en: 'Light Mode'
-	String get lightMode => 'Light Mode';
+	/// en: 'Light Theme'
+	String get lightMode => 'Light Theme';
 
-	/// en: 'System Mode'
-	String get systemMode => 'System Mode';
+	/// en: 'System Default'
+	String get systemMode => 'System Default';
 
 	/// en: 'Notifications'
 	String get notifications => 'Notifications';
@@ -337,17 +352,17 @@ class TranslationsSettingsEn {
 	/// en: 'Help & Support'
 	String get help => 'Help & Support';
 
-	/// en: 'About App'
-	String get about => 'About App';
+	/// en: 'About Tech Nest'
+	String get about => 'About Tech Nest';
 
-	/// en: 'Logout'
-	String get logout => 'Logout';
+	/// en: 'Log Out'
+	String get logout => 'Log Out';
 
 	/// en: 'Are you sure you want to log out?'
 	String get logoutConfirm => 'Are you sure you want to log out?';
 
-	/// en: 'You will be redirected to the login screen.'
-	String get logoutDesc => 'You will be redirected to the login screen.';
+	/// en: 'You will need to enter your credentials to access your account again.'
+	String get logoutDesc => 'You will need to enter your credentials to access your account again.';
 
 	/// en: 'Version $version'
 	String version({required Object version}) => 'Version ${version}';
@@ -361,8 +376,8 @@ class TranslationsSettingsEn {
 	/// en: 'Arabic'
 	String get arabic => 'Arabic';
 
-	/// en: 'More'
-	String get more => 'More';
+	/// en: 'More Options'
+	String get more => 'More Options';
 }
 
 // Path: errors
@@ -373,29 +388,29 @@ class TranslationsErrorsEn {
 
 	// Translations
 
-	/// en: 'No Internet Connection'
-	String get noInternet => 'No Internet Connection';
+	/// en: 'No internet connection. Please check your network.'
+	String get noInternet => 'No internet connection. Please check your network.';
 
-	/// en: 'Request Failed'
-	String get requestFailed => 'Request Failed';
+	/// en: 'Request failed. Please try again later.'
+	String get requestFailed => 'Request failed. Please try again later.';
 
 	/// en: 'No results found'
 	String get noResults => 'No results found';
 
-	/// en: 'We couldn't find what you're looking for. Try a different search.'
-	String get noResultsSearch => 'We couldn\'t find what you\'re looking for. Try a different search.';
+	/// en: 'We couldn't find anything matching your search. Try different keywords.'
+	String get noResultsSearch => 'We couldn\'t find anything matching your search. Try different keywords.';
 
-	/// en: 'We couldn't find any products matching your filters. Try adjusting your filters.'
-	String get noResultsFilter => 'We couldn\'t find any products matching your filters. Try adjusting your filters.';
+	/// en: 'We couldn't find any products matching your filters. Try adjusting them.'
+	String get noResultsFilter => 'We couldn\'t find any products matching your filters. Try adjusting them.';
 
-	/// en: 'Could not load more products'
-	String get loadMoreFailed => 'Could not load more products';
+	/// en: 'Could not load more items.'
+	String get loadMoreFailed => 'Could not load more items.';
 
 	/// en: 'Unable to load saved data.'
 	String get cacheError => 'Unable to load saved data.';
 
-	/// en: 'An unexpected error occurred. Please try again.'
-	String get unknownError => 'An unexpected error occurred. Please try again.';
+	/// en: 'Oops! Something went wrong. Please try again.'
+	String get unknownError => 'Oops! Something went wrong. Please try again.';
 }
 
 // Path: onboarding
@@ -436,17 +451,17 @@ class TranslationsCheckoutEn {
 	/// en: 'Confirm Location'
 	String get confirmLocation => 'Confirm Location';
 
-	/// en: 'Please select an address'
-	String get selectAddressError => 'Please select an address';
+	/// en: 'Please select a delivery address to continue.'
+	String get selectAddressError => 'Please select a delivery address to continue.';
 
-	/// en: 'Selected Address'
-	String get addressLabel => 'Selected Address';
+	/// en: 'Delivering to'
+	String get addressLabel => 'Delivering to';
 
-	/// en: 'Detecting location...'
-	String get detectingLocation => 'Detecting location...';
+	/// en: 'Detecting your location...'
+	String get detectingLocation => 'Detecting your location...';
 
-	/// en: 'Unable to determine location'
-	String get locationError => 'Unable to determine location';
+	/// en: 'We couldn't determine your location. Please select it manually.'
+	String get locationError => 'We couldn\'t determine your location. Please select it manually.';
 }
 
 // Path: orders
@@ -466,23 +481,23 @@ class TranslationsOrdersEn {
 	/// en: 'Cancel Order'
 	String get cancelOrder => 'Cancel Order';
 
-	/// en: 'Order cancelled successfully'
-	String get cancelSuccess => 'Order cancelled successfully';
+	/// en: 'Your order has been cancelled successfully.'
+	String get cancelSuccess => 'Your order has been cancelled successfully.';
 
 	/// en: 'Are you sure you want to cancel this order?'
 	String get cancelConfirm => 'Are you sure you want to cancel this order?';
 
-	/// en: 'Yes, Cancel'
-	String get cancelYes => 'Yes, Cancel';
+	/// en: 'Yes, Cancel Order'
+	String get cancelYes => 'Yes, Cancel Order';
 
-	/// en: 'No, Keep'
-	String get cancelNo => 'No, Keep';
+	/// en: 'No, Keep It'
+	String get cancelNo => 'No, Keep It';
 
-	/// en: 'You don't have any orders yet'
-	String get emptyState => 'You don\'t have any orders yet';
+	/// en: 'You haven't placed any orders yet.'
+	String get emptyState => 'You haven\'t placed any orders yet.';
 
-	/// en: 'Ordered on: $date'
-	String date({required Object date}) => 'Ordered on: ${date}';
+	/// en: 'Ordered on $date'
+	String date({required Object date}) => 'Ordered on ${date}';
 
 	/// en: 'Shipping Address'
 	String get shippingAddress => 'Shipping Address';
@@ -492,6 +507,12 @@ class TranslationsOrdersEn {
 
 	/// en: 'Order Items'
 	String get orderItems => 'Order Items';
+
+	/// en: 'Pick the Delivery Location'
+	String get pickLocation => 'Pick the Delivery Location';
+
+	/// en: 'Confirm Order'
+	String get confirmOrder => 'Confirm Order';
 
 	late final TranslationsOrdersStatusEn status = TranslationsOrdersStatusEn._(_root);
 }
@@ -504,8 +525,8 @@ class TranslationsAuthPrivacyPolicyEn {
 
 	// Translations
 
-	/// en: 'By Creating an Account, i accept Tech Nest '
-	String get accept => 'By Creating an Account, i accept Tech Nest ';
+	/// en: 'By creating an account, you agree to Tech Nest's '
+	String get accept => 'By creating an account, you agree to Tech Nest\'s ';
 
 	/// en: 'Terms of Use'
 	String get terms => 'Terms of Use';
@@ -540,11 +561,11 @@ class TranslationsHomeOrderTypesEn {
 
 	// Translations
 
-	/// en: 'Ascending'
-	String get asc => 'Ascending';
+	/// en: 'Low to High'
+	String get asc => 'Low to High';
 
-	/// en: 'Descending'
-	String get desc => 'Descending';
+	/// en: 'High to Low'
+	String get desc => 'High to Low';
 }
 
 // Path: onboarding.pages.0
@@ -558,8 +579,8 @@ class TranslationsOnboarding$pages$0i0$En {
 	/// en: 'Discover Tech'
 	String get title => 'Discover Tech';
 
-	/// en: 'Find the latest and greatest in consumer electronics and tech gadgets.'
-	String get description => 'Find the latest and greatest in consumer electronics and tech gadgets.';
+	/// en: 'Find the latest and greatest in consumer electronics and smart gadgets.'
+	String get description => 'Find the latest and greatest in consumer electronics and smart gadgets.';
 }
 
 // Path: onboarding.pages.1
@@ -573,8 +594,8 @@ class TranslationsOnboarding$pages$0i1$En {
 	/// en: 'Secure Payments'
 	String get title => 'Secure Payments';
 
-	/// en: 'Pay safely with our secure payment gateways and trusted providers.'
-	String get description => 'Pay safely with our secure payment gateways and trusted providers.';
+	/// en: 'Shop with confidence using our secure payment gateways.'
+	String get description => 'Shop with confidence using our secure payment gateways.';
 }
 
 // Path: onboarding.pages.2
@@ -624,11 +645,11 @@ class TranslationsOrdersStatusEn {
 extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
-			'common.retry' => 'Retry',
+			'common.retry' => 'Try Again',
 			'common.cancel' => 'Cancel',
 			'common.all' => 'All',
 			'common.ok' => 'OK',
-			'common.error' => 'Something went wrong',
+			'common.error' => 'Something went wrong. Please try again.',
 			'common.yes' => 'Yes',
 			'common.no' => 'No',
 			'nav.home' => 'Home',
@@ -636,33 +657,33 @@ extension on Translations {
 			'nav.categories' => 'Categories',
 			'nav.settings' => 'Settings',
 			'nav.orders' => 'Orders',
-			'auth.login' => 'Login',
+			'auth.login' => 'Log In',
 			'auth.signUp' => 'Sign Up',
 			'auth.fullName' => 'Full Name',
-			'auth.enterName' => 'Enter your name',
-			'auth.email' => 'E-mail Address',
-			'auth.emailHint' => 'example@email.com',
+			'auth.enterName' => 'Enter your full name',
+			'auth.email' => 'Email Address',
+			'auth.emailHint' => 'name@example.com',
 			'auth.password' => 'Password',
 			'auth.confirmPassword' => 'Confirm Password',
-			'auth.forgotPassword' => 'Forget password',
-			'auth.dontHaveAccount' => 'Don\'t have an account?',
+			'auth.forgotPassword' => 'Forgot Password?',
+			'auth.dontHaveAccount' => 'New here?',
 			'auth.alreadyHaveAccount' => 'Already have an account?',
 			'auth.haveAccount' => 'Have an account?',
 			'auth.resetPassword' => 'Reset Password',
-			'auth.resetPasswordPrompt' => 'Please enter a valid email to reset password',
-			'auth.resetPasswordSuccess' => 'Password reset email sent successfully.',
-			'auth.selectProfileImage' => 'Please select a profile image.',
-			'auth.verifyEmailTitle' => 'Verify your E-mail address',
+			'auth.resetPasswordPrompt' => 'Enter your email to receive a password reset link.',
+			'auth.resetPasswordSuccess' => 'We\'ve sent a password reset link to your email.',
+			'auth.selectProfileImage' => 'Please select a profile picture.',
+			'auth.verifyEmailTitle' => 'Verify Your Email',
 			'auth.verifyEmail' => 'Verify Email',
-			'auth.enterCode' => 'Enter code',
-			'auth.invalidCode' => 'Invalid verification code',
-			'auth.logout' => 'Logout',
-			'auth.privacyPolicy.accept' => 'By Creating an Account, i accept Tech Nest ',
+			'auth.enterCode' => 'Enter verification code',
+			'auth.invalidCode' => 'The code you entered is invalid. Please check and try again.',
+			'auth.logout' => 'Log Out',
+			'auth.privacyPolicy.accept' => 'By creating an account, you agree to Tech Nest\'s ',
 			'auth.privacyPolicy.terms' => 'Terms of Use',
 			'auth.privacyPolicy.and' => ' and ',
 			'auth.privacyPolicy.policy' => 'Privacy Policy',
 			'home.discover' => 'Discover',
-			'home.search' => 'Search products...',
+			'home.search' => 'Search for products...',
 			'home.filters' => 'Filters',
 			'home.categories' => 'Categories',
 			'home.priceRange' => 'Price Range',
@@ -670,82 +691,89 @@ extension on Translations {
 			'home.orderBy' => 'Order by',
 			'home.sortTypes.name' => 'Name',
 			'home.sortTypes.price' => 'Price',
-			'home.orderTypes.asc' => 'Ascending',
-			'home.orderTypes.desc' => 'Descending',
+			'home.orderTypes.asc' => 'Low to High',
+			'home.orderTypes.desc' => 'High to Low',
 			'home.applyFilters' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, zero: 'Apply Filters', one: 'Apply 1 Filter', other: 'Apply ${n} Filters', ), 
 			'home.activeFilters' => 'Active Filters',
 			'home.clearAll' => 'Clear All',
 			'home.minPrice' => 'Min Price',
 			'home.maxPrice' => 'Max Price',
-			'products.category' => ({required Object category}) => 'Category: ${category}',
-			'products.inStock' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'In Stock (1)', other: 'In Stock (${n})', ), 
+			'products.category' => ({required Object category}) => '${category} Products',
+			'products.inStock' => ({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('en'))(n, one: 'Only 1 left in stock!', other: '${n} in stock', ), 
 			'products.outOfStock' => 'Out of Stock',
 			'products.addToCart' => 'Add to Cart',
-			'products.updateCart' => 'Update Cart Quantity',
-			'products.description' => 'Description',
+			'products.updateCart' => 'Update Quantity',
+			'products.description' => 'Product Description',
+			'products.loadMoreFailed' => 'We couldn\'t load more products. Tap to retry.',
 			'cart.title' => 'My Cart',
 			'cart.empty' => 'Your cart is empty',
-			'cart.emptyDesc' => 'Looks like you haven\'t added anything to your cart yet. Explore our products and find something you love!',
+			'cart.emptyDesc' => 'Looks like you haven\'t added anything yet. Explore our products and find something you love!',
 			'cart.startShopping' => 'Start Shopping',
 			'cart.summary' => 'Order Summary',
 			'cart.subtotal' => 'Subtotal',
 			'cart.total' => 'Total',
 			'cart.items' => 'Items',
-			'cart.delivery' => 'Delivery Charges',
+			'cart.delivery' => 'Delivery',
 			'cart.free' => 'Free',
-			'cart.checkout' => 'Checkout',
+			'cart.checkout' => 'Proceed to Checkout',
+			'cart.clearCartTitle' => 'Clear Cart',
+			'cart.clearCartConfirm' => 'Are you sure you want to remove all items from your cart?',
+			'cart.clearCartYes' => 'Yes, clear it',
+			'cart.clearCartNo' => 'No, keep items',
 			'settings.title' => 'Settings',
-			'settings.preferences' => 'Preferences',
-			'settings.theme' => 'App Theme',
-			'settings.darkMode' => 'Dark Mode',
-			'settings.lightMode' => 'Light Mode',
-			'settings.systemMode' => 'System Mode',
+			'settings.preferences' => 'App Preferences',
+			'settings.theme' => 'Appearance',
+			'settings.darkMode' => 'Dark Theme',
+			'settings.lightMode' => 'Light Theme',
+			'settings.systemMode' => 'System Default',
 			'settings.notifications' => 'Notifications',
 			'settings.help' => 'Help & Support',
-			'settings.about' => 'About App',
-			'settings.logout' => 'Logout',
+			'settings.about' => 'About Tech Nest',
+			'settings.logout' => 'Log Out',
 			'settings.logoutConfirm' => 'Are you sure you want to log out?',
-			'settings.logoutDesc' => 'You will be redirected to the login screen.',
+			'settings.logoutDesc' => 'You will need to enter your credentials to access your account again.',
 			'settings.version' => ({required Object version}) => 'Version ${version}',
 			'settings.language' => 'Language',
 			'settings.english' => 'English',
 			'settings.arabic' => 'Arabic',
-			'settings.more' => 'More',
-			'errors.noInternet' => 'No Internet Connection',
-			'errors.requestFailed' => 'Request Failed',
+			'settings.more' => 'More Options',
+			'errors.noInternet' => 'No internet connection. Please check your network.',
+			'errors.requestFailed' => 'Request failed. Please try again later.',
 			'errors.noResults' => 'No results found',
-			'errors.noResultsSearch' => 'We couldn\'t find what you\'re looking for. Try a different search.',
-			'errors.noResultsFilter' => 'We couldn\'t find any products matching your filters. Try adjusting your filters.',
-			'errors.loadMoreFailed' => 'Could not load more products',
+			'errors.noResultsSearch' => 'We couldn\'t find anything matching your search. Try different keywords.',
+			'errors.noResultsFilter' => 'We couldn\'t find any products matching your filters. Try adjusting them.',
+			'errors.loadMoreFailed' => 'Could not load more items.',
 			'errors.cacheError' => 'Unable to load saved data.',
-			'errors.unknownError' => 'An unexpected error occurred. Please try again.',
+			'errors.unknownError' => 'Oops! Something went wrong. Please try again.',
 			'onboarding.skip' => 'Skip',
 			'onboarding.getStarted' => 'Get Started',
 			'onboarding.pages.0.title' => 'Discover Tech',
-			'onboarding.pages.0.description' => 'Find the latest and greatest in consumer electronics and tech gadgets.',
+			'onboarding.pages.0.description' => 'Find the latest and greatest in consumer electronics and smart gadgets.',
 			'onboarding.pages.1.title' => 'Secure Payments',
-			'onboarding.pages.1.description' => 'Pay safely with our secure payment gateways and trusted providers.',
+			'onboarding.pages.1.description' => 'Shop with confidence using our secure payment gateways.',
 			'onboarding.pages.2.title' => 'Fast Delivery',
 			'onboarding.pages.2.description' => 'Get your orders delivered to your doorstep in record time.',
 			'checkout.title' => 'Checkout',
 			'checkout.selectLocation' => 'Select Delivery Location',
 			'checkout.confirmLocation' => 'Confirm Location',
-			'checkout.selectAddressError' => 'Please select an address',
-			'checkout.addressLabel' => 'Selected Address',
-			'checkout.detectingLocation' => 'Detecting location...',
-			'checkout.locationError' => 'Unable to determine location',
+			'checkout.selectAddressError' => 'Please select a delivery address to continue.',
+			'checkout.addressLabel' => 'Delivering to',
+			'checkout.detectingLocation' => 'Detecting your location...',
+			'checkout.locationError' => 'We couldn\'t determine your location. Please select it manually.',
 			'orders.title' => 'My Orders',
 			'orders.details' => 'Order Details',
 			'orders.cancelOrder' => 'Cancel Order',
-			'orders.cancelSuccess' => 'Order cancelled successfully',
+			'orders.cancelSuccess' => 'Your order has been cancelled successfully.',
 			'orders.cancelConfirm' => 'Are you sure you want to cancel this order?',
-			'orders.cancelYes' => 'Yes, Cancel',
-			'orders.cancelNo' => 'No, Keep',
-			'orders.emptyState' => 'You don\'t have any orders yet',
-			'orders.date' => ({required Object date}) => 'Ordered on: ${date}',
+			'orders.cancelYes' => 'Yes, Cancel Order',
+			'orders.cancelNo' => 'No, Keep It',
+			'orders.emptyState' => 'You haven\'t placed any orders yet.',
+			'orders.date' => ({required Object date}) => 'Ordered on ${date}',
 			'orders.shippingAddress' => 'Shipping Address',
 			'orders.billingAddress' => 'Billing Address',
 			'orders.orderItems' => 'Order Items',
+			'orders.pickLocation' => 'Pick the Delivery Location',
+			'orders.confirmOrder' => 'Confirm Order',
 			'orders.status.pending' => 'Pending',
 			'orders.status.confirmed' => 'Confirmed',
 			'orders.status.shipped' => 'Shipped',

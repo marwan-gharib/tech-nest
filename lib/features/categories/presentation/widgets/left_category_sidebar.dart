@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/core/animations/animate_once_wrapper.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
@@ -55,22 +56,28 @@ class LeftCategorySidebar extends StatelessWidget {
                 vertical: AppSpacing.sm,
               ),
               itemBuilder: (context, index) {
-                return FadeInSlide(
-                  duration: const Duration(milliseconds: 400),
-                  delay: Duration(milliseconds: index * 50),
+                final category = categories[index];
+                return AnimateOnceWrapper(
+                  namespace: 'left_category_sidebar',
+                  id: 'category_${category.id}',
                   child: ValueListenableBuilder<int>(
                     valueListenable: selectedCategoryIndex,
                     builder: (context, selectedIndex, _) {
                       return CategoryCard(
                         isSelected: selectedIndex == index,
-                        category: categories[index],
+                        category: category,
                         onTap: () {
                           if (selectedIndex == index) return;
                           selectedCategoryIndex.value = index;
-                          onCategorySelected(index, categories[index].id);
+                          onCategorySelected(index, category.id);
                         },
                       );
                     },
+                  ),
+                  animationBuilder: (context, child) => FadeInSlide(
+                    duration: const Duration(milliseconds: 400),
+                    delay: Duration(milliseconds: index * 50),
+                    child: child,
                   ),
                 );
               },

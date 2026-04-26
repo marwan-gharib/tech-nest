@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class CheckoutAddressCard extends StatefulWidget {
   final ValueChanged<String?>? onLocationSelected;
@@ -48,15 +49,18 @@ class _CheckoutAddressCardState extends State<CheckoutAddressCard> {
             const SizedBox(width: AppSpacing.md),
             Expanded(
               child: Text(
-                _deliveryLocation ?? "pick the delivery location",
+                _deliveryLocation ?? context.t.orders.pickLocation,
                 style: context.bodyMedium,
               ),
             ),
-            Icon(Icons.arrow_forward_ios, size: 16, color: context.colors.textSecondary),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+              color: context.colors.textSecondary,
+            ),
           ],
         ),
       ),
     );
   }
 }
-

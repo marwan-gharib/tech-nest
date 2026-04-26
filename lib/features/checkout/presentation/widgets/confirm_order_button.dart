@@ -4,6 +4,7 @@ import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_cubit.dart';
 import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_state.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class ConfirmOrderButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -45,7 +46,7 @@ class ConfirmOrderButton extends StatelessWidget {
                     ),
                   )
                 : Text(
-                    "Confirm Order",
+                    context.t.orders.confirmOrder,
                     style: context.headlineLarge.copyWith(
                       fontSize: 16,
                       color: context.colorScheme.onPrimary,
@@ -58,4 +59,3 @@ class ConfirmOrderButton extends StatelessWidget {
     );
   }
 }
-

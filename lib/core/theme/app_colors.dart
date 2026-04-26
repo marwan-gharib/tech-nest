@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 class AppColors {
   const AppColors._();
 
-  // Primary & Brand
-  static const Color primary = Color(0xff6366F1); // Indigo 500
+  static const Color primary = Color(0xff6366F1);
   static const Color primaryLight = Color(0xff818CF8);
   static const Color primaryDark = Color(0xff4F46E5);
 
-  // Neutral / Grays (Slate Palette)
   static const Color slate50 = Color(0xffF8FAFC);
   static const Color slate100 = Color(0xffF1F5F9);
   static const Color slate200 = Color(0xffE2E8F0);
@@ -21,13 +19,11 @@ class AppColors {
   static const Color slate900 = Color(0xff0F172A);
   static const Color slate950 = Color(0xff020617);
 
-  // Semantic
-  static const Color success = Color(0xff10B981); // Emerald 500
-  static const Color warning = Color(0xffF59E0B); // Amber 500
-  static const Color error = Color(0xffEF4444); // Red 500
-  static const Color info = Color(0xff3B82F6); // Blue 500
+  static const Color success = Color(0xff10B981);
+  static const Color warning = Color(0xffF59E0B);
+  static const Color error = Color(0xffEF4444);
+  static const Color info = Color(0xff3B82F6);
 
-  // Extras
   static const Color white = Color(0xffFFFFFF);
   static const Color black = Color(0xff000000);
 }
