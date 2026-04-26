@@ -45,100 +45,75 @@ class _CustomPriceFieldState extends State<CustomPriceField> {
   Widget build(BuildContext context) {
     final isError = widget.errorText != null;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppRadius.lg),
-            border: Border.all(
+    OutlineInputBorder border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppRadius.lg),
+      borderSide: BorderSide(color: context.colors.border, width: 1.0),
+    );
+
+    OutlineInputBorder focusedBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppRadius.lg),
+      borderSide: BorderSide(color: context.colorScheme.primary, width: 1.5),
+    );
+
+    OutlineInputBorder errorBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(AppRadius.lg),
+      borderSide: BorderSide(color: context.colorScheme.error, width: 1.5),
+    );
+
+    return TextField(
+      controller: widget.controller,
+      focusNode: _focusNode,
+      onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
+      cursorColor: isError
+          ? context.colorScheme.error
+          : context.colorScheme.primary,
+      keyboardType: const TextInputType.numberWithOptions(decimal: false),
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      style: context.bodyLarge.copyWith(fontWeight: FontWeight.w500),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: isError
+            ? context.colorScheme.error.withValues(alpha: 0.04)
+            : _isFocused
+            ? context.colorScheme.primary.withValues(alpha: 0.04)
+            : context.colors.surface,
+        border: border,
+        enabledBorder: border,
+        focusedBorder: focusedBorder,
+        errorBorder: errorBorder,
+        focusedErrorBorder: errorBorder,
+        disabledBorder: border,
+        prefixIcon: Padding(
+          padding: const EdgeInsets.only(
+            left: AppSpacing.md,
+            right: AppSpacing.sm,
+          ),
+          child: Text(
+            '\$',
+            style: context.bodyLarge.copyWith(
               color: isError
                   ? context.colorScheme.error
                   : _isFocused
                   ? context.colorScheme.primary
-                  : context.colors.border,
-              width: _isFocused || isError ? 1.5 : 1.0,
-            ),
-            color: isError
-                ? context.colorScheme.error.withValues(alpha: 0.04)
-                : _isFocused
-                ? context.colorScheme.primary.withValues(alpha: 0.04)
-                : context.colors.surface,
-            boxShadow: _isFocused && !isError
-                ? [
-                    BoxShadow(
-                      color: context.colorScheme.primary.withValues(alpha: 0.1),
-                      blurRadius: 8,
-                      offset: const Offset(0, 3),
-                    ),
-                  ]
-                : null,
-          ),
-          child: TextField(
-            controller: widget.controller,
-            focusNode: _focusNode,
-            onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
-            cursorColor: isError
-                ? context.colorScheme.error
-                : context.colorScheme.primary,
-            keyboardType: const TextInputType.numberWithOptions(decimal: false),
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            style: context.bodyLarge.copyWith(
-              fontWeight: FontWeight.w500,
-            ),
-            decoration: InputDecoration(
-              border: InputBorder.none,
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.only(
-                  left: AppSpacing.md,
-                  right: AppSpacing.sm,
-                ),
-                child: Text(
-                  '\$',
-                  style: context.bodyLarge.copyWith(
-                    color: isError
-                        ? context.colorScheme.error
-                        : _isFocused
-                        ? context.colorScheme.primary
-                        : context.colors.textSecondary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              prefixIconConstraints: const BoxConstraints(
-                minWidth: 0,
-                minHeight: 0,
-              ),
-              hintText: widget.label,
-              hintStyle: context.bodyMedium.copyWith(
-                color: context.colors.textSecondary.withValues(alpha: 0.5),
-              ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: AppSpacing.md,
-                horizontal: AppSpacing.sm,
-              ),
+                  : context.colors.textSecondary,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
-        if (isError)
-          Padding(
-            padding: const EdgeInsets.only(
-              top: AppSpacing.xs,
-              left: AppSpacing.xs,
-            ),
-            child: Text(
-              widget.errorText!,
-              style: context.labelSmall.copyWith(
-                color: context.colorScheme.error,
-              ),
-            ),
-          ),
-      ],
+        prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+        hintText: widget.label,
+        hintStyle: context.bodyMedium.copyWith(
+          color: context.colors.textSecondary.withValues(alpha: 0.5),
+        ),
+        errorText: widget.errorText,
+        errorStyle: context.labelSmall.copyWith(
+          color: context.colorScheme.error,
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          vertical: AppSpacing.md,
+          horizontal: AppSpacing.sm,
+        ),
+      ),
     );
   }
 }
-

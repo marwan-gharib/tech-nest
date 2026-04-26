@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/app_shell/presentation/widgets/bottom_nav_bar.dart';
 
 class AppShellEntry extends StatefulWidget {
@@ -17,9 +18,16 @@ class _AppShellEntryState extends State<AppShellEntry> {
     return SafeArea(
       child: Scaffold(
         body: widget.navigationShell,
-        bottomNavigationBar: BottomNavBar(
-          navigationShell: widget.navigationShell,
-          onTap: _goBranch,
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(color: context.colorScheme.primary, width: 2.5),
+            ),
+          ),
+          child: BottomNavBar(
+            navigationShell: widget.navigationShell,
+            onTap: _goBranch,
+          ),
         ),
       ),
     );

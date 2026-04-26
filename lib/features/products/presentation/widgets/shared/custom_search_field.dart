@@ -39,7 +39,7 @@ class CustomSearchField extends StatelessWidget {
         focusedBorder: _border,
         focusedErrorBorder: _border,
         filled: true,
-        fillColor: context.colors.background.withValues(alpha: 0.5),
+        fillColor: context.colorScheme.outline,
         hintText: hintText ?? "Search products...",
         hintStyle: context.bodyLarge.copyWith(
           color: context.colors.textSecondary,
@@ -71,4 +71,3 @@ class CustomSearchField extends StatelessWidget {
     borderRadius: BorderRadius.circular(AppRadius.full),
   );
 }
-

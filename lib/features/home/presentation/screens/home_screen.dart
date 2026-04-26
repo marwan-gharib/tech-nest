@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/cubits/locale_cubit/locale_cubit.dart';
-import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/move_to_first_scroll_position_widget.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_components.dart';
 import 'package:tech_nest/features/home/presentation/widgets/home_app_bar.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/features/products/presentation/models/filter_data.dart';
 import 'package:tech_nest/features/products/presentation/widgets/shared/products_grid.dart';
-import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -62,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.colorScheme.surface,
+
       body: BlocListener<LocaleCubit, LocaleState>(
         listenWhen: (previous, current) => previous.locale != current.locale,
         listener: (context, state) {
@@ -84,7 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     onFilterPressed: _showBottomSheet,
                   ),
                   const SliverPadding(
-                    padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppSpacing.md,
+                      vertical: AppSpacing.lg,
+                    ),
                     sliver: ProductsGrid(),
                   ),
                   const SliverToBoxAdapter(
@@ -121,8 +124,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _scrollToTop() {
     final double currentOffset = _scrollController.offset;
-    final int durationMs =
-        (500 + (currentOffset * 0.4)).clamp(500, 3000).toInt();
+    final int durationMs = (500 + (currentOffset * 0.4))
+        .clamp(500, 3000)
+        .toInt();
 
     _scrollController.animateTo(
       0,
@@ -136,13 +140,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
     await showModalBottomSheet(
       context: context,
-      backgroundColor: context.colors.surface,
+      backgroundColor: Colors.transparent,
       isDismissible: true,
       enableDrag: true,
-      showDragHandle: true,
+      showDragHandle: false,
       isScrollControlled: true,
+      useSafeArea: true,
       elevation: 24,
-      shape: AppRadius.sheetShape,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.75,
+      ),
       builder: (_) {
         return BlocProvider.value(
           value: fetchProductsCubit,
@@ -159,4 +166,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,8 +9,8 @@ import 'package:tech_nest/features/auth/presentation/notifiers/profile_image_cub
 
 class PickProfileImage extends StatelessWidget {
   static const double _avatarRadius = 56.0;
-  static const double _cameraIconBtnPadding = 3.0;
-  static const double _cameraIconSize = 30.0;
+  static const double _cameraIconBtnPadding = 6.0;
+  static const double _cameraIconSize = 24.0;
 
   const PickProfileImage({super.key});
 
@@ -53,4 +54,3 @@ class PickProfileImage extends StatelessWidget {
     );
   }
 }
-

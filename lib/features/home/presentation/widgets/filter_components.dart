@@ -61,34 +61,21 @@ class _FilterComponentsState extends State<FilterComponents> {
         color: context.colors.background,
         borderRadius: AppRadius.sheet,
       ),
-      child: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        padding: const EdgeInsets.only(
-          top: AppSpacing.md,
-          bottom: AppSpacing.xxl,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            padding: const EdgeInsets.only(
+              top: AppSpacing.md,
+              bottom: AppSpacing.xxl,
+            ),
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  ListenableBuilder(
-                    listenable: _notifier,
-                    builder: (context, _) => FilterHeader(
-                      activeFilterCount: _notifier.activeFilterCount,
-                      onReset: () {
-                        _notifier.reset();
-                        widget.onApply(const FilterData());
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Divider(height: 1, thickness: 0.5, color: context.colors.divider),
-                  const SizedBox(height: AppSpacing.xs),
+                  const SizedBox(height: AppSpacing.xl),
                   BlocProvider(
                     create: (context) =>
                         sl<FetchCategoriesCubit>()..fetchCategories(),
@@ -161,10 +148,34 @@ class _FilterComponentsState extends State<FilterComponents> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.sm,
+              ),
+              decoration: BoxDecoration(
+                color: context.colors.background,
+                borderRadius: AppRadius.sheet,
+              ),
+              child: ListenableBuilder(
+                listenable: _notifier,
+                builder: (context, _) => FilterHeader(
+                  activeFilterCount: _notifier.activeFilterCount,
+                  onReset: () {
+                    _notifier.reset();
+                    widget.onApply(const FilterData());
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
-
