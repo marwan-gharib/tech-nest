@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class OrdersSkeletonList extends StatelessWidget {
   const OrdersSkeletonList({super.key});
@@ -15,6 +16,7 @@ class OrdersSkeletonList extends StatelessWidget {
         itemBuilder: (context, index) {
           return Card(
             elevation: 0,
+            color: context.colors.card,
             margin: const EdgeInsets.only(bottom: AppSpacing.md),
             child: Padding(
               padding: const EdgeInsets.all(AppSpacing.md),
@@ -24,16 +26,23 @@ class OrdersSkeletonList extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Order #1234', style: TextStyle(fontSize: 16)),
-                      Container(width: 80, height: 24, color: Colors.grey),
+                      Text('Order #1234', style: context.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
+                      Container(
+                        width: 80,
+                        height: 24,
+                        color: context.colors.shimmerBase,
+                      ),
                     ],
                   ),
                   const SizedBox(height: AppSpacing.sm),
-                  const Text('Ordered on: 12/12/2026'),
+                  Text('Ordered on: 12/12/2026', style: context.bodyMedium),
                   const SizedBox(height: AppSpacing.md),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text('Total'), Text('\$150.00')],
+                    children: [
+                      Text('Total', style: context.bodyMedium),
+                      Text('\$150.00', style: context.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
+                    ],
                   ),
                 ],
               ),
@@ -44,3 +53,5 @@ class OrdersSkeletonList extends StatelessWidget {
     );
   }
 }
+
+

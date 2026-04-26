@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class LocationPickerMap extends StatelessWidget {
   final LatLng initialLocation;
@@ -31,13 +32,18 @@ class LocationPickerMap extends StatelessWidget {
           onCameraMove: onCameraMove,
           onCameraIdle: onCameraIdle,
         ),
-        const Center(
+        Center(
           child: Padding(
-            padding: EdgeInsets.only(bottom: AppSpacing.xxl),
-            child: Icon(Icons.location_on, color: Colors.red, size: 48),
+            padding: const EdgeInsets.only(bottom: AppSpacing.xxl),
+            child: Icon(
+              Icons.location_on,
+              color: context.colors.error,
+              size: 48,
+            ),
           ),
         ),
       ],
     );
   }
 }
+

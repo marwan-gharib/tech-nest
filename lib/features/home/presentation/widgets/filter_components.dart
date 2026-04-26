@@ -4,6 +4,7 @@ import 'package:tech_nest/core/enums/order_type.dart';
 import 'package:tech_nest/core/enums/sort_type.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/fetch_categories_cubit/fetch_categories_cubit.dart';
 import 'package:tech_nest/features/home/presentation/notifiers/filter_components_notifier.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_apply_button.dart';
@@ -55,41 +56,26 @@ class _FilterComponentsState extends State<FilterComponents> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
       decoration: BoxDecoration(
-        color: theme.colorScheme.surface,
+        color: context.colors.background,
         borderRadius: AppRadius.sheet,
       ),
-      child: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        padding: const EdgeInsets.only(
-          top: AppSpacing.md,
-          bottom: AppSpacing.xxl,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
+      child: Stack(
+        children: [
+          SingleChildScrollView(
+            physics: const ClampingScrollPhysics(),
+            padding: const EdgeInsets.only(
+              top: AppSpacing.md,
+              bottom: AppSpacing.xxl,
+            ),
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  ListenableBuilder(
-                    listenable: _notifier,
-                    builder: (context, _) => FilterHeader(
-                      activeFilterCount: _notifier.activeFilterCount,
-                      onReset: () {
-                        _notifier.reset();
-                        widget.onApply(const FilterData());
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: AppSpacing.sm),
-                  const Divider(height: 1, thickness: 0.5),
-                  const SizedBox(height: AppSpacing.xs),
+                  const SizedBox(height: AppSpacing.xl),
                   BlocProvider(
                     create: (context) =>
                         sl<FetchCategoriesCubit>()..fetchCategories(),
@@ -162,8 +148,33 @@ class _FilterComponentsState extends State<FilterComponents> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg,
+                vertical: AppSpacing.sm,
+              ),
+              decoration: BoxDecoration(
+                color: context.colors.background,
+                borderRadius: AppRadius.sheet,
+              ),
+              child: ListenableBuilder(
+                listenable: _notifier,
+                builder: (context, _) => FilterHeader(
+                  activeFilterCount: _notifier.activeFilterCount,
+                  onReset: () {
+                    _notifier.reset();
+                    widget.onApply(const FilterData());
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

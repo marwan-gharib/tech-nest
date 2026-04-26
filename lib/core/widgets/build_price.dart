@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class BuildPrice extends StatelessWidget {
   final double price;
@@ -16,32 +17,29 @@ class BuildPrice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Text.rich(
       TextSpan(
         text: isLabeled ? "Price: " : "",
-        style: theme.textTheme.labelLarge?.copyWith(
+        style: context.labelLarge.copyWith(
           fontSize: size * 0.8,
           fontWeight: FontWeight.w400,
-          color: theme.shadowColor.withValues(alpha: 0.5),
+          color: context.colors.textSecondary,
         ),
         children: [
           TextSpan(
             text: price.toStringAsFixed(1),
-            style: theme.textTheme.labelLarge!.copyWith(
+            style: context.labelLarge.copyWith(
               fontSize: size,
               fontWeight: FontWeight.bold,
-              color: numberColor ?? theme.shadowColor,
+              color: numberColor ?? context.colors.textPrimary,
             ),
           ),
           TextSpan(
             text: " \$",
-            style: theme.textTheme.labelLarge!.copyWith(
+            style: context.labelLarge.copyWith(
               fontSize: size * 0.9,
               fontWeight: FontWeight.bold,
-              color: colorScheme.primary,
+              color: context.colorScheme.primary,
             ),
           ),
         ],
@@ -49,3 +47,4 @@ class BuildPrice extends StatelessWidget {
     );
   }
 }
+

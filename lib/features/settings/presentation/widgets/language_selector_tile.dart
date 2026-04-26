@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/cubits/locale_cubit/locale_cubit.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
@@ -17,8 +18,7 @@ class LanguageSelectorTile extends StatelessWidget {
           return SegmentedButton<AppLocale>(
             style: SegmentedButton.styleFrom(
               visualDensity: VisualDensity.compact,
-              textStyle: Theme.of(context).textTheme.labelMedium
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              textStyle: context.labelMedium.copyWith(fontWeight: FontWeight.bold),
             ),
             showSelectedIcon: false,
             segments: const [
@@ -45,3 +45,4 @@ class LanguageSelectorTile extends StatelessWidget {
     );
   }
 }
+

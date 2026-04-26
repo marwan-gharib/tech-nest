@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/date_formatter.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_cubit.dart';
@@ -79,25 +80,22 @@ class OrderDetailsScreen extends StatelessWidget {
                             context.t.orders.date(
                               date: DateFormatter.format(order.createdAt),
                             ),
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onSurface.withValues(alpha: 0.6),
-                                ),
+                            style: context.bodyMedium.copyWith(
+                              color: context.colors.textSecondary,
+                            ),
                           ),
                         ),
-                        const Divider(height: AppSpacing.xl),
+                        Divider(height: AppSpacing.xl, color: context.colors.divider),
                         FadeInSlide(
                           delay: const Duration(milliseconds: 200),
                           child: OrderDetailsAddresses(order: order),
                         ),
-                        const Divider(height: AppSpacing.xl),
+                        Divider(height: AppSpacing.xl, color: context.colors.divider),
                         FadeInSlide(
                           delay: const Duration(milliseconds: 250),
                           child: Text(
                             context.t.orders.orderItems,
-                            style: Theme.of(context).textTheme.titleMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                            style: context.titleMedium.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ),
                         const SizedBox(height: AppSpacing.sm),
@@ -148,3 +146,4 @@ class OrderDetailsScreen extends StatelessWidget {
     );
   }
 }
+

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class FilterApplyButton extends StatelessWidget {
@@ -17,8 +18,6 @@ class FilterApplyButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 200),
       opacity: enabled ? 1.0 : 0.6,
@@ -28,7 +27,7 @@ class FilterApplyButton extends StatelessWidget {
           boxShadow: enabled
               ? [
                   BoxShadow(
-                    color: theme.colorScheme.primary.withValues(alpha: 0.28),
+                    color: context.colorScheme.primary.withValues(alpha: 0.28),
                     blurRadius: 20,
                     offset: const Offset(0, 8),
                   ),
@@ -41,12 +40,12 @@ class FilterApplyButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: enabled ? onPressed : null,
             style: ElevatedButton.styleFrom(
-              backgroundColor: theme.colorScheme.primary,
-              foregroundColor: theme.colorScheme.onPrimary,
-              disabledBackgroundColor: theme.colorScheme.onSurface.withValues(
+              backgroundColor: context.colorScheme.primary,
+              foregroundColor: context.colorScheme.onPrimary,
+              disabledBackgroundColor: context.colors.textSecondary.withValues(
                 alpha: 0.12,
               ),
-              disabledForegroundColor: theme.colorScheme.onSurface.withValues(
+              disabledForegroundColor: context.colors.textSecondary.withValues(
                 alpha: 0.38,
               ),
               elevation: 0,
@@ -64,10 +63,10 @@ class FilterApplyButton extends StatelessWidget {
                   child: Text(
                     key: ValueKey(activeCount),
                     context.t.home.applyFilters(n: activeCount),
-                    style: theme.textTheme.labelLarge!.copyWith(
+                    style: context.labelLarge.copyWith(
                       color: enabled
-                          ? theme.colorScheme.onPrimary
-                          : theme.colorScheme.onSurface.withValues(alpha: 0.38),
+                          ? context.colorScheme.onPrimary
+                          : context.colors.textSecondary.withValues(alpha: 0.38),
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -80,3 +79,4 @@ class FilterApplyButton extends StatelessWidget {
     );
   }
 }
+

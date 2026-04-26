@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_cubit.dart';
 import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_state.dart';
 
@@ -11,9 +12,6 @@ class ConfirmOrderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return BlocBuilder<CreateOrderCubit, CreateOrderState>(
       builder: (context, state) {
         final isLoading = state is CreateOrderLoading;
@@ -26,10 +24,10 @@ class ConfirmOrderButton extends StatelessWidget {
             top: AppSpacing.md,
           ),
           decoration: BoxDecoration(
-            color: colorScheme.surface,
+            color: context.colors.background,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
+                color: context.colors.textPrimary.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, -5),
               ),
@@ -38,18 +36,19 @@ class ConfirmOrderButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: isLoading ? null : onPressed,
             child: isLoading
-                ? const SizedBox(
+                ? SizedBox(
                     height: 24,
                     width: 24,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color: Colors.white,
+                      color: context.colorScheme.onPrimary,
                     ),
                   )
                 : Text(
                     "Confirm Order",
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: colorScheme.onPrimary,
+                    style: context.headlineLarge.copyWith(
+                      fontSize: 16,
+                      color: context.colorScheme.onPrimary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -59,3 +58,4 @@ class ConfirmOrderButton extends StatelessWidget {
     );
   }
 }
+

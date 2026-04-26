@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class CounterButton extends StatelessWidget {
   final IconData icon;
@@ -16,8 +17,7 @@ class CounterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = context.colorScheme;
 
     return InkWell(
       onTap: isEnabled ? onPressed : null,
@@ -26,21 +26,22 @@ class CounterButton extends StatelessWidget {
         padding: const EdgeInsets.all(AppSpacing.xs),
         decoration: BoxDecoration(
           color: isEnabled
-              ? colorScheme.surfaceContainerHigh
-              : colorScheme.surfaceContainerLowest,
+              ? context.colors.card
+              : context.colors.background.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(AppRadius.sm),
           border: Border.all(
             color: isEnabled
-                ? colorScheme.outlineVariant
-                : colorScheme.outline.withValues(alpha: 0.1),
+                ? context.colors.border
+                : context.colors.border.withValues(alpha: 0.2),
           ),
         ),
         child: Icon(
           icon,
           size: 18,
-          color: isEnabled ? colorScheme.primary : colorScheme.outline,
+          color: isEnabled ? colorScheme.primary : context.colors.textSecondary,
         ),
       ),
     );
   }
 }
+

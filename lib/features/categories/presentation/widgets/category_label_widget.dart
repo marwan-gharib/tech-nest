@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/categories/domain/entities/category_entity.dart';
 
 class CategoryLabelWidget<T> extends StatelessWidget {
@@ -14,8 +15,6 @@ class CategoryLabelWidget<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0),
       child: GestureDetector(
@@ -32,15 +31,13 @@ class CategoryLabelWidget<T> extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
             color: isSelected
-                ? theme.colorScheme.primary
-                : theme.colorScheme.surfaceContainerHighest.withValues(
-                    alpha: 0.4,
-                  ),
+                ? context.colorScheme.primary
+                : context.colors.background,
             borderRadius: BorderRadius.circular(16),
             boxShadow: isSelected
                 ? [
                     BoxShadow(
-                      color: theme.colorScheme.primary.withValues(alpha: 0.3),
+                      color: context.colorScheme.primary.withValues(alpha: 0.3),
                       blurRadius: 8,
                       offset: const Offset(0, 4),
                     ),
@@ -48,18 +45,18 @@ class CategoryLabelWidget<T> extends StatelessWidget {
                 : null,
             border: Border.all(
               color: isSelected
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.outlineVariant.withValues(alpha: 0.2),
+                  ? context.colorScheme.primary
+                  : context.colors.border,
               width: 1.5,
             ),
           ),
           child: Center(
             child: AnimatedDefaultTextStyle(
               duration: const Duration(milliseconds: 300),
-              style: theme.textTheme.labelLarge!.copyWith(
+              style: context.labelLarge.copyWith(
                 color: isSelected
-                    ? theme.colorScheme.onPrimary
-                    : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.8),
+                    ? context.colorScheme.onPrimary
+                    : context.colors.textSecondary,
                 fontWeight: FontWeight.w700,
                 fontSize: 13,
               ),
@@ -77,3 +74,4 @@ class CategoryLabelWidget<T> extends StatelessWidget {
     );
   }
 }
+

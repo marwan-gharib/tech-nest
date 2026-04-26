@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/cubits/locale_cubit/locale_cubit.dart';
-import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/move_to_first_scroll_position_widget.dart';
 import 'package:tech_nest/features/home/presentation/widgets/filter_components.dart';
 import 'package:tech_nest/features/home/presentation/widgets/home_app_bar.dart';
@@ -59,10 +59,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
-      backgroundColor: theme.colorScheme.surface,
+      backgroundColor: context.colorScheme.surface,
+
       body: BlocListener<LocaleCubit, LocaleState>(
         listenWhen: (previous, current) => previous.locale != current.locale,
         listener: (context, state) {
@@ -85,7 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     onFilterPressed: _showBottomSheet,
                   ),
                   const SliverPadding(
-                    padding: EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: AppSpacing.md,
+                      vertical: AppSpacing.lg,
+                    ),
                     sliver: ProductsGrid(),
                   ),
                   const SliverToBoxAdapter(
@@ -138,13 +140,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
     await showModalBottomSheet(
       context: context,
-      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
+      backgroundColor: Colors.transparent,
       isDismissible: true,
       enableDrag: true,
-      showDragHandle: true,
+      showDragHandle: false,
       isScrollControlled: true,
+      useSafeArea: true,
       elevation: 24,
-      shape: AppRadius.sheetShape,
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height * 0.75,
+      ),
       builder: (_) {
         return BlocProvider.value(
           value: fetchProductsCubit,

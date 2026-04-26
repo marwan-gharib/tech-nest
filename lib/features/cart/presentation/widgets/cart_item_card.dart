@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/animations/skeleton_shimmer.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/build_price.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart_item_entity.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/delete_cart_item_cubit/delete_cart_item_cubit.dart';
@@ -24,10 +25,8 @@ class CartItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Container(
-      color: theme.scaffoldBackgroundColor,
+      color: context.colors.background,
       constraints: const BoxConstraints(
         maxHeight: _cardHeight,
         minHeight: _cardHeight,
@@ -52,10 +51,10 @@ class CartItemCard extends StatelessWidget {
                 height: double.infinity,
               ),
               errorWidget: (context, url, error) => Container(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                color: context.colors.shimmerBase,
                 child: Icon(
                   Icons.broken_image_outlined,
-                  color: Theme.of(context).colorScheme.outline,
+                  color: context.colors.textSecondary,
                 ),
               ),
             ),
@@ -72,7 +71,7 @@ class CartItemCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         cartItem.product.name,
-                        style: theme.textTheme.labelMedium,
+                        style: context.labelMedium,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -114,3 +113,4 @@ class CartItemCard extends StatelessWidget {
     );
   }
 }
+

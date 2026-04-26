@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:skeletonizer/skeletonizer.dart';
-
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class CartItemsSkeletonList extends StatelessWidget {
   const CartItemsSkeletonList({super.key});
@@ -12,8 +12,6 @@ class CartItemsSkeletonList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return ListView.builder(
       itemCount: _placeholderCount,
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.lg),
@@ -24,7 +22,7 @@ class CartItemsSkeletonList extends StatelessWidget {
             child: Container(
               height: _rowHeight,
               decoration: BoxDecoration(
-                color: colorScheme.surfaceContainerHighest,
+                color: context.colors.shimmerBase,
                 borderRadius: AppRadius.cardLg,
               ),
               padding: const EdgeInsets.all(AppSpacing.sm),
@@ -34,7 +32,7 @@ class CartItemsSkeletonList extends StatelessWidget {
                     width: AppSpacing.xxl + AppSpacing.lg * 2,
                     height: double.infinity,
                     decoration: BoxDecoration(
-                      color: colorScheme.onSurface.withValues(alpha: 0.08),
+                      color: context.colors.shimmerHighlight.withValues(alpha: 0.5),
                       borderRadius: AppRadius.cardMd,
                     ),
                   ),
@@ -47,13 +45,13 @@ class CartItemsSkeletonList extends StatelessWidget {
                         Container(
                           height: AppSpacing.md,
                           width: AppSpacing.xxl * 2,
-                          color: colorScheme.onSurface.withValues(alpha: 0.08),
+                          color: context.colors.shimmerHighlight.withValues(alpha: 0.5),
                         ),
                         const SizedBox(height: AppSpacing.sm),
                         Container(
                           height: AppSpacing.sm,
                           width: AppSpacing.xl,
-                          color: colorScheme.onSurface.withValues(alpha: 0.08),
+                          color: context.colors.shimmerHighlight.withValues(alpha: 0.5),
                         ),
                       ],
                     ),
@@ -67,3 +65,4 @@ class CartItemsSkeletonList extends StatelessWidget {
     );
   }
 }
+

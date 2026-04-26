@@ -21,12 +21,13 @@ class AppTheme {
     shadowColor: AppColors.black,
     hintColor: LightTheme.colorScheme.onSurface.withValues(alpha: 0.3),
     bottomNavigationBarTheme: LightTheme.bottomNavigationBarTheme,
+    extensions: const [LightTheme.appColorsExtension],
   );
 
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     primaryColor: DarkTheme.colorScheme.primary,
-    scaffoldBackgroundColor: DarkTheme.colorScheme.surface,
+    scaffoldBackgroundColor: DarkTheme.appColorsExtension.background,
     colorScheme: DarkTheme.colorScheme,
     appBarTheme: DarkTheme.appBarTheme,
     useMaterial3: true,
@@ -38,5 +39,6 @@ class AppTheme {
     shadowColor: AppColors.white,
     hintColor: DarkTheme.colorScheme.onSurface.withValues(alpha: 0.3),
     bottomNavigationBarTheme: DarkTheme.bottomNavigationBarTheme,
+    extensions: const [DarkTheme.appColorsExtension],
   );
 }

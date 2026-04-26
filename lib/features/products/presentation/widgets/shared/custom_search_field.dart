@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class CustomSearchField extends StatelessWidget {
   final ValueChanged<String?> onSubmit;
@@ -19,15 +20,14 @@ class CustomSearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = context.colorScheme;
 
     return TextField(
       controller: controller,
       textInputAction: TextInputAction.search,
       onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       cursorColor: colorScheme.primary,
-      cursorErrorColor: colorScheme.error,
+      cursorErrorColor: context.colors.error,
       keyboardType: TextInputType.name,
       onSubmitted: (value) => onSubmit(value),
       onChanged: (value) => onChange?.call(value),
@@ -39,10 +39,10 @@ class CustomSearchField extends StatelessWidget {
         focusedBorder: _border,
         focusedErrorBorder: _border,
         filled: true,
-        fillColor: colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+        fillColor: context.colorScheme.outline,
         hintText: hintText ?? "Search products...",
-        hintStyle: theme.textTheme.bodyLarge?.copyWith(
-          color: colorScheme.outline,
+        hintStyle: context.bodyLarge.copyWith(
+          color: context.colors.textSecondary,
         ),
         prefixIcon: Icon(Icons.search_rounded, color: colorScheme.primary),
         isDense: true,

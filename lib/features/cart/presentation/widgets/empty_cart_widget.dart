@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class EmptyCartWidget extends StatelessWidget {
   const EmptyCartWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = context.colorScheme;
 
     return Center(
       child: Column(
@@ -31,9 +31,9 @@ class EmptyCartWidget extends StatelessWidget {
           const SizedBox(height: AppSpacing.lg),
           Text(
             context.t.cart.empty,
-            style: theme.textTheme.headlineSmall?.copyWith(
+            style: context.headlineSmall.copyWith(
               fontWeight: FontWeight.bold,
-              color: colorScheme.onSurface,
+              color: context.colors.textPrimary,
             ),
           ),
           const SizedBox(height: AppSpacing.xs),
@@ -42,8 +42,8 @@ class EmptyCartWidget extends StatelessWidget {
             child: Text(
               context.t.cart.emptyDesc,
               textAlign: TextAlign.center,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.hintColor,
+              style: context.bodyMedium.copyWith(
+                color: context.colors.textSecondary,
               ),
             ),
           ),
@@ -57,3 +57,4 @@ class EmptyCartWidget extends StatelessWidget {
     );
   }
 }
+

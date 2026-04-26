@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/app_button.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
@@ -140,7 +141,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         height: AppSpacing.xxl + AppSpacing.lg,
         child: Center(
           child: CircularProgressIndicator(
-            color: Theme.of(context).colorScheme.primary,
+            color: context.colorScheme.primary,
           ),
         ),
       );
@@ -176,3 +177,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 }
+

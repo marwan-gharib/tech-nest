@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class HomeFilterButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -12,14 +12,14 @@ class HomeFilterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final colorScheme = context.colorScheme;
 
     return Container(
       height: AppSpacing.homeFilterButtonWidth,
       width: AppSpacing.homeFilterButtonWidth,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [colorScheme.primary, colorScheme.tertiary],
+          colors: [colorScheme.primary, colorScheme.primaryContainer],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -34,12 +34,13 @@ class HomeFilterButton extends StatelessWidget {
       ),
       child: IconButton(
         onPressed: onPressed,
-        icon: const Icon(
+        icon: Icon(
           Icons.tune_rounded,
-          color: Colors.white,
+          color: colorScheme.onPrimary,
           size: _iconSize,
         ),
       ),
     );
   }
 }
+

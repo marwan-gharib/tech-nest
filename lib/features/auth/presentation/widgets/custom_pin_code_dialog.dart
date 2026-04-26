@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class CustomPinCodeDialog extends StatelessWidget {
   final TextEditingController pinCodeController;
@@ -25,16 +26,13 @@ class CustomPinCodeDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const SizedBox.shrink(),
-            Text(label, style: theme.textTheme.labelLarge),
+            Text(label, style: context.labelLarge),
             IconButton(
               onPressed: () => context.pop(),
               icon: const Icon(Icons.close),
@@ -46,7 +44,7 @@ class CustomPinCodeDialog extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             hint,
-            style: theme.textTheme.bodyMedium?.copyWith(
+            style: context.bodyMedium.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -64,9 +62,28 @@ class CustomPinCodeDialog extends StatelessWidget {
             margin: const EdgeInsets.all(2),
             width: _pinWidth,
             height: _pinHeight,
+            textStyle: context.bodyLarge.copyWith(
+              fontWeight: FontWeight.bold,
+              color: context.colors.textPrimary,
+            ),
             decoration: BoxDecoration(
-              color: colorScheme.outline,
+              color: context.colors.background,
               borderRadius: BorderRadius.circular(_pinBorderRadius),
+              border: Border.all(color: context.colors.border),
+            ),
+          ),
+          focusedPinTheme: PinTheme(
+            margin: const EdgeInsets.all(2),
+            width: _pinWidth,
+            height: _pinHeight,
+            textStyle: context.bodyLarge.copyWith(
+              fontWeight: FontWeight.bold,
+              color: context.colors.textPrimary,
+            ),
+            decoration: BoxDecoration(
+              color: context.colors.background,
+              borderRadius: BorderRadius.circular(_pinBorderRadius),
+              border: Border.all(color: context.colorScheme.primary, width: 2),
             ),
           ),
         ),
@@ -77,8 +94,8 @@ class CustomPinCodeDialog extends StatelessWidget {
             if (!value) return const SizedBox.shrink();
             return Text(
               errorText,
-              style: theme.textTheme.bodyMedium?.copyWith(
-                color: colorScheme.error,
+              style: context.bodyMedium.copyWith(
+                color: context.colors.error,
               ),
             );
           },
@@ -87,3 +104,4 @@ class CustomPinCodeDialog extends StatelessWidget {
     );
   }
 }
+

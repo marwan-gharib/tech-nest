@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/onboarding/presentation/models/onboarding_page_data.dart';
 
 class OnboardingPageView extends StatelessWidget {
@@ -10,9 +11,6 @@ class OnboardingPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
       child: Column(
@@ -35,9 +33,9 @@ class OnboardingPageView extends StatelessWidget {
             delay: const Duration(milliseconds: 200),
             child: Text(
               pageData.title,
-              style: theme.textTheme.headlineMedium?.copyWith(
+              style: context.headlineMedium.copyWith(
                 fontWeight: FontWeight.bold,
-                color: colorScheme.onSurface,
+                color: context.colors.textPrimary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -47,8 +45,8 @@ class OnboardingPageView extends StatelessWidget {
             delay: const Duration(milliseconds: 400),
             child: Text(
               pageData.description,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: colorScheme.onSurface.withValues(alpha: 0.7),
+              style: context.bodyLarge.copyWith(
+                color: context.colors.textSecondary,
                 height: 1.5,
               ),
               textAlign: TextAlign.center,
@@ -60,3 +58,4 @@ class OnboardingPageView extends StatelessWidget {
     );
   }
 }
+

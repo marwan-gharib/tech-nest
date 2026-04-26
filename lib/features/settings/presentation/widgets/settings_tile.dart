@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/core/theme/app_colors.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class SettingsTile extends StatelessWidget {
   final IconData leadingIcon;
@@ -21,17 +21,16 @@ class SettingsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final primaryColor = theme.primaryColor;
+    final effectiveIconColor = iconColor ?? context.colorScheme.primary;
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
       decoration: BoxDecoration(
-        color: theme.cardColor,
+        color: context.colors.card,
         borderRadius: AppRadius.cardMd,
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.04),
+            color: context.colors.textPrimary.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -49,12 +48,12 @@ class SettingsTile extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(AppSpacing.sm),
                   decoration: BoxDecoration(
-                    color: (iconColor ?? primaryColor).withValues(alpha: 0.1),
+                    color: effectiveIconColor.withValues(alpha: 0.1),
                     borderRadius: AppRadius.cardSm,
                   ),
                   child: Icon(
                     leadingIcon,
-                    color: iconColor ?? primaryColor,
+                    color: effectiveIconColor,
                     size: 20,
                   ),
                 ),
@@ -62,8 +61,8 @@ class SettingsTile extends StatelessWidget {
                 Expanded(
                   child: Text(
                     title,
-                    style: theme.textTheme.labelLarge?.copyWith(
-                      color: theme.textTheme.bodyLarge?.color,
+                    style: context.labelLarge.copyWith(
+                      color: context.colors.textPrimary,
                     ),
                   ),
                 ),
@@ -72,7 +71,7 @@ class SettingsTile extends StatelessWidget {
                 else
                   Icon(
                     Icons.chevron_right_rounded,
-                    color: theme.disabledColor.withValues(alpha: 0.5),
+                    color: context.colors.textSecondary.withValues(alpha: 0.5),
                   ),
               ],
             ),
@@ -82,3 +81,4 @@ class SettingsTile extends StatelessWidget {
     );
   }
 }
+

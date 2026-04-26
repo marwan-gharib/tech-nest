@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/products/presentation/widgets/counter_button.dart';
 
 class CustomCounter extends StatefulWidget {
@@ -53,9 +54,6 @@ class _CustomCounterState extends State<CustomCounter> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Stack(
       children: [
         ValueListenableBuilder<int>(
@@ -75,9 +73,9 @@ class _CustomCounterState extends State<CustomCounter> {
                   child: Text(
                     "$value",
                     textAlign: TextAlign.center,
-                    style: theme.textTheme.titleMedium?.copyWith(
+                    style: context.titleMedium.copyWith(
                       fontWeight: FontWeight.bold,
-                      color: colorScheme.onSurface,
+                      color: context.colors.textPrimary,
                     ),
                   ),
                 ),
@@ -96,7 +94,7 @@ class _CustomCounterState extends State<CustomCounter> {
               alignment: Alignment.center,
               child: Container(
                 height: 2,
-                color: colorScheme.error.withValues(alpha: 0.5),
+                color: context.colors.error.withValues(alpha: 0.5),
               ),
             ),
           ),
@@ -104,3 +102,4 @@ class _CustomCounterState extends State<CustomCounter> {
     );
   }
 }
+

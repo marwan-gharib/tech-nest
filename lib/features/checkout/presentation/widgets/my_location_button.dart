@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class MyLocationButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -22,11 +23,11 @@ class MyLocationButton extends StatelessWidget {
           valueListenable: isLoadingNotifier,
           builder: (_, isLoading, _) {
             if (isLoading) {
-              return const SizedBox(
+              return SizedBox(
                 width: 20,
                 height: 20,
                 child: CircularProgressIndicator(
-                  color: Colors.white,
+                  color: context.colorScheme.onPrimary,
                   strokeWidth: 2,
                 ),
               );
@@ -38,3 +39,4 @@ class MyLocationButton extends StatelessWidget {
     );
   }
 }
+

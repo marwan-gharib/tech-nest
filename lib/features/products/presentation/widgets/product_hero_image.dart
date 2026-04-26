@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 
 class ProductHeroImage extends StatelessWidget {
@@ -22,14 +23,14 @@ class ProductHeroImage extends StatelessWidget {
           imageUrl: Endpoints.baseUrl + product.imgUrl,
           fit: BoxFit.cover,
           placeholder: (context, url) => SpinKitWaveSpinner(
-            color: Theme.of(context).colorScheme.primary,
+            color: context.colorScheme.primary,
             size: 40,
           ),
           errorWidget: (context, url, error) => Container(
-            color: Theme.of(context).colorScheme.surfaceContainerHighest,
+            color: context.colors.shimmerBase,
             child: Icon(
               Icons.broken_image_outlined,
-              color: Theme.of(context).colorScheme.outline,
+              color: context.colors.textSecondary,
             ),
           ),
         ),
@@ -37,3 +38,4 @@ class ProductHeroImage extends StatelessWidget {
     );
   }
 }
+

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/i18n/strings.g.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/cart/presentation/widgets/shared/cart_details_widget.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/features/cart/presentation/widgets/shared/cart_details_widget.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class OrderSummary extends StatelessWidget {
   const OrderSummary({super.key});
@@ -13,9 +14,6 @@ class OrderSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(
@@ -23,7 +21,7 @@ class OrderSummary extends StatelessWidget {
         vertical: AppSpacing.lg,
       ),
       decoration: BoxDecoration(
-        color: colorScheme.surface,
+        color: context.colors.surface,
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(_summaryRadius),
           topRight: Radius.circular(_summaryRadius),
@@ -36,7 +34,11 @@ class OrderSummary extends StatelessWidget {
         children: [
           Text(
             context.t.cart.summary,
-            style: theme.textTheme.labelLarge?.copyWith(fontSize: _titleSize),
+            style: context.labelLarge.copyWith(
+              fontSize: _titleSize,
+              color: context.colors.textPrimary,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           BlocBuilder<CartCubit, CartState>(
             builder: (context, state) {
@@ -51,3 +53,4 @@ class OrderSummary extends StatelessWidget {
     );
   }
 }
+

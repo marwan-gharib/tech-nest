@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/custom_price_field.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
@@ -19,8 +20,6 @@ class FilterPriceRangeFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.xs),
       child: Row(
@@ -41,8 +40,8 @@ class FilterPriceRangeFields extends StatelessWidget {
             ),
             child: Text(
               '—',
-              style: theme.textTheme.bodyLarge!.copyWith(
-                color: theme.colorScheme.onSurfaceVariant.withValues(
+              style: context.bodyLarge.copyWith(
+                color: context.colors.textSecondary.withValues(
                   alpha: 0.4,
                 ),
                 fontWeight: FontWeight.w300,
@@ -61,3 +60,4 @@ class FilterPriceRangeFields extends StatelessWidget {
     );
   }
 }
+

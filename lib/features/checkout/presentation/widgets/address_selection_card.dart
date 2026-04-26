@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class AddressSelectionCard extends StatelessWidget {
@@ -15,10 +16,15 @@ class AddressSelectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 10)],
+      decoration: BoxDecoration(
+        color: context.colors.background,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        boxShadow: [
+          BoxShadow(
+            color: context.colors.textPrimary.withValues(alpha: 0.1),
+            blurRadius: 10,
+          ),
+        ],
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -26,12 +32,14 @@ class AddressSelectionCard extends StatelessWidget {
         children: [
           Text(
             context.t.checkout.addressLabel,
-            style: const TextStyle(color: Colors.grey, fontSize: 12),
+            style: context.bodySmall.copyWith(
+              color: context.colors.textSecondary,
+            ),
           ),
           const SizedBox(height: 4),
           Row(
             children: [
-              const Icon(Icons.location_on, color: Colors.red),
+              Icon(Icons.location_on, color: context.colors.error),
               const SizedBox(width: 8),
               Expanded(
                 child: ValueListenableBuilder<String>(
@@ -39,8 +47,7 @@ class AddressSelectionCard extends StatelessWidget {
                   builder: (_, selectedAddress, _) {
                     return Text(
                       selectedAddress,
-                      style: const TextStyle(
-                        fontSize: 15,
+                      style: context.bodyMedium.copyWith(
                         fontWeight: FontWeight.w500,
                       ),
                     );
@@ -62,3 +69,4 @@ class AddressSelectionCard extends StatelessWidget {
     );
   }
 }
+

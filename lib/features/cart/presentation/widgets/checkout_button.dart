@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class CheckoutButton extends StatelessWidget {
@@ -14,8 +15,7 @@ class CheckoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = context.colorScheme;
 
     return GestureDetector(
       onTap: onPressed,
@@ -51,13 +51,13 @@ class CheckoutButton extends StatelessWidget {
                 children: [
                   Text(
                     context.t.cart.total,
-                    style: theme.textTheme.labelMedium?.copyWith(
+                    style: context.labelMedium.copyWith(
                       color: colorScheme.onPrimary.withValues(alpha: 0.7),
                     ),
                   ),
                   Text(
                     '\$${totalPrice.toStringAsFixed(2)}',
-                    style: theme.textTheme.titleLarge?.copyWith(
+                    style: context.titleLarge.copyWith(
                       color: colorScheme.onPrimary,
                       fontWeight: FontWeight.bold,
                     ),
@@ -68,7 +68,7 @@ class CheckoutButton extends StatelessWidget {
                 children: [
                   Text(
                     context.t.cart.checkout,
-                    style: theme.textTheme.titleMedium?.copyWith(
+                    style: context.titleMedium.copyWith(
                       color: colorScheme.onPrimary,
                       fontWeight: FontWeight.w600,
                     ),
@@ -88,3 +88,4 @@ class CheckoutButton extends StatelessWidget {
     );
   }
 }
+

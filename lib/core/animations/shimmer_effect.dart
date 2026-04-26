@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/animations/app_animations.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class ShimmerEffect extends StatefulWidget {
   final Widget child;
@@ -63,7 +64,7 @@ class _ShimmerEffectState extends State<ShimmerEffect>
           child: widget.child,
         );
       },
-      child: const ColoredBox(color: Colors.white),
+      child: ColoredBox(color: context.colors.card),
     );
   }
 }

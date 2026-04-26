@@ -2,8 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/features/categories/domain/entities/category_entity.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
+import 'package:tech_nest/features/categories/domain/entities/category_entity.dart';
 
 class CategoryCard extends StatelessWidget {
   final VoidCallback? onTap;
@@ -23,8 +24,7 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = context.colorScheme;
 
     return GestureDetector(
       onTap: onTap,
@@ -40,7 +40,7 @@ class CategoryCard extends StatelessWidget {
               : Colors.transparent,
           borderRadius: BorderRadius.circular(_cardBorderRadius),
           border: Border.all(
-            color: isSelected ? colorScheme.primary : colorScheme.outline,
+            color: isSelected ? colorScheme.primary : context.colors.border,
             width: 1,
           ),
         ),
@@ -58,14 +58,14 @@ class CategoryCard extends StatelessWidget {
                 memCacheWidth: 300,
                 fit: BoxFit.fill,
                 placeholder: (context, url) => SpinKitWaveSpinner(
-                  color: Theme.of(context).colorScheme.primary,
+                  color: context.colorScheme.primary,
                   size: 40,
                 ),
                 errorWidget: (context, url, error) => Container(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  color: context.colors.shimmerBase,
                   child: Icon(
                     Icons.broken_image_outlined,
-                    color: Theme.of(context).colorScheme.outline,
+                    color: context.colors.textSecondary,
                   ),
                 ),
               ),
@@ -73,7 +73,7 @@ class CategoryCard extends StatelessWidget {
             Expanded(
               child: Text(
                 category.name,
-                style: theme.textTheme.bodyMedium,
+                style: context.bodyMedium,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -84,3 +84,4 @@ class CategoryCard extends StatelessWidget {
     );
   }
 }
+

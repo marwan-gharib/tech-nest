@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class SearchSuggestionsOverlayList extends StatelessWidget {
   final List<String> suggestions;
@@ -14,14 +15,11 @@ class SearchSuggestionsOverlayList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-
     return Material(
       elevation: 8,
-      shadowColor: theme.shadowColor.withValues(alpha: 0.15),
+      shadowColor: context.colors.textPrimary.withValues(alpha: 0.15),
       borderRadius: BorderRadius.circular(AppRadius.lg),
-      color: colorScheme.surface,
+      color: context.colors.card,
       clipBehavior: Clip.antiAlias,
       child: ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 250),
@@ -31,21 +29,21 @@ class SearchSuggestionsOverlayList extends StatelessWidget {
           itemCount: suggestions.length,
           separatorBuilder: (context, index) => Divider(
             height: 1,
-            color: colorScheme.outlineVariant.withValues(alpha: 0.5),
+            color: context.colors.divider,
           ),
           itemBuilder: (context, i) {
             final String suggestion = suggestions[i];
             return ListTile(
               title: Text(
                 suggestion,
-                style: theme.textTheme.bodyMedium?.copyWith(
+                style: context.bodyMedium.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: colorScheme.onSurface,
+                  color: context.colors.textPrimary,
                 ),
               ),
               leading: Icon(
                 Icons.search_rounded,
-                color: colorScheme.primary.withValues(alpha: 0.6),
+                color: context.colorScheme.primary.withValues(alpha: 0.6),
                 size: 20,
               ),
               dense: true,
@@ -57,3 +55,4 @@ class SearchSuggestionsOverlayList extends StatelessWidget {
     );
   }
 }
+

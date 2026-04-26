@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/cubits/theme_cubit/theme_cubit.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
 class ThemeOption extends StatelessWidget {
   final ThemeMode mode;
@@ -18,8 +19,7 @@ class ThemeOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = context.colorScheme;
 
     return InkWell(
       onTap: () => context.read<ThemeCubit>().updateThemeMode(mode),
@@ -30,12 +30,12 @@ class ThemeOption extends StatelessWidget {
         decoration: BoxDecoration(
           color: isSelected
               ? colorScheme.primaryContainer.withValues(alpha: 0.5)
-              : colorScheme.surface,
+              : context.colors.card,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected
                 ? colorScheme.primary
-                : colorScheme.outline.withValues(alpha: 0.1),
+                : context.colors.border.withValues(alpha: 0.5),
             width: 2,
           ),
           boxShadow: isSelected
@@ -56,9 +56,7 @@ class ThemeOption extends StatelessWidget {
               decoration: BoxDecoration(
                 color: isSelected
                     ? colorScheme.primary
-                    : colorScheme.surfaceContainerHighest.withValues(
-                        alpha: 0.5,
-                      ),
+                    : context.colors.background,
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -66,16 +64,16 @@ class ThemeOption extends StatelessWidget {
                 size: 20,
                 color: isSelected
                     ? colorScheme.onPrimary
-                    : colorScheme.onSurfaceVariant,
+                    : context.colors.textSecondary,
               ),
             ),
             const SizedBox(height: 8),
             Text(
               label,
-              style: theme.textTheme.labelSmall?.copyWith(
+              style: context.labelSmall.copyWith(
                 color: isSelected
                     ? colorScheme.primary
-                    : colorScheme.onSurfaceVariant,
+                    : context.colors.textSecondary,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 fontSize: 10,
               ),
@@ -89,3 +87,4 @@ class ThemeOption extends StatelessWidget {
     );
   }
 }
+

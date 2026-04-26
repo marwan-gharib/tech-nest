@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/theme/app_colors.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/settings/presentation/cubits/logout_cubit/logout_cubit.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
@@ -18,7 +18,7 @@ class LogoutDialog extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(AppRadius.xxl)),
       ),
       elevation: 0,
-      backgroundColor: AppColors.transparent,
+      backgroundColor: Colors.transparent,
       child: Container(
         padding: const EdgeInsets.all(AppSpacing.lg),
         decoration: _dialogDecoration(context),
@@ -30,15 +30,13 @@ class LogoutDialog extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
             Text(
               t.settings.logout,
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
+              style: context.headlineSmall.copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
               t.settings.logoutConfirm,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              style: context.bodyMedium.copyWith(
+                color: context.colors.textSecondary,
               ),
             ),
             const SizedBox(height: AppSpacing.md),
@@ -57,11 +55,11 @@ class LogoutDialog extends StatelessWidget {
 
   BoxDecoration _dialogDecoration(BuildContext context) {
     return BoxDecoration(
-      color: Theme.of(context).colorScheme.surface,
+      color: context.colors.surface,
       borderRadius: const BorderRadius.all(Radius.circular(AppRadius.xxl)),
       boxShadow: [
         BoxShadow(
-          color: AppColors.black.withValues(alpha: 0.1),
+          color: context.colors.textPrimary.withValues(alpha: 0.1),
           blurRadius: 10,
           offset: const Offset(0, 4),
         ),
@@ -74,12 +72,12 @@ class LogoutDialog extends StatelessWidget {
       width: 72,
       height: 72,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.error.withValues(alpha: 0.1),
+        color: context.colors.error.withValues(alpha: 0.1),
         shape: BoxShape.circle,
       ),
       child: Icon(
         Icons.logout_rounded,
-        color: Theme.of(context).colorScheme.error,
+        color: context.colors.error,
         size: 32,
       ),
     );
@@ -91,14 +89,14 @@ class LogoutDialog extends StatelessWidget {
         onPressed: () => context.pop(),
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
-          side: BorderSide(color: Theme.of(context).colorScheme.outline),
+          side: BorderSide(color: context.colors.border),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(AppRadius.xl)),
           ),
         ),
         child: Text(
           context.t.common.cancel,
-          style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          style: context.labelLarge.copyWith(color: context.colors.textPrimary),
         ),
       ),
     );
@@ -112,16 +110,24 @@ class LogoutDialog extends StatelessWidget {
           context.read<LogoutCubit>().logout();
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.error,
-          foregroundColor: Theme.of(context).colorScheme.onError,
+          backgroundColor: context.colors.error,
+          foregroundColor: context.colorScheme.onError,
           padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
           elevation: 0,
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(AppRadius.xl)),
           ),
         ),
-        child: Text(context.t.settings.logout),
+        child: Text(
+          context.t.settings.logout,
+          style: context.labelLarge.copyWith(
+            color: context.colorScheme.onError,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
 }
+
+

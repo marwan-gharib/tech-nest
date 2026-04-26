@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/constants/auth_constants.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit/reset_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_pin_code_dialog.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/reset_password_form_fields.dart';
@@ -72,10 +73,14 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
             padding: const EdgeInsets.all(AppSpacing.lg),
             width: MediaQuery.of(context).size.width * 0.9,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface,
+              color: context.colors.surface,
               borderRadius: BorderRadius.circular(AppRadius.xl),
               boxShadow: [
-                BoxShadow(blurRadius: 20, color: Theme.of(context).shadowColor),
+                BoxShadow(
+                  blurRadius: 20,
+                  color: context.colors.textPrimary.withValues(alpha: 0.1),
+                  offset: const Offset(0, 10),
+                ),
               ],
             ),
             child: SingleChildScrollView(
@@ -126,7 +131,7 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
         height: AppSpacing.xxl + AppSpacing.lg,
         child: Center(
           child: CircularProgressIndicator(
-            color: Theme.of(context).colorScheme.primary,
+            color: context.colorScheme.primary,
           ),
         ),
       );
@@ -150,3 +155,4 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
     }
   }
 }
+

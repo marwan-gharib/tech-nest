@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/app_button.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
@@ -40,7 +41,7 @@ class LoginButtonConsumer extends StatelessWidget {
             height: AppSpacing.xxl + AppSpacing.lg,
             child: Center(
               child: CircularProgressIndicator(
-                color: Theme.of(context).colorScheme.primary,
+                color: context.colorScheme.primary,
               ),
             ),
           );
@@ -50,3 +51,4 @@ class LoginButtonConsumer extends StatelessWidget {
     );
   }
 }
+

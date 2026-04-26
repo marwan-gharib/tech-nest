@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/update_item_quantity_cubit/update_item_quantity_cubit.dart';
 
 class ChangeCartItemCount extends StatelessWidget {
@@ -43,14 +44,15 @@ class ChangeCartItemCount extends StatelessWidget {
     required VoidCallback onPressed,
   }) => InkWell(
     onTap: onPressed,
+    borderRadius: BorderRadius.circular(100),
     child: Container(
       height: 26,
       width: 32,
       decoration: BoxDecoration(
-        color: Theme.of(context).hintColor,
+        color: context.colors.shimmerBase,
         shape: BoxShape.circle,
       ),
-      child: Icon(icon, size: 20, color: Theme.of(context).shadowColor),
+      child: Icon(icon, size: 20, color: context.colors.textPrimary),
     ),
   );
 
@@ -74,9 +76,10 @@ class ChangeCartItemCount extends StatelessWidget {
 
     return Text(
       "${item.quantity}",
-      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+      style: context.labelLarge.copyWith(
         fontSize: 15,
-        color: Theme.of(context).shadowColor,
+        color: context.colors.textPrimary,
+        fontWeight: FontWeight.bold,
       ),
     );
   }
@@ -121,3 +124,4 @@ class ChangeCartItemCount extends StatelessWidget {
     );
   }
 }
+

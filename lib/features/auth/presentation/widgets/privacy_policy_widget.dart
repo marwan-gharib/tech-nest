@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/constants/links.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/utils/lanch_url.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
@@ -9,8 +10,7 @@ class PrivacyPolicyWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final colorScheme = context.colorScheme;
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -21,7 +21,7 @@ class PrivacyPolicyWidget extends StatelessWidget {
             return Checkbox(
               value: value,
               onChanged: (value) => _checkBoxNotifier.value = value!,
-              activeColor: colorScheme.tertiary,
+              activeColor: colorScheme.primary,
               side: BorderSide(
                 color: colorScheme.primary,
                 width: 1,
@@ -35,7 +35,7 @@ class PrivacyPolicyWidget extends StatelessWidget {
             children: [
               Text(
                 context.t.auth.privacyPolicy.accept,
-                style: theme.textTheme.bodySmall,
+                style: context.bodySmall,
               ),
               _textLink(
                 context,
@@ -44,7 +44,7 @@ class PrivacyPolicyWidget extends StatelessWidget {
               ),
               Text(
                 context.t.auth.privacyPolicy.and,
-                style: theme.textTheme.bodySmall,
+                style: context.bodySmall,
               ),
               _textLink(
                 context,
@@ -63,18 +63,18 @@ class PrivacyPolicyWidget extends StatelessWidget {
     required String text,
     required String link,
   }) {
-    final theme = Theme.of(context);
-
     return GestureDetector(
       onTap: () async {
         await LanchUrl.launch(link);
       },
       child: Text(
         text,
-        style: theme.textTheme.bodySmall?.copyWith(
-          color: theme.colorScheme.primary,
+        style: context.bodySmall.copyWith(
+          color: context.colorScheme.primary,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
   }
 }
+

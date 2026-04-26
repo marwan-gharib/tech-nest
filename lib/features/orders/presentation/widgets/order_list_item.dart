@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/date_formatter.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/orders/domain/entities/order_entity.dart';
 import 'package:tech_nest/features/orders/presentation/widgets/order_status_chip.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
@@ -19,9 +20,7 @@ class OrderListItem extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: AppSpacing.md),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: Theme.of(context).dividerColor.withValues(alpha: 0.1),
-        ),
+        side: BorderSide(color: context.colors.border),
       ),
       child: InkWell(
         onTap: () => context.push(
@@ -39,7 +38,8 @@ class OrderListItem extends StatelessWidget {
                 children: [
                   Text(
                     '#${order.id}',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    style: context.headlineLarge.copyWith(
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -51,10 +51,8 @@ class OrderListItem extends StatelessWidget {
                 context.t.orders.date(
                   date: DateFormatter.format(order.createdAt),
                 ),
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.6),
+                style: context.bodyMedium.copyWith(
+                  color: context.colors.textSecondary,
                 ),
               ),
               const SizedBox(height: AppSpacing.md),
@@ -63,13 +61,14 @@ class OrderListItem extends StatelessWidget {
                 children: [
                   Text(
                     context.t.cart.total,
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: context.bodyMedium,
                   ),
                   Text(
                     '\$${order.totalPrice.toStringAsFixed(2)}',
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    style: context.headlineLarge.copyWith(
+                      fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
+                      color: context.colorScheme.primary,
                     ),
                   ),
                 ],
@@ -81,3 +80,4 @@ class OrderListItem extends StatelessWidget {
     );
   }
 }
+

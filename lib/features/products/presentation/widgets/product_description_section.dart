@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class ProductDescriptionSection extends StatelessWidget {
@@ -8,22 +9,20 @@ class ProductDescriptionSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: AppSpacing.xs,
       children: [
         Text(
           context.t.products.description,
-          style: theme.textTheme.titleLarge?.copyWith(
+          style: context.titleLarge.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         Text(
           description,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.shadowColor.withValues(alpha: 0.7),
+          style: context.bodyMedium.copyWith(
+            color: context.colors.textSecondary,
             height: 1.5,
           ),
         ),
@@ -31,3 +30,4 @@ class ProductDescriptionSection extends StatelessWidget {
     );
   }
 }
+

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class OnboardingSkipButton extends StatelessWidget {
@@ -16,8 +17,6 @@ class OnboardingSkipButton extends StatelessWidget {
   Widget build(BuildContext context) {
     if (!isVisible) return const SizedBox.shrink();
 
-    final colorScheme = Theme.of(context).colorScheme;
-
     return Positioned(
       top: AppSpacing.md,
       right: AppSpacing.md,
@@ -25,8 +24,8 @@ class OnboardingSkipButton extends StatelessWidget {
         onPressed: onPressed,
         child: Text(
           context.t.onboarding.skip,
-          style: TextStyle(
-            color: colorScheme.onSurface.withValues(alpha: 0.6),
+          style: context.labelLarge.copyWith(
+            color: context.colors.textSecondary,
             fontSize: 16,
             fontWeight: FontWeight.w600,
           ),
@@ -35,3 +34,5 @@ class OnboardingSkipButton extends StatelessWidget {
     );
   }
 }
+
+
