@@ -78,7 +78,7 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
               boxShadow: [
                 BoxShadow(
                   blurRadius: 20,
-                  color: Colors.black.withValues(alpha: 0.1),
+                  color: context.colors.textPrimary.withValues(alpha: 0.1),
                   offset: const Offset(0, 10),
                 ),
               ],

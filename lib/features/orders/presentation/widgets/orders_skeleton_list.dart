@@ -26,7 +26,7 @@ class OrdersSkeletonList extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Order #1234', style: TextStyle(fontSize: 16)),
+                      Text('Order #1234', style: context.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
                       Container(
                         width: 80,
                         height: 24,
@@ -35,11 +35,14 @@ class OrdersSkeletonList extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: AppSpacing.sm),
-                  const Text('Ordered on: 12/12/2026'),
+                  Text('Ordered on: 12/12/2026', style: context.bodyMedium),
                   const SizedBox(height: AppSpacing.md),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [Text('Total'), Text('\$150.00')],
+                    children: [
+                      Text('Total', style: context.bodyMedium),
+                      Text('\$150.00', style: context.bodyLarge.copyWith(fontWeight: FontWeight.bold)),
+                    ],
                   ),
                 ],
               ),
@@ -50,4 +53,5 @@ class OrdersSkeletonList extends StatelessWidget {
     );
   }
 }
+
 

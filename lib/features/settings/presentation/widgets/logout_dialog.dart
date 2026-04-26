@@ -59,7 +59,7 @@ class LogoutDialog extends StatelessWidget {
       borderRadius: const BorderRadius.all(Radius.circular(AppRadius.xxl)),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withValues(alpha: 0.1),
+          color: context.colors.textPrimary.withValues(alpha: 0.1),
           blurRadius: 10,
           offset: const Offset(0, 4),
         ),

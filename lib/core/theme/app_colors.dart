@@ -24,12 +24,10 @@ class AppColors {
   // Semantic
   static const Color success = Color(0xff10B981); // Emerald 500
   static const Color warning = Color(0xffF59E0B); // Amber 500
-  static const Color error = Color(0xffEF4444);   // Red 500
-  static const Color info = Color(0xff3B82F6);    // Blue 500
+  static const Color error = Color(0xffEF4444); // Red 500
+  static const Color info = Color(0xff3B82F6); // Blue 500
 
   // Extras
   static const Color white = Color(0xffFFFFFF);
   static const Color black = Color(0xff000000);
-  static const Color transparent = Colors.transparent;
 }
-

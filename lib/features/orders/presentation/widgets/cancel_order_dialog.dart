@@ -32,7 +32,7 @@ class CancelOrderDialog extends StatelessWidget {
           onPressed: () => Navigator.of(context).pop(),
           child: Text(
             context.t.orders.cancelNo,
-            style: TextStyle(color: context.colors.textSecondary),
+            style: context.bodyMedium.copyWith(color: context.colors.textSecondary),
           ),
         ),
         ElevatedButton(

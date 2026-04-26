@@ -24,7 +24,7 @@ class OnboardingSkipButton extends StatelessWidget {
         onPressed: onPressed,
         child: Text(
           context.t.onboarding.skip,
-          style: TextStyle(
+          style: context.labelLarge.copyWith(
             color: context.colors.textSecondary,
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -34,4 +34,5 @@ class OnboardingSkipButton extends StatelessWidget {
     );
   }
 }
+
 
