@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/app/service_locator.dart';
 import 'package:tech_nest/core/animations/page_transitions.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
@@ -21,6 +22,8 @@ import 'package:tech_nest/features/checkout/presentation/cubits/create_order/cre
 import 'package:tech_nest/features/checkout/presentation/screens/checkout_screen.dart';
 import 'package:tech_nest/features/checkout/presentation/screens/location_picker_screen.dart';
 import 'package:tech_nest/features/home/presentation/screens/home_screen.dart';
+import 'package:tech_nest/features/notifications/presentation/notification_cubit/notification_cubit.dart';
+import 'package:tech_nest/features/notifications/presentation/screens/notification_screen.dart';
 import 'package:tech_nest/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_cubit.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/orders_list/orders_list_cubit.dart';
@@ -30,7 +33,6 @@ import 'package:tech_nest/features/products/domain/entities/product_entity.dart'
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';
 import 'package:tech_nest/features/settings/presentation/screens/settings_screen.dart';
-import 'package:tech_nest/app/service_locator.dart';
 
 class AppRouter {
   static final AuthNotifier _authNotifier = sl<AuthNotifier>();
@@ -55,6 +57,7 @@ class AppRouter {
       _signUpScreenRouter,
       _loginScreenRouter,
       _onboardingScreenRouter,
+      _notificationScreenRouter,
     ],
     refreshListenable: _authNotifier,
     redirect: (context, state) {
@@ -216,6 +219,18 @@ class AppRouter {
       context: context,
       state: state,
       child: const LocationPickerScreen(),
+    ),
+  );
+
+  static final _notificationScreenRouter = GoRoute(
+    path: Routes.notificationScreenPath,
+    pageBuilder: (context, state) => PageTransitions.slideTransition(
+      context: context,
+      state: state,
+      child: BlocProvider(
+        create: (context) => sl<NotificationCubit>()..initialFetching(),
+        child: const NotificationScreen(),
+      ),
     ),
   );
 }

@@ -48,6 +48,7 @@ class TranslationsAr with BaseTranslations<AppLocale, Translations> implements T
 	@override late final _TranslationsOnboardingAr onboarding = _TranslationsOnboardingAr._(_root);
 	@override late final _TranslationsCheckoutAr checkout = _TranslationsCheckoutAr._(_root);
 	@override late final _TranslationsOrdersAr orders = _TranslationsOrdersAr._(_root);
+	@override late final _TranslationsNotificationsAr notifications = _TranslationsNotificationsAr._(_root);
 }
 
 // Path: common
@@ -286,6 +287,19 @@ class _TranslationsOrdersAr implements TranslationsOrdersEn {
 	@override late final _TranslationsOrdersStatusAr status = _TranslationsOrdersStatusAr._(_root);
 }
 
+// Path: notifications
+class _TranslationsNotificationsAr implements TranslationsNotificationsEn {
+	_TranslationsNotificationsAr._(this._root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'الإشعارات';
+	@override String get empty => 'ليس لديك أي إشعارات بعد.';
+	@override String get markAsRead => 'تحديد كمقروء';
+	@override String get loadFailed => 'فشل تحميل الإشعارات. يرجى المحاولة مرة أخرى.';
+}
+
 // Path: auth.privacyPolicy
 class _TranslationsAuthPrivacyPolicyAr implements TranslationsAuthPrivacyPolicyEn {
 	_TranslationsAuthPrivacyPolicyAr._(this._root);
@@ -509,6 +523,10 @@ extension on TranslationsAr {
 			'orders.status.shipped' => 'تم الشحن',
 			'orders.status.delivered' => 'تم التوصيل',
 			'orders.status.cancelled' => 'ملغى',
+			'notifications.title' => 'الإشعارات',
+			'notifications.empty' => 'ليس لديك أي إشعارات بعد.',
+			'notifications.markAsRead' => 'تحديد كمقروء',
+			'notifications.loadFailed' => 'فشل تحميل الإشعارات. يرجى المحاولة مرة أخرى.',
 			_ => null,
 		};
 	}

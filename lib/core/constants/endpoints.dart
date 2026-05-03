@@ -29,4 +29,9 @@ class Endpoints {
   static String get listOrders => "orders/list.php";
   static String get orderDetails => "orders/details.php";
   static String get cancelOrder => "orders/cancel.php";
+
+  static String get listNotifications => "notifications/get_notifications.php";
+  static String get markNotificationAsRead =>
+      "notifications/mark_notification_read.php";
+  static String get saveFCMToken => "notifications/save_fcm_token.php";
 }

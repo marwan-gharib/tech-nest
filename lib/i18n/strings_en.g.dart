@@ -51,6 +51,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsOnboardingEn onboarding = TranslationsOnboardingEn._(_root);
 	late final TranslationsCheckoutEn checkout = TranslationsCheckoutEn._(_root);
 	late final TranslationsOrdersEn orders = TranslationsOrdersEn._(_root);
+	late final TranslationsNotificationsEn notifications = TranslationsNotificationsEn._(_root);
 }
 
 // Path: common
@@ -514,6 +515,27 @@ class TranslationsOrdersEn {
 	late final TranslationsOrdersStatusEn status = TranslationsOrdersStatusEn._(_root);
 }
 
+// Path: notifications
+class TranslationsNotificationsEn {
+	TranslationsNotificationsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Notifications'
+	String get title => 'Notifications';
+
+	/// en: 'You don't have any notifications yet.'
+	String get empty => 'You don\'t have any notifications yet.';
+
+	/// en: 'Mark as read'
+	String get markAsRead => 'Mark as read';
+
+	/// en: 'Failed to load notifications. Please try again.'
+	String get loadFailed => 'Failed to load notifications. Please try again.';
+}
+
 // Path: auth.privacyPolicy
 class TranslationsAuthPrivacyPolicyEn {
 	TranslationsAuthPrivacyPolicyEn._(this._root);
@@ -775,6 +797,10 @@ extension on Translations {
 			'orders.status.shipped' => 'Shipped',
 			'orders.status.delivered' => 'Delivered',
 			'orders.status.cancelled' => 'Cancelled',
+			'notifications.title' => 'Notifications',
+			'notifications.empty' => 'You don\'t have any notifications yet.',
+			'notifications.markAsRead' => 'Mark as read',
+			'notifications.loadFailed' => 'Failed to load notifications. Please try again.',
 			_ => null,
 		};
 	}

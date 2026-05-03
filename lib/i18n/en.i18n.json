@@ -176,5 +176,11 @@
       "delivered": "Delivered",
       "cancelled": "Cancelled"
     }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "You don't have any notifications yet.",
+    "markAsRead": "Mark as read",
+    "loadFailed": "Failed to load notifications. Please try again."
   }
 }

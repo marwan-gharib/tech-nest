@@ -21,6 +21,10 @@ import 'package:tech_nest/features/checkout/di/checkout_di.dart';
 import 'package:tech_nest/features/orders/di/orders_di.dart';
 import 'package:tech_nest/features/products/di/products_di.dart';
 import 'package:tech_nest/features/settings/di/settings_di.dart';
+import 'package:tech_nest/features/notifications/di/notifications_di.dart';
+import 'package:tech_nest/features/notifications/domain/usecases/save_fcm_token_usecase.dart';
+import 'package:tech_nest/core/services/local_notification_service.dart';
+import 'package:tech_nest/core/services/notification_service.dart';
 import 'package:tech_nest/app/app_settings.dart';
 
 final GetIt sl = GetIt.instance;
@@ -66,6 +70,18 @@ Future<void> initDependencies() async {
   initSettingsDI(sl);
   initOrdersDI(sl);
   initCheckoutDI(sl);
+  initNotificationsDI(sl);
+
+  // ── Services ──────────
+  sl.registerLazySingleton(() => LocalNotificationService());
+  sl.registerLazySingleton(
+    () => NotificationService(
+      localNotifications: sl<LocalNotificationService>(),
+      cacheService: sl<CacheService>(),
+      authNotifier: sl<AuthNotifier>(),
+      saveFCMTokenUseCase: sl<SaveFCMTokenUseCase>(),
+    ),
+  );
 
   sl.registerLazySingleton(
     () => AppSettings(

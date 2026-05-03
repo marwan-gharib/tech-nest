@@ -15,4 +15,5 @@ class Routes {
   static String get orderDetailsScreenPath => "orderDetails";
   static String get checkoutScreenPath => "checkout";
   static String get locationPickerScreenPath => "locationPicker";
+  static String get notificationScreenPath => "/notifications";
 }

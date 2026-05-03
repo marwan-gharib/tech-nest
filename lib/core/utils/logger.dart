@@ -9,4 +9,22 @@ class AppLogger {
       developer.log("APP LOG::  ${message.toString()}");
     }
   }
+
+  static void info(Object message) {
+    if (kDebugMode) {
+      developer.log("INFO::  ${message.toString()}");
+    }
+  }
+
+  static void warning(Object message) {
+    if (kDebugMode) {
+      developer.log("WARNING::  ${message.toString()}");
+    }
+  }
+
+  static void error(Object message) {
+    if (kDebugMode) {
+      developer.log("ERROR::  ${message.toString()}");
+    }
+  }
 }
