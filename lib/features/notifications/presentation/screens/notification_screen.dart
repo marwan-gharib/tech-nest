@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
+import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/core/widgets/no_results_found_view.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/notifications/presentation/notification_cubit/notification_cubit.dart';
@@ -16,27 +17,32 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  final ScrollController _scrollController = ScrollController();
+  late final ScrollController _scrollController;
 
-  static const double _scrollThreshold = 200.0;
+  bool _isMaskReadAll = false;
 
   @override
   void initState() {
+    _scrollController = ScrollController()..addListener(_onScroll);
     super.initState();
-    _scrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
     super.dispose();
   }
 
   void _onScroll() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - _scrollThreshold) {
-      context.read<NotificationCubit>().fetchMore();
-    }
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (_scrollController.offset >=
+              _scrollController.position.maxScrollExtent - 300 &&
+          !_scrollController.position.outOfRange &&
+          mounted) {
+        context.read<NotificationCubit>().fetchMore();
+      }
+    });
   }
 
   @override
@@ -45,6 +51,48 @@ class _NotificationScreenState extends State<NotificationScreen> {
       appBar: AppBar(
         title: Text(context.t.notifications.title, style: context.titleLarge),
         centerTitle: true,
+        actions: [
+          BlocConsumer<NotificationCubit, NotificationState>(
+            buildWhen: (previous, current) {
+              if (previous is NotificationLoaded &&
+                  current is NotificationLoaded) {
+                return previous.notifications.where((n) => !n.isRead).length !=
+                    current.notifications.where((n) => !n.isRead).length;
+              }
+              return true;
+            },
+            listenWhen: (p, c) =>
+                p is NotificationLoaded &&
+                c is NotificationLoaded &&
+                p.notifications.where((n) => !n.isRead).isNotEmpty &&
+                c.notifications.where((n) => !n.isRead).isNotEmpty &&
+                _isMaskReadAll,
+            listener: (context, state) {
+              CustomSnackBar.show(
+                context,
+                message: context.t.errors.someNotificationsNotMaskedAsRead,
+              );
+              _isMaskReadAll = false;
+            },
+            builder: (context, state) {
+              if (state is! NotificationLoaded) return const SizedBox.shrink();
+              final unreadCount = state.notifications
+                  .where((n) => !n.isRead)
+                  .length;
+              if (unreadCount < 2) return const SizedBox.shrink();
+              return IconButton(
+                icon: Icon(
+                  Icons.mark_email_read_rounded,
+                  color: context.colorScheme.primary,
+                ),
+                onPressed: () {
+                  _isMaskReadAll = true;
+                  context.read<NotificationCubit>().markAllAsRead();
+                },
+              );
+            },
+          ),
+        ],
       ),
       body: BlocBuilder<NotificationCubit, NotificationState>(
         builder: (context, state) {
@@ -76,9 +124,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               vertical: AppSpacing.sm,
                             ),
                             sliver: SliverList.builder(
-                              itemCount: state.hasReachedMax
-                                  ? state.notifications.length
-                                  : state.notifications.length + 1,
+                              itemCount: state.notifications.length,
                               itemBuilder: (context, index) {
                                 final notification = state.notifications[index];
                                 return NotificationItem(

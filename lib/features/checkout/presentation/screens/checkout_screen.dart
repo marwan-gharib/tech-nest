@@ -32,8 +32,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         if (state is CreateOrderSuccess) {
           context.pop();
           context.read<CartCubit>().clearCart();
-          context.go(
-            '${Routes.ordersScreenPath}/${Routes.orderDetailsScreenPath}',
+          context.goNamed(
+            RouteNames.orderDetails,
             extra: state.orderId,
           );
         } else if (state is CreateOrderFailed) {

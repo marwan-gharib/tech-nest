@@ -49,7 +49,7 @@ class EmptyCartWidget extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.xl),
           ElevatedButton(
-            onPressed: () => context.go(Routes.homeScreenPath),
+            onPressed: () => context.goNamed(RouteNames.home),
             child: Text(context.t.cart.startShopping),
           ),
         ],

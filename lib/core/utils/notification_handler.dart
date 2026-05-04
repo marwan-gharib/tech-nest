@@ -14,11 +14,11 @@ class NotificationHandler {
       case ApiKeys.orderUpdate:
         final orderId = data[ApiKeys.orderId];
         if (orderId != null) {
-          AppRouter.routes.push(Routes.orderDetailsScreenPath, extra: orderId);
+          AppRouter.routes.pushNamed(RouteNames.orderDetails, extra: orderId);
         }
         break;
       case ApiKeys.promo:
-        AppRouter.routes.go(Routes.homeScreenPath);
+        AppRouter.routes.goNamed(RouteNames.home);
         break;
       case ApiKeys.product:
         final productId = data[ApiKeys.productId];

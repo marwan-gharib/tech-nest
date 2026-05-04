@@ -14,6 +14,11 @@ class LocalNotificationService {
   Stream<Map<String, dynamic>> get onNotificationTap =>
       _onNotificationTapController.stream;
 
+  final _incomingNotificationController =
+      StreamController<Map<String, dynamic>>.broadcast();
+  Stream<Map<String, dynamic>> get incomingNotifications =>
+      _incomingNotificationController.stream;
+
   Future<void> initialize() async {
     const androidSettings = AndroidInitializationSettings(
       AppConstants.notificationIcon,
@@ -98,7 +103,12 @@ class LocalNotificationService {
     );
   }
 
+  void notifyIncoming(Map<String, dynamic> data) {
+    _incomingNotificationController.add(data);
+  }
+
   void dispose() {
     _onNotificationTapController.close();
+    _incomingNotificationController.close();
   }
 }

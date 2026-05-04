@@ -68,6 +68,11 @@ class BottomNavBar extends StatelessWidget {
             label: context.t.nav.orders,
           ),
           BottomNavigationBarItem(
+            icon: const Icon(Icons.notifications_outlined),
+            activeIcon: const Icon(Icons.notifications_rounded),
+            label: context.t.nav.notifications,
+          ),
+          BottomNavigationBarItem(
             icon: const Icon(Icons.settings_outlined),
             activeIcon: const Icon(Icons.settings_rounded),
             label: context.t.nav.settings,

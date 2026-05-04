@@ -1,19 +1,36 @@
-class Routes {
-  const Routes._();
+class RouteNames {
+  const RouteNames._();
 
-  static String get loginScreenPath => "/auth/login";
-  static String get signUpScreenPath => "/auth/signUp";
-  static String get onboardingScreenPath => "/onboarding";
-  static String get homeScreenPath => "/home";
-  static String get cartScreenPath => "/cartItems";
-  static String get categoriesScreenPath => "/categories";
+  static const String login = 'login';
+  static const String signUp = 'signUp';
+  static const String onboarding = 'onboarding';
+  static const String home = 'home';
+  static const String cart = 'cart';
+  static const String categories = 'categories';
+  static const String homeProductDetails = 'homeProductDetails';
+  static const String categoryProductDetails = 'categoryProductDetails';
+  static const String settings = 'settings';
+  static const String orders = 'orders';
+  static const String orderDetails = 'orderDetails';
+  static const String checkout = 'checkout';
+  static const String locationPicker = 'locationPicker';
+  static const String notifications = 'notifications';
+}
 
-  static String get productDetailsScreen => "productDetails";
+class RoutePaths {
+  const RoutePaths._();
 
-  static String get settingsScreenPath => "/settings";
-  static String get ordersScreenPath => "/orders";
-  static String get orderDetailsScreenPath => "orderDetails";
-  static String get checkoutScreenPath => "checkout";
-  static String get locationPickerScreenPath => "locationPicker";
-  static String get notificationScreenPath => "/notifications";
+  static const String login = "/auth/login";
+  static const String signUp = "/auth/signUp";
+  static const String onboarding = "/onboarding";
+  static const String home = "/home";
+  static const String cart = "/cartItems";
+  static const String categories = "/categories";
+  static const String productDetails = "productDetails";
+  static const String settings = "/settings";
+  static const String orders = "/orders";
+  static const String orderDetails = "orderDetails";
+  static const String checkout = "checkout";
+  static const String locationPicker = "locationPicker";
+  static const String notifications = "/notifications";
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
@@ -19,6 +21,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   int _currentPage = 1;
 
   Future<void> initialFetching() async {
+    _currentPage = 1;
     emit(const NotificationLoading());
 
     final result = await getNotificationsUseCase(page: _currentPage);
@@ -29,6 +32,7 @@ class NotificationCubit extends Cubit<NotificationState> {
           notifications: notifications,
           hasReachedMax: notifications.length < 20,
           isLoadingMore: false,
+          loadMoreFailure: null,
         ),
       );
     });
@@ -37,7 +41,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   Future<void> fetchMore() async {
     final currentState = state;
     if (currentState is! NotificationLoaded) return;
-    if (currentState.isLoadingMore || currentState.hasReachedMax) return;
+    if (currentState.hasReachedMax) return;
 
     emit(currentState.copyWith(isLoadingMore: true, clearLoadMoreError: true));
 
@@ -88,5 +92,32 @@ class NotificationCubit extends Cubit<NotificationState> {
         emit(currentState.copyWith(notifications: updatedList));
       }
     });
+  }
+
+  Future<void> markAllAsRead() async {
+    final currentState = state;
+    if (currentState is! NotificationLoaded) return;
+
+    final notificationIds = List.of(
+      currentState.notifications,
+    ).where((n) => !n.isRead).map((n) => n.id).toList();
+    if (notificationIds.isEmpty) return;
+
+    final List<int> successedIds = [];
+
+    for (final int id in notificationIds) {
+      final res = await markNotificationReadUseCase(id);
+
+      res.fold((_) {}, (_) => successedIds.add(id));
+    }
+
+    final List<NotificationEntity> updatedList =
+        List.of(currentState.notifications)
+            .map(
+              (n) => successedIds.contains(n.id) ? n.copyWith(isRead: true) : n,
+            )
+            .toList();
+
+    emit(currentState.copyWith(notifications: updatedList));
   }
 }

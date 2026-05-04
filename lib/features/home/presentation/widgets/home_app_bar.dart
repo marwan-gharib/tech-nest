@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/app/service_locator.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/home/presentation/widgets/home_filter_button.dart';
@@ -7,7 +8,6 @@ import 'package:tech_nest/features/products/presentation/cubits/fetch_products_c
 import 'package:tech_nest/features/products/presentation/cubits/search_suggestions_cubit/search_suggestions_cubit.dart';
 import 'package:tech_nest/features/products/presentation/widgets/shared/search_products_widget.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/app/service_locator.dart';
 
 class HomeAppBar extends StatelessWidget {
   final TextEditingController searchController;

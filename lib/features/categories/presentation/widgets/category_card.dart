@@ -51,7 +51,7 @@ class CategoryCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(100),
               child: CachedNetworkImage(
                 filterQuality: FilterQuality.high,
-                imageUrl: Endpoints.baseUrl + category.imgUrl,
+                imageUrl: "${Endpoints.baseUrl}/${category.imgUrl}",
                 width: _imageSize,
                 height: _imageSize,
                 memCacheHeight: 300,
@@ -84,4 +84,3 @@ class CategoryCard extends StatelessWidget {
     );
   }
 }
-

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/app/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/validators.dart';
@@ -12,7 +13,6 @@ import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widg
 import 'package:tech_nest/features/auth/presentation/widgets/login_button_consumer.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/login_form.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/app/service_locator.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _email = TextEditingController();
+    _email = TextEditingController(text: 'marwanghareeb146@gmail.com');
     _password = TextEditingController(text: '12345678');
     _formKey = GlobalKey<FormState>();
     _authNotifier = sl<AuthNotifier>();
@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
             AskNavigationWidget(
               question: context.t.auth.dontHaveAccount,
               screenLabel: context.t.auth.signUp,
-              onTap: () => context.go(Routes.signUpScreenPath),
+              onTap: () => context.goNamed(RouteNames.signUp),
             ),
           ],
         ),

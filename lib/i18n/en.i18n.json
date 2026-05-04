@@ -13,7 +13,8 @@
     "cart": "Cart",
     "categories": "Categories",
     "settings": "Settings",
-    "orders": "Orders"
+    "orders": "Orders",
+    "notifications": "Notifications"
   },
   "auth": {
     "login": "Log In",
@@ -125,7 +126,8 @@
     "noResultsFilter": "We couldn't find any products matching your filters. Try adjusting them.",
     "loadMoreFailed": "Could not load more items.",
     "cacheError": "Unable to load saved data.",
-    "unknownError": "Oops! Something went wrong. Please try again."
+    "unknownError": "Oops! Something went wrong. Please try again.",
+    "someNotificationsNotMaskedAsRead": "Some notifications could not be marked as read."
   },
   "onboarding": {
     "skip": "Skip",

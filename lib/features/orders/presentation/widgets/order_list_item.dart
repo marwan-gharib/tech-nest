@@ -23,8 +23,8 @@ class OrderListItem extends StatelessWidget {
         side: BorderSide(color: context.colors.border),
       ),
       child: InkWell(
-        onTap: () => context.push(
-          '${Routes.ordersScreenPath}/${Routes.orderDetailsScreenPath}',
+        onTap: () => context.pushNamed(
+          RouteNames.orderDetails,
           extra: order.id,
         ),
         borderRadius: BorderRadius.circular(12),

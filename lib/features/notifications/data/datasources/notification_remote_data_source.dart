@@ -15,11 +15,20 @@ class NotificationRemoteDataSource {
         Endpoints.listNotifications,
         queryParameters: {ApiKeys.page: page},
       );
-      return List<NotificationModel>.from(
-        (response as List<dynamic>).map(
-          (e) => NotificationModel.fromJson(e as Map<String, dynamic>),
-        ),
-      );
+
+      if (response != null) {
+        final data = response[ApiKeys.data];
+        if (data is Map<String, dynamic> &&
+            data[ApiKeys.notifications] is List) {
+          return List<NotificationModel>.from(
+            data[ApiKeys.notifications].map(
+              (e) => NotificationModel.fromJson(e as Map<String, dynamic>),
+            ),
+          );
+        }
+      }
+
+      return [];
     } on AppException {
       rethrow;
     } catch (e) {

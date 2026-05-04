@@ -32,8 +32,9 @@ class NotificationItem extends StatelessWidget {
         title: Text(
           notification.title,
           style: context.titleMedium.copyWith(
-            fontWeight:
-                notification.isRead ? FontWeight.normal : FontWeight.bold,
+            fontWeight: notification.isRead
+                ? FontWeight.normal
+                : FontWeight.bold,
           ),
         ),
         subtitle: Column(
@@ -59,7 +60,7 @@ class NotificationItem extends StatelessWidget {
             ? null
             : IconButton(
                 icon: Icon(
-                  Icons.mark_email_read,
+                  Icons.mark_email_read_rounded,
                   color: context.colorScheme.primary,
                 ),
                 onPressed: () {

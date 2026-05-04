@@ -52,7 +52,7 @@ class ProductCard extends StatelessWidget {
                     fit: BoxFit.cover,
                     memCacheHeight: 300,
                     memCacheWidth: 300,
-                    imageUrl: "${Endpoints.baseUrl}${product.imgUrl}",
+                    imageUrl: "${Endpoints.baseUrl}/${product.imgUrl}",
                     placeholder: (context, url) => const SkeletonShimmer(
                       width: double.infinity,
                       height: double.infinity,
@@ -101,12 +101,11 @@ class ProductCard extends StatelessWidget {
 
   void _onCardTap(BuildContext context) {
     final currentLocation = GoRouterState.of(context).uri.path;
-    if (currentLocation.contains(Routes.productDetailsScreen)) return;
+    final String routeName = currentLocation.contains(RoutePaths.home)
+        ? RouteNames.homeProductDetails
+        : RouteNames.categoryProductDetails;
 
-    context.push(
-      '$currentLocation/${Routes.productDetailsScreen}',
-      extra: product,
-    );
+    context.pushNamed(routeName, extra: product);
   }
 
   Widget _addToCartButton(BuildContext context) {
@@ -136,4 +135,3 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
-

@@ -52,4 +52,5 @@ class ApiKeys {
   static const String promo = "promo";
   static const String createdAt = "created_at";
   static const String isRead = "is_read";
+  static const String notifications = "notifications";
 }

@@ -77,9 +77,7 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
                       alignment: Alignment.bottomCenter,
                       child: CheckoutButton(
                         totalPrice: state.cart.grandTotal.toDouble(),
-                        onPressed: () => context.push(
-                          '${Routes.cartScreenPath}/${Routes.checkoutScreenPath}',
-                        ),
+                        onPressed: () => context.pushNamed(RouteNames.checkout),
                       ),
                     );
                   },

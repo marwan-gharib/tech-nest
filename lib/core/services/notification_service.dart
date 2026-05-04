@@ -44,16 +44,20 @@ class NotificationService {
       NotificationHandler.handleNotification(message.data);
     });
 
+    await _fcm.setForegroundNotificationPresentationOptions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+
     final RemoteMessage? initial = await _fcm.getInitialMessage();
     if (initial != null) {
       AppLogger.info('Notification tapped (terminated): ${initial.messageId}');
       NotificationHandler.handleNotification(initial.data);
     }
 
-    Future.delayed(const Duration(seconds: 2), () async {
-      await _setupTokenLifecycle();
-      _authNotifier.addListener(_onAuthStateChanged);
-    });
+    await _setupTokenLifecycle();
+    _authNotifier.addListener(_onAuthStateChanged);
   }
 
   // ── Private helpers ────────────────────────────────────────────────────────
@@ -77,7 +81,9 @@ class NotificationService {
   }
 
   void _onForegroundMessage(RemoteMessage message) {
-    AppLogger.info('Foreground message: ${message.messageId}');
+    AppLogger.info('FCM: Received foreground message: ${message.messageId}');
+    AppLogger.info('FCM: Message data: ${message.data}');
+    _localNotifications.notifyIncoming(message.data);
     final notification = message.notification;
     if (notification != null) {
       _localNotifications.showNotification(

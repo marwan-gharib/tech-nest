@@ -21,16 +21,21 @@ class NotificationModel {
   });
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
+    final isReadRaw = json[ApiKeys.isRead];
+    final isReadInt = isReadRaw is int 
+        ? isReadRaw 
+        : int.tryParse(isReadRaw?.toString() ?? '0') ?? 0;
+
     return NotificationModel(
       id: int.parse(json[ApiKeys.id].toString()),
-      title: json[ApiKeys.title] as String,
-      body: json[ApiKeys.body] as String,
-      type: json[ApiKeys.type] as String,
+      title: json[ApiKeys.title] as String? ?? '',
+      body: json[ApiKeys.body] as String? ?? '',
+      type: json[ApiKeys.type] as String? ?? '',
       data: json[ApiKeys.data] is Map
           ? json[ApiKeys.data] as Map<String, dynamic>
           : {},
-      createdAt: DateTime.parse(json[ApiKeys.createdAt] as String),
-      isRead: (json[ApiKeys.isRead] as int) == 1,
+      createdAt: DateTime.tryParse(json[ApiKeys.createdAt]?.toString() ?? '') ?? DateTime.now(),
+      isRead: isReadInt == 1,
     );
   }
 

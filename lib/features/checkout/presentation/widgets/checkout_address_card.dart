@@ -18,9 +18,7 @@ class _CheckoutAddressCardState extends State<CheckoutAddressCard> {
   String? _deliveryLocation;
 
   Future<void> _openLocationPicker() async {
-    final result = await context.push<String?>(
-      "${Routes.cartScreenPath}/${Routes.checkoutScreenPath}/${Routes.locationPickerScreenPath}",
-    );
+    final result = await context.pushNamed<String?>(RouteNames.locationPicker);
 
     if (result != null) {
       setState(() => _deliveryLocation = result);

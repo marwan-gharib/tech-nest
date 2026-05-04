@@ -32,7 +32,7 @@ class SettingsLogoutButton extends StatelessWidget {
 
   void _listener(BuildContext context, LogoutState state) {
     if (state is LogoutSuccess) {
-      context.go(Routes.loginScreenPath);
+      context.goNamed(RouteNames.login);
       AppLogger.log("Logout successful");
       _authNotifier.logout();
     } else if (state is LogoutFailure) {

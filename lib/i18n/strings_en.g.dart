@@ -106,6 +106,9 @@ class TranslationsNavEn {
 
 	/// en: 'Orders'
 	String get orders => 'Orders';
+
+	/// en: 'Notifications'
+	String get notifications => 'Notifications';
 }
 
 // Path: auth
@@ -409,6 +412,9 @@ class TranslationsErrorsEn {
 
 	/// en: 'Oops! Something went wrong. Please try again.'
 	String get unknownError => 'Oops! Something went wrong. Please try again.';
+
+	/// en: 'Some notifications could not be marked as read.'
+	String get someNotificationsNotMaskedAsRead => 'Some notifications could not be marked as read.';
 }
 
 // Path: onboarding
@@ -676,6 +682,7 @@ extension on Translations {
 			'nav.categories' => 'Categories',
 			'nav.settings' => 'Settings',
 			'nav.orders' => 'Orders',
+			'nav.notifications' => 'Notifications',
 			'auth.login' => 'Log In',
 			'auth.signUp' => 'Sign Up',
 			'auth.fullName' => 'Full Name',
@@ -763,6 +770,7 @@ extension on Translations {
 			'errors.loadMoreFailed' => 'Could not load more items.',
 			'errors.cacheError' => 'Unable to load saved data.',
 			'errors.unknownError' => 'Oops! Something went wrong. Please try again.',
+			'errors.someNotificationsNotMaskedAsRead' => 'Some notifications could not be marked as read.',
 			'onboarding.skip' => 'Skip',
 			'onboarding.getStarted' => 'Get Started',
 			'onboarding.pages.0.title' => 'Discover Tech',

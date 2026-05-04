@@ -79,6 +79,7 @@ class _TranslationsNavAr implements TranslationsNavEn {
 	@override String get categories => 'التصنيفات';
 	@override String get settings => 'الإعدادات';
 	@override String get orders => 'الطلبات';
+	@override String get notifications => 'الإشعارات';
 }
 
 // Path: auth
@@ -229,6 +230,7 @@ class _TranslationsErrorsAr implements TranslationsErrorsEn {
 	@override String get loadMoreFailed => 'تعذر تحميل المزيد من العناصر.';
 	@override String get cacheError => 'تعذر تحميل البيانات المحفوظة.';
 	@override String get unknownError => 'عفواً! حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.';
+	@override String get someNotificationsNotMaskedAsRead => 'بعض الإشعارات لم يتم تمييزها كمقروءة.';
 }
 
 // Path: onboarding
@@ -402,6 +404,7 @@ extension on TranslationsAr {
 			'nav.categories' => 'التصنيفات',
 			'nav.settings' => 'الإعدادات',
 			'nav.orders' => 'الطلبات',
+			'nav.notifications' => 'الإشعارات',
 			'auth.login' => 'تسجيل الدخول',
 			'auth.signUp' => 'إنشاء حساب',
 			'auth.fullName' => 'الاسم الكامل',
@@ -489,6 +492,7 @@ extension on TranslationsAr {
 			'errors.loadMoreFailed' => 'تعذر تحميل المزيد من العناصر.',
 			'errors.cacheError' => 'تعذر تحميل البيانات المحفوظة.',
 			'errors.unknownError' => 'عفواً! حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.',
+			'errors.someNotificationsNotMaskedAsRead' => 'بعض الإشعارات لم يتم تمييزها كمقروءة.',
 			'onboarding.skip' => 'تخطي',
 			'onboarding.getStarted' => 'ابدأ الآن',
 			'onboarding.pages.0.title' => 'اكتشف أحدث التقنيات',
