@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
+import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
@@ -34,7 +35,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           context.read<CartCubit>().clearCart();
           context.goNamed(
             RouteNames.orderDetails,
-            extra: state.orderId,
+            queryParameters: {
+              AppConstants.orderDetailsId: state.orderId.toString(),
+            },
           );
         } else if (state is CreateOrderFailed) {
           CustomSnackBar.showError(context, failure: state.failure);
@@ -74,7 +77,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   FadeInSlide(
                     delay: const Duration(milliseconds: 400),
                     child: CheckoutAddressCard(
-                      onLocationSelected: (location) => _address = location ?? '',
+                      onLocationSelected: (location) =>
+                          _address = location ?? '',
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xl),

@@ -3,8 +3,8 @@ import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/services/local_notification_service.dart';
 import 'package:tech_nest/core/utils/fcm_background_handler.dart';
+import 'package:tech_nest/core/utils/handle_notification.dart';
 import 'package:tech_nest/core/utils/logger.dart';
-import 'package:tech_nest/core/utils/notification_handler.dart';
 import 'package:tech_nest/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:tech_nest/features/notifications/domain/usecases/save_fcm_token_usecase.dart';
 
@@ -31,6 +31,8 @@ class NotificationService {
     if (_initialized) return;
     _initialized = true;
 
+    await FirebaseMessaging.instance.subscribeToTopic("all_users");
+
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
     await _requestPermissions();
@@ -39,10 +41,11 @@ class NotificationService {
 
     FirebaseMessaging.onMessage.listen(_onForegroundMessage);
 
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      AppLogger.info('Notification tapped (background): ${message.messageId}');
-      NotificationHandler.handleNotification(message.data);
-    });
+    // FirebaseMessaging.onMessageOpenedApp.listen((message) {
+    //   AppLogger.info('Notification tapped (background): ${message.data}');
+    //   HandleNotification.handle(message.data);
+    // });
+    FirebaseMessaging.onMessageOpenedApp.listen(_onForegroundMessage);
 
     await _fcm.setForegroundNotificationPresentationOptions(
       alert: true,
@@ -50,10 +53,12 @@ class NotificationService {
       sound: true,
     );
 
-    final RemoteMessage? initial = await _fcm.getInitialMessage();
-    if (initial != null) {
-      AppLogger.info('Notification tapped (terminated): ${initial.messageId}');
-      NotificationHandler.handleNotification(initial.data);
+    final RemoteMessage? initialMessage = await _fcm.getInitialMessage();
+    if (initialMessage != null) {
+      AppLogger.info(
+        'Notification tapped (terminated): ${initialMessage.messageId}',
+      );
+      HandleNotification.handle(initialMessage.data);
     }
 
     await _setupTokenLifecycle();
@@ -81,9 +86,7 @@ class NotificationService {
   }
 
   void _onForegroundMessage(RemoteMessage message) {
-    AppLogger.info('FCM: Received foreground message: ${message.messageId}');
     AppLogger.info('FCM: Message data: ${message.data}');
-    _localNotifications.notifyIncoming(message.data);
     final notification = message.notification;
     if (notification != null) {
       _localNotifications.showNotification(

@@ -32,11 +32,9 @@ class OrderDetailsItemCard extends StatelessWidget {
             fit: BoxFit.cover,
             memCacheHeight: 300,
             memCacheWidth: 300,
-            imageUrl: "${Endpoints.baseUrl}${item.imageUrl}",
-            placeholder: (context, url) => const SkeletonShimmer(
-              width: 50,
-              height: 50,
-            ),
+            imageUrl: "${Endpoints.baseUrl}/${item.imageUrl}",
+            placeholder: (context, url) =>
+                const SkeletonShimmer(width: 50, height: 50),
             errorWidget: (context, url, error) => Container(
               color: context.colors.shimmerBase,
               child: Icon(
@@ -52,7 +50,9 @@ class OrderDetailsItemCard extends StatelessWidget {
         ),
         subtitle: Text(
           '${context.t.cart.items}: ${item.quantity}',
-          style: context.bodyMedium.copyWith(color: context.colors.textSecondary),
+          style: context.bodyMedium.copyWith(
+            color: context.colors.textSecondary,
+          ),
         ),
         trailing: Text(
           '\$${item.price.toStringAsFixed(2)}',
@@ -65,4 +65,3 @@ class OrderDetailsItemCard extends StatelessWidget {
     );
   }
 }
-

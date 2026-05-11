@@ -15,6 +15,7 @@ class Endpoints {
   static String get resetPassword => "auth/reset_password.php";
 
   static String get productsList => "products/list.php";
+  static String get getProductById => "products/get_product.php";
   static String get searchingSuggestions =>
       "products/searching_suggestions.php";
 

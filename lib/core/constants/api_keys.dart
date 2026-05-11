@@ -53,4 +53,5 @@ class ApiKeys {
   static const String createdAt = "created_at";
   static const String isRead = "is_read";
   static const String notifications = "notifications";
+  static const String entity = "entity";
 }

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/animations/scale_tap.dart';
 import 'package:tech_nest/core/animations/skeleton_shimmer.dart';
+import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
@@ -105,7 +106,10 @@ class ProductCard extends StatelessWidget {
         ? RouteNames.homeProductDetails
         : RouteNames.categoryProductDetails;
 
-    context.pushNamed(routeName, extra: product);
+    context.pushNamed(
+      routeName,
+      queryParameters: {AppConstants.productDetailsId: product.id.toString()},
+    );
   }
 
   Widget _addToCartButton(BuildContext context) {

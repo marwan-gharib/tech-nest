@@ -29,8 +29,8 @@ import 'package:tech_nest/features/orders/presentation/cubits/order_details/orde
 import 'package:tech_nest/features/orders/presentation/cubits/orders_list/orders_list_cubit.dart';
 import 'package:tech_nest/features/orders/presentation/screens/order_details_screen.dart';
 import 'package:tech_nest/features/orders/presentation/screens/orders_list_screen.dart';
-import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
+import 'package:tech_nest/features/products/presentation/cubits/get_product_cubit/get_product_cubit.dart';
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';
 import 'package:tech_nest/features/settings/presentation/screens/settings_screen.dart';
 
@@ -40,7 +40,7 @@ class AppRouter {
 
   const AppRouter._();
 
-  static final GoRouter routes = GoRouter(
+  static final GoRouter router = GoRouter(
     navigatorKey: _shellNavigatorKey,
     initialLocation: RoutePaths.home,
     routes: [
@@ -152,11 +152,19 @@ class AppRouter {
       GoRoute(
         name: RouteNames.homeProductDetails,
         path: RoutePaths.productDetails,
-        pageBuilder: (context, state) => PageTransitions.slideTransition(
-          context: context,
-          state: state,
-          child: ProductDetailsScreen(product: state.extra as ProductEntity),
-        ),
+        pageBuilder: (context, state) {
+          final productId = int.parse(
+            state.uri.queryParameters[AppConstants.productDetailsId] ?? '-1',
+          );
+          return PageTransitions.slideTransition(
+            context: context,
+            state: state,
+            child: BlocProvider(
+              create: (context) => sl<GetProductCubit>()..getProduct(productId),
+              child: ProductDetailsScreen(productId: productId),
+            ),
+          );
+        },
       ),
     ],
   );
@@ -184,11 +192,19 @@ class AppRouter {
       GoRoute(
         name: RouteNames.categoryProductDetails,
         path: RoutePaths.productDetails,
-        pageBuilder: (context, state) => PageTransitions.slideTransition(
-          context: context,
-          state: state,
-          child: ProductDetailsScreen(product: state.extra as ProductEntity),
-        ),
+        pageBuilder: (context, state) {
+          final productId = int.parse(
+            state.uri.queryParameters[AppConstants.productDetailsId] ?? '-1',
+          );
+          return PageTransitions.slideTransition(
+            context: context,
+            state: state,
+            child: BlocProvider(
+              create: (context) => sl<GetProductCubit>()..getProduct(productId),
+              child: ProductDetailsScreen(productId: productId),
+            ),
+          );
+        },
       ),
     ],
   );
@@ -203,7 +219,9 @@ class AppRouter {
     name: RouteNames.orderDetails,
     path: RoutePaths.orderDetails,
     pageBuilder: (context, state) {
-      final orderId = int.parse(state.extra.toString());
+      final orderId = int.parse(
+        state.uri.queryParameters[AppConstants.orderDetailsId] ?? '-1',
+      );
       return PageTransitions.slideTransition(
         context: context,
         state: state,
@@ -256,4 +274,22 @@ class AppRouter {
       child: const NotificationScreen(),
     ),
   );
+
+  static void goToProductDetails(int productId) {
+    router.goNamed(
+      RouteNames.homeProductDetails,
+      queryParameters: {AppConstants.productDetailsId: productId.toString()},
+    );
+  }
+
+  static void goToOrderDetails(int orderId) {
+    router.goNamed(
+      RouteNames.orderDetails,
+      queryParameters: {AppConstants.orderDetailsId: orderId.toString()},
+    );
+  }
+
+  static void goToLogin() {
+    router.goNamed(RouteNames.login);
+  }
 }

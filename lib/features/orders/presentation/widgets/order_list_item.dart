@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/date_formatter.dart';
@@ -25,7 +26,7 @@ class OrderListItem extends StatelessWidget {
       child: InkWell(
         onTap: () => context.pushNamed(
           RouteNames.orderDetails,
-          extra: order.id,
+          queryParameters: {AppConstants.orderDetailsId: order.id.toString()},
         ),
         borderRadius: BorderRadius.circular(12),
         child: Padding(
@@ -59,10 +60,7 @@ class OrderListItem extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    context.t.cart.total,
-                    style: context.bodyMedium,
-                  ),
+                  Text(context.t.cart.total, style: context.bodyMedium),
                   Text(
                     '\$${order.totalPrice.toStringAsFixed(2)}',
                     style: context.headlineLarge.copyWith(
@@ -80,4 +78,3 @@ class OrderListItem extends StatelessWidget {
     );
   }
 }
-

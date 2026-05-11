@@ -3,21 +3,11 @@ import 'dart:convert';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
-import 'package:tech_nest/core/utils/logger.dart';
+import 'package:tech_nest/core/utils/handle_notification.dart';
 
 class LocalNotificationService {
   final FlutterLocalNotificationsPlugin _notificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
-  final _onNotificationTapController =
-      StreamController<Map<String, dynamic>>.broadcast();
-  Stream<Map<String, dynamic>> get onNotificationTap =>
-      _onNotificationTapController.stream;
-
-  final _incomingNotificationController =
-      StreamController<Map<String, dynamic>>.broadcast();
-  Stream<Map<String, dynamic>> get incomingNotifications =>
-      _incomingNotificationController.stream;
 
   Future<void> initialize() async {
     const androidSettings = AndroidInitializationSettings(
@@ -36,14 +26,9 @@ class LocalNotificationService {
 
     await _notificationsPlugin.initialize(
       settings: initializationSettings,
-      onDidReceiveNotificationResponse: (details) {
-        if (details.payload != null) {
-          try {
-            final data = jsonDecode(details.payload!) as Map<String, dynamic>;
-            _onNotificationTapController.add(data);
-          } catch (e) {
-            AppLogger.error('Error parsing notification payload: $e');
-          }
+      onDidReceiveNotificationResponse: (response) {
+        if (response.payload != null) {
+          HandleNotification.handle(jsonDecode(response.payload!));
         }
       },
     );
@@ -81,6 +66,9 @@ class LocalNotificationService {
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,
+      icon: AppConstants.notificationIcon,
+      largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+      fullScreenIntent: true,
     );
 
     const iosDetails = DarwinNotificationDetails(
@@ -101,14 +89,5 @@ class LocalNotificationService {
       notificationDetails: notificationDetails,
       payload: data != null ? jsonEncode(data) : null,
     );
-  }
-
-  void notifyIncoming(Map<String, dynamic> data) {
-    _incomingNotificationController.add(data);
-  }
-
-  void dispose() {
-    _onNotificationTapController.close();
-    _incomingNotificationController.close();
   }
 }
