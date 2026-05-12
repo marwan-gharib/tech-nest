@@ -7,6 +7,8 @@ class ApiKeys {
   static const String user = "user";
   static const String id = "id";
   static const String name = "name";
+  static const String title = "title";
+  static const String body = "body";
   static const String email = "email";
   static const String pass = "password";
   static const String role = "role";
@@ -43,4 +45,13 @@ class ApiKeys {
   static const String totalPrice = "total_price";
   static const String deliveryCharges = "delivery_charges";
   static const String grandTotal = "grand_total";
+  static const String notificationId = "notification_id";
+  static const String fcmToken = "fcm_token";
+  static const String type = "type";
+  static const String orderUpdate = "order_update";
+  static const String promo = "promo";
+  static const String createdAt = "created_at";
+  static const String isRead = "is_read";
+  static const String notifications = "notifications";
+  static const String entity = "entity";
 }

@@ -48,6 +48,7 @@ class TranslationsAr with BaseTranslations<AppLocale, Translations> implements T
 	@override late final _TranslationsOnboardingAr onboarding = _TranslationsOnboardingAr._(_root);
 	@override late final _TranslationsCheckoutAr checkout = _TranslationsCheckoutAr._(_root);
 	@override late final _TranslationsOrdersAr orders = _TranslationsOrdersAr._(_root);
+	@override late final _TranslationsNotificationsAr notifications = _TranslationsNotificationsAr._(_root);
 }
 
 // Path: common
@@ -78,6 +79,7 @@ class _TranslationsNavAr implements TranslationsNavEn {
 	@override String get categories => 'التصنيفات';
 	@override String get settings => 'الإعدادات';
 	@override String get orders => 'الطلبات';
+	@override String get notifications => 'الإشعارات';
 }
 
 // Path: auth
@@ -99,11 +101,12 @@ class _TranslationsAuthAr implements TranslationsAuthEn {
 	@override String get dontHaveAccount => 'مستخدم جديد؟';
 	@override String get alreadyHaveAccount => 'لديك حساب بالفعل؟';
 	@override String get resetPassword => 'إعادة تعيين كلمة المرور';
-	@override String get resetPasswordPrompt => 'أدخل بريدك الإلكتروني لتلقي رابط إعادة تعيين كلمة المرور.';
-	@override String get resetPasswordSuccess => 'أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.';
+	@override String get resetPasswordPrompt => 'أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور.';
+	@override String get resetPasswordSuccess => 'تم إعادة تعيين كلمة المرور بنجاح.';
 	@override String get selectProfileImage => 'يرجى اختيار صورة شخصية.';
 	@override String get verifyEmailTitle => 'تأكيد البريد الإلكتروني';
 	@override String get verifyEmail => 'تأكيد';
+	@override String get verifyEmailSuccess => 'تم تأكيد البريد الإلكتروني بنجاح.';
 	@override String get enterCode => 'أدخل رمز التحقق';
 	@override String get invalidCode => 'الرمز الذي أدخلته غير صالح. يرجى التحقق والمحاولة مرة أخرى.';
 	@override String get logout => 'تسجيل الخروج';
@@ -220,6 +223,7 @@ class _TranslationsErrorsAr implements TranslationsErrorsEn {
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
+	@override String get refresh => 'تحديث';
 	@override String get noInternet => 'لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة.';
 	@override String get requestFailed => 'فشل الطلب. يرجى المحاولة لاحقاً.';
 	@override String get noResults => 'لم يتم العثور على نتائج';
@@ -228,6 +232,7 @@ class _TranslationsErrorsAr implements TranslationsErrorsEn {
 	@override String get loadMoreFailed => 'تعذر تحميل المزيد من العناصر.';
 	@override String get cacheError => 'تعذر تحميل البيانات المحفوظة.';
 	@override String get unknownError => 'عفواً! حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.';
+	@override String get someNotificationsNotMaskedAsRead => 'بعض الإشعارات لم يتم تمييزها كمقروءة.';
 }
 
 // Path: onboarding
@@ -276,7 +281,9 @@ class _TranslationsOrdersAr implements TranslationsOrdersEn {
 	@override String get cancelConfirm => 'هل أنت متأكد أنك تريد إلغاء هذا الطلب؟';
 	@override String get cancelYes => 'نعم، ألغِ الطلب';
 	@override String get cancelNo => 'لا، أبقِ الطلب';
-	@override String get emptyState => 'لم تقم بأي طلبات بعد.';
+	@override String get emptyStateTitle => 'لم يتم العثور على طلبات';
+	@override String get emptyStateMessage => 'ليس لديك أي طلبات حتى الآن. ابدأ التسوق الآن!';
+	@override String get startShopping => 'ابدأ التسوق';
 	@override String date({required Object date}) => 'تاريخ الطلب: ${date}';
 	@override String get shippingAddress => 'عنوان الشحن';
 	@override String get billingAddress => 'عنوان الفواتير';
@@ -284,6 +291,19 @@ class _TranslationsOrdersAr implements TranslationsOrdersEn {
 	@override String get pickLocation => 'اختر موقع التوصيل';
 	@override String get confirmOrder => 'تأكيد الطلب';
 	@override late final _TranslationsOrdersStatusAr status = _TranslationsOrdersStatusAr._(_root);
+}
+
+// Path: notifications
+class _TranslationsNotificationsAr implements TranslationsNotificationsEn {
+	_TranslationsNotificationsAr._(this._root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'الإشعارات';
+	@override String get empty => 'ليس لديك أي إشعارات بعد.';
+	@override String get markAsRead => 'تحديد كمقروء';
+	@override String get loadFailed => 'فشل تحميل الإشعارات. يرجى المحاولة مرة أخرى.';
 }
 
 // Path: auth.privacyPolicy
@@ -388,6 +408,7 @@ extension on TranslationsAr {
 			'nav.categories' => 'التصنيفات',
 			'nav.settings' => 'الإعدادات',
 			'nav.orders' => 'الطلبات',
+			'nav.notifications' => 'الإشعارات',
 			'auth.login' => 'تسجيل الدخول',
 			'auth.signUp' => 'إنشاء حساب',
 			'auth.fullName' => 'الاسم الكامل',
@@ -400,11 +421,12 @@ extension on TranslationsAr {
 			'auth.dontHaveAccount' => 'مستخدم جديد؟',
 			'auth.alreadyHaveAccount' => 'لديك حساب بالفعل؟',
 			'auth.resetPassword' => 'إعادة تعيين كلمة المرور',
-			'auth.resetPasswordPrompt' => 'أدخل بريدك الإلكتروني لتلقي رابط إعادة تعيين كلمة المرور.',
-			'auth.resetPasswordSuccess' => 'أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.',
+			'auth.resetPasswordPrompt' => 'أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور.',
+			'auth.resetPasswordSuccess' => 'تم إعادة تعيين كلمة المرور بنجاح.',
 			'auth.selectProfileImage' => 'يرجى اختيار صورة شخصية.',
 			'auth.verifyEmailTitle' => 'تأكيد البريد الإلكتروني',
 			'auth.verifyEmail' => 'تأكيد',
+			'auth.verifyEmailSuccess' => 'تم تأكيد البريد الإلكتروني بنجاح.',
 			'auth.enterCode' => 'أدخل رمز التحقق',
 			'auth.invalidCode' => 'الرمز الذي أدخلته غير صالح. يرجى التحقق والمحاولة مرة أخرى.',
 			'auth.logout' => 'تسجيل الخروج',
@@ -467,6 +489,7 @@ extension on TranslationsAr {
 			'settings.english' => 'English',
 			'settings.arabic' => 'العربية',
 			'settings.more' => 'خيارات إضافية',
+			'errors.refresh' => 'تحديث',
 			'errors.noInternet' => 'لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة.',
 			'errors.requestFailed' => 'فشل الطلب. يرجى المحاولة لاحقاً.',
 			'errors.noResults' => 'لم يتم العثور على نتائج',
@@ -475,6 +498,7 @@ extension on TranslationsAr {
 			'errors.loadMoreFailed' => 'تعذر تحميل المزيد من العناصر.',
 			'errors.cacheError' => 'تعذر تحميل البيانات المحفوظة.',
 			'errors.unknownError' => 'عفواً! حدث خطأ غير متوقع. يرجى المحاولة مرة أخرى.',
+			'errors.someNotificationsNotMaskedAsRead' => 'بعض الإشعارات لم يتم تمييزها كمقروءة.',
 			'onboarding.skip' => 'تخطي',
 			'onboarding.getStarted' => 'ابدأ الآن',
 			'onboarding.pages.0.title' => 'اكتشف أحدث التقنيات',
@@ -497,7 +521,9 @@ extension on TranslationsAr {
 			'orders.cancelConfirm' => 'هل أنت متأكد أنك تريد إلغاء هذا الطلب؟',
 			'orders.cancelYes' => 'نعم، ألغِ الطلب',
 			'orders.cancelNo' => 'لا، أبقِ الطلب',
-			'orders.emptyState' => 'لم تقم بأي طلبات بعد.',
+			'orders.emptyStateTitle' => 'لم يتم العثور على طلبات',
+			'orders.emptyStateMessage' => 'ليس لديك أي طلبات حتى الآن. ابدأ التسوق الآن!',
+			'orders.startShopping' => 'ابدأ التسوق',
 			'orders.date' => ({required Object date}) => 'تاريخ الطلب: ${date}',
 			'orders.shippingAddress' => 'عنوان الشحن',
 			'orders.billingAddress' => 'عنوان الفواتير',
@@ -509,6 +535,10 @@ extension on TranslationsAr {
 			'orders.status.shipped' => 'تم الشحن',
 			'orders.status.delivered' => 'تم التوصيل',
 			'orders.status.cancelled' => 'ملغى',
+			'notifications.title' => 'الإشعارات',
+			'notifications.empty' => 'ليس لديك أي إشعارات بعد.',
+			'notifications.markAsRead' => 'تحديد كمقروء',
+			'notifications.loadFailed' => 'فشل تحميل الإشعارات. يرجى المحاولة مرة أخرى.',
 			_ => null,
 		};
 	}

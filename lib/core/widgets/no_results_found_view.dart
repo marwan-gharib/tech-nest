@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class NoResultsFoundView extends StatelessWidget {
   final String title;
   final String message;
   final IconData icon;
+  final VoidCallback? onRefresh;
 
   const NoResultsFoundView({
     required this.title,
     required this.message,
     required this.icon,
+    this.onRefresh,
     super.key,
   });
 
@@ -49,10 +52,17 @@ class NoResultsFoundView extends StatelessWidget {
                 color: context.colors.textSecondary,
               ),
             ),
+            if (onRefresh != null) ...[
+              const SizedBox(height: AppSpacing.xl),
+              OutlinedButton.icon(
+                onPressed: onRefresh,
+                icon: const Icon(Icons.refresh),
+                label: Text(context.t.errors.refresh),
+              ),
+            ],
           ],
         ),
       ),
     );
   }
 }
-

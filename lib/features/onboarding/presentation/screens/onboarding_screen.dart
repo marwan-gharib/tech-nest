@@ -34,7 +34,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       value: true,
     );
     if (!mounted) return;
-    context.go(Routes.loginScreenPath);
+    context.goNamed(RouteNames.login);
   }
 
   @override

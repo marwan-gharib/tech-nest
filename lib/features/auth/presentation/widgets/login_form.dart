@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/app/service_locator.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
@@ -13,7 +14,6 @@ import 'package:tech_nest/features/auth/presentation/cubits/reset_password_cubit
 import 'package:tech_nest/features/auth/presentation/widgets/custom_input_field.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/reset_password_dialog.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/app/service_locator.dart';
 
 class LoginForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
@@ -90,7 +90,7 @@ class LoginForm extends StatelessWidget {
       _showLoadingDialog(context);
     } else if (state is ForgetPasswordSuccess) {
       context.pop();
-      await showDialog(
+      final bool? isSuccess = await showDialog<bool?>(
         context: context,
         builder: (context) => BlocProvider(
           create: (context) => sl<ResetPasswordCubit>(),
@@ -100,11 +100,10 @@ class LoginForm extends StatelessWidget {
         useSafeArea: true,
         useRootNavigator: true,
       );
-      if (context.mounted) {
+      if (context.mounted && (isSuccess ?? false)) {
         CustomSnackBar.show(
           context,
           message: context.t.auth.resetPasswordSuccess,
-          isAbove: true,
         );
       }
     } else if (state is ForgetPasswordFailed) {

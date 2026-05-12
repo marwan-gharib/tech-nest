@@ -7,12 +7,12 @@ import 'package:tech_nest/core/cubits/locale_cubit/locale_cubit.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/widgets/no_results_found_view.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_item_card.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/cart_items_skeleton_list.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/checkout_button.dart';
-import 'package:tech_nest/features/cart/presentation/widgets/empty_cart_widget.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class CartItemsScreen extends StatefulWidget {
@@ -77,9 +77,7 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
                       alignment: Alignment.bottomCenter,
                       child: CheckoutButton(
                         totalPrice: state.cart.grandTotal.toDouble(),
-                        onPressed: () => context.push(
-                          '${Routes.cartScreenPath}/${Routes.checkoutScreenPath}',
-                        ),
+                        onPressed: () => context.pushNamed(RouteNames.checkout),
                       ),
                     );
                   },
@@ -101,7 +99,20 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
       ),
       CartLoaded(:final cart) =>
         cart.items.isEmpty
-            ? const EmptyCartWidget()
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  NoResultsFoundView(
+                    title: context.t.cart.empty,
+                    message: context.t.cart.emptyDesc,
+                    icon: Icons.shopping_basket_outlined,
+                  ),
+                  ElevatedButton(
+                    onPressed: () => context.goNamed(RouteNames.home),
+                    child: Text(context.t.cart.startShopping),
+                  ),
+                ],
+              )
             : ListView.builder(
                 itemCount: cart.items.length,
                 padding: const EdgeInsets.only(

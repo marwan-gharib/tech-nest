@@ -51,6 +51,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsOnboardingEn onboarding = TranslationsOnboardingEn._(_root);
 	late final TranslationsCheckoutEn checkout = TranslationsCheckoutEn._(_root);
 	late final TranslationsOrdersEn orders = TranslationsOrdersEn._(_root);
+	late final TranslationsNotificationsEn notifications = TranslationsNotificationsEn._(_root);
 }
 
 // Path: common
@@ -105,6 +106,9 @@ class TranslationsNavEn {
 
 	/// en: 'Orders'
 	String get orders => 'Orders';
+
+	/// en: 'Notifications'
+	String get notifications => 'Notifications';
 }
 
 // Path: auth
@@ -151,11 +155,11 @@ class TranslationsAuthEn {
 	/// en: 'Reset Password'
 	String get resetPassword => 'Reset Password';
 
-	/// en: 'Enter your email to receive a password reset link.'
-	String get resetPasswordPrompt => 'Enter your email to receive a password reset link.';
+	/// en: 'Enter your email to reset your password.'
+	String get resetPasswordPrompt => 'Enter your email to reset your password.';
 
-	/// en: 'We've sent a password reset link to your email.'
-	String get resetPasswordSuccess => 'We\'ve sent a password reset link to your email.';
+	/// en: 'password reseted successfully.'
+	String get resetPasswordSuccess => 'password reseted successfully.';
 
 	/// en: 'Please select a profile picture.'
 	String get selectProfileImage => 'Please select a profile picture.';
@@ -174,6 +178,9 @@ class TranslationsAuthEn {
 
 	/// en: 'Log Out'
 	String get logout => 'Log Out';
+
+	/// en: 'Your email has been verified successfully.'
+	String get verifyEmailSuccess => 'Your email has been verified successfully.';
 
 	late final TranslationsAuthPrivacyPolicyEn privacyPolicy = TranslationsAuthPrivacyPolicyEn._(_root);
 }
@@ -385,6 +392,9 @@ class TranslationsErrorsEn {
 
 	// Translations
 
+	/// en: 'Refresh'
+	String get refresh => 'Refresh';
+
 	/// en: 'No internet connection. Please check your network.'
 	String get noInternet => 'No internet connection. Please check your network.';
 
@@ -408,6 +418,9 @@ class TranslationsErrorsEn {
 
 	/// en: 'Oops! Something went wrong. Please try again.'
 	String get unknownError => 'Oops! Something went wrong. Please try again.';
+
+	/// en: 'Some notifications could not be marked as read.'
+	String get someNotificationsNotMaskedAsRead => 'Some notifications could not be marked as read.';
 }
 
 // Path: onboarding
@@ -490,8 +503,14 @@ class TranslationsOrdersEn {
 	/// en: 'No, Keep It'
 	String get cancelNo => 'No, Keep It';
 
-	/// en: 'You haven't placed any orders yet.'
-	String get emptyState => 'You haven\'t placed any orders yet.';
+	/// en: 'No Orders Found'
+	String get emptyStateTitle => 'No Orders Found';
+
+	/// en: 'You have no orders yet. Start shopping now!'
+	String get emptyStateMessage => 'You have no orders yet. Start shopping now!';
+
+	/// en: 'Start Shopping'
+	String get startShopping => 'Start Shopping';
 
 	/// en: 'Ordered on $date'
 	String date({required Object date}) => 'Ordered on ${date}';
@@ -512,6 +531,27 @@ class TranslationsOrdersEn {
 	String get confirmOrder => 'Confirm Order';
 
 	late final TranslationsOrdersStatusEn status = TranslationsOrdersStatusEn._(_root);
+}
+
+// Path: notifications
+class TranslationsNotificationsEn {
+	TranslationsNotificationsEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Notifications'
+	String get title => 'Notifications';
+
+	/// en: 'You don't have any notifications yet.'
+	String get empty => 'You don\'t have any notifications yet.';
+
+	/// en: 'Mark as read'
+	String get markAsRead => 'Mark as read';
+
+	/// en: 'Failed to load notifications. Please try again.'
+	String get loadFailed => 'Failed to load notifications. Please try again.';
 }
 
 // Path: auth.privacyPolicy
@@ -654,6 +694,7 @@ extension on Translations {
 			'nav.categories' => 'Categories',
 			'nav.settings' => 'Settings',
 			'nav.orders' => 'Orders',
+			'nav.notifications' => 'Notifications',
 			'auth.login' => 'Log In',
 			'auth.signUp' => 'Sign Up',
 			'auth.fullName' => 'Full Name',
@@ -666,14 +707,15 @@ extension on Translations {
 			'auth.dontHaveAccount' => 'Don\'t have an account?',
 			'auth.alreadyHaveAccount' => 'Already have an account?',
 			'auth.resetPassword' => 'Reset Password',
-			'auth.resetPasswordPrompt' => 'Enter your email to receive a password reset link.',
-			'auth.resetPasswordSuccess' => 'We\'ve sent a password reset link to your email.',
+			'auth.resetPasswordPrompt' => 'Enter your email to reset your password.',
+			'auth.resetPasswordSuccess' => 'password reseted successfully.',
 			'auth.selectProfileImage' => 'Please select a profile picture.',
 			'auth.verifyEmailTitle' => 'Verify Your Email',
 			'auth.verifyEmail' => 'Verify Email',
 			'auth.enterCode' => 'Enter verification code',
 			'auth.invalidCode' => 'The code you entered is invalid. Please check and try again.',
 			'auth.logout' => 'Log Out',
+			'auth.verifyEmailSuccess' => 'Your email has been verified successfully.',
 			'auth.privacyPolicy.accept' => 'By creating an account, you agree to Tech Nest\'s ',
 			'auth.privacyPolicy.terms' => 'Terms of Use',
 			'auth.privacyPolicy.and' => ' and ',
@@ -733,6 +775,7 @@ extension on Translations {
 			'settings.english' => 'English',
 			'settings.arabic' => 'Arabic',
 			'settings.more' => 'More Options',
+			'errors.refresh' => 'Refresh',
 			'errors.noInternet' => 'No internet connection. Please check your network.',
 			'errors.requestFailed' => 'Request failed. Please try again later.',
 			'errors.noResults' => 'No results found',
@@ -741,6 +784,7 @@ extension on Translations {
 			'errors.loadMoreFailed' => 'Could not load more items.',
 			'errors.cacheError' => 'Unable to load saved data.',
 			'errors.unknownError' => 'Oops! Something went wrong. Please try again.',
+			'errors.someNotificationsNotMaskedAsRead' => 'Some notifications could not be marked as read.',
 			'onboarding.skip' => 'Skip',
 			'onboarding.getStarted' => 'Get Started',
 			'onboarding.pages.0.title' => 'Discover Tech',
@@ -763,7 +807,9 @@ extension on Translations {
 			'orders.cancelConfirm' => 'Are you sure you want to cancel this order?',
 			'orders.cancelYes' => 'Yes, Cancel Order',
 			'orders.cancelNo' => 'No, Keep It',
-			'orders.emptyState' => 'You haven\'t placed any orders yet.',
+			'orders.emptyStateTitle' => 'No Orders Found',
+			'orders.emptyStateMessage' => 'You have no orders yet. Start shopping now!',
+			'orders.startShopping' => 'Start Shopping',
 			'orders.date' => ({required Object date}) => 'Ordered on ${date}',
 			'orders.shippingAddress' => 'Shipping Address',
 			'orders.billingAddress' => 'Billing Address',
@@ -775,6 +821,10 @@ extension on Translations {
 			'orders.status.shipped' => 'Shipped',
 			'orders.status.delivered' => 'Delivered',
 			'orders.status.cancelled' => 'Cancelled',
+			'notifications.title' => 'Notifications',
+			'notifications.empty' => 'You don\'t have any notifications yet.',
+			'notifications.markAsRead' => 'Mark as read',
+			'notifications.loadFailed' => 'Failed to load notifications. Please try again.',
 			_ => null,
 		};
 	}

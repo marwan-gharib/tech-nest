@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/app/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
+import 'package:tech_nest/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/custom_pin_code_dialog.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
@@ -21,12 +23,14 @@ class VerifyEmailDialog extends StatefulWidget {
 class _VerifyEmailDialogState extends State<VerifyEmailDialog> {
   late final TextEditingController _controller;
   late final ValueNotifier<bool> _isErrNotifier;
+  late final AuthNotifier _authNotifier;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
     _isErrNotifier = ValueNotifier<bool>(false);
+    _authNotifier = sl<AuthNotifier>();
   }
 
   @override
@@ -88,7 +92,9 @@ class _VerifyEmailDialogState extends State<VerifyEmailDialog> {
   void _verifyEmailListener(BuildContext context, VerifyEmailState state) {
     if (state is VerifyEmailSuccess) {
       _isErrNotifier.value = false;
-      context.go(Routes.homeScreenPath);
+      context.pop(true);
+      _authNotifier.login();
+      context.goNamed(RouteNames.home);
     } else if (state is VerifyEmailFailed) {
       // no showing snack bar here
       _isErrNotifier.value = true;
@@ -102,9 +108,7 @@ class _VerifyEmailDialogState extends State<VerifyEmailDialog> {
       return SizedBox(
         height: AppSpacing.xxl + AppSpacing.lg,
         child: Center(
-          child: CircularProgressIndicator(
-            color: context.colorScheme.primary,
-          ),
+          child: CircularProgressIndicator(color: context.colorScheme.primary),
         ),
       );
     }
@@ -126,4 +130,3 @@ class _VerifyEmailDialogState extends State<VerifyEmailDialog> {
     }
   }
 }
-

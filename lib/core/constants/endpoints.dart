@@ -15,6 +15,7 @@ class Endpoints {
   static String get resetPassword => "auth/reset_password.php";
 
   static String get productsList => "products/list.php";
+  static String get getProductById => "products/get_product.php";
   static String get searchingSuggestions =>
       "products/searching_suggestions.php";
 
@@ -29,4 +30,9 @@ class Endpoints {
   static String get listOrders => "orders/list.php";
   static String get orderDetails => "orders/details.php";
   static String get cancelOrder => "orders/cancel.php";
+
+  static String get listNotifications => "notifications/get_notifications.php";
+  static String get markNotificationAsRead =>
+      "notifications/mark_notification_read.php";
+  static String get saveFCMToken => "notifications/save_fcm_token.php";
 }

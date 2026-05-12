@@ -34,7 +34,7 @@ class CustomPinCodeDialog extends StatelessWidget {
             const SizedBox.shrink(),
             Text(label, style: context.labelLarge),
             IconButton(
-              onPressed: () => context.pop(),
+              onPressed: () => context.pop(false),
               icon: const Icon(Icons.close),
             ),
           ],
@@ -44,9 +44,7 @@ class CustomPinCodeDialog extends StatelessWidget {
           alignment: Alignment.centerLeft,
           child: Text(
             hint,
-            style: context.bodyMedium.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            style: context.bodyMedium.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -94,9 +92,7 @@ class CustomPinCodeDialog extends StatelessWidget {
             if (!value) return const SizedBox.shrink();
             return Text(
               errorText,
-              style: context.bodyMedium.copyWith(
-                color: context.colors.error,
-              ),
+              style: context.bodyMedium.copyWith(color: context.colors.error),
             );
           },
         ),
@@ -104,4 +100,3 @@ class CustomPinCodeDialog extends StatelessWidget {
     );
   }
 }
-

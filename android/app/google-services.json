@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "501990395298",
+    "project_id": "tech-nest-49181",
+    "storage_bucket": "tech-nest-49181.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501990395298:android:d3d9519683193943a5f6fb",
+        "android_client_info": {
+          "package_name": "com.example.tech_nest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQEt5g46ZNHlYZ9iNiFDdBHzc5ZScPA38"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

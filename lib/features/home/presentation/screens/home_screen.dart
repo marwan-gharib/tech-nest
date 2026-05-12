@@ -44,11 +44,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _listener() {
     _showScrollToTop.value = _scrollController.offset > 200;
-    if (_scrollController.offset >=
-            _scrollController.position.maxScrollExtent - 300 &&
-        !_scrollController.position.outOfRange) {
-      context.read<FetchProductsCubit>().fetchMore();
-    }
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (_scrollController.offset >=
+              _scrollController.position.maxScrollExtent - 300 &&
+          !_scrollController.position.outOfRange &&
+          mounted) {
+        context.read<FetchProductsCubit>().fetchMore();
+      }
+    });
   }
 
   Future<void> _onRefresh() async {

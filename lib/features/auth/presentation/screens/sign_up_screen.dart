@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tech_nest/app/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
@@ -15,7 +16,6 @@ import 'package:tech_nest/features/auth/presentation/widgets/pick_profile_image.
 import 'package:tech_nest/features/auth/presentation/widgets/sign_up_form.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/verify_email_dialog.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/app/service_locator.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -63,19 +63,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         create: (context) => ProfileImageCubit(),
         child: Scaffold(
           appBar: AppBar(title: Text(context.t.auth.signUp)),
-          body: MultiBlocListener(
-            listeners: [
-              BlocListener<RegistrationCubit, RegistrationState>(
-                listenWhen: (p, c) =>
-                    c is RegistrationSuccess || c is RegistrationFailed,
-                listener: _listener,
-              ),
-              BlocListener<ProfileImageCubit, XFile?>(
-                listener: (context, img) {
-                  context.read<RegistrationCubit>().profileImg = img;
-                },
-              ),
-            ],
+          body: BlocListener<ProfileImageCubit, XFile?>(
+            listener: (context, img) {
+              context.read<RegistrationCubit>().profileImg = img;
+            },
+
             child: ListView(
               padding: const EdgeInsets.symmetric(
                 horizontal: AppSpacing.md,
@@ -97,8 +89,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ValueListenableBuilder<bool>(
                   valueListenable: _checkBoxNotifier,
                   builder: (_, value, _) {
-                    return BlocBuilder<RegistrationCubit, RegistrationState>(
+                    return BlocConsumer<RegistrationCubit, RegistrationState>(
                       buildWhen: (p, c) => p != c,
+                      listenWhen: (p, c) =>
+                          c is RegistrationSuccess || c is RegistrationFailed,
+                      listener: _listener,
                       builder: _builder,
                     );
                   },
@@ -107,7 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 AskNavigationWidget(
                   question: context.t.auth.alreadyHaveAccount,
                   screenLabel: context.t.auth.login,
-                  onTap: () => context.go(Routes.loginScreenPath),
+                  onTap: () => context.goNamed(RouteNames.login),
                 ),
                 const SizedBox(height: AppSpacing.xxl),
               ],
@@ -120,7 +115,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future<void> _listener(BuildContext context, RegistrationState state) async {
     if (state is RegistrationSuccess) {
-      await showDialog(
+      final bool? isSuccess = await showDialog<bool?>(
         context: context,
         builder: (_) => BlocProvider(
           create: (context) => sl<VerifyEmailCubit>(),
@@ -130,6 +125,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         useSafeArea: true,
         useRootNavigator: true,
       );
+
+      if (context.mounted && (isSuccess ?? false)) {
+        CustomSnackBar.show(
+          context,
+          message: context.t.auth.verifyEmailSuccess,
+        );
+      }
     } else if (state is RegistrationFailed) {
       CustomSnackBar.showError(context, failure: state.failure);
     }

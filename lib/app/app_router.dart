@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tech_nest/app/service_locator.dart';
 import 'package:tech_nest/core/animations/page_transitions.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
@@ -21,16 +22,17 @@ import 'package:tech_nest/features/checkout/presentation/cubits/create_order/cre
 import 'package:tech_nest/features/checkout/presentation/screens/checkout_screen.dart';
 import 'package:tech_nest/features/checkout/presentation/screens/location_picker_screen.dart';
 import 'package:tech_nest/features/home/presentation/screens/home_screen.dart';
+import 'package:tech_nest/features/notifications/presentation/notification_cubit/notification_cubit.dart';
+import 'package:tech_nest/features/notifications/presentation/screens/notification_screen.dart';
 import 'package:tech_nest/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/order_details/order_details_cubit.dart';
 import 'package:tech_nest/features/orders/presentation/cubits/orders_list/orders_list_cubit.dart';
 import 'package:tech_nest/features/orders/presentation/screens/order_details_screen.dart';
 import 'package:tech_nest/features/orders/presentation/screens/orders_list_screen.dart';
-import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 import 'package:tech_nest/features/products/presentation/cubits/fetch_products_cubit/fetch_products_cubit.dart';
+import 'package:tech_nest/features/products/presentation/cubits/get_product_cubit/get_product_cubit.dart';
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';
 import 'package:tech_nest/features/settings/presentation/screens/settings_screen.dart';
-import 'package:tech_nest/app/service_locator.dart';
 
 class AppRouter {
   static final AuthNotifier _authNotifier = sl<AuthNotifier>();
@@ -38,9 +40,9 @@ class AppRouter {
 
   const AppRouter._();
 
-  static final GoRouter routes = GoRouter(
+  static final GoRouter router = GoRouter(
     navigatorKey: _shellNavigatorKey,
-    initialLocation: Routes.homeScreenPath,
+    initialLocation: RoutePaths.home,
     routes: [
       StatefulShellRoute.indexedStack(
         builder: _shellBuilder,
@@ -49,6 +51,7 @@ class AppRouter {
           StatefulShellBranch(routes: [_cartScreenRouter]),
           StatefulShellBranch(routes: [_categoriesScreenRouter]),
           StatefulShellBranch(routes: [_ordersScreenRouter]),
+          StatefulShellBranch(routes: [_notificationScreenRouter]),
           StatefulShellBranch(routes: [_settingsScreenRouter]),
         ],
       ),
@@ -63,21 +66,21 @@ class AppRouter {
 
       final bool isAuth = _authNotifier.isAuth;
 
-      final authRoutes = [Routes.loginScreenPath, Routes.signUpScreenPath];
+      final authRoutes = [RoutePaths.login, RoutePaths.signUp];
       final bool isAuthRoute = authRoutes.contains(state.matchedLocation);
 
       if (!hasSeenOnboarding) {
-        return state.matchedLocation == Routes.onboardingScreenPath
+        return state.matchedLocation == RoutePaths.onboarding
             ? null
-            : Routes.onboardingScreenPath;
+            : RoutePaths.onboarding;
       }
 
       if (!isAuth) {
-        return isAuthRoute ? null : Routes.loginScreenPath;
+        return isAuthRoute ? null : RoutePaths.login;
       }
 
       if (isAuth && isAuthRoute) {
-        return Routes.homeScreenPath;
+        return RoutePaths.home;
       }
 
       return null;
@@ -92,12 +95,16 @@ class AppRouter {
     providers: [
       BlocProvider(create: (context) => sl<CartCubit>()..fetchCart()),
       BlocProvider(create: (context) => sl<OrdersListCubit>()..fetchOrders()),
+      BlocProvider(
+        create: (context) => sl<NotificationCubit>()..initialFetching(),
+      ),
     ],
     child: AppShellEntry(navigationShell: navigationShell),
   );
 
   static final _onboardingScreenRouter = GoRoute(
-    path: Routes.onboardingScreenPath,
+    name: RouteNames.onboarding,
+    path: RoutePaths.onboarding,
     pageBuilder: (context, state) => PageTransitions.fadeTransition(
       context: context,
       state: state,
@@ -106,7 +113,8 @@ class AppRouter {
   );
 
   static final _signUpScreenRouter = GoRoute(
-    path: Routes.signUpScreenPath,
+    name: RouteNames.signUp,
+    path: RoutePaths.signUp,
     pageBuilder: (context, state) => PageTransitions.slideTransition(
       context: context,
       state: state,
@@ -118,7 +126,8 @@ class AppRouter {
   );
 
   static final _loginScreenRouter = GoRoute(
-    path: Routes.loginScreenPath,
+    name: RouteNames.login,
+    path: RoutePaths.login,
     pageBuilder: (context, state) => PageTransitions.fadeTransition(
       context: context,
       state: state,
@@ -132,32 +141,44 @@ class AppRouter {
     ),
   );
 
-  static final _productdetailsRouter = GoRoute(
-    path: Routes.productDetailsScreen,
-    pageBuilder: (context, state) => PageTransitions.slideTransition(
-      context: context,
-      state: state,
-      child: ProductDetailsScreen(product: state.extra as ProductEntity),
-    ),
-  );
-
   static final _homeScreenRouter = GoRoute(
-    path: Routes.homeScreenPath,
+    name: RouteNames.home,
+    path: RoutePaths.home,
     builder: (context, state) => BlocProvider(
       create: (context) => sl<FetchProductsCubit>(),
       child: const HomeScreen(),
     ),
-    routes: [_productdetailsRouter],
+    routes: [
+      GoRoute(
+        name: RouteNames.homeProductDetails,
+        path: RoutePaths.productDetails,
+        pageBuilder: (context, state) {
+          final productId = int.parse(
+            state.uri.queryParameters[AppConstants.productDetailsId] ?? '-1',
+          );
+          return PageTransitions.slideTransition(
+            context: context,
+            state: state,
+            child: BlocProvider(
+              create: (context) => sl<GetProductCubit>()..getProduct(productId),
+              child: ProductDetailsScreen(productId: productId),
+            ),
+          );
+        },
+      ),
+    ],
   );
 
   static final _cartScreenRouter = GoRoute(
-    path: Routes.cartScreenPath,
+    name: RouteNames.cart,
+    path: RoutePaths.cart,
     builder: (context, state) => const CartItemsScreen(),
     routes: [_checkoutScreenRouter],
   );
 
   static final _categoriesScreenRouter = GoRoute(
-    path: Routes.categoriesScreenPath,
+    name: RouteNames.categories,
+    path: RoutePaths.categories,
     builder: (context, state) => MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -167,18 +188,40 @@ class AppRouter {
       ],
       child: const CategoriesScreen(),
     ),
-    routes: [_productdetailsRouter],
+    routes: [
+      GoRoute(
+        name: RouteNames.categoryProductDetails,
+        path: RoutePaths.productDetails,
+        pageBuilder: (context, state) {
+          final productId = int.parse(
+            state.uri.queryParameters[AppConstants.productDetailsId] ?? '-1',
+          );
+          return PageTransitions.slideTransition(
+            context: context,
+            state: state,
+            child: BlocProvider(
+              create: (context) => sl<GetProductCubit>()..getProduct(productId),
+              child: ProductDetailsScreen(productId: productId),
+            ),
+          );
+        },
+      ),
+    ],
   );
 
   static final _settingsScreenRouter = GoRoute(
-    path: Routes.settingsScreenPath,
+    name: RouteNames.settings,
+    path: RoutePaths.settings,
     builder: (context, state) => const SettingsScreen(),
   );
 
   static final _orderDetailsRouter = GoRoute(
-    path: Routes.orderDetailsScreenPath,
+    name: RouteNames.orderDetails,
+    path: RoutePaths.orderDetails,
     pageBuilder: (context, state) {
-      final orderId = int.parse(state.extra.toString());
+      final orderId = int.parse(
+        state.uri.queryParameters[AppConstants.orderDetailsId] ?? '-1',
+      );
       return PageTransitions.slideTransition(
         context: context,
         state: state,
@@ -192,13 +235,15 @@ class AppRouter {
   );
 
   static final _ordersScreenRouter = GoRoute(
-    path: Routes.ordersScreenPath,
+    name: RouteNames.orders,
+    path: RoutePaths.orders,
     builder: (context, state) => const OrdersListScreen(),
     routes: [_orderDetailsRouter],
   );
 
   static final _checkoutScreenRouter = GoRoute(
-    path: Routes.checkoutScreenPath,
+    name: RouteNames.checkout,
+    path: RoutePaths.checkout,
     pageBuilder: (context, state) => PageTransitions.slideTransition(
       context: context,
       state: state,
@@ -211,11 +256,38 @@ class AppRouter {
   );
 
   static final _locationPickerRouter = GoRoute(
-    path: Routes.locationPickerScreenPath,
+    name: RouteNames.locationPicker,
+    path: RoutePaths.locationPicker,
     pageBuilder: (context, state) => PageTransitions.slideUpTransition(
       context: context,
       state: state,
       child: const LocationPickerScreen(),
     ),
   );
+
+  static final _notificationScreenRouter = GoRoute(
+    name: RouteNames.notifications,
+    path: RoutePaths.notifications,
+    pageBuilder: (context, state) => PageTransitions.slideTransition(
+      context: context,
+      state: state,
+      child: const NotificationScreen(),
+    ),
+  );
+
+  static void goToProductDetails(int productId) {
+    router.goNamed(
+      RouteNames.homeProductDetails,
+      queryParameters: {AppConstants.productDetailsId: productId.toString()},
+    );
+  }
+
+  static void goToOrderDetails(int orderId) {
+    router.goNamed(
+      RouteNames.orderDetails,
+      queryParameters: {AppConstants.orderDetailsId: orderId.toString()},
+    );
+  }
+
+  static void goToLogin() => _authNotifier.logout();
 }

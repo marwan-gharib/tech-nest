@@ -13,7 +13,8 @@
     "cart": "Cart",
     "categories": "Categories",
     "settings": "Settings",
-    "orders": "Orders"
+    "orders": "Orders",
+    "notifications": "Notifications"
   },
   "auth": {
     "login": "Log In",
@@ -28,14 +29,15 @@
     "dontHaveAccount": "Don't have an account?",
     "alreadyHaveAccount": "Already have an account?",
     "resetPassword": "Reset Password",
-    "resetPasswordPrompt": "Enter your email to receive a password reset link.",
-    "resetPasswordSuccess": "We've sent a password reset link to your email.",
+    "resetPasswordPrompt": "Enter your email to reset your password.",
+    "resetPasswordSuccess": "password reseted successfully.",
     "selectProfileImage": "Please select a profile picture.",
     "verifyEmailTitle": "Verify Your Email",
     "verifyEmail": "Verify Email",
     "enterCode": "Enter verification code",
     "invalidCode": "The code you entered is invalid. Please check and try again.",
     "logout": "Log Out",
+    "verifyEmailSuccess": "Your email has been verified successfully.",
     "privacyPolicy": {
       "accept": "By creating an account, you agree to Tech Nest's ",
       "terms": "Terms of Use",
@@ -118,6 +120,7 @@
     "more": "More Options"
   },
   "errors": {
+    "refresh": "Refresh",
     "noInternet": "No internet connection. Please check your network.",
     "requestFailed": "Request failed. Please try again later.",
     "noResults": "No results found",
@@ -125,7 +128,8 @@
     "noResultsFilter": "We couldn't find any products matching your filters. Try adjusting them.",
     "loadMoreFailed": "Could not load more items.",
     "cacheError": "Unable to load saved data.",
-    "unknownError": "Oops! Something went wrong. Please try again."
+    "unknownError": "Oops! Something went wrong. Please try again.",
+    "someNotificationsNotMaskedAsRead": "Some notifications could not be marked as read."
   },
   "onboarding": {
     "skip": "Skip",
@@ -162,7 +166,9 @@
     "cancelConfirm": "Are you sure you want to cancel this order?",
     "cancelYes": "Yes, Cancel Order",
     "cancelNo": "No, Keep It",
-    "emptyState": "You haven't placed any orders yet.",
+    "emptyStateTitle": "No Orders Found",
+    "emptyStateMessage": "You have no orders yet. Start shopping now!",
+    "startShopping": "Start Shopping",
     "date": "Ordered on $date",
     "shippingAddress": "Shipping Address",
     "billingAddress": "Billing Address",
@@ -176,5 +182,11 @@
       "delivered": "Delivered",
       "cancelled": "Cancelled"
     }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "You don't have any notifications yet.",
+    "markAsRead": "Mark as read",
+    "loadFailed": "Failed to load notifications. Please try again."
   }
 }

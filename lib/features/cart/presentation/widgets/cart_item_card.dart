@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/app/service_locator.dart';
 import 'package:tech_nest/core/animations/skeleton_shimmer.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
@@ -12,7 +13,6 @@ import 'package:tech_nest/features/cart/presentation/cubits/delete_cart_item_cub
 import 'package:tech_nest/features/cart/presentation/cubits/update_item_quantity_cubit/update_item_quantity_cubit.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/change_cart_item_count.dart';
 import 'package:tech_nest/features/cart/presentation/widgets/remove_cart_item_button.dart';
-import 'package:tech_nest/app/service_locator.dart';
 
 class CartItemCard extends StatefulWidget {
   final CartItem cartItem;
@@ -74,7 +74,8 @@ class _CartItemCardState extends State<CartItemCard>
               borderRadius: BorderRadius.circular(_borderRadius),
               child: CachedNetworkImage(
                 filterQuality: FilterQuality.high,
-                imageUrl: Endpoints.baseUrl + widget.cartItem.product.imgUrl,
+                imageUrl:
+                    "${Endpoints.baseUrl}/${widget.cartItem.product.imgUrl}",
                 memCacheHeight: 300,
                 memCacheWidth: 300,
                 height: _cardHeight,

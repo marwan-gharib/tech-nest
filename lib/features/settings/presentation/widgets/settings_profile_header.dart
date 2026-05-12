@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
-import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
+import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
 import 'package:tech_nest/features/settings/presentation/cubits/user_profile/user_profile_cubit.dart';
 import 'package:tech_nest/features/settings/presentation/cubits/user_profile/user_profile_state.dart';
 
@@ -85,7 +85,7 @@ class SettingsProfileHeader extends StatelessWidget {
         radius: 55,
         backgroundColor: context.colors.background,
         backgroundImage: image != null
-            ? NetworkImage(Endpoints.baseUrl + image)
+            ? NetworkImage('${Endpoints.baseUrl}/$image')
             : null,
         child: image == null
             ? Icon(
@@ -98,4 +98,3 @@ class SettingsProfileHeader extends StatelessWidget {
     );
   }
 }
-

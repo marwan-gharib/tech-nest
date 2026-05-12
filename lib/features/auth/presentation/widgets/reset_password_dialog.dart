@@ -116,7 +116,7 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
 
   void _forgetPassListener(BuildContext context, ResetPasswordState state) {
     if (state is ResetPasswordSuccess) {
-      context.pop();
+      context.pop(true);
     } else if (state is ResetPasswordFailed) {
       _isErrNotifire.value = true;
       // no showing snack bar here
@@ -130,9 +130,7 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
       return SizedBox(
         height: AppSpacing.xxl + AppSpacing.lg,
         child: Center(
-          child: CircularProgressIndicator(
-            color: context.colorScheme.primary,
-          ),
+          child: CircularProgressIndicator(color: context.colorScheme.primary),
         ),
       );
     }
@@ -155,4 +153,3 @@ class _ResetPasswordDialogState extends State<ResetPasswordDialog> {
     }
   }
 }
-

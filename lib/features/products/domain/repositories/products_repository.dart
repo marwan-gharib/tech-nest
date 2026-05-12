@@ -8,6 +8,8 @@ abstract class ProductsRepository {
     required ProductsParams params,
   });
 
+  Future<Either<Failure, ProductEntity>> getProduct({required int productId});
+
   Future<Either<Failure, List<String>>> searchSuggestions({
     required String searchQuery,
   });

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/animations/scale_tap.dart';
 import 'package:tech_nest/core/animations/skeleton_shimmer.dart';
+import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
@@ -52,7 +53,7 @@ class ProductCard extends StatelessWidget {
                     fit: BoxFit.cover,
                     memCacheHeight: 300,
                     memCacheWidth: 300,
-                    imageUrl: "${Endpoints.baseUrl}${product.imgUrl}",
+                    imageUrl: "${Endpoints.baseUrl}/${product.imgUrl}",
                     placeholder: (context, url) => const SkeletonShimmer(
                       width: double.infinity,
                       height: double.infinity,
@@ -101,11 +102,13 @@ class ProductCard extends StatelessWidget {
 
   void _onCardTap(BuildContext context) {
     final currentLocation = GoRouterState.of(context).uri.path;
-    if (currentLocation.contains(Routes.productDetailsScreen)) return;
+    final String routeName = currentLocation.contains(RoutePaths.home)
+        ? RouteNames.homeProductDetails
+        : RouteNames.categoryProductDetails;
 
-    context.push(
-      '$currentLocation/${Routes.productDetailsScreen}',
-      extra: product,
+    context.pushNamed(
+      routeName,
+      queryParameters: {AppConstants.productDetailsId: product.id.toString()},
     );
   }
 
@@ -136,4 +139,3 @@ class ProductCard extends StatelessWidget {
     );
   }
 }
-

@@ -20,7 +20,7 @@ class TechNestApp extends StatelessWidget {
       themeMode: context.select<ThemeCubit, ThemeMode>(
         (cubit) => cubit.state.mode,
       ),
-      routerConfig: AppRouter.routes,
+      routerConfig: AppRouter.router,
       locale: TranslationProvider.of(context).flutterLocale,
       supportedLocales: AppLocaleUtils.supportedLocales,
       localizationsDelegates: GlobalMaterialLocalizations.delegates,
