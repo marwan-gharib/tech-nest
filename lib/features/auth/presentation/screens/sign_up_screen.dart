@@ -115,7 +115,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future<void> _listener(BuildContext context, RegistrationState state) async {
     if (state is RegistrationSuccess) {
-      await showDialog(
+      final bool? isSuccess = await showDialog<bool?>(
         context: context,
         builder: (_) => BlocProvider(
           create: (context) => sl<VerifyEmailCubit>(),
@@ -125,6 +125,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         useSafeArea: true,
         useRootNavigator: true,
       );
+
+      if (context.mounted && (isSuccess ?? false)) {
+        CustomSnackBar.show(
+          context,
+          message: context.t.auth.verifyEmailSuccess,
+        );
+      }
     } else if (state is RegistrationFailed) {
       CustomSnackBar.showError(context, failure: state.failure);
     }

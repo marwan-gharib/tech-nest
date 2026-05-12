@@ -14,7 +14,12 @@ class NotificationHandlerModel {
   });
 
   factory NotificationHandlerModel.fromJson(Map<String, dynamic> json) {
-    final Map<String, dynamic> entity = jsonDecode(json[ApiKeys.entity]) ?? {};
+    final Map<String, dynamic> entity;
+    if (json[ApiKeys.entity] is Map<String, dynamic>) {
+      entity = json[ApiKeys.entity] ?? {};
+    } else {
+      entity = jsonDecode((json[ApiKeys.entity]).toString()) ?? {};
+    }
     return NotificationHandlerModel(
       type: json[ApiKeys.type] ?? '',
       entityType: entity[ApiKeys.type] ?? '',

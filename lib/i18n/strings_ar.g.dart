@@ -101,11 +101,12 @@ class _TranslationsAuthAr implements TranslationsAuthEn {
 	@override String get dontHaveAccount => 'مستخدم جديد؟';
 	@override String get alreadyHaveAccount => 'لديك حساب بالفعل؟';
 	@override String get resetPassword => 'إعادة تعيين كلمة المرور';
-	@override String get resetPasswordPrompt => 'أدخل بريدك الإلكتروني لتلقي رابط إعادة تعيين كلمة المرور.';
-	@override String get resetPasswordSuccess => 'أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.';
+	@override String get resetPasswordPrompt => 'أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور.';
+	@override String get resetPasswordSuccess => 'تم إعادة تعيين كلمة المرور بنجاح.';
 	@override String get selectProfileImage => 'يرجى اختيار صورة شخصية.';
 	@override String get verifyEmailTitle => 'تأكيد البريد الإلكتروني';
 	@override String get verifyEmail => 'تأكيد';
+	@override String get verifyEmailSuccess => 'تم تأكيد البريد الإلكتروني بنجاح.';
 	@override String get enterCode => 'أدخل رمز التحقق';
 	@override String get invalidCode => 'الرمز الذي أدخلته غير صالح. يرجى التحقق والمحاولة مرة أخرى.';
 	@override String get logout => 'تسجيل الخروج';
@@ -222,6 +223,7 @@ class _TranslationsErrorsAr implements TranslationsErrorsEn {
 	final TranslationsAr _root; // ignore: unused_field
 
 	// Translations
+	@override String get refresh => 'تحديث';
 	@override String get noInternet => 'لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة.';
 	@override String get requestFailed => 'فشل الطلب. يرجى المحاولة لاحقاً.';
 	@override String get noResults => 'لم يتم العثور على نتائج';
@@ -279,7 +281,9 @@ class _TranslationsOrdersAr implements TranslationsOrdersEn {
 	@override String get cancelConfirm => 'هل أنت متأكد أنك تريد إلغاء هذا الطلب؟';
 	@override String get cancelYes => 'نعم، ألغِ الطلب';
 	@override String get cancelNo => 'لا، أبقِ الطلب';
-	@override String get emptyState => 'لم تقم بأي طلبات بعد.';
+	@override String get emptyStateTitle => 'لم يتم العثور على طلبات';
+	@override String get emptyStateMessage => 'ليس لديك أي طلبات حتى الآن. ابدأ التسوق الآن!';
+	@override String get startShopping => 'ابدأ التسوق';
 	@override String date({required Object date}) => 'تاريخ الطلب: ${date}';
 	@override String get shippingAddress => 'عنوان الشحن';
 	@override String get billingAddress => 'عنوان الفواتير';
@@ -417,11 +421,12 @@ extension on TranslationsAr {
 			'auth.dontHaveAccount' => 'مستخدم جديد؟',
 			'auth.alreadyHaveAccount' => 'لديك حساب بالفعل؟',
 			'auth.resetPassword' => 'إعادة تعيين كلمة المرور',
-			'auth.resetPasswordPrompt' => 'أدخل بريدك الإلكتروني لتلقي رابط إعادة تعيين كلمة المرور.',
-			'auth.resetPasswordSuccess' => 'أرسلنا رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.',
+			'auth.resetPasswordPrompt' => 'أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور.',
+			'auth.resetPasswordSuccess' => 'تم إعادة تعيين كلمة المرور بنجاح.',
 			'auth.selectProfileImage' => 'يرجى اختيار صورة شخصية.',
 			'auth.verifyEmailTitle' => 'تأكيد البريد الإلكتروني',
 			'auth.verifyEmail' => 'تأكيد',
+			'auth.verifyEmailSuccess' => 'تم تأكيد البريد الإلكتروني بنجاح.',
 			'auth.enterCode' => 'أدخل رمز التحقق',
 			'auth.invalidCode' => 'الرمز الذي أدخلته غير صالح. يرجى التحقق والمحاولة مرة أخرى.',
 			'auth.logout' => 'تسجيل الخروج',
@@ -484,6 +489,7 @@ extension on TranslationsAr {
 			'settings.english' => 'English',
 			'settings.arabic' => 'العربية',
 			'settings.more' => 'خيارات إضافية',
+			'errors.refresh' => 'تحديث',
 			'errors.noInternet' => 'لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة.',
 			'errors.requestFailed' => 'فشل الطلب. يرجى المحاولة لاحقاً.',
 			'errors.noResults' => 'لم يتم العثور على نتائج',
@@ -515,7 +521,9 @@ extension on TranslationsAr {
 			'orders.cancelConfirm' => 'هل أنت متأكد أنك تريد إلغاء هذا الطلب؟',
 			'orders.cancelYes' => 'نعم، ألغِ الطلب',
 			'orders.cancelNo' => 'لا، أبقِ الطلب',
-			'orders.emptyState' => 'لم تقم بأي طلبات بعد.',
+			'orders.emptyStateTitle' => 'لم يتم العثور على طلبات',
+			'orders.emptyStateMessage' => 'ليس لديك أي طلبات حتى الآن. ابدأ التسوق الآن!',
+			'orders.startShopping' => 'ابدأ التسوق',
 			'orders.date' => ({required Object date}) => 'تاريخ الطلب: ${date}',
 			'orders.shippingAddress' => 'عنوان الشحن',
 			'orders.billingAddress' => 'عنوان الفواتير',

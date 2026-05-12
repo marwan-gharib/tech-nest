@@ -6,6 +6,7 @@ class HandleNotification {
   const HandleNotification._();
 
   static void handle(Map<String, dynamic>? data) {
+    AppLogger.info('Notification data In Handler: $data');
     if (data == null) return;
     final model = NotificationHandlerModel.fromJson(data);
     final handler = NotificationHandlerFactory.getHandler(model.type);

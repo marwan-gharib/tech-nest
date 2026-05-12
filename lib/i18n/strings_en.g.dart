@@ -155,11 +155,11 @@ class TranslationsAuthEn {
 	/// en: 'Reset Password'
 	String get resetPassword => 'Reset Password';
 
-	/// en: 'Enter your email to receive a password reset link.'
-	String get resetPasswordPrompt => 'Enter your email to receive a password reset link.';
+	/// en: 'Enter your email to reset your password.'
+	String get resetPasswordPrompt => 'Enter your email to reset your password.';
 
-	/// en: 'We've sent a password reset link to your email.'
-	String get resetPasswordSuccess => 'We\'ve sent a password reset link to your email.';
+	/// en: 'password reseted successfully.'
+	String get resetPasswordSuccess => 'password reseted successfully.';
 
 	/// en: 'Please select a profile picture.'
 	String get selectProfileImage => 'Please select a profile picture.';
@@ -178,6 +178,9 @@ class TranslationsAuthEn {
 
 	/// en: 'Log Out'
 	String get logout => 'Log Out';
+
+	/// en: 'Your email has been verified successfully.'
+	String get verifyEmailSuccess => 'Your email has been verified successfully.';
 
 	late final TranslationsAuthPrivacyPolicyEn privacyPolicy = TranslationsAuthPrivacyPolicyEn._(_root);
 }
@@ -389,6 +392,9 @@ class TranslationsErrorsEn {
 
 	// Translations
 
+	/// en: 'Refresh'
+	String get refresh => 'Refresh';
+
 	/// en: 'No internet connection. Please check your network.'
 	String get noInternet => 'No internet connection. Please check your network.';
 
@@ -497,8 +503,14 @@ class TranslationsOrdersEn {
 	/// en: 'No, Keep It'
 	String get cancelNo => 'No, Keep It';
 
-	/// en: 'You haven't placed any orders yet.'
-	String get emptyState => 'You haven\'t placed any orders yet.';
+	/// en: 'No Orders Found'
+	String get emptyStateTitle => 'No Orders Found';
+
+	/// en: 'You have no orders yet. Start shopping now!'
+	String get emptyStateMessage => 'You have no orders yet. Start shopping now!';
+
+	/// en: 'Start Shopping'
+	String get startShopping => 'Start Shopping';
 
 	/// en: 'Ordered on $date'
 	String date({required Object date}) => 'Ordered on ${date}';
@@ -695,14 +707,15 @@ extension on Translations {
 			'auth.dontHaveAccount' => 'Don\'t have an account?',
 			'auth.alreadyHaveAccount' => 'Already have an account?',
 			'auth.resetPassword' => 'Reset Password',
-			'auth.resetPasswordPrompt' => 'Enter your email to receive a password reset link.',
-			'auth.resetPasswordSuccess' => 'We\'ve sent a password reset link to your email.',
+			'auth.resetPasswordPrompt' => 'Enter your email to reset your password.',
+			'auth.resetPasswordSuccess' => 'password reseted successfully.',
 			'auth.selectProfileImage' => 'Please select a profile picture.',
 			'auth.verifyEmailTitle' => 'Verify Your Email',
 			'auth.verifyEmail' => 'Verify Email',
 			'auth.enterCode' => 'Enter verification code',
 			'auth.invalidCode' => 'The code you entered is invalid. Please check and try again.',
 			'auth.logout' => 'Log Out',
+			'auth.verifyEmailSuccess' => 'Your email has been verified successfully.',
 			'auth.privacyPolicy.accept' => 'By creating an account, you agree to Tech Nest\'s ',
 			'auth.privacyPolicy.terms' => 'Terms of Use',
 			'auth.privacyPolicy.and' => ' and ',
@@ -762,6 +775,7 @@ extension on Translations {
 			'settings.english' => 'English',
 			'settings.arabic' => 'Arabic',
 			'settings.more' => 'More Options',
+			'errors.refresh' => 'Refresh',
 			'errors.noInternet' => 'No internet connection. Please check your network.',
 			'errors.requestFailed' => 'Request failed. Please try again later.',
 			'errors.noResults' => 'No results found',
@@ -793,7 +807,9 @@ extension on Translations {
 			'orders.cancelConfirm' => 'Are you sure you want to cancel this order?',
 			'orders.cancelYes' => 'Yes, Cancel Order',
 			'orders.cancelNo' => 'No, Keep It',
-			'orders.emptyState' => 'You haven\'t placed any orders yet.',
+			'orders.emptyStateTitle' => 'No Orders Found',
+			'orders.emptyStateMessage' => 'You have no orders yet. Start shopping now!',
+			'orders.startShopping' => 'Start Shopping',
 			'orders.date' => ({required Object date}) => 'Ordered on ${date}',
 			'orders.shippingAddress' => 'Shipping Address',
 			'orders.billingAddress' => 'Billing Address',

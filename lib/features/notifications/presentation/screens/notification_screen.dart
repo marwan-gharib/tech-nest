@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
+import 'package:tech_nest/core/widgets/loading_more_indicator.dart';
 import 'package:tech_nest/core/widgets/no_results_found_view.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/notifications/presentation/notification_cubit/notification_cubit.dart';
@@ -18,8 +19,6 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   late final ScrollController _scrollController;
-
-  bool _isMaskReadAll = false;
 
   @override
   void initState() {
@@ -64,31 +63,31 @@ class _NotificationScreenState extends State<NotificationScreen> {
             listenWhen: (p, c) =>
                 p is NotificationLoaded &&
                 c is NotificationLoaded &&
-                p.notifications.where((n) => !n.isRead).isNotEmpty &&
-                c.notifications.where((n) => !n.isRead).isNotEmpty &&
-                _isMaskReadAll,
+                c.isMarkingAllAsReadFailed,
             listener: (context, state) {
               CustomSnackBar.show(
                 context,
                 message: context.t.errors.someNotificationsNotMaskedAsRead,
               );
-              _isMaskReadAll = false;
             },
             builder: (context, state) {
               if (state is! NotificationLoaded) return const SizedBox.shrink();
+              if (state.isMarkingAllAsRead) {
+                return const Center(child: LoadingMoreIndicator());
+              }
               final unreadCount = state.notifications
                   .where((n) => !n.isRead)
                   .length;
-              if (unreadCount < 2) return const SizedBox.shrink();
+              if (unreadCount < 1) return const SizedBox.shrink();
               return IconButton(
                 icon: Icon(
                   Icons.mark_email_read_rounded,
                   color: context.colorScheme.primary,
+                  size: AppSpacing.lg,
                 ),
-                onPressed: () {
-                  _isMaskReadAll = true;
-                  context.read<NotificationCubit>().markAllAsRead();
-                },
+                onPressed: state.isMarkingAllAsRead
+                    ? null
+                    : () => context.read<NotificationCubit>().markAllAsRead(),
               );
             },
           ),
@@ -111,6 +110,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       title: context.t.notifications.title,
                       message: context.t.notifications.empty,
                       icon: Icons.notifications_off_rounded,
+                      onRefresh: () =>
+                          context.read<NotificationCubit>().initialFetching(),
                     )
                   : RefreshIndicator(
                       onRefresh: () =>

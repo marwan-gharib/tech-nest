@@ -92,11 +92,8 @@ class _VerifyEmailDialogState extends State<VerifyEmailDialog> {
   void _verifyEmailListener(BuildContext context, VerifyEmailState state) {
     if (state is VerifyEmailSuccess) {
       _isErrNotifier.value = false;
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (context.mounted) {
-          _authNotifier.login();
-        }
-      });
+      context.pop(true);
+      _authNotifier.login();
       context.goNamed(RouteNames.home);
     } else if (state is VerifyEmailFailed) {
       // no showing snack bar here

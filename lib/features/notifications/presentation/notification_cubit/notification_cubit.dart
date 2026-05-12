@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
@@ -10,6 +8,8 @@ import 'package:tech_nest/features/notifications/domain/usecases/mark_notificati
 part 'notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
+  static const int _pageSize = 10;
+
   final GetNotificationsUseCase getNotificationsUseCase;
   final MarkNotificationReadUseCase markNotificationReadUseCase;
 
@@ -30,7 +30,7 @@ class NotificationCubit extends Cubit<NotificationState> {
       emit(
         NotificationLoaded(
           notifications: notifications,
-          hasReachedMax: notifications.length < 20,
+          hasReachedMax: notifications.length < _pageSize,
           isLoadingMore: false,
           loadMoreFailure: null,
         ),
@@ -41,7 +41,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   Future<void> fetchMore() async {
     final currentState = state;
     if (currentState is! NotificationLoaded) return;
-    if (currentState.hasReachedMax) return;
+    if (currentState.isLoadingMore || currentState.hasReachedMax) return;
 
     emit(currentState.copyWith(isLoadingMore: true, clearLoadMoreError: true));
 
@@ -66,7 +66,7 @@ class NotificationCubit extends Cubit<NotificationState> {
             notifications: List.of(loaded.notifications)..addAll(notifications),
             isLoadingMore: false,
             clearLoadMoreError: true,
-            hasReachedMax: notifications.length < 20,
+            hasReachedMax: notifications.length < _pageSize,
           ),
         );
       },
@@ -98,6 +98,8 @@ class NotificationCubit extends Cubit<NotificationState> {
     final currentState = state;
     if (currentState is! NotificationLoaded) return;
 
+    emit(currentState.copyWith(isMarkingAllAsRead: true));
+
     final notificationIds = List.of(
       currentState.notifications,
     ).where((n) => !n.isRead).map((n) => n.id).toList();
@@ -118,6 +120,12 @@ class NotificationCubit extends Cubit<NotificationState> {
             )
             .toList();
 
-    emit(currentState.copyWith(notifications: updatedList));
+    emit(
+      currentState.copyWith(
+        notifications: updatedList,
+        isMarkingAllAsRead: false,
+        isMarkingAllAsReadFailed: notificationIds.length != successedIds.length,
+      ),
+    );
   }
 }

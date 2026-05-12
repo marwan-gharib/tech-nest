@@ -289,7 +289,5 @@ class AppRouter {
     );
   }
 
-  static void goToLogin() {
-    router.goNamed(RouteNames.login);
-  }
+  static void goToLogin() => _authNotifier.logout();
 }
