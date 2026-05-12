@@ -41,11 +41,10 @@ class NotificationService {
 
     FirebaseMessaging.onMessage.listen(_onForegroundMessage);
 
-    // FirebaseMessaging.onMessageOpenedApp.listen((message) {
-    //   AppLogger.info('Notification tapped (background): ${message.data}');
-    //   HandleNotification.handle(message.data);
-    // });
-    FirebaseMessaging.onMessageOpenedApp.listen(_onForegroundMessage);
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      AppLogger.info('Notification tapped (background): ${message.data}');
+      HandleNotification.handle(message.data);
+    });
 
     await _fcm.setForegroundNotificationPresentationOptions(
       alert: true,

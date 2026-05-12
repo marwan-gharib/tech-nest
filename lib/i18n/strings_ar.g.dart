@@ -225,7 +225,7 @@ class _TranslationsErrorsAr implements TranslationsErrorsEn {
 	// Translations
 	@override String get refresh => 'تحديث';
 	@override String get noInternet => 'لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة.';
-	@override String get requestFailed => 'فشل الطلب. يرجى المحاولة لاحقاً.';
+	@override String get requestFailed => 'يرجى المحاولة لاحقاً.';
 	@override String get noResults => 'لم يتم العثور على نتائج';
 	@override String get noResultsSearch => 'لم نتمكن من العثور على ما يطابق بحثك. جرب كلمات مختلفة.';
 	@override String get noResultsFilter => 'لم نتمكن من العثور على منتجات تطابق التصفية التي قمت بها. حاول تعديلها.';
@@ -491,7 +491,7 @@ extension on TranslationsAr {
 			'settings.more' => 'خيارات إضافية',
 			'errors.refresh' => 'تحديث',
 			'errors.noInternet' => 'لا يوجد اتصال بالإنترنت. يرجى التحقق من الشبكة.',
-			'errors.requestFailed' => 'فشل الطلب. يرجى المحاولة لاحقاً.',
+			'errors.requestFailed' => 'يرجى المحاولة لاحقاً.',
 			'errors.noResults' => 'لم يتم العثور على نتائج',
 			'errors.noResultsSearch' => 'لم نتمكن من العثور على ما يطابق بحثك. جرب كلمات مختلفة.',
 			'errors.noResultsFilter' => 'لم نتمكن من العثور على منتجات تطابق التصفية التي قمت بها. حاول تعديلها.',

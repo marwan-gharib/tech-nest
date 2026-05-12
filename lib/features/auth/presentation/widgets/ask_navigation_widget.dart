@@ -20,15 +20,19 @@ class AskNavigationWidget extends StatelessWidget {
       children: [
         Text(
           '$question  ',
-          style: context.bodyMedium.copyWith(color: context.colors.textSecondary),
+          style: context.bodyMedium.copyWith(
+            color: context.colors.textSecondary,
+          ),
         ),
-        InkWell(
+        GestureDetector(
           onTap: onTap,
           child: Text(
             screenLabel,
             style: context.labelMedium.copyWith(
               color: context.colorScheme.primary,
               fontWeight: FontWeight.bold,
+              decoration: TextDecoration.underline,
+              decorationColor: context.colorScheme.primary,
             ),
           ),
         ),
@@ -36,4 +40,3 @@ class AskNavigationWidget extends StatelessWidget {
     );
   }
 }
-

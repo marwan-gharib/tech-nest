@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/app_button.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/notifiers/auth_notifier.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/auth_loading_indicator.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class LoginButtonConsumer extends StatelessWidget {
@@ -25,9 +24,7 @@ class LoginButtonConsumer extends StatelessWidget {
       listener: (context, state) {
         if (state is LoginSuccess) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (context.mounted) {
-              authNotifier.login();
-            }
+            if (context.mounted) authNotifier.login();
           });
         } else if (state is LoginFailed) {
           if (context.mounted) {
@@ -36,19 +33,9 @@ class LoginButtonConsumer extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state is LoginLoading) {
-          return SizedBox(
-            height: AppSpacing.xxl + AppSpacing.lg,
-            child: Center(
-              child: CircularProgressIndicator(
-                color: context.colorScheme.primary,
-              ),
-            ),
-          );
-        }
+        if (state is LoginLoading) return const AuthLoadingIndicator();
         return AppButton(onTap: onPressed, text: context.t.auth.login);
       },
     );
   }
 }
-

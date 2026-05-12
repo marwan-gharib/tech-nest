@@ -39,6 +39,7 @@ class SignUpForm extends StatelessWidget {
               label: context.t.auth.fullName,
               hint: context.t.auth.enterName,
               keyboardType: TextInputType.name,
+              prefixIcon: Icons.person_outline,
               validator: Validators.fullNameValidator,
             ),
           ),
@@ -50,11 +51,12 @@ class SignUpForm extends StatelessWidget {
               label: context.t.auth.email,
               hint: context.t.auth.emailHint,
               keyboardType: TextInputType.emailAddress,
+              prefixIcon: Icons.email_outlined,
               validator: Validators.emailValidator,
             ),
           ),
           const SizedBox(height: AppSpacing.lg),
-          ValueListenableBuilder(
+          ValueListenableBuilder<bool>(
             valueListenable: isPasswordObscure,
             builder: (context, obscure, child) {
               return Column(
@@ -64,8 +66,9 @@ class SignUpForm extends StatelessWidget {
                     child: CustomInputField(
                       controller: password,
                       label: context.t.auth.password,
-                      hint: "* " * 8,
+                      hint: '* ' * 8,
                       keyboardType: TextInputType.visiblePassword,
+                      prefixIcon: Icons.lock_outline,
                       isPassword: true,
                       isObscure: obscure,
                       onVisibilityToggle: () =>
@@ -79,11 +82,13 @@ class SignUpForm extends StatelessWidget {
                     child: CustomInputField(
                       controller: confirmPassword,
                       label: context.t.auth.confirmPassword,
-                      hint: "* " * 8,
+                      hint: '* ' * 8,
                       keyboardType: TextInputType.visiblePassword,
+                      prefixIcon: Icons.lock_open_outlined,
                       isPassword: true,
                       isObscure: obscure,
-                      validator: (value) => Validators.confirmPasswordValidator(
+                      validator: (value) =>
+                          Validators.confirmPasswordValidator(
                         value,
                         password: password.text,
                       ),

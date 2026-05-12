@@ -398,8 +398,8 @@ class TranslationsErrorsEn {
 	/// en: 'No internet connection. Please check your network.'
 	String get noInternet => 'No internet connection. Please check your network.';
 
-	/// en: 'Request failed. Please try again later.'
-	String get requestFailed => 'Request failed. Please try again later.';
+	/// en: 'Please try again later.'
+	String get requestFailed => 'Please try again later.';
 
 	/// en: 'No results found'
 	String get noResults => 'No results found';
@@ -777,7 +777,7 @@ extension on Translations {
 			'settings.more' => 'More Options',
 			'errors.refresh' => 'Refresh',
 			'errors.noInternet' => 'No internet connection. Please check your network.',
-			'errors.requestFailed' => 'Request failed. Please try again later.',
+			'errors.requestFailed' => 'Please try again later.',
 			'errors.noResults' => 'No results found',
 			'errors.noResultsSearch' => 'We couldn\'t find anything matching your search. Try different keywords.',
 			'errors.noResultsFilter' => 'We couldn\'t find any products matching your filters. Try adjusting them.',

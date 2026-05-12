@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
+import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 
@@ -11,9 +12,9 @@ class CustomPinCodeDialog extends StatelessWidget {
   final String hint;
   final String errorText;
 
-  static const double _pinWidth = 35.0;
-  static const double _pinHeight = 40.0;
-  static const double _pinBorderRadius = 12.0;
+  static const double _pinWidth = 44.0;
+  static const double _pinHeight = 52.0;
+  static const double _pinBorderRadius = AppRadius.lg;
 
   const CustomPinCodeDialog({
     required this.pinCodeController,
@@ -33,70 +34,105 @@ class CustomPinCodeDialog extends StatelessWidget {
           children: [
             const SizedBox.shrink(),
             Text(label, style: context.labelLarge),
-            IconButton(
-              onPressed: () => context.pop(false),
-              icon: const Icon(Icons.close),
-            ),
+            _CloseButton(),
           ],
         ),
-        const SizedBox(height: AppSpacing.xxl),
+        const SizedBox(height: AppSpacing.xl),
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
             hint,
-            style: context.bodyMedium.copyWith(fontWeight: FontWeight.bold),
+            style: context.bodyMedium.copyWith(fontWeight: FontWeight.w600),
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
-        Pinput(
-          controller: pinCodeController,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          length: 6,
-          animationCurve: Curves.linear,
-          animationDuration: const Duration(milliseconds: 200),
-          autofocus: true,
-          defaultPinTheme: PinTheme(
-            margin: const EdgeInsets.all(2),
-            width: _pinWidth,
-            height: _pinHeight,
-            textStyle: context.bodyLarge.copyWith(
-              fontWeight: FontWeight.bold,
-              color: context.colors.textPrimary,
-            ),
-            decoration: BoxDecoration(
-              color: context.colors.background,
-              borderRadius: BorderRadius.circular(_pinBorderRadius),
-              border: Border.all(color: context.colors.border),
-            ),
-          ),
-          focusedPinTheme: PinTheme(
-            margin: const EdgeInsets.all(2),
-            width: _pinWidth,
-            height: _pinHeight,
-            textStyle: context.bodyLarge.copyWith(
-              fontWeight: FontWeight.bold,
-              color: context.colors.textPrimary,
-            ),
-            decoration: BoxDecoration(
-              color: context.colors.background,
-              borderRadius: BorderRadius.circular(_pinBorderRadius),
-              border: Border.all(color: context.colorScheme.primary, width: 2),
-            ),
-          ),
-        ),
+        _PinInput(controller: pinCodeController),
         const SizedBox(height: AppSpacing.md),
-        ValueListenableBuilder(
+        ValueListenableBuilder<bool>(
           valueListenable: isErrNotifire,
           builder: (context, value, child) {
             if (!value) return const SizedBox.shrink();
-            return Text(
-              errorText,
-              style: context.bodyMedium.copyWith(color: context.colors.error),
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Icon(
+                  Icons.error_outline,
+                  size: AppSpacing.md,
+                  color: context.colors.error,
+                ),
+                const SizedBox(width: AppSpacing.xs),
+                Flexible(
+                  child: Text(
+                    errorText,
+                    style: context.bodyMedium.copyWith(
+                      color: context.colors.error,
+                    ),
+                  ),
+                ),
+              ],
             );
           },
         ),
       ],
+    );
+  }
+}
+
+class _CloseButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: context.colors.shimmerBase,
+        shape: BoxShape.circle,
+      ),
+      child: IconButton(
+        onPressed: () => context.pop(false),
+        icon: const Icon(Icons.close),
+        iconSize: 18,
+      ),
+    );
+  }
+}
+
+class _PinInput extends StatelessWidget {
+  final TextEditingController controller;
+
+  const _PinInput({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = context.bodyLarge.copyWith(
+      fontWeight: FontWeight.bold,
+      color: context.colors.textPrimary,
+    );
+    final defaultDecor = BoxDecoration(
+      color: context.colors.background,
+      borderRadius: BorderRadius.circular(CustomPinCodeDialog._pinBorderRadius),
+      border: Border.all(color: context.colors.border),
+    );
+    final focusedDecor = BoxDecoration(
+      color: context.colors.background,
+      borderRadius: BorderRadius.circular(CustomPinCodeDialog._pinBorderRadius),
+      border: Border.all(color: context.colorScheme.primary, width: 2),
+    );
+    final pinSize = PinTheme(
+      margin: const EdgeInsets.all(2),
+      width: CustomPinCodeDialog._pinWidth,
+      height: CustomPinCodeDialog._pinHeight,
+      textStyle: textStyle,
+    );
+
+    return Pinput(
+      controller: controller,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      length: 6,
+      animationCurve: Curves.easeOut,
+      animationDuration: const Duration(milliseconds: 200),
+      autofocus: true,
+      defaultPinTheme: pinSize.copyWith(decoration: defaultDecor),
+      focusedPinTheme: pinSize.copyWith(decoration: focusedDecor),
     );
   }
 }

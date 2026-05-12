@@ -9,6 +9,7 @@ class CustomInputField extends StatefulWidget {
     required this.hint,
     required this.keyboardType,
     super.key,
+    this.prefixIcon,
     this.isPassword = false,
     this.validator,
     this.isObscure,
@@ -18,6 +19,7 @@ class CustomInputField extends StatefulWidget {
   final TextEditingController controller;
   final String? label;
   final String hint;
+  final IconData? prefixIcon;
   final bool isPassword;
   final bool? isObscure;
   final VoidCallback? onVisibilityToggle;
@@ -53,7 +55,12 @@ class _CustomInputFieldState extends State<CustomInputField> {
           color: context.colors.textSecondary,
         ),
         hintText: widget.hint,
-        hintStyle: context.bodyMedium.copyWith(color: context.colors.textSecondary.withValues(alpha: 0.6)),
+        hintStyle: context.bodyMedium.copyWith(
+          color: context.colors.textSecondary.withValues(alpha: 0.6),
+        ),
+        prefixIcon: widget.prefixIcon != null
+            ? Icon(widget.prefixIcon, color: context.colors.textSecondary)
+            : null,
         suffixIcon: widget.isPassword ? _buildVisibilityIcon() : null,
       ),
       validator: widget.validator,
@@ -61,7 +68,6 @@ class _CustomInputFieldState extends State<CustomInputField> {
   }
 
   Widget? _buildVisibilityIcon() {
-    // If external listener is provided, this field handles the button
     if (widget.onVisibilityToggle != null) {
       return IconButton(
         onPressed: widget.onVisibilityToggle,
@@ -73,14 +79,10 @@ class _CustomInputFieldState extends State<CustomInputField> {
         ),
       );
     }
-    // If no external state at all, handle it internally
     if (widget.isObscure == null) {
       return IconButton(
-        onPressed: () {
-          setState(() {
-            _internalIsObscure = !_internalIsObscure;
-          });
-        },
+        onPressed: () =>
+            setState(() => _internalIsObscure = !_internalIsObscure),
         icon: Icon(
           _internalIsObscure
               ? Icons.visibility_off_outlined
@@ -89,7 +91,6 @@ class _CustomInputFieldState extends State<CustomInputField> {
         ),
       );
     }
-    // If isObscure is provided but no toggle, this is a slave field (no button)
     return null;
   }
 
@@ -106,13 +107,10 @@ class _CustomInputFieldState extends State<CustomInputField> {
         Expanded(
           child: Text(
             errorText,
-            style: context.bodyMedium.copyWith(
-              color: context.colors.error,
-            ),
+            style: context.bodyMedium.copyWith(color: context.colors.error),
           ),
         ),
       ],
     );
   }
 }
-

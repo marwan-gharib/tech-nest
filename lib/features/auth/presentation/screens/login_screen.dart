@@ -10,6 +10,7 @@ import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubi
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widget.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/auth_header_section.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/login_button_consumer.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/login_form.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
@@ -45,33 +46,41 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.t.auth;
+
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text(context.t.auth.login)),
-        body: ListView(
+        body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.lg,
             vertical: AppSpacing.xxl,
           ),
-          children: [
-            LoginForm(
-              formKey: _formKey,
-              email: _email,
-              password: _password,
-              onForgetPass: _onTappedForgetPass,
-            ),
-            const SizedBox(height: AppSpacing.md),
-            LoginButtonConsumer(
-              authNotifier: _authNotifier,
-              onPressed: _onPressedLogin,
-            ),
-            const SizedBox(height: AppSpacing.xl),
-            AskNavigationWidget(
-              question: context.t.auth.dontHaveAccount,
-              screenLabel: context.t.auth.signUp,
-              onTap: () => context.goNamed(RouteNames.signUp),
-            ),
-          ],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: AppSpacing.xl),
+              AuthHeaderSection(headline: t.login),
+              const SizedBox(height: AppSpacing.xxl),
+              LoginForm(
+                formKey: _formKey,
+                email: _email,
+                password: _password,
+                onForgetPass: _onTappedForgetPass,
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              LoginButtonConsumer(
+                authNotifier: _authNotifier,
+                onPressed: _onPressedLogin,
+              ),
+              const SizedBox(height: AppSpacing.xl),
+              AskNavigationWidget(
+                question: t.dontHaveAccount,
+                screenLabel: t.signUp,
+                onTap: () => context.goNamed(RouteNames.signUp),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+            ],
+          ),
         ),
       ),
     );

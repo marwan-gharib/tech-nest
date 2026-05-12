@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tech_nest/app/service_locator.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
 import 'package:tech_nest/core/constants/links.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
@@ -15,7 +16,6 @@ import 'package:tech_nest/features/settings/presentation/widgets/settings_sectio
 import 'package:tech_nest/features/settings/presentation/widgets/settings_tile.dart';
 import 'package:tech_nest/features/settings/presentation/widgets/theme_selector.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:tech_nest/app/service_locator.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -47,14 +47,7 @@ class SettingsScreen extends StatelessWidget {
                 delay: const Duration(milliseconds: 150),
                 child: SettingsSection(
                   title: context.t.settings.preferences,
-                  children: [
-                    const ThemeSelector(),
-                    const LanguageSelectorTile(),
-                    SettingsTile(
-                      leadingIcon: Icons.notifications_none_rounded,
-                      title: context.t.settings.notifications,
-                    ),
-                  ],
+                  children: const [ThemeSelector(), LanguageSelectorTile()],
                 ),
               ),
               FadeInSlide(

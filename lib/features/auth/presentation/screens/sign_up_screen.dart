@@ -2,19 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tech_nest/app/service_locator.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
-import 'package:tech_nest/core/widgets/app_button.dart';
-import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
-import 'package:tech_nest/features/auth/presentation/cubits/verify_email_cubit/verify_email_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/notifiers/profile_image_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/ask_navigation_widget.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/auth_header_section.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/pick_profile_image.dart';
+import 'package:tech_nest/features/auth/presentation/widgets/sign_up_button_consumer.dart';
 import 'package:tech_nest/features/auth/presentation/widgets/sign_up_form.dart';
-import 'package:tech_nest/features/auth/presentation/widgets/verify_email_dialog.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -58,112 +54,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = context.t.auth;
+
     return SafeArea(
       child: BlocProvider(
         create: (context) => ProfileImageCubit(),
         child: Scaffold(
-          appBar: AppBar(title: Text(context.t.auth.signUp)),
           body: BlocListener<ProfileImageCubit, XFile?>(
             listener: (context, img) {
               context.read<RegistrationCubit>().profileImg = img;
             },
-
-            child: ListView(
+            child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(
-                horizontal: AppSpacing.md,
+                horizontal: AppSpacing.lg,
                 vertical: AppSpacing.lg,
               ),
-              children: [
-                const Center(child: PickProfileImage()),
-                const SizedBox(height: AppSpacing.xxl),
-                SignUpForm(
-                  formKey: _formKey,
-                  fullName: _fullName,
-                  email: _email,
-                  password: _password,
-                  confirmPassword: _confirmPassword,
-                  checkBoxNotifier: _checkBoxNotifier,
-                  isPasswordObscure: _isPasswordObscure,
-                ),
-                const SizedBox(height: AppSpacing.md),
-                ValueListenableBuilder<bool>(
-                  valueListenable: _checkBoxNotifier,
-                  builder: (_, value, _) {
-                    return BlocConsumer<RegistrationCubit, RegistrationState>(
-                      buildWhen: (p, c) => p != c,
-                      listenWhen: (p, c) =>
-                          c is RegistrationSuccess || c is RegistrationFailed,
-                      listener: _listener,
-                      builder: _builder,
-                    );
-                  },
-                ),
-                const SizedBox(height: AppSpacing.xl),
-                AskNavigationWidget(
-                  question: context.t.auth.alreadyHaveAccount,
-                  screenLabel: context.t.auth.login,
-                  onTap: () => context.goNamed(RouteNames.login),
-                ),
-                const SizedBox(height: AppSpacing.xxl),
-              ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const SizedBox(height: AppSpacing.lg),
+                  AuthHeaderSection(headline: t.signUp),
+                  const SizedBox(height: AppSpacing.xl),
+                  const Center(child: PickProfileImage()),
+                  const SizedBox(height: AppSpacing.lg),
+                  SignUpForm(
+                    formKey: _formKey,
+                    fullName: _fullName,
+                    email: _email,
+                    password: _password,
+                    confirmPassword: _confirmPassword,
+                    checkBoxNotifier: _checkBoxNotifier,
+                    isPasswordObscure: _isPasswordObscure,
+                  ),
+                  const SizedBox(height: AppSpacing.md),
+                  SignUpButtonConsumer(
+                    checkBoxNotifier: _checkBoxNotifier,
+                    emailController: _email,
+                    onSignUpPressed: _onPressedSignUp,
+                  ),
+                  const SizedBox(height: AppSpacing.xl),
+                  AskNavigationWidget(
+                    question: t.alreadyHaveAccount,
+                    screenLabel: t.login,
+                    onTap: () => context.goNamed(RouteNames.login),
+                  ),
+                  const SizedBox(height: AppSpacing.xxl),
+                ],
+              ),
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Future<void> _listener(BuildContext context, RegistrationState state) async {
-    if (state is RegistrationSuccess) {
-      final bool? isSuccess = await showDialog<bool?>(
-        context: context,
-        builder: (_) => BlocProvider(
-          create: (context) => sl<VerifyEmailCubit>(),
-          child: VerifyEmailDialog(email: _email.text.trim()),
-        ),
-        barrierDismissible: false,
-        useSafeArea: true,
-        useRootNavigator: true,
-      );
-
-      if (context.mounted && (isSuccess ?? false)) {
-        CustomSnackBar.show(
-          context,
-          message: context.t.auth.verifyEmailSuccess,
-        );
-      }
-    } else if (state is RegistrationFailed) {
-      CustomSnackBar.showError(context, failure: state.failure);
-    }
-  }
-
-  Widget _builder(BuildContext context, RegistrationState state) {
-    if (state is RegistrationLoading) {
-      return SizedBox(
-        height: AppSpacing.xxl + AppSpacing.lg,
-        child: Center(
-          child: CircularProgressIndicator(color: context.colorScheme.primary),
-        ),
-      );
-    }
-
-    return _signUpButton(context);
-  }
-
-  Widget _signUpButton(BuildContext context) {
-    return AppButton(
-      onTap: () {
-        if (context.read<ProfileImageCubit>().state == null) {
-          CustomSnackBar.show(
-            context,
-            message: context.t.auth.selectProfileImage,
-          );
-        } else {
-          _onPressedSignUp();
-        }
-      },
-      text: context.t.auth.signUp,
-      isEnabled: _checkBoxNotifier.value,
     );
   }
 

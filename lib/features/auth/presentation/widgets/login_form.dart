@@ -41,8 +41,9 @@ class LoginForm extends StatelessWidget {
             child: CustomInputField(
               controller: email,
               label: context.t.auth.email,
-              hint: "example@email.com",
+              hint: 'example@email.com',
               keyboardType: TextInputType.emailAddress,
+              prefixIcon: Icons.email_outlined,
               validator: Validators.emailValidator,
             ),
           ),
@@ -52,8 +53,9 @@ class LoginForm extends StatelessWidget {
             child: CustomInputField(
               controller: password,
               label: context.t.auth.password,
-              hint: "* " * 8,
+              hint: '* ' * 8,
               keyboardType: TextInputType.visiblePassword,
+              prefixIcon: Icons.lock_outline,
               isPassword: true,
               validator: Validators.passwordValidator,
             ),
@@ -71,6 +73,7 @@ class LoginForm extends StatelessWidget {
                     context.t.auth.forgotPassword,
                     style: context.labelMedium.copyWith(
                       color: context.colorScheme.primary,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -119,7 +122,10 @@ class LoginForm extends StatelessWidget {
       dismissOnTouchOutside: false,
       dialogType: DialogType.noHeader,
       body: Center(
-        child: SpinKitWaveSpinner(color: context.colorScheme.primary),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: AppSpacing.md),
+          child: SpinKitWaveSpinner(color: context.colorScheme.primary),
+        ),
       ),
     ).show();
   }

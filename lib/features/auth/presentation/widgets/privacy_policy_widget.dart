@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tech_nest/core/constants/links.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/utils/lanch_url.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class PrivacyPolicyWidget extends StatelessWidget {
   final ValueNotifier<bool> _checkBoxNotifier;
+
   const PrivacyPolicyWidget(this._checkBoxNotifier, {super.key});
 
   @override
@@ -15,18 +17,17 @@ class PrivacyPolicyWidget extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        ValueListenableBuilder(
+        ValueListenableBuilder<bool>(
           valueListenable: _checkBoxNotifier,
           builder: (_, value, child) {
             return Checkbox(
               value: value,
               onChanged: (value) => _checkBoxNotifier.value = value!,
               activeColor: colorScheme.primary,
-              side: BorderSide(
-                color: colorScheme.primary,
-                width: 1,
-                strokeAlign: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(AppSpacing.xs),
               ),
+              side: BorderSide(color: colorScheme.primary, width: 1.5),
             );
           },
         ),
@@ -42,10 +43,7 @@ class PrivacyPolicyWidget extends StatelessWidget {
                 text: context.t.auth.privacyPolicy.terms,
                 link: Links.termaAndConditionsLink,
               ),
-              Text(
-                context.t.auth.privacyPolicy.and,
-                style: context.bodySmall,
-              ),
+              Text(context.t.auth.privacyPolicy.and, style: context.bodySmall),
               _textLink(
                 context,
                 text: context.t.auth.privacyPolicy.policy,
@@ -64,17 +62,16 @@ class PrivacyPolicyWidget extends StatelessWidget {
     required String link,
   }) {
     return GestureDetector(
-      onTap: () async {
-        await LanchUrl.launch(link);
-      },
+      onTap: () async => await LanchUrl.launch(link),
       child: Text(
         text,
         style: context.bodySmall.copyWith(
           color: context.colorScheme.primary,
           fontWeight: FontWeight.bold,
+          decoration: TextDecoration.underline,
+          decorationColor: context.colorScheme.primary,
         ),
       ),
     );
   }
 }
-
