@@ -229,50 +229,40 @@ Navigation is handled entirely by **`go_router`** with named routes only.
 ---
 
 ## 📸 Screenshots
-
-### 🌑 Dark Mode (EN)
+ 
 | Onboarding | Login | Home |
-|---|---|---|
-| ![](assets/screenshots/onboarding_dark_en.jpeg) | ![](assets/screenshots/login_dark_en.jpeg) | ![](assets/screenshots/home_dark_en.jpeg) |
-
+|:---:|:---:|:---:|
+| <img src="assets/screenshots/onboarding_dark_en.jpeg" width="170"/> | <img src="assets/screenshots/login_dark_en.jpeg" width="170"/> | <img src="assets/screenshots/home_dark_en.jpeg" width="170"/> |
+ 
 | Categories | Product Details | Cart |
-|---|---|---|
-| ![](assets/screenshots/categories_dark_en.jpeg) | ![](assets/screenshots/product_details_dark_en.jpeg) | ![](assets/screenshots/cart_dark_en.jpeg) |
-
+|:---:|:---:|:---:|
+| <img src="assets/screenshots/categories_dark_en.jpeg" width="170"/> | <img src="assets/screenshots/product_details_dark_en.jpeg" width="170"/> | <img src="assets/screenshots/cart_dark_en.jpeg" width="170"/> |
+ 
 | Orders | Order Details | Notifications |
-|---|---|---|
-| ![](assets/screenshots/orders_dark_en.jpeg) | ![](assets/screenshots/order_details_dark_en.jpeg) | ![](assets/screenshots/notifications_dark_en.jpeg) |
-
-| Filter | Reset Password |
-|---|---|
-| ![](assets/screenshots/filter_dark_en.jpeg) | ![](assets/screenshots/reset_pass_dark_en.jpeg) |
-
----
-
-### ☀️ Light Mode (EN)
+|:---:|:---:|:---:|
+| <img src="assets/screenshots/orders_dark_en.jpeg" width="170"/> | <img src="assets/screenshots/order_details_dark_en.jpeg" width="170"/> | <img src="assets/screenshots/notifications_dark_en.jpeg" width="170"/> |
+ 
+| Filter | Reset Password | Signup |
+|:---:|:---:|:---:|
+| <img src="assets/screenshots/filter_dark_en.jpeg" width="170"/> | <img src="assets/screenshots/reset_pass_dark_en.jpeg" width="170"/> | <img src="assets/screenshots/signup_light_ar.jpeg" width="170"/> |
+ 
 | Home | Categories | Cart |
-|---|---|---|
-| ![](assets/screenshots/home_light_en.jpeg) | ![](assets/screenshots/categories_light_en.jpeg) | ![](assets/screenshots/cart_light_en.jpeg) |
-
-| Filter | Logout |
-|---|---|
-| ![](assets/screenshots/filter_light_en.jpeg) | ![](assets/screenshots/logout_light_en.jpeg) |
-
----
-
-### 🌍 Arabic — RTL Support
+|:---:|:---:|:---:|
+| <img src="assets/screenshots/home_light_en.jpeg" width="170"/> | <img src="assets/screenshots/categories_light_en.jpeg" width="170"/> | <img src="assets/screenshots/cart_light_en.jpeg" width="170"/> |
+ 
+| Filter | Logout | Order Details |
+|:---:|:---:|:---:|
+| <img src="assets/screenshots/filter_light_en.jpeg" width="170"/> | <img src="assets/screenshots/logout_light_en.jpeg" width="170"/> | <img src="assets/screenshots/order_details_dark_en.jpeg" width="170"/> |
+ 
+ 
 | Home | Categories | Checkout |
-|---|---|---|
-| ![](assets/screenshots/home_light_ar.jpeg) | ![](assets/screenshots/categories_light_ar.jpeg) | ![](assets/screenshots/checkout_dark_ar.jpeg) |
-
-| Order Details | Pick Location | Settings |
-|---|---|---|
-| ![](assets/screenshots/order_details_dark_ar.jpeg) | ![](assets/screenshots/pick_location_dark_ar.jpeg) | ![](assets/screenshots/settings_light_ar.jpeg) |
-
-| Signup |
-|---|
-| ![](assets/screenshots/signup_light_ar.jpeg) |
-
+|:---:|:---:|:---:|
+| <img src="assets/screenshots/home_light_ar.jpeg" width="170"/> | <img src="assets/screenshots/categories_light_ar.jpeg" width="170"/> | <img src="assets/screenshots/checkout_dark_ar.jpeg" width="170"/> |
+ 
+| Pick Location | Settings |
+|:---:|:---:| 
+| <img src="assets/screenshots/pick_location_dark_ar.jpeg" width="170"/> | <img src="assets/screenshots/settings_light_ar.jpeg" width="170"/> |
+ 
 ---
 
 ## 🧰 Tech Stack
@@ -390,4 +380,4 @@ TechNest's backend is a **PHP REST API** serving JSON responses, consumed exclus
 
 ## 📄 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** — see the [LICENSE](https://github.com/marwan-gharib/tech-nest/blob/main/LICENSE) file for details.
