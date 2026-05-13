@@ -17,9 +17,29 @@
   <img alt="License" src="https://img.shields.io/badge/License-MIT-lightgrey?style=for-the-badge"/>
 </p>
 
-[Features](#-features) · [Architecture](#️-architecture) · [Screenshots](#-screenshots) · [Getting Started](#-getting-started) · [Tech Stack](#-tech-stack)
-
 </div>
+
+---
+
+## 📑 Table of Contents
+
+- [📖 Overview](#-overview)
+- [✨ Features](#-features)
+- [🏗️ Architecture](#️-architecture)
+- [🧠 State Management](#-state-management)
+- [🔌 API & Networking](#-api--networking)
+- [⚠️ Error Handling](#️-error-handling)
+- [🔔 Notifications System](#-notifications-system)
+- [🏛️ Design Patterns](#️-design-patterns)
+- [🌍 Localization](#-localization)
+- [🗺️ Navigation](#️-navigation)
+- [📸 Screenshots](#-screenshots)
+- [🧰 Tech Stack](#-tech-stack)
+- [🚀 Getting Started](#-getting-started)
+- [🔮 Future Work](#-future-work)
+- [📁 Backend](#-backend)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
 ---
 
@@ -269,6 +289,7 @@ Navigation is handled entirely by **`go_router`** with named routes only.
   <img src="assets/screenshots/pick_location_dark_ar.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/settings_light_ar.jpeg" width="170" style="margin:8px;"/>
 </p>
+
 ---
 
 ## 🧰 Tech Stack
