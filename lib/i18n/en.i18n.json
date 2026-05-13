@@ -1,4 +1,8 @@
 {
+  "splash": {
+    "appName": "Tech Nest",
+    "tagline": "Your ultimate tech shopping destination"
+  },
   "common": {
     "retry": "Try Again",
     "cancel": "Cancel",

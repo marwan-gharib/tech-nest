@@ -37,6 +37,7 @@ class TranslationsAr with BaseTranslations<AppLocale, Translations> implements T
 	TranslationsAr $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => TranslationsAr(meta: meta ?? this.$meta);
 
 	// Translations
+	@override late final _TranslationsSplashAr splash = _TranslationsSplashAr._(_root);
 	@override late final _TranslationsCommonAr common = _TranslationsCommonAr._(_root);
 	@override late final _TranslationsNavAr nav = _TranslationsNavAr._(_root);
 	@override late final _TranslationsAuthAr auth = _TranslationsAuthAr._(_root);
@@ -49,6 +50,17 @@ class TranslationsAr with BaseTranslations<AppLocale, Translations> implements T
 	@override late final _TranslationsCheckoutAr checkout = _TranslationsCheckoutAr._(_root);
 	@override late final _TranslationsOrdersAr orders = _TranslationsOrdersAr._(_root);
 	@override late final _TranslationsNotificationsAr notifications = _TranslationsNotificationsAr._(_root);
+}
+
+// Path: splash
+class _TranslationsSplashAr implements TranslationsSplashEn {
+	_TranslationsSplashAr._(this._root);
+
+	final TranslationsAr _root; // ignore: unused_field
+
+	// Translations
+	@override String get appName => 'تك نست';
+	@override String get tagline => 'وجهتك المثالية للتسوق التقني';
 }
 
 // Path: common
@@ -396,6 +408,8 @@ class _TranslationsOrdersStatusAr implements TranslationsOrdersStatusEn {
 extension on TranslationsAr {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
+			'splash.appName' => 'تك نست',
+			'splash.tagline' => 'وجهتك المثالية للتسوق التقني',
 			'common.retry' => 'حاول مرة أخرى',
 			'common.cancel' => 'إلغاء',
 			'common.all' => 'الكل',

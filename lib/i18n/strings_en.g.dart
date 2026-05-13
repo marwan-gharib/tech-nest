@@ -40,6 +40,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
 
 	// Translations
+	late final TranslationsSplashEn splash = TranslationsSplashEn._(_root);
 	late final TranslationsCommonEn common = TranslationsCommonEn._(_root);
 	late final TranslationsNavEn nav = TranslationsNavEn._(_root);
 	late final TranslationsAuthEn auth = TranslationsAuthEn._(_root);
@@ -52,6 +53,21 @@ class Translations with BaseTranslations<AppLocale, Translations> {
 	late final TranslationsCheckoutEn checkout = TranslationsCheckoutEn._(_root);
 	late final TranslationsOrdersEn orders = TranslationsOrdersEn._(_root);
 	late final TranslationsNotificationsEn notifications = TranslationsNotificationsEn._(_root);
+}
+
+// Path: splash
+class TranslationsSplashEn {
+	TranslationsSplashEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+
+	/// en: 'Tech Nest'
+	String get appName => 'Tech Nest';
+
+	/// en: 'Your ultimate tech shopping destination'
+	String get tagline => 'Your ultimate tech shopping destination';
 }
 
 // Path: common
@@ -682,6 +698,8 @@ class TranslationsOrdersStatusEn {
 extension on Translations {
 	dynamic _flatMapFunction(String path) {
 		return switch (path) {
+			'splash.appName' => 'Tech Nest',
+			'splash.tagline' => 'Your ultimate tech shopping destination',
 			'common.retry' => 'Try Again',
 			'common.cancel' => 'Cancel',
 			'common.all' => 'All',

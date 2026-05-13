@@ -31,7 +31,7 @@ class NotificationService {
     if (_initialized) return;
     _initialized = true;
 
-    await FirebaseMessaging.instance.subscribeToTopic("all_users");
+    await _fcm.subscribeToTopic("all_users");
 
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
