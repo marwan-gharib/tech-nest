@@ -229,76 +229,46 @@ Navigation is handled entirely by **`go_router`** with named routes only.
 ---
 ## 📸 Screenshots
 
-<style>
-.screenshots-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-}
+<p align="center">
+  <img src="assets/screenshots/onboarding_dark_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/login_dark_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/home_dark_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/categories_dark_en.jpeg" width="170" style="margin:8px;"/>
+</p>
 
-.screenshots-grid img {
-  width: 170px;
-  max-width: 100%;
-  border-radius: 10px;
-  object-fit: cover;
-}
-</style>
+<p align="center">
+  <img src="assets/screenshots/product_details_dark_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/cart_dark_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/orders_dark_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/order_details_dark_en.jpeg" width="170" style="margin:8px;"/>
+</p>
 
-###  
-<div class="screenshots-grid">
-  <img src="assets/screenshots/onboarding_dark_en.jpeg" />
-  <img src="assets/screenshots/login_dark_en.jpeg" />
-  <img src="assets/screenshots/home_dark_en.jpeg" />
-</div>
+<p align="center">
+  <img src="assets/screenshots/notifications_dark_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/filter_dark_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/reset_pass_dark_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/signup_light_ar.jpeg" width="170" style="margin:8px;"/>
+</p>
 
-###
-<div class="screenshots-grid">
-  <img src="assets/screenshots/categories_dark_en.jpeg" />
-  <img src="assets/screenshots/product_details_dark_en.jpeg" />
-  <img src="assets/screenshots/cart_dark_en.jpeg" />
-</div>
+<p align="center">
+  <img src="assets/screenshots/home_light_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/categories_light_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/cart_light_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/filter_light_en.jpeg" width="170" style="margin:8px;"/>
+</p>
 
-### 
-<div class="screenshots-grid">
-  <img src="assets/screenshots/orders_dark_en.jpeg" />
-  <img src="assets/screenshots/order_details_dark_en.jpeg" />
-  <img src="assets/screenshots/notifications_dark_en.jpeg" />
-</div>
+<p align="center">
+  <img src="assets/screenshots/logout_light_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/order_details_dark_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/home_light_ar.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/categories_light_ar.jpeg" width="170" style="margin:8px;"/>
+</p>
 
-### 
-<div class="screenshots-grid">
-  <img src="assets/screenshots/filter_dark_en.jpeg" />
-  <img src="assets/screenshots/reset_pass_dark_en.jpeg" />
-  <img src="assets/screenshots/signup_light_ar.jpeg" />
-</div>
-
-### 
-<div class="screenshots-grid">
-  <img src="assets/screenshots/home_light_en.jpeg" />
-  <img src="assets/screenshots/categories_light_en.jpeg" />
-  <img src="assets/screenshots/cart_light_en.jpeg" />
-</div>
-
-### 
-<div class="screenshots-grid">
-  <img src="assets/screenshots/filter_light_en.jpeg" />
-  <img src="assets/screenshots/logout_light_en.jpeg" />
-  <img src="assets/screenshots/order_details_dark_en.jpeg" />
-</div>
-
-### 
-<div class="screenshots-grid">
-  <img src="assets/screenshots/home_light_ar.jpeg" />
-  <img src="assets/screenshots/categories_light_ar.jpeg" />
-  <img src="assets/screenshots/checkout_dark_ar.jpeg" />
-</div>
-
-### 
-<div class="screenshots-grid">
-  <img src="assets/screenshots/pick_location_dark_ar.jpeg" />
-  <img src="assets/screenshots/settings_light_ar.jpeg" />
-</div>
+<p align="center">
+  <img src="assets/screenshots/checkout_dark_ar.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/pick_location_dark_ar.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/settings_light_ar.jpeg" width="170" style="margin:8px;"/>
+</p>
 ---
 
 ## 🧰 Tech Stack
