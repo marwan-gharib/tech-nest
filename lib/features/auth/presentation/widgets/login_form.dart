@@ -63,7 +63,7 @@ class LoginForm extends StatelessWidget {
           FadeInSlide(
             delay: const Duration(milliseconds: 300),
             child: Align(
-              alignment: AlignmentGeometry.centerEnd,
+              alignment: AlignmentDirectional.centerEnd,
               heightFactor: 1.5,
               child: GestureDetector(
                 onTap: onForgetPass,

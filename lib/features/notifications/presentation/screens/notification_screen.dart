@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
-import 'package:tech_nest/core/widgets/loading_more_indicator.dart';
+import 'package:tech_nest/core/widgets/loading_indicator.dart';
 import 'package:tech_nest/core/widgets/no_results_found_view.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/notifications/presentation/notification_cubit/notification_cubit.dart';
@@ -73,7 +73,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             builder: (context, state) {
               if (state is! NotificationLoaded) return const SizedBox.shrink();
               if (state.isMarkingAllAsRead) {
-                return const Center(child: LoadingMoreIndicator());
+                return const Center(child: LoadingIndicator());
               }
               final unreadCount = state.notifications
                   .where((n) => !n.isRead)

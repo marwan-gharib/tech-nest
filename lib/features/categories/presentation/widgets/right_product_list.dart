@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/features/products/presentation/widgets/shared/product_card.dart';
-import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/core/animations/animate_once_wrapper.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
-import 'package:tech_nest/core/widgets/skeleton_card.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
-import 'package:tech_nest/core/widgets/loading_more_indicator.dart';
+import 'package:tech_nest/core/widgets/loading_indicator.dart';
+import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
+import 'package:tech_nest/core/widgets/skeleton_card.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
+import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
+import 'package:tech_nest/features/products/presentation/widgets/shared/product_card.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
 class RightProductList extends StatelessWidget {
@@ -53,7 +53,8 @@ class RightProductList extends StatelessWidget {
             child: ListView.builder(
               controller: scrollController,
               padding: const EdgeInsets.all(AppSpacing.md),
-              itemCount: state.products.length +
+              itemCount:
+                  state.products.length +
                   (state.loadMoreFailure != null ? 1 : 0) +
                   (state.isLoadingMore ? 1 : 0),
               itemBuilder: (context, index) {
@@ -68,9 +69,9 @@ class RightProductList extends StatelessWidget {
                         product: product,
                         onAddToCart: () {
                           context.read<CartCubit>().add(
-                                productId: product.id,
-                                quantity: 1,
-                              );
+                            productId: product.id,
+                            quantity: 1,
+                          );
                         },
                       ),
                     ),
@@ -93,7 +94,7 @@ class RightProductList extends StatelessWidget {
                   );
                 }
                 if (state.isLoadingMore) {
-                  return const LoadingMoreIndicator();
+                  return const LoadingIndicator();
                 }
                 return const SizedBox.shrink();
               },

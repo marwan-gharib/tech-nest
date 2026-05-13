@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tech_nest/app/service_locator.dart';
+import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/widgets/app_button.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/registration_cubit/registration_cubit.dart';
@@ -58,7 +60,7 @@ class SignUpButtonConsumer extends StatelessWidget {
 
   Future<void> _listener(BuildContext context, RegistrationState state) async {
     if (state is RegistrationSuccess) {
-      await showDialog<bool?>(
+      final result = await showDialog<bool?>(
         context: context,
         builder: (_) => BlocProvider(
           create: (context) => sl<VerifyEmailCubit>(),
@@ -68,6 +70,10 @@ class SignUpButtonConsumer extends StatelessWidget {
         useSafeArea: true,
         useRootNavigator: true,
       );
+
+      if (context.mounted && (result ?? false)) {
+        context.goNamed(RouteNames.home);
+      }
     } else if (state is RegistrationFailed) {
       CustomSnackBar.showError(context, failure: state.failure);
     }

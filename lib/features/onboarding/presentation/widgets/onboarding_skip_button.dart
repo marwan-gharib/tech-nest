@@ -19,7 +19,8 @@ class OnboardingSkipButton extends StatelessWidget {
 
     return Positioned(
       top: AppSpacing.md,
-      right: AppSpacing.md,
+      right: !context.isArabic ? AppSpacing.md : null,
+      left: context.isArabic ? AppSpacing.md : null,
       child: TextButton(
         onPressed: onPressed,
         child: Text(
@@ -34,5 +35,3 @@ class OnboardingSkipButton extends StatelessWidget {
     );
   }
 }
-
-

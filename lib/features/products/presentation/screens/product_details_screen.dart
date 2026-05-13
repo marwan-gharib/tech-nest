@@ -6,7 +6,7 @@ import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
-import 'package:tech_nest/core/widgets/loading_more_indicator.dart';
+import 'package:tech_nest/core/widgets/loading_indicator.dart';
 import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/features/products/presentation/cubits/get_product_cubit/get_product_cubit.dart';
@@ -46,7 +46,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       builder: (context, state) {
         return switch (state) {
           GetProductInitial() ||
-          GetProductLoading() => const Center(child: LoadingMoreIndicator()),
+          GetProductLoading() => const Center(child: LoadingIndicator()),
           GetProductError(failure: final failure) => RemoteDataFailureView(
             failure: failure,
             onRetry: () =>

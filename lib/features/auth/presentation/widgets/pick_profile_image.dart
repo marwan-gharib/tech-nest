@@ -60,7 +60,9 @@ class _CameraOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: Alignment.bottomRight,
+      alignment: context.isArabic
+          ? Alignment.bottomLeft
+          : Alignment.bottomRight,
       child: GestureDetector(
         onTap: () => cubit.pickImage(),
         child: Container(

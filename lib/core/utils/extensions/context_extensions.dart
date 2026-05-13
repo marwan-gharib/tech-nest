@@ -25,6 +25,6 @@ extension ThemeContextExtensions on BuildContext {
   TextStyle get labelLarge => textTheme.labelLarge!;
   TextStyle get labelMedium => textTheme.labelMedium!;
   TextStyle get labelSmall => textTheme.labelSmall!;
+
+  bool get isArabic => (Localizations.localeOf(this).toLanguageTag() == 'ar');
 }
-
-

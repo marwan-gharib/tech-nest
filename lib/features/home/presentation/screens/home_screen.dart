@@ -101,7 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Positioned(
               bottom: AppSpacing.xxl,
-              right: AppSpacing.md,
+              right: !context.isArabic ? AppSpacing.md : null,
+              left: context.isArabic ? AppSpacing.md : null,
               child: BlocSelector<FetchProductsCubit, FetchProductsState, bool>(
                 selector: (state) => state is FetchProductsLoaded,
                 builder: (context, isLoaded) {

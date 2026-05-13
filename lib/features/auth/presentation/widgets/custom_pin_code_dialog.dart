@@ -39,7 +39,9 @@ class CustomPinCodeDialog extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.xl),
         Align(
-          alignment: Alignment.centerLeft,
+          alignment: context.isArabic
+              ? Alignment.centerRight
+              : Alignment.centerLeft,
           child: Text(
             hint,
             style: context.bodyMedium.copyWith(fontWeight: FontWeight.w600),

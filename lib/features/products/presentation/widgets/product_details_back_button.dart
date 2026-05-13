@@ -10,7 +10,8 @@ class ProductDetailsBackButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       top: MediaQuery.paddingOf(context).top + AppSpacing.sm,
-      left: AppSpacing.md,
+      right: context.isArabic ? AppSpacing.md : null,
+      left: context.isArabic ? null : AppSpacing.md,
       child: CircleAvatar(
         backgroundColor: context.colors.background.withValues(alpha: 0.8),
         child: IconButton(
@@ -22,4 +23,3 @@ class ProductDetailsBackButton extends StatelessWidget {
     );
   }
 }
-

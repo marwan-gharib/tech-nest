@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:tech_nest/i18n/strings.g.dart';
-import 'package:skeletonizer/skeletonizer.dart';
+import 'package:tech_nest/core/error/failures/failure.dart';
+import 'package:tech_nest/core/theme/app_spacing.dart';
+import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
+import 'package:tech_nest/core/widgets/loading_indicator.dart';
+import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
 import 'package:tech_nest/features/categories/domain/entities/category_entity.dart';
 import 'package:tech_nest/features/categories/presentation/widgets/category_label_widget.dart';
-import 'package:tech_nest/core/widgets/remote_data_failure_view.dart';
-import 'package:tech_nest/core/theme/app_spacing.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
+import 'package:tech_nest/i18n/strings.g.dart';
 
 class CategoriesView extends StatefulWidget {
   final int? initialCategoryId;
@@ -56,7 +57,9 @@ class _CategoriesViewState extends State<CategoriesView> {
   Widget build(BuildContext context) {
     if (widget.error != null) {
       return Align(
-        alignment: Alignment.centerLeft,
+        alignment: context.isArabic
+            ? Alignment.centerRight
+            : Alignment.centerLeft,
         child: RemoteDataFailureView(
           failure: widget.error!,
           compact: true,
@@ -65,19 +68,11 @@ class _CategoriesViewState extends State<CategoriesView> {
       );
     }
 
-    return SizedBox(
-      height: AppSpacing.homeCategoryRowHeight,
-      child: widget.isLoading 
-          ? ListView.builder(
-              itemCount: 8,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return const Skeletonizer(
-                  child: SizedBox(height: 24, width: 80),
-                );
-              },
-            )
-          : ListView.builder(
+    return widget.isLoading
+        ? const LoadingIndicator()
+        : SizedBox(
+            height: AppSpacing.homeCategoryRowHeight,
+            child: ListView.builder(
               itemCount: widget.categories.length + 1,
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
@@ -110,6 +105,6 @@ class _CategoriesViewState extends State<CategoriesView> {
                 );
               },
             ),
-    );
+          );
   }
 }
