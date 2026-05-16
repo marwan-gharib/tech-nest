@@ -113,25 +113,32 @@ class _CartItemsScreenState extends State<CartItemsScreen> {
                   ),
                 ],
               )
-            : ListView.builder(
-                itemCount: cart.items.length,
-                padding: const EdgeInsets.only(
-                  top: AppSpacing.lg,
-                  bottom: AppSpacing.xxl * 4.5,
+            : RefreshIndicator(
+                onRefresh: () => context.read<CartCubit>().fetchCart(),
+                child: ListView.builder(
+                  itemCount: cart.items.length,
+                  padding: const EdgeInsets.only(
+                    top: AppSpacing.lg,
+                    bottom: AppSpacing.xxl * 4.5,
+                  ),
+                  itemBuilder: (context, index) {
+                    final item = cart.items[index];
+                    return AnimateOnceWrapper(
+                      key: ValueKey(item.id),
+                      namespace: 'cart_items',
+                      id: 'cart_item_${item.id}',
+                      child: CartItemCard(
+                        key: ValueKey(item.id),
+                        cartItem: item,
+                      ),
+                      animationBuilder: (context, child) => FadeInSlide(
+                        duration: const Duration(milliseconds: 400),
+                        delay: Duration(milliseconds: index * 70),
+                        child: child,
+                      ),
+                    );
+                  },
                 ),
-                itemBuilder: (context, index) {
-                  final item = cart.items[index];
-                  return AnimateOnceWrapper(
-                    namespace: 'cart_items',
-                    id: 'cart_item_${item.id}',
-                    child: CartItemCard(cartItem: item),
-                    animationBuilder: (context, child) => FadeInSlide(
-                      duration: const Duration(milliseconds: 400),
-                      delay: Duration(milliseconds: index * 70),
-                      child: child,
-                    ),
-                  );
-                },
               ),
     };
   }

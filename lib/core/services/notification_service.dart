@@ -42,7 +42,6 @@ class NotificationService {
     FirebaseMessaging.onMessage.listen(_onForegroundMessage);
 
     FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      AppLogger.info('Notification tapped (background): ${message.data}');
       HandleNotification.handle(message.data);
     });
 
@@ -54,9 +53,6 @@ class NotificationService {
 
     final RemoteMessage? initialMessage = await _fcm.getInitialMessage();
     if (initialMessage != null) {
-      AppLogger.info(
-        'Notification tapped (terminated): ${initialMessage.messageId}',
-      );
       HandleNotification.handle(initialMessage.data);
     }
 
@@ -67,25 +63,20 @@ class NotificationService {
   // ── Private helpers ────────────────────────────────────────────────────────
 
   Future<void> _requestPermissions() async {
-    final settings = await _fcm.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+    await _fcm.requestPermission(alert: true, badge: true, sound: true);
 
-    switch (settings.authorizationStatus) {
-      case AuthorizationStatus.authorized:
-        AppLogger.info('FCM: permission granted');
-      case AuthorizationStatus.provisional:
-        AppLogger.info('FCM: provisional permission granted');
-      case AuthorizationStatus.denied:
-      case AuthorizationStatus.notDetermined:
-        AppLogger.warning('FCM: permission not granted');
-    }
+    // switch (settings.authorizationStatus) {
+    //   case AuthorizationStatus.authorized:
+    //     AppLogger.info('FCM: permission granted');
+    //   case AuthorizationStatus.provisional:
+    //     AppLogger.info('FCM: provisional permission granted');
+    //   case AuthorizationStatus.denied:
+    //   case AuthorizationStatus.notDetermined:
+    //     AppLogger.warning('FCM: permission not granted');
+    // }
   }
 
   void _onForegroundMessage(RemoteMessage message) {
-    AppLogger.info('FCM: Message data: ${message.data}');
     final notification = message.notification;
     if (notification != null) {
       _localNotifications.showNotification(
@@ -101,7 +92,6 @@ class NotificationService {
     try {
       final String? token = await _fcm.getToken();
       if (token != null) {
-        AppLogger.info('FCM token: $token');
         await _handleNewToken(token);
       }
     } catch (e) {
@@ -111,7 +101,6 @@ class NotificationService {
     }
 
     _fcm.onTokenRefresh.listen((newToken) async {
-      AppLogger.info('FCM token refreshed');
       await _handleNewToken(newToken);
     }, onError: (e) => AppLogger.error('FCM onTokenRefresh stream error: $e'));
   }
@@ -121,7 +110,6 @@ class NotificationService {
       await _sendTokenToBackend(token);
       await _cacheService.remove(AppConstants.fcmTokenCacheKey);
     } else {
-      AppLogger.info('FCM: user not logged in — caching token locally');
       await _cacheService.setData(
         key: AppConstants.fcmTokenCacheKey,
         value: token,
@@ -135,23 +123,16 @@ class NotificationService {
           _cacheService.get(AppConstants.fcmTokenCacheKey) as String?;
       if (cachedToken == null) return;
 
-      AppLogger.info('FCM: user logged in — flushing cached token to backend');
       _sendTokenToBackend(cachedToken).then((_) {
         _cacheService.remove(AppConstants.fcmTokenCacheKey);
       });
     } else {
       _cacheService.remove(AppConstants.fcmTokenCacheKey);
-      AppLogger.info('FCM: user logged out — cached token cleared');
     }
   }
 
   Future<void> _sendTokenToBackend(String token) async {
-    final result = await _saveFCMTokenUseCase.call(token);
-    result.fold(
-      (failure) =>
-          AppLogger.error('FCM: failed to send token — ${failure.message}'),
-      (_) => AppLogger.info('FCM: token sent to backend successfully'),
-    );
+    await _saveFCMTokenUseCase.call(token);
   }
 
   void dispose() {

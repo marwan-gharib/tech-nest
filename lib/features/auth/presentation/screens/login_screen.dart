@@ -31,8 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _email = TextEditingController(text: 'marwanghareeb146@gmail.com');
-    _password = TextEditingController(text: '12345678');
+    _email = TextEditingController();
+    _password = TextEditingController();
     _formKey = GlobalKey<FormState>();
     _authNotifier = sl<AuthNotifier>();
   }

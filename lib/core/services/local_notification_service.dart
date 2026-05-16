@@ -44,6 +44,7 @@ class LocalNotificationService {
       importance: Importance.max,
       playSound: true,
       enableVibration: true,
+      showBadge: true,
     );
 
     await _notificationsPlugin

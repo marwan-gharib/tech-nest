@@ -49,6 +49,7 @@ class _CartItemCardState extends State<CartItemCard>
   }
 
   Future<void> _handleDeleteSuccess() async {
+    if (!mounted) return;
     await _controller.reverse();
     if (mounted) {
       context.read<CartCubit>().removeItemLocally(id: widget.cartItem.id);

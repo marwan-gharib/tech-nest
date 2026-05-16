@@ -98,17 +98,22 @@ class CartCubit extends Cubit<CartState> {
     emit(currentState.copyWith(clearMutationError: true));
   }
 
+  final Set<int> _pendingRemovals = {};
+
   void removeItemLocally({required int id}) {
+    _pendingRemovals.add(id);
+
     final currentState = state;
     if (currentState is! CartLoaded) return;
 
     final updatedCart = currentState.cart.items
-        .where((item) => item.id != id)
+        .where((item) => !_pendingRemovals.contains(item.id))
         .toList();
 
     final newCart = currentState.cart.recalculate(updatedCart);
 
     emit(currentState.copyWith(cart: newCart));
+    _pendingRemovals.remove(id);
   }
 
   void updateItemQuantityLocally({required int id, required int quantity}) {

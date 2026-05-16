@@ -1,6 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
+
 import 'secure_storage_client.dart';
 
 class SecureStorageClientImpl implements SecureStorageClient {
@@ -40,7 +41,6 @@ class SecureStorageClientImpl implements SecureStorageClient {
     try {
       return await _storage.containsKey(key: ApiKeys.token);
     } catch (e) {
-      // Graceful fallback for corrupted keystore exceptions on app startup
       return false;
     }
   }

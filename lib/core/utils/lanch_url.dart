@@ -7,7 +7,7 @@ class LanchUrl {
       final uri = Uri.parse(url);
       await launchUrl(uri, mode: LaunchMode.inAppWebView);
     } catch (e) {
-      AppLogger.log(e.toString());
+      AppLogger.error(e.toString());
     }
   }
 }
