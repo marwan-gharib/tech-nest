@@ -7,6 +7,7 @@ class AppSpacing {
   static const double lg = 24.0;
   static const double xl = 32.0;
   static const double xxl = 48.0;
+  static const double xxxl = 80.0;
 
   static const double iconMd = 40.0;
   static const double iconXl = 64.0;
@@ -14,4 +15,6 @@ class AppSpacing {
   static const double homeCategoryRowHeight = 45.0;
 
   static const double homeFilterButtonWidth = 50.0;
+
+  static const double splashLogoSize = 120.0;
 }

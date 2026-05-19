@@ -54,6 +54,16 @@ The app is architecturally sound, leveraging **Clean Architecture** and **Cubit-
 ## ✨ Features
 
 <details>
+<summary><b>🌟 Splash Screen</b></summary>
+
+- Premium multi-stage animated launch screen (scale, rotate, morph, bounce)
+- Orchestrates a "mini story" using e-commerce iconography and dynamic gradients
+- Handles app initialization (token check, locale restore, theme restore)
+- Redirects to Onboarding, Login, or Home based on session state
+
+</details>
+
+<details>
 <summary><b>🔐 Authentication</b></summary>
 
 - User registration with email verification (OTP via PIN input)
@@ -250,43 +260,50 @@ Navigation is handled entirely by **`go_router`** with named routes only.
 ## 📸 Screenshots
 
 <p align="center">
+  <img src="assets/screenshots/splash_1_en.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/splash_2_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/onboarding_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/login_dark_en.jpeg" width="170" style="margin:8px;"/>
+</p>
+
+<p align="center">
   <img src="assets/screenshots/home_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/categories_dark_en.jpeg" width="170" style="margin:8px;"/>
-</p>
-
-<p align="center">
   <img src="assets/screenshots/product_details_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/cart_dark_en.jpeg" width="170" style="margin:8px;"/>
+</p>
+
+<p align="center">
   <img src="assets/screenshots/orders_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/order_details_dark_en.jpeg" width="170" style="margin:8px;"/>
-</p>
-
-<p align="center">
   <img src="assets/screenshots/notifications_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/filter_dark_en.jpeg" width="170" style="margin:8px;"/>
+</p>
+
+<p align="center">
   <img src="assets/screenshots/reset_pass_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/signup_light_ar.jpeg" width="170" style="margin:8px;"/>
-</p>
-
-<p align="center">
   <img src="assets/screenshots/home_light_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/categories_light_en.jpeg" width="170" style="margin:8px;"/>
+</p>
+
+<p align="center">
   <img src="assets/screenshots/cart_light_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/filter_light_en.jpeg" width="170" style="margin:8px;"/>
-</p>
-
-<p align="center">
   <img src="assets/screenshots/logout_light_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/order_details_dark_en.jpeg" width="170" style="margin:8px;"/>
-  <img src="assets/screenshots/home_light_ar.jpeg" width="170" style="margin:8px;"/>
-  <img src="assets/screenshots/categories_light_ar.jpeg" width="170" style="margin:8px;"/>
 </p>
 
 <p align="center">
+  <img src="assets/screenshots/home_light_ar.jpeg" width="170" style="margin:8px;"/>
+  <img src="assets/screenshots/categories_light_ar.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/checkout_dark_ar.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/pick_location_dark_ar.jpeg" width="170" style="margin:8px;"/>
+</p>
+
+
+<p align="center">
+  <img src="assets/screenshots/settings_light_ar.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/settings_light_ar.jpeg" width="170" style="margin:8px;"/>
 </p>
 
