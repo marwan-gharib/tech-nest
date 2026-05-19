@@ -33,6 +33,7 @@ import 'package:tech_nest/features/products/presentation/cubits/fetch_products_c
 import 'package:tech_nest/features/products/presentation/cubits/get_product_cubit/get_product_cubit.dart';
 import 'package:tech_nest/features/products/presentation/screens/product_details_screen.dart';
 import 'package:tech_nest/features/settings/presentation/screens/settings_screen.dart';
+import 'package:tech_nest/features/splash/presentation/screens/splash_screen.dart';
 
 class AppRouter {
   static final AuthNotifier _authNotifier = sl<AuthNotifier>();
@@ -42,7 +43,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: _shellNavigatorKey,
-    initialLocation: RoutePaths.home,
+    initialLocation: RoutePaths.splash,
     routes: [
       StatefulShellRoute.indexedStack(
         builder: _shellBuilder,
@@ -58,9 +59,12 @@ class AppRouter {
       _signUpScreenRouter,
       _loginScreenRouter,
       _onboardingScreenRouter,
+      _splashScreenRouter,
     ],
     refreshListenable: _authNotifier,
     redirect: (context, state) {
+      if (state.matchedLocation == RoutePaths.splash) return null;
+
       final bool hasSeenOnboarding =
           sl<CacheService>().get(AppConstants.onboardingKey) as bool? ?? false;
 
@@ -100,6 +104,16 @@ class AppRouter {
       ),
     ],
     child: AppShellEntry(navigationShell: navigationShell),
+  );
+
+  static final _splashScreenRouter = GoRoute(
+    name: RouteNames.splash,
+    path: RoutePaths.splash,
+    pageBuilder: (context, state) => PageTransitions.fadeTransition(
+      context: context,
+      state: state,
+      child: const SplashScreen(),
+    ),
   );
 
   static final _onboardingScreenRouter = GoRoute(
