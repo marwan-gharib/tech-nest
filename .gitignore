@@ -132,3 +132,4 @@ app.*.symbols
 # Prevent accidental Dart files in root or other folders
 *.dart
 !lib/**/*.dart
+!test/**/*.dart
