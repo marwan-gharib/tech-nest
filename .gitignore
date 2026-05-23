@@ -128,8 +128,3 @@ app.*.symbols
 # AI agent / tool config — local only
 .agent/
 .gemini/
-
-# Prevent accidental Dart files in root or other folders
-*.dart
-!lib/**/*.dart
-!test/**/*.dart
