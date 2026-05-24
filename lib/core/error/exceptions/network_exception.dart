@@ -1,5 +1,5 @@
 import 'app_exception.dart';
 
 class NetworkException extends AppException {
-  NetworkException() : super("No Internet Connection.");
+  NetworkException([super.message = "No Internet Connection."]);
 }

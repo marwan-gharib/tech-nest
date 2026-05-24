@@ -14,6 +14,7 @@
 <p>
   <img alt="Architecture" src="https://img.shields.io/badge/Architecture-Clean_Architecture-00C853?style=for-the-badge"/>
   <img alt="State" src="https://img.shields.io/badge/State-Cubit%2FBloc-7C4DFF?style=for-the-badge"/>
+  <img alt="Tests" src="https://img.shields.io/badge/Tests-500%2B_Passing-brightgreen?style=for-the-badge&logo=checkmarx&logoColor=white"/>
   <img alt="License" src="https://img.shields.io/badge/License-MIT-lightgrey?style=for-the-badge"/>
 </p>
 
@@ -33,6 +34,7 @@
 - [🏛️ Design Patterns](#️-design-patterns)
 - [🌍 Localization](#-localization)
 - [🗺️ Navigation](#️-navigation)
+- [🧪 Testing](#-testing)
 - [📸 Screenshots](#-screenshots)
 - [🧰 Tech Stack](#-tech-stack)
 - [🚀 Getting Started](#-getting-started)
@@ -257,6 +259,62 @@ Navigation is handled entirely by **`go_router`** with named routes only.
   - Authenticated + on auth route → **Home**
 
 ---
+
+## 🧪 Testing
+
+TechNest is **comprehensively tested** across all layers of the Clean Architecture stack. With **500+ test cases** written and passing, quality and correctness are treated as first-class citizens — not an afterthought.
+
+> ✅ **500+ test cases** | All passing | Full layer coverage
+
+### Testing Philosophy
+
+The test suite is structured to mirror the Clean Architecture layers, ensuring that every unit of logic is tested in complete isolation from its dependencies. External collaborators — repositories, API clients, local storage — are replaced with fakes and mocks, so each test is fast, deterministic, and free of side effects.
+
+### What's Covered
+
+| Layer | Test Type | What's Tested |
+|---|---|---|
+| **Domain** | Unit Tests | All use cases — success paths, failure paths, edge cases |
+| **Data** | Unit Tests | Repository implementations, data sources, JSON model mapping, exception-to-failure conversion |
+| **Presentation** | Unit Tests | All Cubits — state transitions for every user action and API outcome |
+| **Networking** | Unit Tests | `AuthInterceptor`, `LocaleInterceptor`, `ErrorInterceptor` — per-request behavior |
+| **Error Handling** | Unit Tests | Full `ApiResult<T>` fold logic, every `Exception` → `Failure` mapping |
+| **Notifications** | Unit Tests | `NotificationHandlerFactory` routing, each `NotificationHandler` strategy |
+
+### Test Design Principles
+
+- **Strict isolation** — Cubits are tested against use case fakes; use cases against repository fakes; repositories against data source mocks. No layer bleeds into another.
+- **Exhaustive state coverage** — Every Cubit emits a defined sequence of states. Tests assert the full emission sequence, not just the final state.
+- **Failure-first mindset** — Every success path has a corresponding failure test. Network errors, server errors, cache errors, and unauthorized responses are all explicitly covered.
+- **Edge cases as first-class tests** — Empty responses, malformed JSON, concurrent requests, and re-authentication flows are treated as real scenarios, not edge cases to handle later.
+- **Clean test code** — Tests follow the same naming convention, AAA (Arrange / Act / Assert) structure, and readability standards as production code.
+
+### Tools & Libraries
+
+| Tool | Role |
+|---|---|
+| `flutter_test` | Core test framework (unit & widget) |
+| `bloc_test` | Cubit/Bloc state emission assertions |
+| `mockito` | Mock generation via `@GenerateMocks` |
+
+### Running the Tests
+
+```bash
+# Run the full test suite
+flutter test
+
+# Run with coverage report
+flutter test --coverage
+
+# Run a specific test file
+flutter test test/features/auth/cubit/login_cubit_test.dart
+
+# Run tests matching a name pattern
+flutter test --name "should emit AuthFailure when credentials are invalid"
+```
+
+---
+
 ## 📸 Screenshots
 
 <p align="center">
@@ -264,45 +322,26 @@ Navigation is handled entirely by **`go_router`** with named routes only.
   <img src="assets/screenshots/splash_2_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/onboarding_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/login_dark_en.jpeg" width="170" style="margin:8px;"/>
-</p>
-
-<p align="center">
   <img src="assets/screenshots/home_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/categories_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/product_details_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/cart_dark_en.jpeg" width="170" style="margin:8px;"/>
-</p>
-
-<p align="center">
   <img src="assets/screenshots/orders_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/order_details_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/notifications_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/filter_dark_en.jpeg" width="170" style="margin:8px;"/>
-</p>
-
-<p align="center">
   <img src="assets/screenshots/reset_pass_dark_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/signup_light_ar.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/home_light_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/categories_light_en.jpeg" width="170" style="margin:8px;"/>
-</p>
-
-<p align="center">
   <img src="assets/screenshots/cart_light_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/filter_light_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/logout_light_en.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/order_details_dark_en.jpeg" width="170" style="margin:8px;"/>
-</p>
-
-<p align="center">
   <img src="assets/screenshots/home_light_ar.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/categories_light_ar.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/checkout_dark_ar.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/pick_location_dark_ar.jpeg" width="170" style="margin:8px;"/>
-</p>
-
-
-<p align="center">
   <img src="assets/screenshots/settings_light_ar.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/settings_light_ar.jpeg" width="170" style="margin:8px;"/>
 </p>
@@ -328,6 +367,7 @@ Navigation is handled entirely by **`go_router`** with named routes only.
 | **Skeleton Loading** | `skeletonizer` ^2.1.3 |
 | **OTP Input** | `pinput` ^6.0.2 |
 | **Equality** | `equatable` ^2.0.8 |
+| **Testing** | `flutter_test`, `bloc_test`, `mockito` |
 
 ---
 

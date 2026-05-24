@@ -1,12 +1,17 @@
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
 
-class UserModel extends UserEntity {
+class UserModel {
+  final int id;
+  final String name;
+  final String email;
+  final String? image;
+
   UserModel({
-    required super.id,
-    required super.name,
-    required super.email,
-    super.image,
+    required this.id,
+    required this.name,
+    required this.email,
+    this.image,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
