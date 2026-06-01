@@ -35,6 +35,7 @@ class ConfirmOrderButton extends StatelessWidget {
             ],
           ),
           child: ElevatedButton(
+            key: const ValueKey('checkout.confirmOrder'),
             onPressed: isLoading ? null : onPressed,
             child: isLoading
                 ? SizedBox(

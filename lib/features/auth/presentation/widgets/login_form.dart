@@ -39,6 +39,7 @@ class LoginForm extends StatelessWidget {
           FadeInSlide(
             delay: const Duration(milliseconds: 100),
             child: CustomInputField(
+              fieldKey: const ValueKey('login.email'),
               controller: email,
               label: context.t.auth.email,
               hint: 'example@email.com',
@@ -51,6 +52,7 @@ class LoginForm extends StatelessWidget {
           FadeInSlide(
             delay: const Duration(milliseconds: 200),
             child: CustomInputField(
+              fieldKey: const ValueKey('login.password'),
               controller: password,
               label: context.t.auth.password,
               hint: '* ' * 8,
@@ -67,6 +69,7 @@ class LoginForm extends StatelessWidget {
               heightFactor: 1.5,
               child: GestureDetector(
                 onTap: onForgetPass,
+                key: const ValueKey('login.forgotPassword'),
                 child: BlocListener<ForgetPasswordCubit, ForgetPasswordState>(
                   listener: _forgetPasswordListener,
                   child: Text(

@@ -18,6 +18,7 @@ class CheckoutButton extends StatelessWidget {
     final colorScheme = context.colorScheme;
 
     return GestureDetector(
+      key: const ValueKey('cart.checkout'),
       onTap: onPressed,
       child: Container(
         height: 64,
@@ -45,41 +46,53 @@ class CheckoutButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    context.t.cart.total,
-                    style: context.labelMedium.copyWith(
-                      color: colorScheme.onPrimary.withValues(alpha: 0.7),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      context.t.cart.total,
+                      style: context.labelMedium.copyWith(
+                        color: colorScheme.onPrimary.withValues(alpha: 0.7),
+                      ),
                     ),
-                  ),
-                  Text(
-                    '\$${totalPrice.toStringAsFixed(2)}',
-                    style: context.titleLarge.copyWith(
-                      color: colorScheme.onPrimary,
-                      fontWeight: FontWeight.bold,
+                    Text(
+                      '\$${totalPrice.toStringAsFixed(2)}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.titleLarge.copyWith(
+                        color: colorScheme.onPrimary,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  Text(
-                    context.t.cart.checkout,
-                    style: context.titleMedium.copyWith(
-                      color: colorScheme.onPrimary,
-                      fontWeight: FontWeight.w600,
+              const SizedBox(width: AppSpacing.sm),
+              Flexible(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(
+                      child: Text(
+                        context.t.cart.checkout,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: context.titleMedium.copyWith(
+                          color: colorScheme.onPrimary,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: AppSpacing.xs),
-                  Icon(
-                    Icons.arrow_forward_ios_rounded,
-                    color: colorScheme.onPrimary,
-                    size: 18,
-                  ),
-                ],
+                    const SizedBox(width: AppSpacing.xs),
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: colorScheme.onPrimary,
+                      size: 18,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -88,4 +101,3 @@ class CheckoutButton extends StatelessWidget {
     );
   }
 }
-

@@ -30,7 +30,9 @@ class LogoutDialog extends StatelessWidget {
             const SizedBox(height: AppSpacing.sm),
             Text(
               t.settings.logout,
-              style: context.headlineSmall.copyWith(fontWeight: FontWeight.bold),
+              style: context.headlineSmall.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
             Text(
               t.settings.logoutConfirm,
@@ -75,11 +77,7 @@ class LogoutDialog extends StatelessWidget {
         color: context.colors.error.withValues(alpha: 0.1),
         shape: BoxShape.circle,
       ),
-      child: Icon(
-        Icons.logout_rounded,
-        color: context.colors.error,
-        size: 32,
-      ),
+      child: Icon(Icons.logout_rounded, color: context.colors.error, size: 32),
     );
   }
 
@@ -105,6 +103,7 @@ class LogoutDialog extends StatelessWidget {
   Widget _logoutButton(BuildContext context) {
     return Expanded(
       child: ElevatedButton(
+        key: const ValueKey('logoutDialog.confirm'),
         onPressed: () {
           context.pop();
           context.read<LogoutCubit>().logout();
@@ -129,5 +128,3 @@ class LogoutDialog extends StatelessWidget {
     );
   }
 }
-
-

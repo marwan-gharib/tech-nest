@@ -25,6 +25,7 @@ class AddToCartAction extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: AppButton(
+        key: const ValueKey('productDetails.addToCart'),
         onTap: isAvailable ? onAdd : null,
         text: isInCart
             ? context.t.products.updateCart
