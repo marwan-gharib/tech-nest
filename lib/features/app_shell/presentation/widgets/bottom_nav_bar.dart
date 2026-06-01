@@ -29,9 +29,10 @@ class BottomNavBar extends StatelessWidget {
         color: context.colors.surface,
       ),
       child: BottomNavigationBar(
+        key: const ValueKey('appShell.bottomNav'),
         elevation: 0,
         backgroundColor: Colors.transparent,
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         currentIndex: navigationShell.currentIndex,
         onTap: onTap,
         selectedItemColor: colorScheme.primary,
@@ -42,39 +43,75 @@ class BottomNavBar extends StatelessWidget {
         unselectedLabelStyle: context.labelSmall,
         items: [
           BottomNavigationBarItem(
-            icon: const Icon(Icons.home_outlined),
-            activeIcon: const Icon(Icons.home_rounded),
+            icon: const Icon(Icons.home_outlined, key: ValueKey('nav.home')),
+            activeIcon: const Icon(
+              Icons.home_rounded,
+              key: ValueKey('nav.home.active'),
+            ),
             label: context.t.nav.home,
           ),
           BottomNavigationBarItem(
             icon: const Stack(
               clipBehavior: Clip.none,
-              children: [Icon(Icons.shopping_cart_outlined), CartBadge()],
+              children: [
+                Icon(Icons.shopping_cart_outlined, key: ValueKey('nav.cart')),
+                CartBadge(),
+              ],
             ),
             activeIcon: const Stack(
               clipBehavior: Clip.none,
-              children: [Icon(Icons.shopping_cart_rounded), CartBadge()],
+              children: [
+                Icon(
+                  Icons.shopping_cart_rounded,
+                  key: ValueKey('nav.cart.active'),
+                ),
+                CartBadge(),
+              ],
             ),
             label: context.t.nav.cart,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.category_outlined),
-            activeIcon: const Icon(Icons.category_rounded),
+            icon: const Icon(
+              Icons.category_outlined,
+              key: ValueKey('nav.categories'),
+            ),
+            activeIcon: const Icon(
+              Icons.category_rounded,
+              key: ValueKey('nav.categories.active'),
+            ),
             label: context.t.nav.categories,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.receipt_long_outlined),
-            activeIcon: const Icon(Icons.receipt_long_rounded),
+            icon: const Icon(
+              Icons.receipt_long_outlined,
+              key: ValueKey('nav.orders'),
+            ),
+            activeIcon: const Icon(
+              Icons.receipt_long_rounded,
+              key: ValueKey('nav.orders.active'),
+            ),
             label: context.t.nav.orders,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.notifications_outlined),
-            activeIcon: const Icon(Icons.notifications_rounded),
+            icon: const Icon(
+              Icons.notifications_outlined,
+              key: ValueKey('nav.notifications'),
+            ),
+            activeIcon: const Icon(
+              Icons.notifications_rounded,
+              key: ValueKey('nav.notifications.active'),
+            ),
             label: context.t.nav.notifications,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.settings_outlined),
-            activeIcon: const Icon(Icons.settings_rounded),
+            icon: const Icon(
+              Icons.settings_outlined,
+              key: ValueKey('nav.settings'),
+            ),
+            activeIcon: const Icon(
+              Icons.settings_rounded,
+              key: ValueKey('nav.settings.active'),
+            ),
             label: context.t.nav.settings,
           ),
         ],

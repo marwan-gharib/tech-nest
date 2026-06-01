@@ -22,6 +22,7 @@ class OnboardingSkipButton extends StatelessWidget {
       right: !context.isArabic ? AppSpacing.md : null,
       left: context.isArabic ? AppSpacing.md : null,
       child: TextButton(
+        key: const ValueKey('onboarding.skip'),
         onPressed: onPressed,
         child: Text(
           context.t.onboarding.skip,

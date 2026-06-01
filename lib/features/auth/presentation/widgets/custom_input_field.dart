@@ -9,6 +9,7 @@ class CustomInputField extends StatefulWidget {
     required this.hint,
     required this.keyboardType,
     super.key,
+    this.fieldKey,
     this.prefixIcon,
     this.isPassword = false,
     this.validator,
@@ -17,6 +18,7 @@ class CustomInputField extends StatefulWidget {
   });
 
   final TextEditingController controller;
+  final Key? fieldKey;
   final String? label;
   final String hint;
   final IconData? prefixIcon;
@@ -40,6 +42,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
     final colorScheme = context.colorScheme;
 
     return TextFormField(
+      key: widget.fieldKey,
       errorBuilder: _errorBuilder,
       onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),
       controller: widget.controller,

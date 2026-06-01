@@ -53,6 +53,7 @@ class SettingsLogoutButton extends StatelessWidget {
       );
     }
     return OutlinedButton.icon(
+      key: const ValueKey('settings.logout'),
       onPressed: () => _handleLogout(context),
       icon: Icon(Icons.logout_rounded, color: context.colors.error),
       label: Text(

@@ -24,6 +24,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      key: ValueKey('product.card.${product.id}'),
       height: _cardHeight,
       decoration: BoxDecoration(
         color: context.colors.card,
@@ -41,6 +42,7 @@ class ProductCard extends StatelessWidget {
         children: [
           Expanded(
             child: ScaleTap(
+              key: ValueKey('product.open.${product.id}'),
               onTap: () => _onCardTap(context),
               child: ClipRRect(
                 borderRadius: const BorderRadius.vertical(
@@ -114,6 +116,7 @@ class ProductCard extends StatelessWidget {
 
   Widget _addToCartButton(BuildContext context) {
     return ScaleTap(
+      key: ValueKey('product.add.${product.id}'),
       onTap: product.stock > 0
           ? () {
               HapticFeedback.lightImpact();

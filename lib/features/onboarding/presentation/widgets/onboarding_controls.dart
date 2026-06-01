@@ -46,8 +46,13 @@ class OnboardingControls extends StatelessWidget {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
             child: isLastPage
-                ? AppButton(onTap: onComplete, text: t.onboarding.getStarted)
+                ? AppButton(
+                    key: const ValueKey('onboarding.getStarted'),
+                    onTap: onComplete,
+                    text: t.onboarding.getStarted,
+                  )
                 : ScaleTap(
+                    key: const ValueKey('onboarding.next'),
                     onTap: () {
                       pageController.nextPage(
                         duration: const Duration(milliseconds: 300),
@@ -72,4 +77,3 @@ class OnboardingControls extends StatelessWidget {
     );
   }
 }
-

@@ -15,6 +15,7 @@ class ProductDetailsBackButton extends StatelessWidget {
       child: CircleAvatar(
         backgroundColor: context.colors.background.withValues(alpha: 0.8),
         child: IconButton(
+          key: const ValueKey('productDetails.back'),
           icon: const Icon(Icons.arrow_back_ios_new, size: 18),
           onPressed: () => context.pop(),
           color: context.colors.textPrimary,

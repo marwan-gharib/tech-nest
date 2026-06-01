@@ -262,55 +262,83 @@ Navigation is handled entirely by **`go_router`** with named routes only.
 
 ## 🧪 Testing
 
-TechNest is **comprehensively tested** across all layers of the Clean Architecture stack. With **500+ test cases** written and passing, quality and correctness are treated as first-class citizens — not an afterthought.
+TechNest is **comprehensively tested** across unit, widget, and integration layers. The test strategy validates isolated business logic as well as real end-to-end user journeys through the running Flutter app.
 
-> ✅ **500+ test cases** | All passing | Full layer coverage
+> ✅ **500+ unit/widget tests** | **Production-style E2E coverage** | Deterministic fakes | CI-ready structure
 
 ### Testing Philosophy
 
-The test suite is structured to mirror the Clean Architecture layers, ensuring that every unit of logic is tested in complete isolation from its dependencies. External collaborators — repositories, API clients, local storage — are replaced with fakes and mocks, so each test is fast, deterministic, and free of side effects.
+The test suite mirrors the Clean Architecture layers while keeping external dependencies isolated. Unit and widget tests use mocks/fakes for fast feedback, while integration tests drive the real app UI with `WidgetTester`, `go_router`, Bloc/Cubit state, and deterministic fake backend/storage implementations.
 
 ### What's Covered
 
 | Layer | Test Type | What's Tested |
 |---|---|---|
-| **Domain** | Unit Tests | All use cases — success paths, failure paths, edge cases |
+| **Domain** | Unit Tests | Use cases, success/failure paths, edge cases |
 | **Data** | Unit Tests | Repository implementations, data sources, JSON model mapping, exception-to-failure conversion |
-| **Presentation** | Unit Tests | All Cubits — state transitions for every user action and API outcome |
-| **Networking** | Unit Tests | `AuthInterceptor`, `LocaleInterceptor`, `ErrorInterceptor` — per-request behavior |
-| **Error Handling** | Unit Tests | Full `ApiResult<T>` fold logic, every `Exception` → `Failure` mapping |
-| **Notifications** | Unit Tests | `NotificationHandlerFactory` routing, each `NotificationHandler` strategy |
+| **Presentation** | Widget + Cubit Tests | Screens, widgets, validation states, Cubit state transitions |
+| **Networking** | Unit Tests | `AuthInterceptor`, `LocaleInterceptor`, `ErrorInterceptor` behavior |
+| **Error Handling** | Unit Tests | `ApiResult<T>` fold logic and `Exception` → `Failure` mapping |
+| **Notifications** | Unit Tests | Notification handler factory and deep-link handling strategies |
+| **Application Flows** | Integration Tests | Real user journeys across launch, auth, navigation, cart, checkout validation, settings, logout, orders, and notifications |
+
+### Integration Testing
+
+The integration suite is built with Flutter's official `integration_test` package and organized for readability, stability, and long-term maintainability.
+
+#### E2E Flows
+
+| Flow | Coverage |
+|---|---|
+| **First Launch & Checkout Guard** | Splash routing, onboarding completion, login validation, successful login, product details, add to cart, cart screen, checkout address validation |
+| **Authenticated Shell Navigation** | Authenticated app start, bottom navigation, categories, orders list, notifications inbox |
+| **Settings & Logout** | Settings screen, theme preference update, logout dialog, auth guard redirect back to login |
+
+#### Stability Practices
+
+- **No real backend dependency**: API calls are handled by `FakeApiClient`.
+- **No secure-storage side effects**: tokens are stored in `FakeSecureStorage`.
+- **Independent tests**: every scenario resets auth, cache, locale, theme, fake API state, and router location.
+- **State-based synchronization**: tests wait for actual widgets or state conditions instead of arbitrary sleeps.
+- **Stable finders**: critical E2E controls use `ValueKey`s instead of fragile text/index selectors where appropriate.
 
 ### Test Design Principles
 
-- **Strict isolation** — Cubits are tested against use case fakes; use cases against repository fakes; repositories against data source mocks. No layer bleeds into another.
-- **Exhaustive state coverage** — Every Cubit emits a defined sequence of states. Tests assert the full emission sequence, not just the final state.
-- **Failure-first mindset** — Every success path has a corresponding failure test. Network errors, server errors, cache errors, and unauthorized responses are all explicitly covered.
-- **Edge cases as first-class tests** — Empty responses, malformed JSON, concurrent requests, and re-authentication flows are treated as real scenarios, not edge cases to handle later.
-- **Clean test code** — Tests follow the same naming convention, AAA (Arrange / Act / Assert) structure, and readability standards as production code.
+- **Strict isolation** — Cubits are tested against use case fakes; use cases against repository fakes; repositories against data source mocks.
+- **Exhaustive state coverage** — Cubit tests assert complete emission sequences, not just final states.
+- **Failure-first mindset** — Every success path has a corresponding failure scenario.
+- **Realistic E2E journeys** — Integration tests interact with the app the way a user does: tap, input, navigate, and assert visible UI/state.
+- **Clean test code** — Tests follow clear naming, Arrange/Act/Assert structure, and small focused helper APIs.
 
 ### Tools & Libraries
 
 | Tool | Role |
 |---|---|
-| `flutter_test` | Core test framework (unit & widget) |
+| `flutter_test` | Core unit/widget test framework |
+| `integration_test` | End-to-end app testing on real/simulated devices |
 | `bloc_test` | Cubit/Bloc state emission assertions |
-| `mockito` | Mock generation via `@GenerateMocks` |
+| `mocktail` | Mocking and verification in unit/widget tests |
 
 ### Running the Tests
 
 ```bash
-# Run the full test suite
+# Run the full unit/widget test suite
 flutter test
+
+# Run the integration E2E suite
+flutter test integration_test/app_e2e_test.dart
+
+# Run integration tests on a specific device
+flutter test -d <deviceId> integration_test/app_e2e_test.dart
 
 # Run with coverage report
 flutter test --coverage
 
 # Run a specific test file
-flutter test test/features/auth/cubit/login_cubit_test.dart
+flutter test test/features/auth/presentation/cubits/login_cubit_test.dart
 
 # Run tests matching a name pattern
-flutter test --name "should emit AuthFailure when credentials are invalid"
+flutter test --name "settings preferences and logout return to auth gate"
 ```
 
 ---
@@ -343,7 +371,6 @@ flutter test --name "should emit AuthFailure when credentials are invalid"
   <img src="assets/screenshots/checkout_dark_ar.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/pick_location_dark_ar.jpeg" width="170" style="margin:8px;"/>
   <img src="assets/screenshots/settings_light_ar.jpeg" width="170" style="margin:8px;"/>
-  <img src="assets/screenshots/settings_light_ar.jpeg" width="170" style="margin:8px;"/>
 </p>
 
 ---
@@ -367,7 +394,7 @@ flutter test --name "should emit AuthFailure when credentials are invalid"
 | **Skeleton Loading** | `skeletonizer` ^2.1.3 |
 | **OTP Input** | `pinput` ^6.0.2 |
 | **Equality** | `equatable` ^2.0.8 |
-| **Testing** | `flutter_test`, `bloc_test`, `mockito` |
+| **Testing** | `flutter_test`, `integration_test`, `bloc_test`, `mocktail` |
 
 ---
 

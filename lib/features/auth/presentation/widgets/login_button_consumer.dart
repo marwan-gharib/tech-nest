@@ -34,7 +34,11 @@ class LoginButtonConsumer extends StatelessWidget {
       },
       builder: (context, state) {
         if (state is LoginLoading) return const AuthLoadingIndicator();
-        return AppButton(onTap: onPressed, text: context.t.auth.login);
+        return AppButton(
+          key: const ValueKey('login.submit'),
+          onTap: onPressed,
+          text: context.t.auth.login,
+        );
       },
     );
   }
