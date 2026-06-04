@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/network_failure.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
@@ -41,7 +41,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(params: any(named: 'params')),
-      ).thenAnswer((_) async => Right(tUser));
+      ).thenAnswer((_) async => ApiSuccess(tUser));
       return LoginCubit(mockUsecase);
     },
     act: (cubit) => cubit.login(email: tEmail, password: tPassword),
@@ -57,7 +57,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(params: any(named: 'params')),
-      ).thenAnswer((_) async => Left(tServerFailure));
+      ).thenAnswer((_) async => ApiFailure(tServerFailure));
       return LoginCubit(mockUsecase);
     },
     act: (cubit) => cubit.login(email: tEmail, password: tPassword),
@@ -70,7 +70,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(params: any(named: 'params')),
-      ).thenAnswer((_) async => Left(tNetworkFailure));
+      ).thenAnswer((_) async => ApiFailure(tNetworkFailure));
       return LoginCubit(mockUsecase);
     },
     act: (cubit) => cubit.login(email: tEmail, password: tPassword),
@@ -83,7 +83,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(params: any(named: 'params')),
-      ).thenAnswer((_) async => Right(tUser));
+      ).thenAnswer((_) async => ApiSuccess(tUser));
       return LoginCubit(mockUsecase);
     },
     act: (cubit) => cubit.login(email: tEmail, password: tPassword),
@@ -103,7 +103,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(params: any(named: 'params')),
-      ).thenAnswer((_) async => Right(tUser));
+      ).thenAnswer((_) async => ApiSuccess(tUser));
       return LoginCubit(mockUsecase);
     },
     act: (cubit) async {

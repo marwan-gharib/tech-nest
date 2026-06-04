@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/categories/presentation/cubits/category_products_cubit/category_products_cubit.dart';
@@ -43,7 +43,7 @@ void main() {
       'should emit [CategoryProductsLoading, CategoryProductsLoaded] when fetching initial category products is successful',
       build: () {
         when(() => mockUsecase.call(params: any(named: 'params')))
-            .thenAnswer((_) async => const Right(tProductList));
+            .thenAnswer((_) async => const ApiSuccess(tProductList));
         return cubit;
       },
       act: (cubit) => cubit.fetchInitialCategoryProducts(categoryId: 1),
@@ -63,7 +63,7 @@ void main() {
       'should emit [CategoryProductsLoading, CategoryProductsError] when fetching initial category products fails',
       build: () {
         when(() => mockUsecase.call(params: any(named: 'params')))
-            .thenAnswer((_) async => Left(tFailure));
+            .thenAnswer((_) async => ApiFailure(tFailure));
         return cubit;
       },
       act: (cubit) => cubit.fetchInitialCategoryProducts(categoryId: 1),
@@ -77,7 +77,7 @@ void main() {
       'should emit loaded state with more products when fetchMoreCategoryProducts is successful',
       build: () {
         when(() => mockUsecase.call(params: any(named: 'params')))
-            .thenAnswer((_) async => const Right(tProductList));
+            .thenAnswer((_) async => const ApiSuccess(tProductList));
         return cubit;
       },
       seed: () => const CategoryProductsLoaded(
@@ -103,7 +103,7 @@ void main() {
       'should emit loaded state with loadMoreFailure when fetchMoreCategoryProducts fails',
       build: () {
         when(() => mockUsecase.call(params: any(named: 'params')))
-            .thenAnswer((_) async => Left(tFailure));
+            .thenAnswer((_) async => ApiFailure(tFailure));
         return cubit;
       },
       seed: () => const CategoryProductsLoaded(
@@ -146,7 +146,7 @@ void main() {
       'should re-fetch initial products when retryInitialCategoryProducts is called and last category id is set',
       build: () {
         when(() => mockUsecase.call(params: any(named: 'params')))
-            .thenAnswer((_) async => const Right(tProductList));
+            .thenAnswer((_) async => const ApiSuccess(tProductList));
         return cubit;
       },
       seed: () => CategoryProductsError(tFailure),

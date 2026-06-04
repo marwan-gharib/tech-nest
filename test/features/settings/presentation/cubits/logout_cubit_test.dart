@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/auth/domain/usecases/logout_usecase.dart';
@@ -32,7 +32,7 @@ void main() {
     build: () {
       when(
         () => mockLogoutUsecase.call(),
-      ).thenAnswer((_) async => const Right(null));
+      ).thenAnswer((_) async => const ApiSuccess(null));
       return cubit;
     },
     act: (cubit) => cubit.logout(),
@@ -47,7 +47,7 @@ void main() {
     build: () {
       when(
         () => mockLogoutUsecase.call(),
-      ).thenAnswer((_) async => Left(failure));
+      ).thenAnswer((_) async => ApiFailure(failure));
       return cubit;
     },
     act: (cubit) => cubit.logout(),
@@ -59,7 +59,7 @@ void main() {
     build: () {
       when(
         () => mockLogoutUsecase.call(),
-      ).thenAnswer((_) async => const Right(null));
+      ).thenAnswer((_) async => const ApiSuccess(null));
       return cubit;
     },
     act: (cubit) async {

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/network_failure.dart';
@@ -55,7 +55,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(params: any(named: 'params')),
-      ).thenAnswer((_) async => Right(tUser));
+      ).thenAnswer((_) async => ApiSuccess(tUser));
       return buildCubitWithImage();
     },
     act: (cubit) =>
@@ -75,7 +75,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(params: any(named: 'params')),
-      ).thenAnswer((_) async => Left(tServerFailure));
+      ).thenAnswer((_) async => ApiFailure(tServerFailure));
       return buildCubitWithImage();
     },
     act: (cubit) =>
@@ -92,7 +92,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(params: any(named: 'params')),
-      ).thenAnswer((_) async => Left(tNetworkFailure));
+      ).thenAnswer((_) async => ApiFailure(tNetworkFailure));
       return buildCubitWithImage();
     },
     act: (cubit) =>
@@ -109,7 +109,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(params: any(named: 'params')),
-      ).thenAnswer((_) async => Right(tUser));
+      ).thenAnswer((_) async => ApiSuccess(tUser));
       return buildCubitWithImage();
     },
     act: (cubit) =>

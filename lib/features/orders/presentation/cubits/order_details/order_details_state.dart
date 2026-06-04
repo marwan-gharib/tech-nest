@@ -1,5 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
+import 'package:equatable/equatable.dart';
 import 'package:tech_nest/features/orders/domain/entities/order_details_entity.dart';
 
 sealed class OrderDetailsState extends Equatable {

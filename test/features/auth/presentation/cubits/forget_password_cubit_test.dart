@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/network_failure.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
@@ -33,7 +33,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(email: any(named: 'email')),
-      ).thenAnswer((_) async => const Right(null));
+      ).thenAnswer((_) async => const ApiSuccess(null));
       return ForgetPasswordCubit(mockUsecase);
     },
     act: (cubit) => cubit.forgetPassword(email: tEmail),
@@ -52,7 +52,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(email: any(named: 'email')),
-      ).thenAnswer((_) async => Left(tServerFailure));
+      ).thenAnswer((_) async => ApiFailure(tServerFailure));
       return ForgetPasswordCubit(mockUsecase);
     },
     act: (cubit) => cubit.forgetPassword(email: tEmail),
@@ -68,7 +68,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(email: any(named: 'email')),
-      ).thenAnswer((_) async => Left(tNetworkFailure));
+      ).thenAnswer((_) async => ApiFailure(tNetworkFailure));
       return ForgetPasswordCubit(mockUsecase);
     },
     act: (cubit) => cubit.forgetPassword(email: tEmail),
@@ -84,7 +84,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(email: any(named: 'email')),
-      ).thenAnswer((_) async => const Right(null));
+      ).thenAnswer((_) async => const ApiSuccess(null));
       return ForgetPasswordCubit(mockUsecase);
     },
     act: (cubit) => cubit.forgetPassword(email: tEmail),

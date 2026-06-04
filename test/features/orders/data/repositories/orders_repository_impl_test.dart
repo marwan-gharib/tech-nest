@@ -1,8 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/error/failures/network_failure.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/core/error/failures/unknown_failure.dart';
@@ -71,7 +70,7 @@ void main() {
 
         final result = await repository.createOrder(params: tParams);
 
-        expect(result, isA<Right<Failure, int>>());
+        expect(result, isA<ApiSuccess<int>>());
         result.fold(
           (_) => fail('Expected success'),
           (orderId) => expect(orderId, 7),
@@ -90,7 +89,7 @@ void main() {
 
         final result = await repository.createOrder(params: tParams);
 
-        expect(result, isA<Left<Failure, int>>());
+        expect(result, isA<ApiFailure<int>>());
         result.fold(
           (failure) => expect(failure, isA<ServerFailure>()),
           (_) => fail('Expected failure'),
@@ -107,7 +106,7 @@ void main() {
 
         final result = await repository.createOrder(params: tParams);
 
-        expect(result, isA<Left<Failure, int>>());
+        expect(result, isA<ApiFailure<int>>());
         result.fold(
           (failure) => expect(failure, isA<NetworkFailure>()),
           (_) => fail('Expected failure'),
@@ -124,7 +123,7 @@ void main() {
 
         final result = await repository.createOrder(params: tParams);
 
-        expect(result, isA<Left<Failure, int>>());
+        expect(result, isA<ApiFailure<int>>());
         result.fold(
           (failure) => expect(failure, isA<UnknownFailure>()),
           (_) => fail('Expected failure'),
@@ -143,7 +142,7 @@ void main() {
 
         final result = await repository.getUserOrders();
 
-        expect(result, isA<Right<Failure, List<OrderEntity>>>());
+        expect(result, isA<ApiSuccess<List<OrderEntity>>>());
         result.fold((_) => fail('Expected success'), (orders) {
           expect(orders, hasLength(1));
           expect(orders.first.id, tOrderModel.id);
@@ -180,7 +179,7 @@ void main() {
 
         final result = await repository.getUserOrders();
 
-        expect(result, isA<Left<Failure, List<OrderEntity>>>());
+        expect(result, isA<ApiFailure<List<OrderEntity>>>());
         result.fold(
           (failure) => expect(failure, isA<ServerFailure>()),
           (_) => fail('Expected failure'),
@@ -197,7 +196,7 @@ void main() {
 
         final result = await repository.getUserOrders();
 
-        expect(result, isA<Left<Failure, List<OrderEntity>>>());
+        expect(result, isA<ApiFailure<List<OrderEntity>>>());
         result.fold(
           (failure) => expect(failure, isA<NetworkFailure>()),
           (_) => fail('Expected failure'),
@@ -214,7 +213,7 @@ void main() {
 
         final result = await repository.getUserOrders();
 
-        expect(result, isA<Left<Failure, List<OrderEntity>>>());
+        expect(result, isA<ApiFailure<List<OrderEntity>>>());
         result.fold(
           (failure) => expect(failure, isA<UnknownFailure>()),
           (_) => fail('Expected failure'),
@@ -233,7 +232,7 @@ void main() {
 
         final result = await repository.getOrderDetails(orderId: 7);
 
-        expect(result, isA<Right<Failure, OrderDetailsEntity>>());
+        expect(result, isA<ApiSuccess<OrderDetailsEntity>>());
         result.fold((_) => fail('Expected success'), (order) {
           expect(order.id, tOrderDetailsModel.id);
           expect(order.totalPrice, tOrderDetailsModel.totalPrice);
@@ -257,7 +256,7 @@ void main() {
 
         final result = await repository.getOrderDetails(orderId: 7);
 
-        expect(result, isA<Left<Failure, OrderDetailsEntity>>());
+        expect(result, isA<ApiFailure<OrderDetailsEntity>>());
         result.fold(
           (failure) => expect(failure, isA<ServerFailure>()),
           (_) => fail('Expected failure'),
@@ -274,7 +273,7 @@ void main() {
 
         final result = await repository.getOrderDetails(orderId: 7);
 
-        expect(result, isA<Left<Failure, OrderDetailsEntity>>());
+        expect(result, isA<ApiFailure<OrderDetailsEntity>>());
         result.fold(
           (failure) => expect(failure, isA<NetworkFailure>()),
           (_) => fail('Expected failure'),
@@ -291,7 +290,7 @@ void main() {
 
         final result = await repository.getOrderDetails(orderId: 7);
 
-        expect(result, isA<Left<Failure, OrderDetailsEntity>>());
+        expect(result, isA<ApiFailure<OrderDetailsEntity>>());
         result.fold(
           (failure) => expect(failure, isA<UnknownFailure>()),
           (_) => fail('Expected failure'),
@@ -308,7 +307,7 @@ void main() {
 
       final result = await repository.cancelOrder(orderId: 7);
 
-      expect(result, isA<Right<Failure, void>>());
+      expect(result, isA<ApiSuccess<void>>());
       result.fold((_) => fail('Expected success'), (_) {});
       verify(() => mockDataSource.cancelOrder(orderId: 7)).called(1);
       verifyNoMoreInteractions(mockDataSource);
@@ -323,7 +322,7 @@ void main() {
 
         final result = await repository.cancelOrder(orderId: 7);
 
-        expect(result, isA<Left<Failure, void>>());
+        expect(result, isA<ApiFailure<void>>());
         result.fold(
           (failure) => expect(failure, isA<ServerFailure>()),
           (_) => fail('Expected failure'),
@@ -340,7 +339,7 @@ void main() {
 
         final result = await repository.cancelOrder(orderId: 7);
 
-        expect(result, isA<Left<Failure, void>>());
+        expect(result, isA<ApiFailure<void>>());
         result.fold(
           (failure) => expect(failure, isA<NetworkFailure>()),
           (_) => fail('Expected failure'),
@@ -357,7 +356,7 @@ void main() {
 
         final result = await repository.cancelOrder(orderId: 7);
 
-        expect(result, isA<Left<Failure, void>>());
+        expect(result, isA<ApiFailure<void>>());
         result.fold(
           (failure) => expect(failure, isA<UnknownFailure>()),
           (_) => fail('Expected failure'),

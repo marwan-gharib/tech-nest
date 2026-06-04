@@ -1,6 +1,6 @@
+import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/features/notifications/domain/entities/notification_entity.dart';
 import 'package:tech_nest/features/notifications/domain/usecases/get_notifications_usecase.dart';
 import 'package:tech_nest/features/notifications/domain/usecases/mark_notification_read_usecase.dart';

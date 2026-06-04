@@ -62,7 +62,7 @@ void main() {
       result.fold(
         (failure) {
           expect(failure, isA<ServerFailure>());
-          expect(failure.message, 'Server failed');
+          expect((failure as ServerFailure).message, 'Server failed');
         },
         (_) => fail('Expected failure'),
       );
@@ -119,7 +119,7 @@ void main() {
       result.fold(
         (failure) {
           expect(failure, isA<ServerFailure>());
-          expect(failure.message, 'Unable to mark as read');
+          expect((failure as ServerFailure).message, 'Unable to mark as read');
         },
         (_) => fail('Expected failure'),
       );

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/constants/api_keys.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
@@ -86,7 +86,7 @@ void main() {
 
   group('login', () {
     test(
-      'should save token and user, then return Right(UserEntity) on success',
+      'should save token and user, then return ApiSuccess(UserEntity) on success',
       () async {
         when(
           () => mockRemote.login(params: any(named: 'params')),
@@ -96,7 +96,7 @@ void main() {
 
         final result = await sut.login(params: tLoginParams);
 
-        expect(result.isRight(), true);
+        expect(result, isA<ApiSuccess>());
         result.fold((_) => fail('Expected Right but got Left'), (user) {
           expect(user.id, tUserEntity.id);
           expect(user.email, tUserEntity.email);
@@ -107,7 +107,7 @@ void main() {
     );
 
     test(
-      'should return Left(ServerFailure) when a ServerException is thrown',
+      'should return ApiFailure(ServerFailure) when a ServerException is thrown',
       () async {
         when(
           () => mockRemote.login(params: any(named: 'params')),
@@ -125,7 +125,7 @@ void main() {
     );
 
     test(
-      'should return Left(NetworkFailure) when a NetworkException is thrown',
+      'should return ApiFailure(NetworkFailure) when a NetworkException is thrown',
       () async {
         when(
           () => mockRemote.login(params: any(named: 'params')),
@@ -140,7 +140,7 @@ void main() {
       },
     );
 
-    test('should return Left(UnknownFailure) on unhandled exception', () async {
+    test('should return ApiFailure(UnknownFailure) on unhandled exception', () async {
       when(
         () => mockRemote.login(params: any(named: 'params')),
       ).thenThrow(Exception('Something wild happened'));
@@ -156,7 +156,7 @@ void main() {
 
   group('signUp', () {
     test(
-      'should save user locally and return Right(UserEntity) on success',
+      'should save user locally and return ApiSuccess(UserEntity) on success',
       () async {
         when(
           () => mockRemote.signUp(params: any(named: 'params')),
@@ -165,13 +165,13 @@ void main() {
 
         final result = await sut.signUp(params: tSignUpParams);
 
-        expect(result.isRight(), true);
+        expect(result, isA<ApiSuccess>());
         verify(() => mockUserLocal.saveUser(any())).called(1);
         verifyNever(() => mockLocal.saveToken(any()));
       },
     );
 
-    test('should return Left(ServerFailure) on ServerException', () async {
+    test('should return ApiFailure(ServerFailure) on ServerException', () async {
       when(
         () => mockRemote.signUp(params: any(named: 'params')),
       ).thenThrow(ServerException('Email already in use', activeToUser: true));
@@ -184,7 +184,7 @@ void main() {
       }, (_) => fail('Expected Left but got Right'));
     });
 
-    test('should return Left(UnknownFailure) on unhandled exception', () async {
+    test('should return ApiFailure(UnknownFailure) on unhandled exception', () async {
       when(
         () => mockRemote.signUp(params: any(named: 'params')),
       ).thenThrow(Exception());
@@ -208,7 +208,7 @@ void main() {
 
         final result = await sut.logout();
 
-        expect(result.isRight(), true);
+        expect(result, isA<ApiSuccess>());
         verify(() => mockRemote.logout()).called(1);
         verify(() => mockLocal.clearCache()).called(1);
         verify(() => mockUserLocal.clearUser()).called(1);
@@ -216,7 +216,7 @@ void main() {
     );
 
     test(
-      'should return Left(ServerFailure) when remote logout throws',
+      'should return ApiFailure(ServerFailure) when remote logout throws',
       () async {
         when(
           () => mockRemote.logout(),
@@ -236,7 +236,7 @@ void main() {
 
   group('verifyEmail', () {
     test(
-      'should save token and user, then return Right(UserEntity) on success',
+      'should save token and user, then return ApiSuccess(UserEntity) on success',
       () async {
         when(
           () => mockRemote.verifyEmail(params: any(named: 'params')),
@@ -246,13 +246,13 @@ void main() {
 
         final result = await sut.verifyEmail(params: tVerifyParams);
 
-        expect(result.isRight(), true);
+        expect(result, isA<ApiSuccess>());
         verify(() => mockLocal.saveToken(tAuthModel.token)).called(1);
         verify(() => mockUserLocal.saveUser(any())).called(1);
       },
     );
 
-    test('should return Left(ServerFailure) on invalid OTP', () async {
+    test('should return ApiFailure(ServerFailure) on invalid OTP', () async {
       when(
         () => mockRemote.verifyEmail(params: any(named: 'params')),
       ).thenThrow(ServerException('Invalid code', activeToUser: true));
@@ -268,7 +268,7 @@ void main() {
 
   group('forgetPassword', () {
     test(
-      'should return Right(void) when forget-password call succeeds',
+      'should return ApiSuccess(void) when forget-password call succeeds',
       () async {
         when(
           () => mockRemote.forgetPassword(email: any(named: 'email')),
@@ -276,14 +276,14 @@ void main() {
 
         final result = await sut.forgetPassword(email: 'john@example.com');
 
-        expect(result.isRight(), true);
+        expect(result, isA<ApiSuccess>());
         verify(
           () => mockRemote.forgetPassword(email: 'john@example.com'),
         ).called(1);
       },
     );
 
-    test('should return Left(ServerFailure) on ServerException', () async {
+    test('should return ApiFailure(ServerFailure) on ServerException', () async {
       when(
         () => mockRemote.forgetPassword(email: any(named: 'email')),
       ).thenThrow(ServerException('Email not found', activeToUser: true));
@@ -298,20 +298,20 @@ void main() {
   });
 
   group('resetPassword', () {
-    test('should return Right(void) on successful password reset', () async {
+    test('should return ApiSuccess(void) on successful password reset', () async {
       when(
         () => mockRemote.resetPassword(params: any(named: 'params')),
       ).thenAnswer((_) async {});
 
       final result = await sut.resetPassword(params: tResetParams);
 
-      expect(result.isRight(), true);
+      expect(result, isA<ApiSuccess>());
       verify(
         () => mockRemote.resetPassword(params: any(named: 'params')),
       ).called(1);
     });
 
-    test('should return Left(ServerFailure) when code has expired', () async {
+    test('should return ApiFailure(ServerFailure) when code has expired', () async {
       when(
         () => mockRemote.resetPassword(params: any(named: 'params')),
       ).thenThrow(ServerException('Code expired', activeToUser: true));
@@ -326,27 +326,27 @@ void main() {
   });
 
   group('getCachedUser', () {
-    test('should return Right(UserEntity) when a cached user exists', () {
-      when(() => mockUserLocal.getUser()).thenReturn(Right(tUserModel));
+    test('should return ApiSuccess(UserEntity) when a cached user exists', () {
+      when(() => mockUserLocal.getUser()).thenReturn(ApiSuccess(tUserModel));
 
       final result = sut.getCachedUser();
 
-      expect(result.isRight(), true);
+      expect(result, isA<ApiSuccess>());
       result.fold((_) => fail('Expected Right'), (user) {
         expect(user, isA<UserEntity>());
         expect(user!.id, tUserModel.id);
       });
     });
 
-    test('should return Right(null) when cache is empty', () {
-      when(() => mockUserLocal.getUser()).thenReturn(const Right(null));
+    test('should return ApiSuccess(null) when cache is empty', () {
+      when(() => mockUserLocal.getUser()).thenReturn(const ApiSuccess(null));
 
       final result = sut.getCachedUser();
 
-      expect(result, const Right(null));
+      expect(result, const ApiSuccess(null));
     });
 
-    test('should return Left(UnknownFailure) when an exception is thrown', () {
+    test('should return ApiFailure(UnknownFailure) when an exception is thrown', () {
       when(
         () => mockUserLocal.getUser(),
       ).thenThrow(Exception('cache corrupted'));

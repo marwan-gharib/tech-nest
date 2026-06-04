@@ -1,8 +1,8 @@
+import 'package:tech_nest/core/error/failures/failure.dart';
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/features/products/domain/usecases/search_suggestions_usecase.dart';
 
 part 'search_suggestions_state.dart';

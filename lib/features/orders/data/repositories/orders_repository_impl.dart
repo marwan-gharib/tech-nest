@@ -1,8 +1,7 @@
-import 'package:fpdart/fpdart.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/core/error/mappers/error_mapper.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:tech_nest/features/orders/domain/entities/order_details_entity.dart';
 import 'package:tech_nest/features/orders/domain/entities/order_entity.dart';
 import 'package:tech_nest/features/orders/domain/params/create_order_params.dart';
@@ -16,54 +15,54 @@ class OrdersRepositoryImpl implements OrdersRepository {
   OrdersRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, int>> createOrder({
+  Future<ApiResult<int>> createOrder({
     required CreateOrderParams params,
   }) async {
     try {
       final res = await _dataSource.createOrder(params: params);
-      return Right(res);
+      return ApiSuccess(res);
     } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
+      return ApiFailure(ErrorMapper.mapExceptionToFailure(e));
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 
   @override
-  Future<Either<Failure, List<OrderEntity>>> getUserOrders() async {
+  Future<ApiResult<List<OrderEntity>>> getUserOrders() async {
     try {
       final res = await _dataSource.getUserOrders();
-      return Right(res.map((e) => e.toEntity()).toList());
+      return ApiSuccess(res.map((e) => e.toEntity()).toList());
     } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
+      return ApiFailure(ErrorMapper.mapExceptionToFailure(e));
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 
   @override
-  Future<Either<Failure, OrderDetailsEntity>> getOrderDetails({
+  Future<ApiResult<OrderDetailsEntity>> getOrderDetails({
     required int orderId,
   }) async {
     try {
       final res = await _dataSource.getOrderDetails(orderId: orderId);
-      return Right(res.toEntity());
+      return ApiSuccess(res.toEntity());
     } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
+      return ApiFailure(ErrorMapper.mapExceptionToFailure(e));
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 
   @override
-  Future<Either<Failure, void>> cancelOrder({required int orderId}) async {
+  Future<ApiResult<void>> cancelOrder({required int orderId}) async {
     try {
       await _dataSource.cancelOrder(orderId: orderId);
-      return const Right(null);
+      return const ApiSuccess(null);
     } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
+      return ApiFailure(ErrorMapper.mapExceptionToFailure(e));
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 }

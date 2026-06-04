@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
@@ -53,7 +53,7 @@ void main() {
         final result = await repository.getCategories();
 
         verify(() => mockDataSource.getCategories()).called(1);
-        expect(result, isA<Left>());
+        expect(result, isA<ApiFailure>());
         result.fold(
           (failure) => expect(failure, isA<ServerFailure>()),
           (_) => fail('Should have returned a Failure'),

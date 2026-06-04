@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/categories/domain/entities/category_entity.dart';
@@ -36,7 +36,7 @@ void main() {
       'should emit [FetchCategoriesLoading, FetchCategoriesLoaded] when fetching categories is successful',
       build: () {
         when(() => mockUsecase.call())
-            .thenAnswer((_) async => const Right(tCategoryList));
+            .thenAnswer((_) async => const ApiSuccess(tCategoryList));
         return cubit;
       },
       act: (cubit) => cubit.fetchCategories(),
@@ -53,7 +53,7 @@ void main() {
       'should emit [FetchCategoriesLoading, FetchCategoriesFailed] when fetching categories fails',
       build: () {
         when(() => mockUsecase.call())
-            .thenAnswer((_) async => Left(tFailure));
+            .thenAnswer((_) async => ApiFailure(tFailure));
         return cubit;
       },
       act: (cubit) => cubit.fetchCategories(),

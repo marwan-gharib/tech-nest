@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/auth/domain/params/reset_password_params.dart';
@@ -40,7 +40,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(params: any(named: 'params')),
-      ).thenAnswer((_) async => const Right(null));
+      ).thenAnswer((_) async => const ApiSuccess(null));
       return ResetPasswordCubit(mockUsecase);
     },
     act: (cubit) => cubit.resetPassword(
@@ -60,7 +60,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(params: any(named: 'params')),
-      ).thenAnswer((_) async => Left(tServerFailure));
+      ).thenAnswer((_) async => ApiFailure(tServerFailure));
       return ResetPasswordCubit(mockUsecase);
     },
     act: (cubit) => cubit.resetPassword(
@@ -80,7 +80,7 @@ void main() {
     build: () {
       when(
         () => mockUsecase.call(params: any(named: 'params')),
-      ).thenAnswer((_) async => const Right(null));
+      ).thenAnswer((_) async => const ApiSuccess(null));
       return ResetPasswordCubit(mockUsecase);
     },
     act: (cubit) => cubit.resetPassword(

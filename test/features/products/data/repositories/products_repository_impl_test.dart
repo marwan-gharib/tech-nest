@@ -1,8 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/features/categories/data/models/category_model.dart';
@@ -52,7 +51,7 @@ void main() {
 
         final result = await repository.getProducts(params: tProductsParams);
 
-        expect(result, isA<Right<Failure, List<ProductEntity>>>());
+        expect(result, isA<ApiSuccess<List<ProductEntity>>>());
         result.fold((l) => fail('Should not return failure'), (r) {
           expect(r.length, 1);
           expect(r.first, equals(tProductModel.toEntity()));
@@ -73,7 +72,7 @@ void main() {
 
         final result = await repository.getProducts(params: tProductsParams);
 
-        expect(result, isA<Left<Failure, List<ProductEntity>>>());
+        expect(result, isA<ApiFailure<List<ProductEntity>>>());
         result.fold(
           (l) => expect(l, isA<ServerFailure>()),
           (r) => fail('Should not return success'),
@@ -90,7 +89,7 @@ void main() {
 
         final result = await repository.getProducts(params: tProductsParams);
 
-        expect(result, isA<Left<Failure, List<ProductEntity>>>());
+        expect(result, isA<ApiFailure<List<ProductEntity>>>());
         result.fold(
           (l) => expect(l, isA<UnknownFailure>()),
           (r) => fail('Should not return success'),
@@ -111,7 +110,7 @@ void main() {
 
         final result = await repository.getProduct(productId: tProductId);
 
-        expect(result, isA<Right<Failure, ProductEntity>>());
+        expect(result, isA<ApiSuccess<ProductEntity>>());
         result.fold(
           (l) => fail('Should not return failure'),
           (r) => expect(r, equals(tProductModel.toEntity())),
@@ -132,7 +131,7 @@ void main() {
 
         final result = await repository.getProduct(productId: tProductId);
 
-        expect(result, isA<Left<Failure, ProductEntity>>());
+        expect(result, isA<ApiFailure<ProductEntity>>());
         result.fold(
           (l) => expect(l, isA<ServerFailure>()),
           (r) => fail('Should not return success'),
@@ -152,7 +151,7 @@ void main() {
 
       final result = await repository.searchSuggestions(searchQuery: tQuery);
 
-      expect(result, isA<Right<Failure, List<String>>>());
+      expect(result, isA<ApiSuccess<List<String>>>());
       result.fold(
         (l) => fail('Should not return failure'),
         (r) => expect(r, equals(tSuggestions)),
@@ -170,7 +169,7 @@ void main() {
 
         final result = await repository.searchSuggestions(searchQuery: tQuery);
 
-        expect(result, isA<Left<Failure, List<String>>>());
+        expect(result, isA<ApiFailure<List<String>>>());
       },
     );
   });

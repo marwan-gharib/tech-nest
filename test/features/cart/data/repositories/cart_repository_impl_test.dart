@@ -1,8 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/cart/data/datasources/remote/cart_remote_data_source.dart';
 import 'package:tech_nest/features/cart/data/models/cart_item_model.dart';
@@ -51,7 +50,7 @@ void main() {
 
         final result = await repository.addToCart(params: tAddToCartParams);
 
-        expect(result, equals(Right(mockEntity)));
+        expect(result, equals(ApiSuccess(mockEntity)));
         verify(
           () => mockDataSource.addToCart(params: tAddToCartParams),
         ).called(1);
@@ -67,7 +66,7 @@ void main() {
 
         final result = await repository.addToCart(params: tAddToCartParams);
 
-        expect(result, isA<Left<Failure, CartItem>>());
+        expect(result, isA<ApiFailure<CartItem>>());
         expect(result.fold((l) => l, (r) => null), isA<ServerFailure>());
       },
     );
@@ -81,7 +80,7 @@ void main() {
 
         final result = await repository.addToCart(params: tAddToCartParams);
 
-        expect(result, isA<Left<Failure, CartItem>>());
+        expect(result, isA<ApiFailure<CartItem>>());
       },
     );
   });
@@ -97,7 +96,7 @@ void main() {
 
       final result = await repository.getCartItems();
 
-      expect(result, equals(Right(mockEntity)));
+      expect(result, equals(ApiSuccess(mockEntity)));
       verify(() => mockDataSource.getCartItems()).called(1);
     });
 
@@ -110,7 +109,7 @@ void main() {
 
         final result = await repository.getCartItems();
 
-        expect(result, isA<Left<Failure, Cart>>());
+        expect(result, isA<ApiFailure<Cart>>());
         expect(result.fold((l) => l, (r) => null), isA<ServerFailure>());
       },
     );
@@ -122,7 +121,7 @@ void main() {
 
         final result = await repository.getCartItems();
 
-        expect(result, isA<Left<Failure, Cart>>());
+        expect(result, isA<ApiFailure<Cart>>());
       },
     );
   });
@@ -135,7 +134,7 @@ void main() {
 
       final result = await repository.removeFromCart(cartId: 1);
 
-      expect(result, equals(const Right(1)));
+      expect(result, equals(const ApiSuccess(1)));
       verify(() => mockDataSource.removeFromCart(cartId: 1)).called(1);
     });
 
@@ -148,7 +147,7 @@ void main() {
 
         final result = await repository.removeFromCart(cartId: 1);
 
-        expect(result, isA<Left<Failure, int>>());
+        expect(result, isA<ApiFailure<int>>());
         expect(result.fold((l) => l, (r) => null), isA<ServerFailure>());
       },
     );
@@ -162,7 +161,7 @@ void main() {
 
         final result = await repository.removeFromCart(cartId: 1);
 
-        expect(result, isA<Left<Failure, int>>());
+        expect(result, isA<ApiFailure<int>>());
       },
     );
   });
@@ -179,7 +178,7 @@ void main() {
         params: tUpdateItemQuantityParams,
       );
 
-      expect(result, equals(const Right(3)));
+      expect(result, equals(const ApiSuccess(3)));
       verify(
         () => mockDataSource.updateItemQuantity(
           params: tUpdateItemQuantityParams,
@@ -200,7 +199,7 @@ void main() {
           params: tUpdateItemQuantityParams,
         );
 
-        expect(result, isA<Left<Failure, int>>());
+        expect(result, isA<ApiFailure<int>>());
         expect(result.fold((l) => l, (r) => null), isA<ServerFailure>());
       },
     );
@@ -218,7 +217,7 @@ void main() {
           params: tUpdateItemQuantityParams,
         );
 
-        expect(result, isA<Left<Failure, int>>());
+        expect(result, isA<ApiFailure<int>>());
       },
     );
   });
@@ -227,7 +226,7 @@ void main() {
     test('should return empty Cart when called', () async {
       final result = await repository.clearCart();
 
-      expect(result, isA<Right<Failure, Cart>>());
+      expect(result, isA<ApiSuccess<Cart>>());
       final cart = result.fold((l) => null, (r) => r)!;
       expect(cart.items, isEmpty);
       expect(cart.totalQuantity, 0);

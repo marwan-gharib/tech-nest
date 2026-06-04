@@ -1,5 +1,4 @@
-import 'package:fpdart/fpdart.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart_entity.dart';
 import 'package:tech_nest/features/cart/domain/repositories/cart_repository.dart';
 
@@ -8,7 +7,7 @@ class ClearCartUseCase {
 
   ClearCartUseCase(this._repository);
 
-  Future<Either<Failure, Cart>> call() {
+  Future<ApiResult<Cart>> call() {
     return _repository.clearCart();
   }
 }

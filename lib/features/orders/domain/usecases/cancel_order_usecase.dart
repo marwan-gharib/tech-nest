@@ -1,5 +1,4 @@
-import 'package:fpdart/fpdart.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:tech_nest/features/orders/domain/repositories/orders_repository.dart';
 
 class CancelOrderUseCase {
@@ -7,7 +6,7 @@ class CancelOrderUseCase {
 
   CancelOrderUseCase(this.repository);
 
-  Future<Either<Failure, void>> call({required int orderId}) {
+  Future<ApiResult<void>> call({required int orderId}) {
     return repository.cancelOrder(orderId: orderId);
   }
 }

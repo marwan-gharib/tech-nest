@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/cart/domain/usecases/remove_from_cart_usecase.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/delete_cart_item_cubit/delete_cart_item_cubit.dart';
@@ -32,7 +32,7 @@ void main() {
       'emits [Loading, Success] when usecase succeeds',
       build: () {
         when(() => mockUsecase.call(cartId: 1))
-            .thenAnswer((_) async => const Right(1));
+            .thenAnswer((_) async => const ApiSuccess(1));
         return cubit;
       },
       act: (cubit) => cubit.removeItem(cartId: 1),
@@ -47,7 +47,7 @@ void main() {
       'emits [Loading, Failed] when usecase fails',
       build: () {
         when(() => mockUsecase.call(cartId: 1))
-            .thenAnswer((_) async => Left(tFailure));
+            .thenAnswer((_) async => ApiFailure(tFailure));
         return cubit;
       },
       act: (cubit) => cubit.removeItem(cartId: 1),

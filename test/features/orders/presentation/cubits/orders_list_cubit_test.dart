@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/orders/domain/entities/order_entity.dart';
@@ -53,7 +53,7 @@ void main() {
       build: () {
         when(
           () => mockGetUserOrdersUseCase.call(),
-        ).thenAnswer((_) async => const Right(tOrders));
+        ).thenAnswer((_) async => const ApiSuccess(tOrders));
         return cubit;
       },
       act: (cubit) => cubit.fetchOrders(),
@@ -69,7 +69,7 @@ void main() {
       build: () {
         when(
           () => mockGetUserOrdersUseCase.call(),
-        ).thenAnswer((_) async => const Right(tOrders));
+        ).thenAnswer((_) async => const ApiSuccess(tOrders));
         return cubit;
       },
       act: (cubit) => cubit.fetchOrders(showLoading: false),
@@ -82,7 +82,7 @@ void main() {
       build: () {
         when(
           () => mockGetUserOrdersUseCase.call(),
-        ).thenAnswer((_) async => Left(tFailure));
+        ).thenAnswer((_) async => ApiFailure(tFailure));
         return cubit;
       },
       act: (cubit) => cubit.fetchOrders(),
@@ -97,9 +97,9 @@ void main() {
         when(() => mockGetUserOrdersUseCase.call()).thenAnswer((_) async {
           calls += 1;
           if (calls == 1) {
-            return Right([tOrders.first]);
+            return ApiSuccess([tOrders.first]);
           }
-          return const Right(tOrders);
+          return const ApiSuccess(tOrders);
         });
         return cubit;
       },
@@ -121,7 +121,7 @@ void main() {
       build: () {
         when(
           () => mockGetUserOrdersUseCase.call(),
-        ).thenAnswer((_) async => const Right(tOrders));
+        ).thenAnswer((_) async => const ApiSuccess(tOrders));
         return cubit;
       },
       act: (cubit) async {

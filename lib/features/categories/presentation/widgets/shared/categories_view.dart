@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:tech_nest/core/error/failures/failure.dart';
+import 'package:flutter/material.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
 import 'package:tech_nest/core/widgets/loading_indicator.dart';

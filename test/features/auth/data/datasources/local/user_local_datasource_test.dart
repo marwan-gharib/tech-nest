@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/cache_failure.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
@@ -57,13 +57,13 @@ void main() {
 
   group('getUser', () {
     test(
-      'should return Right(UserModel) when cache contains a valid user JSON',
+      'should return ApiSuccess(UserModel) when cache contains a valid user JSON',
       () {
         when(() => mockCacheService.get(any())).thenReturn(tUserJson);
 
         final result = datasource.getUser();
 
-        expect(result.isRight(), true);
+        expect(result, isA<ApiSuccess>());
         result.fold((_) => fail('Expected Right'), (user) {
           expect(user, isA<UserModel>());
           expect(user!.id, 1);
@@ -72,16 +72,16 @@ void main() {
       },
     );
 
-    test('should return Right(null) when cache has no stored user', () {
+    test('should return ApiSuccess(null) when cache has no stored user', () {
       when(() => mockCacheService.get(any())).thenReturn(null);
 
       final result = datasource.getUser();
 
-      expect(result, equals(const Right(null)));
+      expect(result, equals(const ApiSuccess(null)));
     });
 
     test(
-      'should return Left(CacheFailure) when cache throws a generic exception',
+      'should return ApiFailure(CacheFailure) when cache throws a generic exception',
       () {
         when(
           () => mockCacheService.get(any()),
@@ -89,7 +89,7 @@ void main() {
 
         final result = datasource.getUser();
 
-        expect(result.isLeft(), true);
+        expect(result, isA<ApiFailure>());
         result.fold(
           (failure) => expect(failure, isA<CacheFailure>()),
           (_) => fail('Expected Left'),

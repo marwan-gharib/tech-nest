@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
@@ -34,7 +34,7 @@ void main() {
       'should emit [Loading, Loaded] when getProduct is successful',
       build: () {
         when(() => mockUsecase(tProductId))
-            .thenAnswer((_) async => const Right(tProductEntity));
+            .thenAnswer((_) async => const ApiSuccess(tProductEntity));
         return cubit;
       },
       act: (cubit) => cubit.getProduct(tProductId),
@@ -51,7 +51,7 @@ void main() {
       'should emit [Loading, Error] when getProduct fails',
       build: () {
         when(() => mockUsecase(tProductId))
-            .thenAnswer((_) async => Left(ServerFailure()));
+            .thenAnswer((_) async => ApiFailure(ServerFailure()));
         return cubit;
       },
       act: (cubit) => cubit.getProduct(tProductId),
@@ -68,7 +68,7 @@ void main() {
       'should ensure state consistency after multiple consecutive calls',
       build: () {
         when(() => mockUsecase(tProductId))
-            .thenAnswer((_) async => const Right(tProductEntity));
+            .thenAnswer((_) async => const ApiSuccess(tProductEntity));
         return cubit;
       },
       act: (cubit) async {

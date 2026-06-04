@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/cart/domain/entities/cart_entity.dart';
@@ -77,7 +77,7 @@ void main() {
       build: () {
         when(
           () => mockGetCartItemsUsecase.call(),
-        ).thenAnswer((_) async => Right(tCart));
+        ).thenAnswer((_) async => ApiSuccess(tCart));
         return cartCubit;
       },
       act: (cubit) => cubit.fetchCart(),
@@ -90,7 +90,7 @@ void main() {
       build: () {
         when(
           () => mockGetCartItemsUsecase.call(),
-        ).thenAnswer((_) async => Left(tFailure));
+        ).thenAnswer((_) async => ApiFailure(tFailure));
         return cartCubit;
       },
       act: (cubit) => cubit.fetchCart(),
@@ -105,7 +105,7 @@ void main() {
       build: () {
         when(
           () => mockAddToCartUsecase.call(params: any(named: 'params')),
-        ).thenAnswer((_) async => Right(tCartItem));
+        ).thenAnswer((_) async => ApiSuccess(tCartItem));
         return cartCubit;
       },
       seed: () => CartLoaded(cart: tEmptyCart),
@@ -125,7 +125,7 @@ void main() {
       build: () {
         when(
           () => mockAddToCartUsecase.call(params: any(named: 'params')),
-        ).thenAnswer((_) async => Left(tFailure));
+        ).thenAnswer((_) async => ApiFailure(tFailure));
         return cartCubit;
       },
       seed: () => CartLoaded(cart: tCart),
@@ -143,7 +143,7 @@ void main() {
       build: () {
         when(
           () => mockClearCartUseCase.call(),
-        ).thenAnswer((_) async => Right(tEmptyCart));
+        ).thenAnswer((_) async => ApiSuccess(tEmptyCart));
         return cartCubit;
       },
       seed: () => CartLoaded(cart: tCart),
@@ -159,7 +159,7 @@ void main() {
       build: () {
         when(
           () => mockClearCartUseCase.call(),
-        ).thenAnswer((_) async => Left(tFailure));
+        ).thenAnswer((_) async => ApiFailure(tFailure));
         return cartCubit;
       },
       seed: () => CartLoaded(cart: tCart),

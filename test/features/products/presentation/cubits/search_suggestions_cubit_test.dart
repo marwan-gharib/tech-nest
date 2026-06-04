@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/products/domain/usecases/search_suggestions_usecase.dart';
@@ -47,7 +47,7 @@ void main() {
       build: () {
         when(
           () => mockUsecase.call(searchQuery: tQuery),
-        ).thenAnswer((_) async => Right(tSuggestions));
+        ).thenAnswer((_) async => ApiSuccess(tSuggestions));
         return cubit;
       },
       act: (cubit) => cubit.getSuggestions(searchLabel: tQuery),
@@ -66,7 +66,7 @@ void main() {
       build: () {
         when(
           () => mockUsecase.call(searchQuery: tQuery),
-        ).thenAnswer((_) async => const Right([]));
+        ).thenAnswer((_) async => const ApiSuccess([]));
         return cubit;
       },
       act: (cubit) => cubit.getSuggestions(searchLabel: tQuery),
@@ -84,7 +84,7 @@ void main() {
       build: () {
         when(
           () => mockUsecase.call(searchQuery: tQuery),
-        ).thenAnswer((_) async => Left(tServerFailure));
+        ).thenAnswer((_) async => ApiFailure(tServerFailure));
         return cubit;
       },
       act: (cubit) => cubit.getSuggestions(searchLabel: tQuery),
@@ -100,7 +100,7 @@ void main() {
       () async {
         when(
           () => mockUsecase.call(searchQuery: tQuery),
-        ).thenAnswer((_) async => Right(tSuggestions));
+        ).thenAnswer((_) async => ApiSuccess(tSuggestions));
 
         // First call
         cubit.getSuggestions(searchLabel: tQuery);

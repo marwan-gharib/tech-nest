@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/network_failure.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
@@ -45,7 +45,7 @@ void main() {
     build: () {
       when(
         () => mockCreateOrderUseCase.call(params: params),
-      ).thenAnswer((_) async => const Right(12));
+      ).thenAnswer((_) async => const ApiSuccess(12));
       return cubit;
     },
     act: (cubit) => cubit.createOrder(params),
@@ -60,7 +60,7 @@ void main() {
     build: () {
       when(
         () => mockCreateOrderUseCase.call(params: params),
-      ).thenAnswer((_) async => Left(serverFailure));
+      ).thenAnswer((_) async => ApiFailure(serverFailure));
       return cubit;
     },
     act: (cubit) => cubit.createOrder(params),
@@ -75,7 +75,7 @@ void main() {
     build: () {
       when(
         () => mockCreateOrderUseCase.call(params: params),
-      ).thenAnswer((_) async => Left(networkFailure));
+      ).thenAnswer((_) async => ApiFailure(networkFailure));
       return cubit;
     },
     act: (cubit) => cubit.createOrder(params),
@@ -93,7 +93,7 @@ void main() {
         _,
       ) async {
         calls += 1;
-        return Right(calls);
+        return ApiSuccess(calls);
       });
       return cubit;
     },

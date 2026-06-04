@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_cubit.dart';
@@ -44,7 +44,7 @@ void main() {
       build: () {
         when(
           () => mockCreateOrderUseCase.call(params: tParams),
-        ).thenAnswer((_) async => const Right(7));
+        ).thenAnswer((_) async => const ApiSuccess(7));
         return cubit;
       },
       act: (cubit) => cubit.createOrder(tParams),
@@ -58,7 +58,7 @@ void main() {
       build: () {
         when(
           () => mockCreateOrderUseCase.call(params: tParams),
-        ).thenAnswer((_) async => Left(tFailure));
+        ).thenAnswer((_) async => ApiFailure(tFailure));
         return cubit;
       },
       act: (cubit) => cubit.createOrder(tParams),
@@ -75,7 +75,7 @@ void main() {
           _,
         ) async {
           calls += 1;
-          return Right(calls);
+          return ApiSuccess(calls);
         });
         return cubit;
       },
@@ -98,7 +98,7 @@ void main() {
       build: () {
         when(
           () => mockCreateOrderUseCase.call(params: tParams),
-        ).thenAnswer((_) async => const Right(7));
+        ).thenAnswer((_) async => const ApiSuccess(7));
         return cubit;
       },
       act: (cubit) async {

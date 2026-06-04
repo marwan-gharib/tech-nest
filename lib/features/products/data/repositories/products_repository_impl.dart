@@ -1,8 +1,7 @@
-import 'package:fpdart/fpdart.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/core/error/mappers/error_mapper.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:tech_nest/features/products/data/datasources/remote/products_remote_data_source.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 import 'package:tech_nest/features/products/domain/params/products_params.dart';
@@ -14,44 +13,44 @@ class ProductsRepositoryImpl implements ProductsRepository {
   ProductsRepositoryImpl(this._dataSource);
 
   @override
-  Future<Either<Failure, List<ProductEntity>>> getProducts({
+  Future<ApiResult<List<ProductEntity>>> getProducts({
     required ProductsParams params,
   }) async {
     try {
       final productsModel = await _dataSource.getProducts(params: params);
-      return Right(productsModel.map((model) => model.toEntity()).toList());
+      return ApiSuccess(productsModel.map((model) => model.toEntity()).toList());
     } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
+      return ApiFailure(ErrorMapper.mapExceptionToFailure(e));
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 
   @override
-  Future<Either<Failure, ProductEntity>> getProduct({
+  Future<ApiResult<ProductEntity>> getProduct({
     required int productId,
   }) async {
     try {
       final productModel = await _dataSource.getProduct(productId: productId);
-      return Right(productModel.toEntity());
+      return ApiSuccess(productModel.toEntity());
     } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
+      return ApiFailure(ErrorMapper.mapExceptionToFailure(e));
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 
   @override
-  Future<Either<Failure, List<String>>> searchSuggestions({
+  Future<ApiResult<List<String>>> searchSuggestions({
     required String searchQuery,
   }) async {
     try {
       final suggestions = await _dataSource.searchSuggestions(searchQuery);
-      return Right(suggestions);
+      return ApiSuccess(suggestions);
     } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
+      return ApiFailure(ErrorMapper.mapExceptionToFailure(e));
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 }

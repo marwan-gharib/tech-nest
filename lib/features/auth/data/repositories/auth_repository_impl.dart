@@ -1,8 +1,7 @@
-import 'package:fpdart/fpdart.dart';
 import 'package:tech_nest/core/error/exceptions/exceptions.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
 import 'package:tech_nest/core/error/failures/unknown_failure.dart';
 import 'package:tech_nest/core/error/mappers/error_mapper.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:tech_nest/features/auth/data/datasources/local/auth_local_data_source.dart';
 import 'package:tech_nest/features/auth/data/datasources/local/user_local_datasource.dart';
 import 'package:tech_nest/features/auth/data/datasources/remote/auth_remote_data_source.dart';
@@ -25,99 +24,102 @@ class AuthRepositoryImpl implements AuthRepository {
   );
 
   @override
-  Future<Either<Failure, UserEntity>> login({
+  Future<ApiResult<UserEntity>> login({
     required LoginParams params,
   }) async {
     try {
       final model = await _remoteDataSource.login(params: params);
       await _localDataSource.saveToken(model.token);
       await _userLocalDataSource.saveUser(model.userModel);
-      return Right(model.userModel.toEntity());
+      return ApiSuccess(model.userModel.toEntity());
     } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
+      return ApiFailure(ErrorMapper.mapExceptionToFailure(e));
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 
   @override
-  Future<Either<Failure, void>> logout() async {
+  Future<ApiResult<void>> logout() async {
     try {
       await _remoteDataSource.logout();
       await _localDataSource.clearCache();
       await _userLocalDataSource.clearUser();
-      return const Right(null);
+      return const ApiSuccess(null);
     } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
+      return ApiFailure(ErrorMapper.mapExceptionToFailure(e));
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 
   @override
-  Future<Either<Failure, UserEntity>> signUp({
+  Future<ApiResult<UserEntity>> signUp({
     required SignUpParams params,
   }) async {
     try {
       final model = await _remoteDataSource.signUp(params: params);
       await _userLocalDataSource.saveUser(model);
-      return Right(model.toEntity());
+      return ApiSuccess(model.toEntity());
     } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
+      return ApiFailure(ErrorMapper.mapExceptionToFailure(e));
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 
   @override
-  Future<Either<Failure, UserEntity>> verifyEmail({
+  Future<ApiResult<UserEntity>> verifyEmail({
     required VerificationEmailParams params,
   }) async {
     try {
       final model = await _remoteDataSource.verifyEmail(params: params);
       await _localDataSource.saveToken(model.token);
       await _userLocalDataSource.saveUser(model.userModel);
-      return Right(model.userModel.toEntity());
+      return ApiSuccess(model.userModel.toEntity());
     } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
+      return ApiFailure(ErrorMapper.mapExceptionToFailure(e));
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 
   @override
-  Future<Either<Failure, void>> resetPassword({
+  Future<ApiResult<void>> resetPassword({
     required ResetPasswordParams params,
   }) async {
     try {
       await _remoteDataSource.resetPassword(params: params);
-      return const Right(null);
+      return const ApiSuccess(null);
     } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
+      return ApiFailure(ErrorMapper.mapExceptionToFailure(e));
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 
   @override
-  Future<Either<Failure, void>> forgetPassword({required String email}) async {
+  Future<ApiResult<void>> forgetPassword({required String email}) async {
     try {
       await _remoteDataSource.forgetPassword(email: email);
-      return const Right(null);
+      return const ApiSuccess(null);
     } on AppException catch (e) {
-      return Left(ErrorMapper.mapExceptionToFailure(e));
+      return ApiFailure(ErrorMapper.mapExceptionToFailure(e));
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 
   @override
-  Either<Failure, UserEntity?> getCachedUser() {
+  ApiResult<UserEntity?> getCachedUser() {
     try {
       final result = _userLocalDataSource.getUser();
-      return result.map((model) => model?.toEntity());
+      return switch (result) {
+        ApiSuccess(data: final model) => ApiSuccess(model?.toEntity()),
+        ApiFailure(failure: final f) => ApiFailure<UserEntity?>(f),
+      };
     } catch (e) {
-      return Left(UnknownFailure());
+      return ApiFailure(UnknownFailure());
     }
   }
 }

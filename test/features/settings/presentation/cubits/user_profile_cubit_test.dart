@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/auth/domain/entities/user_entity.dart';
@@ -23,7 +23,7 @@ void main() {
   blocTest<UserProfileCubit, UserProfileState>(
     'emits loading then loaded when cached user exists',
     build: () {
-      when(() => mockGetCachedUserUseCase.call()).thenReturn(Right(user));
+      when(() => mockGetCachedUserUseCase.call()).thenReturn(ApiSuccess(user));
       return UserProfileCubit(mockGetCachedUserUseCase);
     },
     act: (cubit) => cubit.loadUser(),
@@ -39,7 +39,7 @@ void main() {
   blocTest<UserProfileCubit, UserProfileState>(
     'emits loading then empty when cached user is null',
     build: () {
-      when(() => mockGetCachedUserUseCase.call()).thenReturn(const Right(null));
+      when(() => mockGetCachedUserUseCase.call()).thenReturn(const ApiSuccess(null));
       return UserProfileCubit(mockGetCachedUserUseCase);
     },
     act: (cubit) => cubit.loadUser(),
@@ -49,7 +49,7 @@ void main() {
   blocTest<UserProfileCubit, UserProfileState>(
     'emits loading then error when getting cached user fails',
     build: () {
-      when(() => mockGetCachedUserUseCase.call()).thenReturn(Left(failure));
+      when(() => mockGetCachedUserUseCase.call()).thenReturn(ApiFailure(failure));
       return UserProfileCubit(mockGetCachedUserUseCase);
     },
     act: (cubit) => cubit.loadUser(),
@@ -62,7 +62,7 @@ void main() {
   blocTest<UserProfileCubit, UserProfileState>(
     'loads user every time loadUser is called',
     build: () {
-      when(() => mockGetCachedUserUseCase.call()).thenReturn(Right(user));
+      when(() => mockGetCachedUserUseCase.call()).thenReturn(ApiSuccess(user));
       return UserProfileCubit(mockGetCachedUserUseCase);
     },
     act: (cubit) => cubit.loadUser(),
@@ -76,7 +76,7 @@ void main() {
   );
 
   test('constructor triggers loadUser immediately', () {
-    when(() => mockGetCachedUserUseCase.call()).thenReturn(const Right(null));
+    when(() => mockGetCachedUserUseCase.call()).thenReturn(const ApiSuccess(null));
 
     UserProfileCubit(mockGetCachedUserUseCase);
 

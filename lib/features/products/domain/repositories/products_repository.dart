@@ -1,16 +1,15 @@
-import 'package:fpdart/fpdart.dart';
-import 'package:tech_nest/core/error/failures/failure.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
 import 'package:tech_nest/features/products/domain/params/products_params.dart';
 
 abstract class ProductsRepository {
-  Future<Either<Failure, List<ProductEntity>>> getProducts({
+  Future<ApiResult<List<ProductEntity>>> getProducts({
     required ProductsParams params,
   });
 
-  Future<Either<Failure, ProductEntity>> getProduct({required int productId});
+  Future<ApiResult<ProductEntity>> getProduct({required int productId});
 
-  Future<Either<Failure, List<String>>> searchSuggestions({
+  Future<ApiResult<List<String>>> searchSuggestions({
     required String searchQuery,
   });
 }

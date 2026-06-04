@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/products/domain/entities/product_entity.dart';
@@ -41,7 +41,7 @@ void main() {
       build: () {
         when(
           () => mockUsecase.call(params: any(named: 'params')),
-        ).thenAnswer((_) async => Right(tProductList));
+        ).thenAnswer((_) async => ApiSuccess(tProductList));
         return cubit;
       },
       act: (cubit) => cubit.initialFetching(),
@@ -56,7 +56,7 @@ void main() {
       build: () {
         when(
           () => mockUsecase.call(params: any(named: 'params')),
-        ).thenAnswer((_) async => Left(ServerFailure()));
+        ).thenAnswer((_) async => ApiFailure(ServerFailure()));
         return cubit;
       },
       act: (cubit) => cubit.initialFetching(),
@@ -77,7 +77,7 @@ void main() {
       build: () {
         when(
           () => mockUsecase.call(params: any(named: 'params')),
-        ).thenAnswer((_) async => Right(tProductList));
+        ).thenAnswer((_) async => ApiSuccess(tProductList));
         return cubit;
       },
       act: (cubit) => cubit.fetchMore(),
@@ -98,7 +98,7 @@ void main() {
       build: () {
         when(
           () => mockUsecase.call(params: any(named: 'params')),
-        ).thenAnswer((_) async => Left(ServerFailure()));
+        ).thenAnswer((_) async => ApiFailure(ServerFailure()));
         return cubit;
       },
       act: (cubit) => cubit.fetchMore(),
@@ -113,7 +113,7 @@ void main() {
       build: () {
         when(
           () => mockUsecase.call(params: any(named: 'params')),
-        ).thenAnswer((_) async => Right(tProductList));
+        ).thenAnswer((_) async => ApiSuccess(tProductList));
         return cubit;
       },
       act: (cubit) => cubit.search('test'),

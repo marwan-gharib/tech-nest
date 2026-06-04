@@ -1,6 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/orders/domain/entities/order_details_entity.dart';
@@ -79,7 +79,7 @@ void main() {
       build: () {
         when(
           () => mockGetOrderDetailsUseCase.call(orderId: 7),
-        ).thenAnswer((_) async => const Right(tOrder));
+        ).thenAnswer((_) async => const ApiSuccess(tOrder));
         return cubit;
       },
       act: (cubit) => cubit.fetchOrderDetails(7),
@@ -96,7 +96,7 @@ void main() {
       build: () {
         when(
           () => mockGetOrderDetailsUseCase.call(orderId: 7),
-        ).thenAnswer((_) async => Left(tFailure));
+        ).thenAnswer((_) async => ApiFailure(tFailure));
         return cubit;
       },
       act: (cubit) => cubit.fetchOrderDetails(7),
@@ -122,7 +122,7 @@ void main() {
       build: () {
         when(
           () => mockCancelOrderUseCase.call(orderId: 7),
-        ).thenAnswer((_) async => const Right(null));
+        ).thenAnswer((_) async => const ApiSuccess(null));
         return cubit;
       },
       seed: () => const OrderDetailsLoaded(order: tOrder),
@@ -162,7 +162,7 @@ void main() {
       build: () {
         when(
           () => mockCancelOrderUseCase.call(orderId: 7),
-        ).thenAnswer((_) async => Left(tFailure));
+        ).thenAnswer((_) async => ApiFailure(tFailure));
         return cubit;
       },
       seed: () => const OrderDetailsLoaded(order: tOrder),
@@ -189,7 +189,7 @@ void main() {
       build: () {
         when(
           () => mockCancelOrderUseCase.call(orderId: 7),
-        ).thenAnswer((_) async => const Right(null));
+        ).thenAnswer((_) async => const ApiSuccess(null));
         return cubit;
       },
       seed: () => OrderDetailsLoaded(order: tOrder, cancelFailure: tFailure),

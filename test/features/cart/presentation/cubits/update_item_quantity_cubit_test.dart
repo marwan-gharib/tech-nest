@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:bloc_test/bloc_test.dart';
-import 'package:fpdart/fpdart.dart';
+import 'package:tech_nest/core/utils/api_result.dart';
 import 'package:tech_nest/core/error/failures/server_failure.dart';
 import 'package:tech_nest/features/cart/domain/params/update_item_quantity_params.dart';
 import 'package:tech_nest/features/cart/domain/usecases/update_item_quantity_usecase.dart';
@@ -34,7 +34,7 @@ void main() {
       'emits [Loading, Success] when usecase succeeds',
       build: () {
         when(() => mockUsecase.call(params: any(named: 'params')))
-            .thenAnswer((_) async => const Right(3));
+            .thenAnswer((_) async => const ApiSuccess(3));
         return cubit;
       },
       act: (cubit) => cubit.updateQuantity(cartId: 1, updatedQuantity: 3),
@@ -49,7 +49,7 @@ void main() {
       'emits [Loading, Failed] when usecase fails',
       build: () {
         when(() => mockUsecase.call(params: any(named: 'params')))
-            .thenAnswer((_) async => Left(tFailure));
+            .thenAnswer((_) async => ApiFailure(tFailure));
         return cubit;
       },
       act: (cubit) => cubit.updateQuantity(cartId: 1, updatedQuantity: 3),
