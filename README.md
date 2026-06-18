@@ -10,11 +10,13 @@
   <img alt="Flutter" src="https://img.shields.io/badge/Flutter-3.x-02569B?style=for-the-badge&logo=flutter&logoColor=white"/>
   <img alt="Dart" src="https://img.shields.io/badge/Dart-3.x-0175C2?style=for-the-badge&logo=dart&logoColor=white"/>
   <img alt="Firebase" src="https://img.shields.io/badge/Firebase-FCM-FFCA28?style=for-the-badge&logo=firebase&logoColor=black"/>
+  <img alt="CI/CD" src="https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"/>
 </p>
 <p>
   <img alt="Architecture" src="https://img.shields.io/badge/Architecture-Clean_Architecture-00C853?style=for-the-badge"/>
   <img alt="State" src="https://img.shields.io/badge/State-Cubit%2FBloc-7C4DFF?style=for-the-badge"/>
   <img alt="Tests" src="https://img.shields.io/badge/Tests-500%2B_Passing-brightgreen?style=for-the-badge&logo=checkmarx&logoColor=white"/>
+  <img alt="Distribution" src="https://img.shields.io/badge/Distribution-Firebase_App_Distribution-FFCA28?style=for-the-badge&logo=firebase&logoColor=black"/>
   <img alt="License" src="https://img.shields.io/badge/License-MIT-lightgrey?style=for-the-badge"/>
 </p>
 
@@ -35,6 +37,7 @@
 - [🌍 Localization](#-localization)
 - [🗺️ Navigation](#️-navigation)
 - [🧪 Testing](#-testing)
+- [🚚 CI/CD & Distribution](#-cicd--distribution)
 - [📸 Screenshots](#-screenshots)
 - [🧰 Tech Stack](#-tech-stack)
 - [🚀 Getting Started](#-getting-started)
@@ -47,9 +50,9 @@
 
 ## 📖 Overview
 
-**TechNest** is a full-featured, production-ready e-commerce mobile application built with Flutter. It delivers a smooth, modern shopping experience — from browsing and filtering products to placing orders with real-time push notifications.
+**TechNest** is a full-featured, production-ready e-commerce mobile application built with Flutter. It delivers a smooth, modern shopping experience — from browsing and filtering products to placing orders with real-time push notifications and automated tester distribution.
 
-The app is architecturally sound, leveraging **Clean Architecture** and **Cubit-based state management** to maintain a clear, scalable, and testable codebase. The backend is a **PHP REST API**, with **Firebase Cloud Messaging** powering the real-time notification system.
+The app is architecturally sound, leveraging **Clean Architecture** and **Cubit-based state management** to maintain a clear, scalable, and testable codebase. The backend is a **PHP REST API**, with **Firebase Cloud Messaging** powering the real-time notification system. Delivery is automated with **GitHub Actions**, **Fastlane**, and **Firebase App Distribution**, so approved Android builds can be pushed to trusted testers by email after changes reach the remote repository.
 
 ---
 
@@ -343,6 +346,45 @@ flutter test --name "settings preferences and logout return to auth gate"
 
 ---
 
+## 🚚 CI/CD & Distribution
+
+TechNest includes an automated Android delivery pipeline using **GitHub Actions**, **Fastlane**, and **Firebase App Distribution**.
+
+### Pipeline Overview
+
+| Workflow | Trigger | Purpose |
+|---|---|---|
+| `.github/workflows/test_workflow.yml` | Push or pull request to branches except `main` | Installs Flutter dependencies and runs `flutter test` |
+| `.github/workflows/deploy_to_firebase_with_fastlane_workflow.yml` | Push or pull request to `main` | Runs tests first, then deploys the Android release build to Firebase App Distribution |
+| `.github/workflows/dart.yml` | Manual `workflow_dispatch` | Builds a no-codesign iOS release artifact for Appetize/manual review |
+
+### Android Firebase Distribution Flow
+
+1. A change is pushed to the remote `main` branch or a pull request targets `main`.
+2. GitHub Actions checks out the project, installs JDK 17, sets up Flutter, installs dependencies, and runs `flutter test`.
+3. If tests pass, the `distribute_to_firebase` job sets up Ruby and runs Fastlane from the `android` directory.
+4. Fastlane runs `flutter clean`, builds a release APK with `flutter build apk --release --split-per-abi`, and uploads the `app-arm64-v8a-release.apk` artifact to Firebase App Distribution.
+5. Firebase App Distribution sends email notifications to the configured testers so they can install and validate the new build.
+
+### Fastlane Lane
+
+The Android lane is defined in `android/fastlane/Fastfile`:
+
+```bash
+bundle exec fastlane android firebase_app_dist
+```
+
+The lane uses the `fastlane-plugin-firebase_app_distribution` plugin and reads these GitHub Actions secrets:
+
+| Secret | Purpose |
+|---|---|
+| `FIREBASE_APP_ID` | Firebase Android app identifier used by App Distribution |
+| `FIREBASE_CLI_TOKEN` | Authentication token used by Fastlane to upload builds to Firebase |
+
+Tester emails and release notes are configured in the Fastlane lane. When a build is uploaded successfully, Firebase handles the tester email notification.
+
+---
+
 ## 📸 Screenshots
 
 <p align="center">
@@ -395,6 +437,8 @@ flutter test --name "settings preferences and logout return to auth gate"
 | **OTP Input** | `pinput` ^6.0.2 |
 | **Equality** | `equatable` ^2.0.8 |
 | **Testing** | `flutter_test`, `integration_test`, `bloc_test`, `mocktail` |
+| **CI/CD** | GitHub Actions |
+| **Distribution** | Fastlane + Firebase App Distribution |
 
 ---
 
@@ -457,6 +501,21 @@ flutter build apk --dart-define=BASE_URL=https://your-production-domain.com
 
 > ⚠️ **Security:** Auth tokens are stored exclusively in `FlutterSecureStorage` (OS keychain / Keystore). Never hardcode secrets.
 
+### 6. Configure CI/CD Distribution
+
+To enable automated Firebase App Distribution from GitHub Actions:
+
+1. Create an Android app in Firebase and enable **App Distribution**
+2. Add your QA/trusted tester emails in `android/fastlane/Fastfile`
+3. Add these repository secrets in **GitHub → Settings → Secrets and variables → Actions**:
+
+| Secret | Description |
+|---|---|
+| `FIREBASE_APP_ID` | Firebase Android app ID |
+| `FIREBASE_CLI_TOKEN` | Firebase CLI token used by Fastlane |
+
+After the secrets are configured, pushes or pull requests to `main` run tests and distribute the Android APK to Firebase App Distribution. Firebase then emails the configured testers with the new build.
+
 ---
 
 ## 🔮 Future Work
@@ -468,7 +527,6 @@ flutter build apk --dart-define=BASE_URL=https://your-production-domain.com
 - [ ] Profile management (avatar upload, personal info)
 - [ ] Search history persistence
 - [ ] Web platform support (responsive layouts)
-- [ ] CI/CD pipeline with GitHub Actions
 
 ---
 

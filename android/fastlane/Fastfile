@@ -5,7 +5,7 @@ platform :android do
   desc "Lane for Android Firebease App Distribution"
   lane :firebase_app_dist do
     sh "flutter clean"
-    sh "flutter build apk --release --split-per-abi"
+    sh "flutter build apk --release --split-per-abi --dart-define=BASE_URL=https://nonuniteable-uncontradicted-gennie.ngrok-free.dev"
     firebase_app_distribution(
     app: ENV["FIREBASE_APP_ID"],
     firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
