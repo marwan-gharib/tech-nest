@@ -7,36 +7,78 @@ jobs:
   build-ios:
     name: 🎉 iOS Build
     runs-on: macos-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: subosito/flutter-action@v2
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: stable
           architecture: x64
-      - run: flutter pub get
-      
+          cache: true
 
-      - run: pod repo update
+      - name: Install dependencies
+        run: flutter pub get
+
+      # =========================
+      # iOS Clean + Pods Fix
+      # =========================
+      - name: Clean iOS build
+        run: flutter clean
+
+      - name: Remove old Pods
+        run: |
+          rm -rf ios/Pods
+          rm -rf ios/Podfile.lock
+          rm -rf ~/Library/Developer/Xcode/DerivedData
+
+      - name: Install CocoaPods
+        run: sudo gem install cocoapods
+
+      - name: Install Pods
+        run: pod install --repo-update
         working-directory: ios
 
-      - run: flutter build ios --release --no-codesign
+      # =========================
+      # Build iOS (no signing)
+      # =========================
+      - name: Build iOS App
+        run: flutter build ios --release --no-codesign
 
-      - run: mkdir Payload
+      # =========================
+      # Create IPA
+      # =========================
+      - name: Create Payload folder
+        run: mkdir Payload
         working-directory: build/ios/iphoneos
 
-      - run: mv Runner.app/ Payload
+      - name: Move App into Payload
+        run: mv Runner.app Payload
         working-directory: build/ios/iphoneos
 
-      - name: Zip output
+      - name: Zip IPA
         run: zip -qq -r -9 FlutterIpaExport.ipa Payload
         working-directory: build/ios/iphoneos
 
-      - name: Upload binaries to release
+      # =========================
+      # Upload Artifact (backup)
+      # =========================
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa
+          path: build/ios/iphoneos/FlutterIpaExport.ipa
+
+      # =========================
+      # GitHub Release
+      # =========================
+      - name: Upload to GitHub Release
         uses: svenstaro/upload-release-action@v2
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: build/ios/iphoneos/FlutterIpaExport.ipa
           tag: v1.0
           overwrite: true
-          body: "This is first release"
+          body: "Automated iOS build from GitHub Actions"
