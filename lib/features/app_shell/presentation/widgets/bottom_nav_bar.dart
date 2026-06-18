@@ -41,6 +41,8 @@ class BottomNavBar extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
         unselectedLabelStyle: context.labelSmall,
+        showUnselectedLabels: false,
+        showSelectedLabels: true,
         items: [
           BottomNavigationBarItem(
             icon: const Icon(Icons.home_outlined, key: ValueKey('nav.home')),
