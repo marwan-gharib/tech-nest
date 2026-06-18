@@ -14,9 +14,25 @@ sealed class ApiResult<T> {
 class ApiSuccess<T> extends ApiResult<T> {
   final T data;
   const ApiSuccess(this.data);
+
+  @override
+  bool operator ==(Object other) {
+    return other is ApiSuccess && other.data == data;
+  }
+
+  @override
+  int get hashCode => data.hashCode;
 }
 
 class ApiFailure<T> extends ApiResult<T> {
   final Failure failure;
   const ApiFailure(this.failure);
+
+  @override
+  bool operator ==(Object other) {
+    return other is ApiFailure && other.failure == failure;
+  }
+
+  @override
+  int get hashCode => failure.hashCode;
 }
