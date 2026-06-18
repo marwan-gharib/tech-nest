@@ -16,6 +16,7 @@ class NotificationService {
   final SaveFCMTokenUseCase _saveFCMTokenUseCase;
 
   bool _initialized = false;
+  bool _isInitializing = false;
 
   NotificationService({
     required LocalNotificationService localNotifications,
@@ -28,52 +29,73 @@ class NotificationService {
        _saveFCMTokenUseCase = saveFCMTokenUseCase;
 
   Future<void> initialize() async {
-    if (_initialized) return;
-    _initialized = true;
+    if (_initialized || _isInitializing) return;
+    _isInitializing = true;
 
-    await _fcm.subscribeToTopic("all_users");
+    try {
+      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+      await _localNotifications.initialize();
 
-    await _requestPermissions();
+      await _requestPermissions();
 
-    await _localNotifications.initialize();
+      await _subscribeToGlobalTopic();
 
-    FirebaseMessaging.onMessage.listen(_onForegroundMessage);
+      FirebaseMessaging.onMessage.listen(_onForegroundMessage);
 
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      HandleNotification.handle(message.data);
-    });
+      FirebaseMessaging.onMessageOpenedApp.listen((message) {
+        HandleNotification.handle(message.data);
+      });
 
-    await _fcm.setForegroundNotificationPresentationOptions(
+      await _fcm.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+
+      final RemoteMessage? initialMessage = await _fcm.getInitialMessage();
+      if (initialMessage != null) {
+        HandleNotification.handle(initialMessage.data);
+      }
+
+      await _setupTokenLifecycle();
+      _authNotifier.addListener(_onAuthStateChanged);
+      _initialized = true;
+    } finally {
+      _isInitializing = false;
+    }
+  }
+
+  // ── Private helpers ────────────────────────────────────────────────────────
+
+  Future<void> _subscribeToGlobalTopic() async {
+    try {
+      await _fcm.subscribeToTopic('all_users');
+    } catch (e) {
+      AppLogger.warning(
+        'FCM topic subscription failed; continuing without topic sync: $e',
+      );
+    }
+  }
+
+  Future<void> _requestPermissions() async {
+    await _localNotifications.requestPermission();
+
+    final settings = await _fcm.requestPermission(
       alert: true,
       badge: true,
       sound: true,
     );
 
-    final RemoteMessage? initialMessage = await _fcm.getInitialMessage();
-    if (initialMessage != null) {
-      HandleNotification.handle(initialMessage.data);
+    switch (settings.authorizationStatus) {
+      case AuthorizationStatus.authorized:
+        AppLogger.info('FCM: permission granted');
+      case AuthorizationStatus.provisional:
+        AppLogger.info('FCM: provisional permission granted');
+      case AuthorizationStatus.denied:
+      case AuthorizationStatus.notDetermined:
+        AppLogger.warning('FCM: permission not granted');
     }
-
-    await _setupTokenLifecycle();
-    _authNotifier.addListener(_onAuthStateChanged);
-  }
-
-  // ── Private helpers ────────────────────────────────────────────────────────
-
-  Future<void> _requestPermissions() async {
-    await _fcm.requestPermission(alert: true, badge: true, sound: true);
-
-    // switch (settings.authorizationStatus) {
-    //   case AuthorizationStatus.authorized:
-    //     AppLogger.info('FCM: permission granted');
-    //   case AuthorizationStatus.provisional:
-    //     AppLogger.info('FCM: provisional permission granted');
-    //   case AuthorizationStatus.denied:
-    //   case AuthorizationStatus.notDetermined:
-    //     AppLogger.warning('FCM: permission not granted');
-    // }
   }
 
   void _onForegroundMessage(RemoteMessage message) {

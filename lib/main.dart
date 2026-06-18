@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:tech_nest/app/tech_nest_app.dart';
 import 'package:tech_nest/core/cubits/locale_cubit/locale_cubit.dart';
 import 'package:tech_nest/core/cubits/theme_cubit/theme_cubit.dart';
 import 'package:tech_nest/core/services/notification_service.dart';
+import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/firebase_options.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
 
@@ -21,8 +24,6 @@ Future<void> main() async {
   await appSettings.initLocale();
   await appSettings.initAuth();
 
-  await sl<NotificationService>().initialize();
-
   runApp(
     TranslationProvider(
       child: MultiBlocProvider(
@@ -34,4 +35,17 @@ Future<void> main() async {
       ),
     ),
   );
+
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    unawaited(_initializeNotifications());
+  });
+}
+
+Future<void> _initializeNotifications() async {
+  try {
+    await Future<void>.delayed(const Duration(milliseconds: 800));
+    await sl<NotificationService>().initialize();
+  } catch (error) {
+    AppLogger.error('Notification initialization failed: $error');
+  }
 }

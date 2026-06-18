@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
+import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/core/utils/handle_notification.dart';
 
 class LocalNotificationService {
@@ -52,6 +54,27 @@ class LocalNotificationService {
           AndroidFlutterLocalNotificationsPlugin
         >()
         ?.createNotificationChannel(androidChannel);
+  }
+
+  Future<void> requestPermission() async {
+    final permissionStatus = await Permission.notification.request();
+    AppLogger.info('Android notification permission: $permissionStatus');
+
+    final androidPermission = await _notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
+        ?.requestNotificationsPermission();
+    AppLogger.info(
+      'Local notifications Android permission: $androidPermission',
+    );
+
+    final iosPermission = await _notificationsPlugin
+        .resolvePlatformSpecificImplementation<
+          IOSFlutterLocalNotificationsPlugin
+        >()
+        ?.requestPermissions(alert: true, badge: true, sound: true);
+    AppLogger.info('Local notifications iOS permission: $iosPermission');
   }
 
   Future<void> showNotification({
