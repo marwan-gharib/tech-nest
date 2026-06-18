@@ -2,7 +2,12 @@ name: Test Workflow
 
 on:
   push:
+    branches-ignore:
+      - main
+
   pull_request:
+    branches-ignore:
+      - main
 
 jobs:
   Testing_Project:
@@ -16,11 +21,13 @@ jobs:
       uses: actions/setup-java@v2
       with:
         java-version: '24'
+        distribution: 'temurin'
 
     - name: Set up Flutter
       uses: subosito/flutter-action@v2
       with:
         flutter-version: '3.44.0'
+        channel: 'stable'
 
     - name: Install dependencies
       run: flutter pub get
