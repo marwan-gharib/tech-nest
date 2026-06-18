@@ -10,7 +10,7 @@ platform :android do
     app: ENV["FIREBASE_APP_ID"],
     firebase_cli_token: ENV["FIREBASE_CLI_TOKEN"],
     android_artifact_type: "APK",
-    android_artifact_path: "C:\\Projects\\tech_nest\\build\\app\\outputs\\flutter-apk\\app-arm64-v8a-release.apk",
+    android_artifact_path: "../build/app/outputs/flutter-apk/app-arm64-v8a-release.apk",
     testers: "marwanghareeb18@gmail.com",
     release_notes: "This is a test release for QA team and trusted testers."
     )
