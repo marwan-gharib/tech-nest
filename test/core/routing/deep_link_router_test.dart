@@ -9,8 +9,13 @@ void main() {
   late MockGoRouter mockGoRouter;
   late GoRouterDeepLinkStrategy strategy;
 
+  setUpAll(() {
+    registerFallbackValue(Uri());
+  });
+
   setUp(() {
     mockGoRouter = MockGoRouter();
+    when(() => mockGoRouter.push(any())).thenAnswer((_) async => null);
     strategy = GoRouterDeepLinkStrategy(router: mockGoRouter);
   });
 

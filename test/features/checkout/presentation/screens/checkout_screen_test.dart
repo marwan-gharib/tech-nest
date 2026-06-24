@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
 import 'package:tech_nest/features/checkout/presentation/cubits/create_order/create_order_cubit.dart';
@@ -89,11 +88,11 @@ void main() {
           ),
         ),
         GoRoute(
-          path: '/order-details',
+          path: '/order/:id',
           name: RouteNames.orderDetails,
           builder: (_, state) => Scaffold(
             body: Text(
-              'order:${state.uri.queryParameters[AppConstants.orderDetailsId]}',
+              'order:${state.pathParameters['id']}',
             ),
           ),
         ),

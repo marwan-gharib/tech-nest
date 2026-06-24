@@ -65,10 +65,10 @@ void main() {
           builder: (context, state) => const OrdersListScreen(),
         ),
         GoRoute(
-          path: '/orderDetails',
+          path: '/order/:id',
           name: RouteNames.orderDetails,
           builder: (context, state) {
-            final id = state.uri.queryParameters['orderId'];
+            final id = state.pathParameters['id'];
             return Scaffold(body: Text('details:$id'));
           },
         ),
