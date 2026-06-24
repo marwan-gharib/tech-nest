@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:tech_nest/core/constants/app_constants.dart';
-import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/date_formatter.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
@@ -24,10 +22,7 @@ class OrderListItem extends StatelessWidget {
         side: BorderSide(color: context.colors.border),
       ),
       child: InkWell(
-        onTap: () => context.pushNamed(
-          RouteNames.orderDetails,
-          queryParameters: {AppConstants.orderDetailsId: order.id.toString()},
-        ),
+        onTap: () => context.push('/order/${order.id}'),
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.md),

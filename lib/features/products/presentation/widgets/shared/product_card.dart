@@ -4,9 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/animations/scale_tap.dart';
 import 'package:tech_nest/core/animations/skeleton_shimmer.dart';
-import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/constants/endpoints.dart';
-import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_radius.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/utils/extensions/context_extensions.dart';
@@ -103,15 +101,7 @@ class ProductCard extends StatelessWidget {
   }
 
   void _onCardTap(BuildContext context) {
-    final currentLocation = GoRouterState.of(context).uri.path;
-    final String routeName = currentLocation.contains(RoutePaths.home)
-        ? RouteNames.homeProductDetails
-        : RouteNames.categoryProductDetails;
-
-    context.pushNamed(
-      routeName,
-      queryParameters: {AppConstants.productDetailsId: product.id.toString()},
-    );
+    context.push('/product/${product.id}');
   }
 
   Widget _addToCartButton(BuildContext context) {

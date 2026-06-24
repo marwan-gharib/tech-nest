@@ -25,6 +25,9 @@ import 'package:tech_nest/features/notifications/di/notifications_di.dart';
 import 'package:tech_nest/features/notifications/domain/usecases/save_fcm_token_usecase.dart';
 import 'package:tech_nest/core/services/local_notification_service.dart';
 import 'package:tech_nest/core/services/notification_service.dart';
+import 'package:tech_nest/core/routing/deep_link_router.dart';
+import 'package:tech_nest/core/services/notification_handler_facade.dart';
+import 'package:tech_nest/app/app_router.dart';
 import 'package:tech_nest/app/app_settings.dart';
 
 final GetIt sl = GetIt.instance;
@@ -74,6 +77,14 @@ Future<void> initDependencies() async {
 
   // ── Services ──────────
   sl.registerLazySingleton(() => LocalNotificationService());
+  sl.registerLazySingleton<DeepLinkRouter>(
+    () => GoRouterDeepLinkStrategy(router: AppRouter.router),
+  );
+  sl.registerLazySingleton(
+    () => NotificationHandlerFacade(
+      deepLinkRouter: sl<DeepLinkRouter>(),
+    ),
+  );
   sl.registerLazySingleton(
     () => NotificationService(
       localNotifications: sl<LocalNotificationService>(),

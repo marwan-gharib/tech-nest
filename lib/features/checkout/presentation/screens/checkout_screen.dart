@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tech_nest/core/animations/fade_in_slide.dart';
-import 'package:tech_nest/core/constants/app_constants.dart';
-import 'package:tech_nest/core/routing/routes.dart';
 import 'package:tech_nest/core/theme/app_spacing.dart';
 import 'package:tech_nest/core/widgets/custom_snack_bar.dart';
 import 'package:tech_nest/features/cart/presentation/cubits/cart/cart_cubit.dart';
@@ -33,12 +31,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         if (state is CreateOrderSuccess) {
           context.pop();
           context.read<CartCubit>().clearCart();
-          context.goNamed(
-            RouteNames.orderDetails,
-            queryParameters: {
-              AppConstants.orderDetailsId: state.orderId.toString(),
-            },
-          );
+          context.go('/order/${state.orderId}');
         } else if (state is CreateOrderFailed) {
           CustomSnackBar.showError(context, failure: state.failure);
         }

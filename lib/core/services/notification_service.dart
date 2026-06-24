@@ -3,7 +3,6 @@ import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/services/local_notification_service.dart';
 import 'package:tech_nest/core/utils/fcm_background_handler.dart';
-import 'package:tech_nest/core/utils/handle_notification.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/auth/presentation/notifiers/auth_notifier.dart';
 import 'package:tech_nest/features/notifications/domain/usecases/save_fcm_token_usecase.dart';
@@ -43,20 +42,13 @@ class NotificationService {
 
       FirebaseMessaging.onMessage.listen(_onForegroundMessage);
 
-      FirebaseMessaging.onMessageOpenedApp.listen((message) {
-        HandleNotification.handle(message.data);
-      });
-
       await _fcm.setForegroundNotificationPresentationOptions(
         alert: true,
         badge: true,
         sound: true,
       );
 
-      final RemoteMessage? initialMessage = await _fcm.getInitialMessage();
-      if (initialMessage != null) {
-        HandleNotification.handle(initialMessage.data);
-      }
+      // Routing is now handled by NotificationHandlerFacade
 
       await _setupTokenLifecycle();
       _authNotifier.addListener(_onAuthStateChanged);

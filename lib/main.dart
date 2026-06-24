@@ -9,14 +9,18 @@ import 'package:tech_nest/app/tech_nest_app.dart';
 import 'package:tech_nest/core/cubits/locale_cubit/locale_cubit.dart';
 import 'package:tech_nest/core/cubits/theme_cubit/theme_cubit.dart';
 import 'package:tech_nest/core/services/notification_service.dart';
+import 'package:tech_nest/core/services/notification_handler_facade.dart';
 import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/firebase_options.dart';
 import 'package:tech_nest/i18n/strings.g.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
 
   await initDependencies();
 
@@ -31,7 +35,7 @@ Future<void> main() async {
           BlocProvider(create: (_) => sl<ThemeCubit>()),
           BlocProvider(create: (_) => sl<LocaleCubit>()),
         ],
-        child: const TechNestApp(),
+        child: TechNestApp(initialMessage: initialMessage),
       ),
     ),
   );
@@ -43,7 +47,7 @@ Future<void> main() async {
 
 Future<void> _initializeNotifications() async {
   try {
-    await Future<void>.delayed(const Duration(milliseconds: 800));
+    await sl<NotificationHandlerFacade>().initialize();
     await sl<NotificationService>().initialize();
   } catch (error) {
     AppLogger.error('Notification initialization failed: $error');

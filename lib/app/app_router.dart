@@ -6,6 +6,7 @@ import 'package:tech_nest/core/animations/page_transitions.dart';
 import 'package:tech_nest/core/constants/app_constants.dart';
 import 'package:tech_nest/core/local/cache/cache_service.dart';
 import 'package:tech_nest/core/routing/routes.dart';
+import 'package:tech_nest/core/utils/logger.dart';
 import 'package:tech_nest/features/app_shell/presentation/app_shell_entry.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/forget_password_cubit/forget_password_cubit.dart';
 import 'package:tech_nest/features/auth/presentation/cubits/login_cubit/login_cubit.dart';
@@ -48,10 +49,14 @@ class AppRouter {
       StatefulShellRoute.indexedStack(
         builder: _shellBuilder,
         branches: [
-          StatefulShellBranch(routes: [_homeScreenRouter]),
+          StatefulShellBranch(
+            routes: [_homeScreenRouter, _productDetailsRouter],
+          ),
           StatefulShellBranch(routes: [_cartScreenRouter]),
           StatefulShellBranch(routes: [_categoriesScreenRouter]),
-          StatefulShellBranch(routes: [_ordersScreenRouter]),
+          StatefulShellBranch(
+            routes: [_ordersScreenRouter, _orderDetailsRouter],
+          ),
           StatefulShellBranch(routes: [_notificationScreenRouter]),
           StatefulShellBranch(routes: [_settingsScreenRouter]),
         ],
@@ -63,6 +68,7 @@ class AppRouter {
     ],
     refreshListenable: _authNotifier,
     redirect: (context, state) {
+      AppLogger.log(state.matchedLocation);
       if (state.matchedLocation == RoutePaths.splash) return null;
 
       final bool hasSeenOnboarding =
@@ -162,25 +168,22 @@ class AppRouter {
       create: (context) => sl<FetchProductsCubit>(),
       child: const HomeScreen(),
     ),
-    routes: [
-      GoRoute(
-        name: RouteNames.homeProductDetails,
-        path: RoutePaths.productDetails,
-        pageBuilder: (context, state) {
-          final productId = int.parse(
-            state.uri.queryParameters[AppConstants.productDetailsId] ?? '-1',
-          );
-          return PageTransitions.slideTransition(
-            context: context,
-            state: state,
-            child: BlocProvider(
-              create: (context) => sl<GetProductCubit>()..getProduct(productId),
-              child: ProductDetailsScreen(productId: productId),
-            ),
-          );
-        },
-      ),
-    ],
+  );
+
+  static final _productDetailsRouter = GoRoute(
+    name: RouteNames.productDetails,
+    path: RoutePaths.productDetails,
+    pageBuilder: (context, state) {
+      final productId = int.tryParse(state.pathParameters['id'] ?? '') ?? -1;
+      return PageTransitions.slideTransition(
+        context: context,
+        state: state,
+        child: BlocProvider(
+          create: (context) => sl<GetProductCubit>()..getProduct(productId),
+          child: ProductDetailsScreen(productId: productId),
+        ),
+      );
+    },
   );
 
   static final _cartScreenRouter = GoRoute(
@@ -202,25 +205,6 @@ class AppRouter {
       ],
       child: const CategoriesScreen(),
     ),
-    routes: [
-      GoRoute(
-        name: RouteNames.categoryProductDetails,
-        path: RoutePaths.productDetails,
-        pageBuilder: (context, state) {
-          final productId = int.parse(
-            state.uri.queryParameters[AppConstants.productDetailsId] ?? '-1',
-          );
-          return PageTransitions.slideTransition(
-            context: context,
-            state: state,
-            child: BlocProvider(
-              create: (context) => sl<GetProductCubit>()..getProduct(productId),
-              child: ProductDetailsScreen(productId: productId),
-            ),
-          );
-        },
-      ),
-    ],
   );
 
   static final _settingsScreenRouter = GoRoute(
@@ -233,9 +217,7 @@ class AppRouter {
     name: RouteNames.orderDetails,
     path: RoutePaths.orderDetails,
     pageBuilder: (context, state) {
-      final orderId = int.parse(
-        state.uri.queryParameters[AppConstants.orderDetailsId] ?? '-1',
-      );
+      final orderId = int.tryParse(state.pathParameters['id'] ?? '') ?? -1;
       return PageTransitions.slideTransition(
         context: context,
         state: state,
@@ -252,7 +234,6 @@ class AppRouter {
     name: RouteNames.orders,
     path: RoutePaths.orders,
     builder: (context, state) => const OrdersListScreen(),
-    routes: [_orderDetailsRouter],
   );
 
   static final _checkoutScreenRouter = GoRoute(
@@ -290,17 +271,11 @@ class AppRouter {
   );
 
   static void goToProductDetails(int productId) {
-    router.goNamed(
-      RouteNames.homeProductDetails,
-      queryParameters: {AppConstants.productDetailsId: productId.toString()},
-    );
+    router.push('/product/$productId');
   }
 
   static void goToOrderDetails(int orderId) {
-    router.goNamed(
-      RouteNames.orderDetails,
-      queryParameters: {AppConstants.orderDetailsId: orderId.toString()},
-    );
+    router.push('/order/$orderId');
   }
 
   static void goToLogin() => _authNotifier.logout();
